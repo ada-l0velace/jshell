@@ -1,4 +1,4 @@
-package pt.tecnico.myDrive.domain;
+package pt.tecnico.myDrive;
 
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.DomainRoot;
