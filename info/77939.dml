@@ -1,0 +1,64 @@
+package pt.tecnico.drive.domain;
+
+class Drive{}
+
+class User{
+    String username;
+    String name;
+    String password;
+    String home;
+    String umask;
+    
+}
+
+class File{
+    long fileId;
+    DateTime lastModified;
+    String name;
+    String owner;
+    Boolean read;
+    Boolean write;
+    Boolean execute;
+    
+}
+
+class Plainfile extends File{
+    String fileText;
+    
+}
+
+class Directory extends File{
+}
+
+
+class Link extends Plainfile{}
+
+
+class App extends Plainfile{}
+
+relation DriveContainsUsers{
+    Drive playsRole drive{multiplicity 1;}
+    User playsRole user{multiplicity *;}
+}
+
+relation UserHasFiles{
+    User playsRole user;
+    File playsRole file{multiplicity *;}
+}
+
+relation DirectoryContainsFiles{
+    Directory playsRole directory;
+    File playsRole file{multiplicity *;}
+}
+
+relation DirectoryContainsItself{
+	Directory playsRole dir;
+	Directory playsRole itself{multiplicity 1;}
+
+}
+
+relation DirectoryContainsParent{
+	Directory playsRole maindirectory;
+	Directory playsRole parent{multiplicity 1;}
+		
+}
