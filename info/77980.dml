@@ -1,0 +1,62 @@
+package pt.tecnico.mydrive.domain;
+
+class MyDrive;
+
+class User {
+  String username;
+  String name;
+  String password;
+  String umask;
+  String home;
+}
+
+class File {
+  String name;
+  Integer id;
+  String owner;
+  Integer size;
+  LocalDate lastChange;
+}
+
+class Dir extends File {
+  Integer size;
+}
+
+class PlainFile extends File {
+  String content;
+}
+
+class Link extends PlainFile {}
+
+class App extends PlainFile {}
+
+class Root extends User {}
+
+relation DirContainsFiles {
+  Dir playsRole dir {
+    multiplicity 1;
+  }
+  File playsRole file {
+    multiplicity *;
+  }
+}
+
+relation UserHasFiles {
+  User playsRole user;
+  File playsRole file {
+    multiplicity *;
+  }
+}
+
+relation mydriveContainsUsers {
+  MyDrive playsRole mydrive {
+    multiplicity 1;
+  }
+  User playsRole user {
+    multiplicity *;
+  }
+}
+
+
+
+
