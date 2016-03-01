@@ -1,0 +1,57 @@
+package pt.tecnico.myDrive.domain;
+
+class MyDrive{}
+
+class User{
+  String username;
+  String password;
+  String nome;
+  String mask;
+  String home;
+}
+
+class Root extends User{}
+
+class File{
+  int fileID;
+  String nome;
+  String directoria;
+  String username;
+  Boolean leitura; 
+  Boolean escrita;
+  Boolean execucao;
+  Boolean eliminacao;
+}
+
+class PlainText extends File{
+    String texto;    
+}
+
+class Directoria extends File{
+    String directoriaPai;    
+}
+
+class Link extends PlainText{}
+
+class App extends PlainText{}
+
+relation MyDriveContainsUsers{
+    MyDrive playsRole mydrive{multiplicity 1;}
+    User playsRole user{multiplicity *;}
+}
+
+
+relation UserHasFiles{
+    User playsRole user {multiplicity 1;};
+    File playsRole file{multiplicity *;}
+}
+
+relation DirectoriaHasFiles{
+    Directoria playsRole directoria {multiplicity 1;};
+    File playsRole file{multiplicity *;}
+}
+
+relation UserHasHome {
+    User playsRole user { multiplicity 1; }
+    Directoria playsRole home { multiplicity 1; }
+}
