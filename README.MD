@@ -9,7 +9,7 @@ Run on terminal (with Dbclean)
 ``` 
 Run on terminal(without Dbclean)
 ``` 
-> mvn clean dbclean:dbclean package dml2yuml:dml2yuml exec:java
+> mvn clean package dml2yuml:dml2yuml exec:java
 ``` 
 
 # Development
@@ -21,7 +21,3 @@ Run on terminal(without Dbclean)
 # Research Material
 <a href="https://fenix-framework.github.io/">Fenix-Framework</a>
 # Useful links
-
-
-
-
