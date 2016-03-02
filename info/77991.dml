@@ -6,7 +6,7 @@ class User {
 	String username;
 	String password;
 	String nome;
-	Dir dirinit;
+	String dirinit;
 	String mascara;
 }
 
@@ -14,6 +14,7 @@ class File {
 	Integer uniqueId;
 	String nome;
 	LocalDate cenas;
+	String permissao;
 }
 
 class PlainFile extends File{
