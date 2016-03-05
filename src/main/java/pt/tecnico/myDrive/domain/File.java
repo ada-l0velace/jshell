@@ -23,6 +23,19 @@ public class File extends File_Base implements IElementXml {
 
     @Override
     public Element exportXml () {
-        throw new UnsupportedOperationException("Not Implemented!");
+		Element node = new Element("file");
+		node.setAttribute("id", Integer.toString(getId()));
+		node.setAttribute("name", getName());
+		node.setAttrubute("modified", DateTime.toString(getModified()));
+
+		Element perm = new Element("permissions");
+		perm.setAttribute("umask", Short.toString(getPermissions().getUmask()));
+
+		node.addContent(perm);
+
+		Element user = new Element("user");
+		user.addContent(user.exportXml());
+
+		return node;
     }
 }
