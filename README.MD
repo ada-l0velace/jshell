@@ -17,7 +17,7 @@ Run on terminal(without Dbclean)
 
 #UML Chart
 
-![alt tag](https://raw.githubusercontent.com/tecnico-softeng/es16tg_21-project/master/info/uml.png?token=AIpAxgtvCSPdOCX3A3-tdwyvRjLZTLOXks5W4zaewA%3D%3D)
+![alt tag](https://raw.githubusercontent.com/tecnico-softeng/es16tg_21-project/master/info/uml.png)
 
 # Research Material
 <a href="https://fenix-framework.github.io/">Fenix-Framework documentation</a></br>
