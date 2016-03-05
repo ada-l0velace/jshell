@@ -61,7 +61,9 @@ public class User extends User_Base implements IElementXml {
         setPermissions(new Permissions(umask));
     }
     /**
-     * Description
+     * Exports a User to a persistent state (XML format),
+	 * @see Permissions
+	 * @return Element (JDOM library type) which represents a User
      */
     @Override
     public Element exportXml () {
