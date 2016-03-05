@@ -15,9 +15,12 @@ Run on terminal(without Dbclean)
 # Development
 <a href="#">To Do tasks - Trello</a>
 
-#UML Chart
+# UML Chart
 
 ![alt tag](https://github.com/tecnico-softeng/es16tg_21-project/blob/master/info/drive.png)
+
+# Java code conventions
+<a href="https://google.github.io/styleguide/javaguide.html">Google conventions</a></br>
 
 # Research Material
 <a href="https://fenix-framework.github.io/">Fenix-Framework documentation</a></br>
