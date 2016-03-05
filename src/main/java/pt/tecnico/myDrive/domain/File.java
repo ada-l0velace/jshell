@@ -1,7 +1,5 @@
 package pt.tecnico.myDrive.domain;
-import pt.tecnico.myDrive.visitor.IElementXml;
-import pt.tecnico.myDrive.visitor.IVisitorImportXml;
-
+import pt.tecnico.myDrive.interfaces.IElementXml;
 
 public class File extends File_Base implements IElementXml {
     
@@ -10,7 +8,12 @@ public class File extends File_Base implements IElementXml {
     }
     
     @Override
-    public void importXml (IVisitorImportXml v) {
-        v.importXml(this);
+    public void importXml () {
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    @Override
+    public void exportXml () {
+        throw new UnsupportedOperationException("Not Implemented!");
     }
 }
