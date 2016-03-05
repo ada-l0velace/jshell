@@ -23,7 +23,7 @@ public class User extends User_Base implements IElementXml {
      * @param name String (Primary java type) represents the real name.
      * @param username String (Primary java type) represents the login username.
      * @param password String (Primary java type) represents the login password.
-     * @param umaks Short (Primary java type) represents the permission umask.
+     * @param umasks Short (Primary java type) represents the permission umask.
      */
     public User(String name, String username, String password, Short umask) {
         super();
@@ -64,8 +64,18 @@ public class User extends User_Base implements IElementXml {
      * Description
      */
     @Override
-    public void exportXml () {
-        throw new UnsupportedOperationException("Not Implemented!");
-    }
+    public Element exportXml () {
+		Element node = new Element("user");
+		node.setAttribute("name", getName());
+		node.setAttribute("username", getUsername());
+		node.setAttribute("password", getPassword());
+
+		Element perm = new Element("permissions");
+		perm.setAttribute("umask", Short.toString(getPermissions().getUmask()));
+		
+		node.addContent(perm);
+		
+		return node;
+	}
 
 }

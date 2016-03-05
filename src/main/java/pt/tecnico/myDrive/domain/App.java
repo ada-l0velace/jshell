@@ -1,4 +1,6 @@
 package pt.tecnico.myDrive.domain;
+import org.jdom2.Element;
+
 
 public class App extends App_Base {
     
@@ -12,7 +14,7 @@ public class App extends App_Base {
     }
 
     @Override
-    public void exportXml () {
+    public Element exportXml () {
         throw new UnsupportedOperationException("Not Implemented!");
     }
     

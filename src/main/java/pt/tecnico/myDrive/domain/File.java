@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.domain;
 import pt.tecnico.myDrive.interfaces.IElementXml;
+import org.jdom2.Element;
 
 /**
  * 
@@ -21,7 +22,7 @@ public class File extends File_Base implements IElementXml {
     }
 
     @Override
-    public void exportXml () {
+    public Element exportXml () {
         throw new UnsupportedOperationException("Not Implemented!");
     }
 }

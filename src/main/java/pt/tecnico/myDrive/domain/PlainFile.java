@@ -1,4 +1,6 @@
 package pt.tecnico.myDrive.domain;
+import org.jdom2.Element;
+
 
 
 public class PlainFile extends PlainFile_Base {
@@ -13,7 +15,7 @@ public class PlainFile extends PlainFile_Base {
     }
 
     @Override
-    public void exportXml () {
+    public Element exportXml () {
         throw new UnsupportedOperationException("Not Implemented!");
     }
 }
