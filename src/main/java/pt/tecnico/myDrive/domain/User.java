@@ -7,7 +7,7 @@ import org.jdom2.Element;
  * Without this you can’t access all services.
  * @see IElementXml
  */
-public class User extends User_Base implements IElementXml {
+public class User extends User_Base {
     
     private Element _xml;
 
@@ -55,7 +55,6 @@ public class User extends User_Base implements IElementXml {
      * This method builds only User type objects.
      * @see Permissions
      */
-    @Override
     public void importXml () {
         Element node = getXml();
         String name = node.getAttribute("name").getValue();
@@ -75,7 +74,6 @@ public class User extends User_Base implements IElementXml {
 	 * @see Permissions
 	 * @return Element (JDOM library type) which represents a User
      */
-    @Override
     public Element exportXml () {
 		Element node = new Element("user");
 		node.setAttribute("name", getName());
