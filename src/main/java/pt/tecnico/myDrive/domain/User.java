@@ -29,7 +29,16 @@ public class User extends User_Base implements IElementXml {
         super();
         setName(name);
         setPassword(password);
-        setPermissions(new Permissions());
+        setPermissions(new Permissions(umask));
+    }
+
+    /**
+     * Alternate construtor to create a user with xml
+     * @param Element (JDOM library type) which represents a User
+     */
+    public User(Element xml) {
+        _xml = xml;
+        importXml();
     }
 
     /**
@@ -48,7 +57,7 @@ public class User extends User_Base implements IElementXml {
      */
     @Override
     public void importXml () {
-        Element node = _xml;
+        Element node = getXml();
         String name = node.getAttribute("name").getValue();
         String username = node.getAttribute("username").getValue();
         String password = node.getAttribute("password").getValue();
