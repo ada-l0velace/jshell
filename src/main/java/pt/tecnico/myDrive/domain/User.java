@@ -60,6 +60,7 @@ public class User extends User_Base implements IElementXml {
         setPassword(new String(password));
         setPermissions(new Permissions(umask));
     }
+
     /**
      * Exports a User to a persistent state (XML format),
 	 * @see Permissions

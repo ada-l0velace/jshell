@@ -42,9 +42,7 @@ public class File extends File_Base implements IElementXml {
 
 		node.addContent(perm);
 
-		Element user = new Element("user");
-		node.addContent(user);
-		user.addContent(getOwner().exportXml());
+		node.addContent(getOwner().exportXml());
 
 		return node;
     }
