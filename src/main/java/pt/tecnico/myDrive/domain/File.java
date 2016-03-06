@@ -88,4 +88,8 @@ public class File extends File_Base implements IElementXml {
 
 		return node;
     }
+    @Override
+    public File getFileByPath (String link){
+    	throw new UnsupportedOperationException("Not Implemented!");
+    }
 }

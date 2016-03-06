@@ -18,4 +18,7 @@ public class PlainFile extends PlainFile_Base {
     public Element exportXml () {
 		return super.exportXml();
     }
+    public File getFileByPath (String link){
+    	return this;
+    }
 }

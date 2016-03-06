@@ -1,0 +1,23 @@
+[User| String name; String username; String password;]
+[User]^-[SuperUser]
+[SuperUser]
+[Manager]
+[Manager]1 manager - superuser 1[SuperUser] // ManagerContainsSuperUser
+[Manager]1 manager - Users *[User] // ManagerContainsUser
+[Permissions| short umask;]
+[File| int id; String name; DateTime modified;]
+[File]1 file - permissions 1[Permissions] // FileHasPermissions
+[File]* file - owner 1[User] // FileHasUser
+[User]1 user - permissions 1[Permissions] // UserHasPermissions
+[File]^-[PlainFile]
+[PlainFile| String content;]
+[File]^-[Directory]
+[Directory]
+[Directory]1 directory - file *[File] // DirectoryContainsFile
+[User]1 user - home 1[Directory] // UserHasHome
+[Manager]1 manager - home 1[Directory] // ManagerHasHome
+[PlainFile]^-[Link]
+[Link]
+[PlainFile]^-[App]
+[App]
+[.pt.ist.fenixframework.DomainRoot]0..1 root - manager 0..1[Manager] // DomainRootHasManager

@@ -89,5 +89,22 @@ public class User extends User_Base implements IElementXml {
 		
 		return node;
 	}
+    @Override
+    public File getFileByPath (String link){
+    	String[] split = link.split("/",2);
+    	String rest = split[1];
+    	String nomeInit = split[0];
+    	if(nomeInit.equals("home")){
+    		return getHome().getFileByPath(rest);
+    	}
+    	else{
+    		throw new UnsupportedOperationException("Not Implemented!");
+    	}
+    }
+    
+    public String getContentByLink(Link link){
+    	PlainFile fileToRead = (PlainFile)getFileByPath(link.getContent());
+    	return fileToRead.getContent();
+    }
 
 }

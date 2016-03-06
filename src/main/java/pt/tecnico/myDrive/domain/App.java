@@ -17,5 +17,8 @@ public class App extends App_Base {
     public Element exportXml () {
         throw new UnsupportedOperationException("Not Implemented!");
     }
+    public File getFileByPath (String link){
+    	throw new UnsupportedOperationException("Not Implemented!");
+    }
     
 }
