@@ -16,6 +16,6 @@ public class PlainFile extends PlainFile_Base {
 
     @Override
     public Element exportXml () {
-        throw new UnsupportedOperationException("Not Implemented!");
+		return super.exportXml();
     }
 }
