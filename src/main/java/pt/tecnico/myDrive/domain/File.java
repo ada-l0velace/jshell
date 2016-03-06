@@ -29,6 +29,7 @@ public class File extends File_Base implements IElementXml {
      */
     public File(Element xml){
         _xml = xml;
+        importXml();
     }
 
     public Element getXml() {
