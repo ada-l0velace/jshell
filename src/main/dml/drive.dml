@@ -11,7 +11,7 @@ class SuperUser extends User;
 class Manager {}
 
 relation ManagerContainsSuperUser {
-  Manager playsRole manager {
+  Manager playsRole managerSu {
     multiplicity 1;
   }
   SuperUser playsRole superuser {
@@ -20,7 +20,7 @@ relation ManagerContainsSuperUser {
 }
 
 relation ManagerContainsUser {
-  Manager playsRole manager {
+  Manager playsRole managerU {
     multiplicity 1;
   }
   User playsRole Users {
@@ -71,7 +71,7 @@ relation UserHasHome {
 }
 
 relation ManagerHasHome {
-    Manager playsRole manager { multiplicity 1; }
+    Manager playsRole managerHm { multiplicity 1; }
     Directory playsRole home { multiplicity 1; }
 }
 
