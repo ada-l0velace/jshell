@@ -23,8 +23,9 @@ public class App extends App_Base {
 		return super.exportXml();
 	}
 	
-	public File getFileByPath (String link){
-		throw new UnsupportedOperationException("Not Implemented!");
-	}
-    
+    public File getFileByPath (String link){
+    	throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    public void remove(){throw new UnsupportedOperationException("Not Implemented!");}  
 }

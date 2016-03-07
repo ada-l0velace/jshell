@@ -31,16 +31,26 @@ public class Directory extends Directory_Base {
 		return node;
 	}
 
-	
-	public File getFileByPath (String link){
-		String[] split = link.split("/",2);
-		String rest = split[1];
-		String nomeInit = split[0];
-		for(File path : this.getFileSet()){
-			if(path.getName().equals(nomeInit)){
-				return path.getFileByPath(rest);
-			}
-		}
-		throw new UnsupportedOperationException("Not Implemented!");
-	}
+    public File getFileByPath (String link){
+    	String[] split = link.split("/",2);
+    	String rest = split[1];
+    	String nomeInit = split[0];
+    	for(File path : this.getFileSet()){
+    		if(path.getName().equals(nomeInit)){
+    			return path.getFileByPath(rest);
+    		}
+    	}
+    	throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    /**
+     * If the array size equals zero the directory is removed.
+     */
+    public void remove()
+    {
+        if(this.getFileSet().size() == 0)
+        {
+            super.remove();
+        }
+    }
 }

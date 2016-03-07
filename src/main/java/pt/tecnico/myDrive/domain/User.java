@@ -90,7 +90,7 @@ public class User extends User_Base {
 		return node;
 	}
 
-	public File getFileByPath (String link){
+    public File getFileByPath (String link){
 		String[] split = link.split("/",2);
 		String rest = split[1];
 		String nomeInit = split[0];
@@ -106,4 +106,15 @@ public class User extends User_Base {
 		PlainFile fileToRead = (PlainFile)getFileByPath(link.getContent());
 		return fileToRead.getContent();
 	}
+    
+    /**
+     * Delete a file or empty directory,
+     * @param String link represents the link to the file or empty directory.
+     */
+    public void deleteFileOrEmptyDirectory(String link)
+    {
+        File to_delete  = getFileByPath(link);
+        to_delete.remove();
+    }
+
 }

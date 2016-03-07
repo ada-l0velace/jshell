@@ -21,7 +21,10 @@ public class Link extends Link_Base {
 	public Element exportXml () {
 		return super.exportXml();
 	}
+
 	public File getFileByPath (String link){
 		throw new UnsupportedOperationException("Not Implemented!");
 	}
+
+    public void remove(){throw new UnsupportedOperationException("Not Implemented!");}
 }
