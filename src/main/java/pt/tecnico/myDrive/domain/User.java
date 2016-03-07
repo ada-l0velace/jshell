@@ -2,6 +2,7 @@ package pt.tecnico.myDrive.domain;
 import pt.tecnico.myDrive.interfaces.IElementXml;
 import org.jdom2.Element;
 
+
 /**
  * Identifies the current person that is working, creating or managing files.
  * Without this you can’t access all services.
@@ -89,7 +90,6 @@ public class User extends User_Base {
 		return node;
 	}
 
-    @Override
     public File getFileByPath (String link){
     	String[] split = link.split("/",2);
     	String rest = split[1];
