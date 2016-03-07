@@ -45,10 +45,7 @@ public class File extends File_Base implements IElementXml {
 
 		int id = Integer.parseInt(node.getAttribute("id").getValue());
 		String name = node.getAttribute("name").getValue();
-		DateTime dateModified = new DateTime(
-																				 fmt.parseDateTime(
-																													 node.getAttribute("modified").getValue())
-																				 );
+		DateTime dateModified = new DateTime(fmt.parseDateTime(node.getAttribute("modified").getValue()));
         
 		Element permission = node.getChild("permissions");
 		short umask = Short.parseShort(permission.getAttribute("umask").getValue());
