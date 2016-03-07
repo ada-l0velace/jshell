@@ -84,8 +84,9 @@ public class User extends User_Base implements IElementXml {
 
 		Element perm = new Element("permissions");
 		perm.setAttribute("umask", Short.toString(getPermissions().getUmask()));
-		
+
 		node.addContent(perm);
+		node.addContent(getHome().exportXml());
 		
 		return node;
 	}

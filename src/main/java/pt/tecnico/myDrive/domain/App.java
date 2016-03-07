@@ -15,8 +15,9 @@ public class App extends App_Base {
 
     @Override
     public Element exportXml () {
-        throw new UnsupportedOperationException("Not Implemented!");
+		return super.exportXml();
     }
+	
     public File getFileByPath (String link){
     	throw new UnsupportedOperationException("Not Implemented!");
     }

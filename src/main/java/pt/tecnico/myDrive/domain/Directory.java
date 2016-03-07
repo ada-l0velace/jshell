@@ -15,8 +15,18 @@ public class Directory extends Directory_Base {
 
     @Override
     public Element exportXml () {
-        throw new UnsupportedOperationException("Not Implemented!");
+		Element node = super.exportXml();
+
+		Element filesElement = new Element("files");
+		node.addContent(filesElement);
+		
+		for (File f: getFileSet())
+			filesElement.addContent(f.exportXml());
+
+		return node;
 	}
+
+	
     public File getFileByPath (String link){
     	String[] split = link.split("/",2);
     	String rest = split[1];

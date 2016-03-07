@@ -16,7 +16,9 @@ public class PlainFile extends PlainFile_Base {
 
     @Override
     public Element exportXml () {
-		return super.exportXml();
+		Element node = super.exportXml();
+		node.setAttribute("content", getContent());
+		return node;
     }
     public File getFileByPath (String link){
     	return this;
