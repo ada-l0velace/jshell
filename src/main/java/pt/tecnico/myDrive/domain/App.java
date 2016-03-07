@@ -12,11 +12,21 @@ public class App extends App_Base {
     }
 
     /**
+     * Alternate construtor to create a App with xml.
+     * @param  xml Element (JDOM library type) which represents a File.
+     */
+    public App(Element xml) {
+        super();
+        importXml(xml);
+    }
+
+    /**
      * Imports a App from persistent state (XML format).
+     * @throws ImportDocumentException
      */
     @Override
-    public void importXml () {
-        super.importXml();
+    public void importXml (Element xml) {
+        super.importXml(xml);
     }
 
 	/**

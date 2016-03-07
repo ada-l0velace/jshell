@@ -26,24 +26,21 @@ public class File extends File_Base implements IElementXml {
     
 	/**
 	 * Alternate construtor to create a File with xml.
-	 * @param Element (JDOM library type) which represents a File.
+	 * @param xml Element (JDOM library type) which represents a File.
 	 */
 	public File(Element xml){
-		_xml = xml;
-		importXml();
-	}
-
-	public Element getXml() {
-		return _xml;
+        super();
+		importXml(xml);
 	}
 
 	/**
 	 * Imports a File from persistent state (XML format).
-	 * @see User Permissions
+     * @param xml Element (JDOM library type) which represents a File.
+	 * @see User Permissions  
 	 */
 	@Override
-	public void importXml () { 
-		Element node = getXml();
+	public void importXml (Element xml) { 
+		Element node = xml;
 		DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
 
 		int id = Integer.parseInt(node.getAttribute("id").getValue());

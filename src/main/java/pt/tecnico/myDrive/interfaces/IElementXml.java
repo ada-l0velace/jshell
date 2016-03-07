@@ -3,10 +3,10 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.*;
 
 /**
- * 
+ *  Xml interface for classes that can search for files and import/export xml.
  */
 public interface IElementXml {
-    public void importXml ();
+    public void importXml (Element xml);
     public Element exportXml ();
     public File getFileByPath (String link);
 }

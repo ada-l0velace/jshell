@@ -13,14 +13,26 @@ public class Directory extends Directory_Base {
     public Directory() {
         super();
     }
+
+    /**
+     * Alternate construtor to create a Link with xml.
+     * @param  xml Element (JDOM library type) which represents a File.
+     */
+    public Directory(Element xml) {
+        super();
+        importXml(xml);
+    }
     
     /**
      * Imports a Directory to a persistent state (XML format).
      * @throws ImportDocumentException
      */
     @Override
-    public void importXml () {
-        super.importXml();
+    public void importXml (Element xml) {
+        super.importXml(xml);
+        Element files = xml.getChild("files");
+        for (Element file: files.getChildren("file"))
+            addFile(new File(file));
     }
 
 	/**

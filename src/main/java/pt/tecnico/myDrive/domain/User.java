@@ -9,8 +9,6 @@ import org.jdom2.Element;
  */
 public class User extends User_Base {
     
-	private Element _xml;
-
 	/**
 	 * Default Constructor
 	 */
@@ -37,25 +35,18 @@ public class User extends User_Base {
 	 * @param Element (JDOM library type) which represents a User
 	 */
 	public User(Element xml) {
-		_xml = xml;
-		importXml();
-	}
-
-	/**
-	 * Get function for xml element.
-	 * @return Element (JDOM library type) which represents a user.
-	 */
-	public Element getXml() {
-		return _xml;
+        super();
+		importXml(xml);
 	}
 
     /**
      * Imports a User from persistent state (XML format).
+     * @param Element (JDOM library type) which represents a User
      * @see Permissions
      * @throws ImportDocumentException
      */
-    public void importXml () {
-        Element node = getXml();
+    public void importXml (Element xml) {
+        Element node = xml;
         String name = node.getAttribute("name").getValue();
         String username = node.getAttribute("username").getValue();
         String password = node.getAttribute("password").getValue();

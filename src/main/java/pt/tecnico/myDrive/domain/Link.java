@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
+
 public class Link extends Link_Base {
     
     /**
@@ -11,12 +12,21 @@ public class Link extends Link_Base {
     }
 
     /**
+     * Alternate construtor to create a Link with xml.
+     * @param  xml Element (JDOM library type) which represents a File.
+     */
+    public Link(Element xml) {
+        super();
+        importXml(xml);
+    }
+
+    /**
      * Imports a Link from persistent state (XML format).
      * @throws ImportDocumentException
      */
     @Override
-    public void importXml () {
-        super.importXml();
+    public void importXml (Element xml) {
+        super.importXml(xml);
     }
 
 	/**
