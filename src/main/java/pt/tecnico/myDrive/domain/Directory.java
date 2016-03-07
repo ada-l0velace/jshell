@@ -2,11 +2,17 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
 
+/**
+ * 
+ */
 public class Directory extends Directory_Base {
     
-	public Directory() {
-		super();
-	}
+    /**
+     * Default Constructor.
+     */
+    public Directory() {
+        super();
+    }
     
     /**
      * Imports a Directory to a persistent state (XML format).
