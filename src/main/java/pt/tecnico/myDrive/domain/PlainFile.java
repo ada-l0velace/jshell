@@ -2,16 +2,23 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
 
+/**
+ * 
+ */
 public class PlainFile extends PlainFile_Base {
     
 	public PlainFile() {
 		super();
 	}
 
-	@Override
-	public void importXml () {
-		super.importXml();
-	}
+    /**
+     * Imports a PlainFile from persistent state (XML format).
+     * @throws ImportDocumentException
+     */
+    @Override
+    public void importXml () {
+        super.importXml();
+    }
 
 	/**
 	 * Exports a PlainFile to a persistent state (XML format),

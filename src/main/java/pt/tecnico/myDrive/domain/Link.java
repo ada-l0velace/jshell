@@ -3,14 +3,21 @@ import org.jdom2.Element;
 
 public class Link extends Link_Base {
     
-	public Link() {
-		super();
-	}
+    /**
+     * Default Constructor
+     */
+    public Link() {
+        super();
+    }
 
-	@Override
-	public void importXml () {
-		super.importXml();
-	}
+    /**
+     * Imports a Link from persistent state (XML format).
+     * @throws ImportDocumentException
+     */
+    @Override
+    public void importXml () {
+        super.importXml();
+    }
 
 	/**
 	 * Exports a Link to a persistent state (XML format),

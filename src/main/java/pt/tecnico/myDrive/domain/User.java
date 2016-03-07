@@ -6,7 +6,6 @@ import org.jdom2.Element;
 /**
  * Identifies the current person that is working, creating or managing files.
  * Without this you can’t access all services.
- * @see IElementXml
  */
 public class User extends User_Base {
     
@@ -49,20 +48,19 @@ public class User extends User_Base {
 	public Element getXml() {
 		return _xml;
 	}
-    
-	/**
-	 * Imports a User from persistent state (XML format),
-	 * building it again.
-	 * This method builds only User type objects.
-	 * @see Permissions
-	 */
-	public void importXml () {
-		Element node = getXml();
-		String name = node.getAttribute("name").getValue();
-		String username = node.getAttribute("username").getValue();
-		String password = node.getAttribute("password").getValue();
-		Element permission = node.getChild("permissions");
-		short umask = Short.parseShort(permission.getAttribute("umask").getValue());
+
+    /**
+     * Imports a User from persistent state (XML format).
+     * @see Permissions
+     * @throws ImportDocumentException
+     */
+    public void importXml () {
+        Element node = getXml();
+        String name = node.getAttribute("name").getValue();
+        String username = node.getAttribute("username").getValue();
+        String password = node.getAttribute("password").getValue();
+        Element permission = node.getChild("permissions");
+        short umask = Short.parseShort(permission.getAttribute("umask").getValue());
         
 		setName(new String(name));
 		setUsername(new String(username));
@@ -89,7 +87,7 @@ public class User extends User_Base {
 		
 		return node;
 	}
-
+    
     public File getFileByPath (String link){
 		String[] split = link.split("/",2);
 		String rest = split[1];

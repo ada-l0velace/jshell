@@ -8,10 +8,14 @@ public class Directory extends Directory_Base {
 		super();
 	}
     
-	@Override
-	public void importXml () {
-		super.importXml();
-	}
+    /**
+     * Imports a Directory to a persistent state (XML format).
+     * @throws ImportDocumentException
+     */
+    @Override
+    public void importXml () {
+        super.importXml();
+    }
 
 	/**
 	 * Exports a Directory to a persistent state (XML format),

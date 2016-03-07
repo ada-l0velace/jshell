@@ -4,14 +4,20 @@ import org.jdom2.Element;
 
 public class App extends App_Base {
     
-	public App() {
-		super();
-	}
+    /**
+     * Default constructor.
+     */
+    public App() {
+        super();
+    }
 
-	@Override
-	public void importXml () {
-		super.importXml();
-	}
+    /**
+     * Imports a App from persistent state (XML format).
+     */
+    @Override
+    public void importXml () {
+        super.importXml();
+    }
 
 	/**
 	 * Exports an App to a persistent state (XML format),
