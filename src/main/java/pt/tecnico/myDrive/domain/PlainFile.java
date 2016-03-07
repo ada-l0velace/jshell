@@ -25,6 +25,7 @@ public class PlainFile extends PlainFile_Base {
 		node.setAttribute("content", getContent());
 		return node;
     }
+    
     public File getFileByPath (String link){
     	return this;
     }

@@ -88,6 +88,7 @@ public class User extends User_Base {
 		
 		return node;
 	}
+
     @Override
     public File getFileByPath (String link){
     	String[] split = link.split("/",2);
@@ -105,5 +106,4 @@ public class User extends User_Base {
     	PlainFile fileToRead = (PlainFile)getFileByPath(link.getContent());
     	return fileToRead.getContent();
     }
-
 }
