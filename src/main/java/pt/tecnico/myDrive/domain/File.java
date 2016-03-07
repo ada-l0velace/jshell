@@ -68,6 +68,7 @@ public class File extends File_Base implements IElementXml {
 	/**
 	 * Exports a file to persistent state (XML format)
 	 * @see User
+	 * @see Permissions
 	 * @return Element (JDOM library type) which represents a File 
 	 */
     @Override

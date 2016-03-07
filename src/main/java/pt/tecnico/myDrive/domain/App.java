@@ -13,6 +13,11 @@ public class App extends App_Base {
         super.importXml();
     }
 
+	/**
+     * Exports an App to a persistent state (XML format),
+	 * @see PlainFile
+	 * @return Element (JDOM library type) which represents an App
+     */
     @Override
     public Element exportXml () {
 		return super.exportXml();

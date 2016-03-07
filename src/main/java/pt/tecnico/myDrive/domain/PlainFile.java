@@ -14,6 +14,11 @@ public class PlainFile extends PlainFile_Base {
         super.importXml();
     }
 
+	/**
+     * Exports a PlainFile to a persistent state (XML format),
+	 * @see File
+	 * @return Element (JDOM library type) which represents a PlainFile
+     */
     @Override
     public Element exportXml () {
 		Element node = super.exportXml();

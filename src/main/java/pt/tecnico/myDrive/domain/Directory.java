@@ -13,6 +13,11 @@ public class Directory extends Directory_Base {
         super.importXml();
     }
 
+	/**
+     * Exports a Directory to a persistent state (XML format),
+	 * @see File
+	 * @return Element (JDOM library type) which represents a Directory
+     */
     @Override
     public Element exportXml () {
 		Element node = super.exportXml();
