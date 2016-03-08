@@ -117,4 +117,14 @@ public class User extends User_Base {
     	Directory Dir = (Directory)getFileByPath(link.getContent());
     	return Dir.listContent();
     }
+
+    public void remove()
+    {
+        for(File i : getFileSet())
+        {
+            i.remove();
+        }
+        setHome(null);
+        deleteDomainObject();
+    }
 }
