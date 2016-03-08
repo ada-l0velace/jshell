@@ -67,12 +67,14 @@ public class Directory extends Directory_Base {
 
     /**
      * If the array size equals zero the directory is removed.
+     * @throws PermissionDeniedException The user doesn't have the privilege to remove the directory.
      */
     public void remove()
     {
-        if(this.getFileSet().size() == 0)
+        for(File f : getFileSet())
         {
-            super.remove();
+            f.remove();
         }
+        super.remove();
     }
 }

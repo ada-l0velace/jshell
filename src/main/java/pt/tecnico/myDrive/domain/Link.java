@@ -42,6 +42,4 @@ public class Link extends Link_Base {
 	public File getFileByPath (String link){
 		throw new UnsupportedOperationException("Not Implemented!");
 	}
-
-    public void remove(){throw new UnsupportedOperationException("Not Implemented!");}
 }
