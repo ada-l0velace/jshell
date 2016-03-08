@@ -3,9 +3,7 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.User;
 import org.joda.time.DateTime;
 
-/**
- * 
- */
+
 public class Directory extends Directory_Base {
     
     /**
@@ -66,12 +64,23 @@ public class Directory extends Directory_Base {
 	}
 
     public File getFileByPath (String link){
-    	String[] split = link.split("/",2);
-    	String rest = split[1];
-    	String nomeInit = split[0];
+    	String[] spliTest = link.split("/");
+    	String[] split = spliTest;
+    	String rest = "";
+    	String nomeInit = link;
     	for(File path : this.getFileSet()){
-    		if(path.getName().equals(nomeInit)){
-    			return path.getFileByPath(rest);
+    		if (spliTest.length != 1){
+        		split = link.split("/",2);
+            	rest = split[1];
+            	nomeInit = split[0];
+        		if(path.getName().equals(nomeInit)){
+        			return path.getFileByPath(rest);
+        		}
+    		}
+    		else{
+    			if(path.getName().equals(link)){
+        			return path;
+    			}
     		}
     	}
     	throw new UnsupportedOperationException("Not Implemented!");

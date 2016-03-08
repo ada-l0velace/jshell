@@ -6,11 +6,11 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.Directory;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
-
+import java.util.regex.Pattern;
 
 /**
  * Identifies the current person that is working, creating or managing files.
- * Without this you can’t access all services.
+ * Without this you cannot access all services.
  */
 public class User extends User_Base {
     
@@ -110,34 +110,46 @@ public class User extends User_Base {
 		return node;
 	}
 
-    public File getFileByPath (String link){
-		String[] split = link.split("/",2);
-		String rest = split[1];
-		String nomeInit = split[0];
-		if(nomeInit.equals("home")){
-			return getHome().getFileByPath(rest);
-		}
-		else{
-			throw new UnsupportedOperationException("Not Implemented!");
-		}
-	}
-    
     /**
      * Delete a file or empty directory,
      * @param String link represents the link to the file or empty directory.
      */
+
     public void deleteFileOrEmptyDirectory(String link)
     {
         File to_delete  = getFileByPath(link);
         to_delete.remove();
 	}
+
     /**
-     * Get the content of the file 
-     * @param Link link represents the path to the file.
+    * 
+    * @param  String link receives a String with the link content. 
+    * @return  File  returns the last File that appears in the path.
+    */
+    public File getFileByPath (String link){
+    	String[] spliTest = link.split("/");
+    	if (spliTest.length == 1){
+    		if(link.equals("home")){
+    		return getHome();
+    		}
+    	}
+    	String[] split = link.split(Pattern.quote("/"),2);
+    	String rest = split[1];
+    	String nomeInit = split[0];
+    	if(nomeInit.equals("home")){
+    		return getHome().getFileByPath(rest);
+    	}
+    	throw new UnsupportedOperationException("Not Implemented!");
+    }
+    
+    /**
+     * @param  Link link receives a link to a plain file. 
+     * @return  String returns the string with the plain file content.
      */
+
     public String getPFileContentByLink(Link link){
-    	PlainFile fileToRead = (PlainFile)getFileByPath(link.getContent());
-    	return fileToRead.getContent();
+    	
+    	return getFileByPath(link.getContent()).toString();
     }
     
     /**

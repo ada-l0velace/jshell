@@ -35,6 +35,7 @@ public class PlainFile extends PlainFile_Base {
         setContent(content);
     }
 
+
 	/**
 	 * Exports a PlainFile to a persistent state (XML format),
 	 * @see File
@@ -46,8 +47,19 @@ public class PlainFile extends PlainFile_Base {
 		node.setAttribute("content", getContent());
 		return node;
 	}
+
+
+    /**
+     * @param  String link receives a String with the link content. 
+     * @return  File  returns himself.
+     */
+
+    public File getFileByPath (String link){
+    	return this;
+    }
     
-	public File getFileByPath (String link){
-		return this;
-	}
+    @Override
+    public String toString(){
+    	return getContent();
+    }
 }
