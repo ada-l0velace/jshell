@@ -36,6 +36,7 @@ public class File extends File_Base implements IElementXml {
 	/**
 	 * Imports a File from persistent state (XML format).
      * @param xml Element (JDOM library type) which represents a File.
+     * @throws ImportDocumentException occurs when there is an error with the import.
 	 * @see User Permissions  
 	 */
 	@Override

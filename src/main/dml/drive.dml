@@ -24,7 +24,7 @@ relation ManagerContainsUser {
     multiplicity 1;
   }
   User playsRole Users {
-    multiplicity *;
+    multiplicity 0..*;
   }
 }
 
@@ -72,7 +72,7 @@ relation UserHasHome {
 
 relation ManagerHasHome {
     Manager playsRole managerHm { multiplicity 1; }
-    Directory playsRole home { multiplicity 1; }
+    Directory playsRole home { multiplicity 0..1; }
 }
 
 class Link extends PlainFile;
