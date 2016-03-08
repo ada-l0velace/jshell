@@ -1,6 +1,8 @@
 package pt.tecnico.myDrive.domain;
 import pt.tecnico.myDrive.interfaces.IElementXml;
 import org.jdom2.Element;
+import pt.tecnico.myDrive.domain.Directory;
+import org.joda.time.DateTime;
 
 
 /**
@@ -25,10 +27,16 @@ public class User extends User_Base {
 	 */
 	public User(String name, String username, String password, Short umask) {
 		super();
-		setName(name);
-		setPassword(password);
-		setPermissions(new Permissions(umask));
+        init(name,username,password,umask);
 	}
+
+    public void init(String name, String username, String password, Short umask) {
+        setName(name);
+        setUsername(username);
+        setPassword(password);
+        setPermissions(new Permissions(umask));
+        setHome(new Directory(1, username, new DateTime(), umask, this));   
+    }
 
 	/**
 	 * Alternate construtor to create a user with xml

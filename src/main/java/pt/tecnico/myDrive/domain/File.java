@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.domain.Permissions;
 import pt.tecnico.myDrive.interfaces.IElementXml;
 
 import org.jdom2.Element;
@@ -23,6 +24,18 @@ public class File extends File_Base implements IElementXml {
 	public File() {
 		super();
 	}
+
+	/**
+	 * Alternative construtor to create a File.
+	 * @param  id       int unique ID of the file.
+	 * @param  name     String name of the file.
+	 * @param  modified DateTime date when it was modified.
+	 * @param  umask int umask for permissions.
+	 */
+	public File(int id, String name, DateTime modified, short umask) {
+		super();
+		init(id, name, modified, umask);
+	}
     
 	/**
 	 * Alternate construtor to create a File with xml.
@@ -31,6 +44,13 @@ public class File extends File_Base implements IElementXml {
 	public File(Element xml){
         super();
 		importXml(xml);
+	}
+
+	public void init (int id, String name, DateTime modified, short umask) {
+		setId(id);
+		setName(name);
+		setModified(modified);
+		setPermissions(new Permissions(umask));
 	}
 
 	/**

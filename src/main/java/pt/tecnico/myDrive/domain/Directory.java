@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
-
+import pt.tecnico.myDrive.domain.User;
+import org.joda.time.DateTime;
 
 /**
  * 
@@ -12,6 +13,18 @@ public class Directory extends Directory_Base {
      */
     public Directory() {
         super();
+    }
+    /**
+     * Alternate Constructor for a Directory.
+     * @param  id       int unique ID of the file.
+     * @param  name     String name of the file.
+     * @param  modified DateTime modified date from the field.
+     * @param  owner    User user owner of the file.
+     */
+    public Directory(int id, String name, DateTime modified, short umask, User owner) {
+        super();
+        super.init(id, name, modified, umask);
+        setOwner(owner);
     }
 
     /**
@@ -46,11 +59,10 @@ public class Directory extends Directory_Base {
 
 		Element filesElement = new Element("files");
 		node.addContent(filesElement);
-		
 		for (File f: getFileSet())
 			filesElement.addContent(f.exportXml());
 
-		return node;
+        return node;
 	}
 
     public File getFileByPath (String link){
