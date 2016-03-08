@@ -1,6 +1,6 @@
 package pt.tecnico.myDrive.exception;
 
-public abstract class UsernameAlreadyExistsException extends MyDriveException {
+public class UsernameAlreadyExistsException extends MyDriveException {
 
     private static final long serialVersionUID = 1L;
 
