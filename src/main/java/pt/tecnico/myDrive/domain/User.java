@@ -78,7 +78,7 @@ public class User extends User_Base {
 		
 		return node;
 	}
-    
+
     public File getFileByPath (String link){
 		String[] split = link.split("/",2);
 		String rest = split[1];
@@ -91,11 +91,6 @@ public class User extends User_Base {
 		}
 	}
     
-	public String getContentByLink(Link link){
-		PlainFile fileToRead = (PlainFile)getFileByPath(link.getContent());
-		return fileToRead.getContent();
-	}
-    
     /**
      * Delete a file or empty directory,
      * @param String link represents the link to the file or empty directory.
@@ -104,6 +99,22 @@ public class User extends User_Base {
     {
         File to_delete  = getFileByPath(link);
         to_delete.remove();
+	}
+    /**
+     * Get the content of the file 
+     * @param Link link represents the path to the file.
+     */
+    public String getPFileContentByLink(Link link){
+    	PlainFile fileToRead = (PlainFile)getFileByPath(link.getContent());
+    	return fileToRead.getContent();
     }
-
+    
+    /**
+     * Get a list of the file names inside of the directory
+     * @param Link link represents the path to the directory.
+     */
+    public String getDirContentByLink(Link link){
+    	Directory Dir = (Directory)getFileByPath(link.getContent());
+    	return Dir.listContent();
+    }
 }

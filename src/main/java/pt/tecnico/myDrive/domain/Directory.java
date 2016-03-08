@@ -77,4 +77,15 @@ public class Directory extends Directory_Base {
         }
         super.remove();
     }
+	
+    /**
+     * @return list String (Primary java type) with the file names inside of the directory.
+     */
+    public String listContent(){
+    	String list = "";
+    	for(File path : this.getFileSet()){
+    		list += path.getName() + " ";
+    	}
+    	return list;
+    }
 }
