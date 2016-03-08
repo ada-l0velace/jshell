@@ -1,12 +1,15 @@
 package pt.tecnico.myDrive.domain;
 
 import pt.ist.fenixframework.FenixFramework;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import pt.tecnico.myDrive.exception.UsernameAlreadyExistsException;
 
 
 public class Manager extends Manager_Base 
 { 
-
+	static final Logger log = LogManager.getRootLogger();
+	
     private Manager() 
     {
         setRoot(FenixFramework.getDomainRoot());
