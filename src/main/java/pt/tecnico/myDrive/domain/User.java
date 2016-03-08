@@ -1,8 +1,11 @@
 package pt.tecnico.myDrive.domain;
 import pt.tecnico.myDrive.interfaces.IElementXml;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.Directory;
 import org.joda.time.DateTime;
+import pt.tecnico.myDrive.exception.InvalidUsernameException;
 
 
 /**
@@ -46,6 +49,25 @@ public class User extends User_Base {
         super();
 		importXml(xml);
 	}
+	
+	/*
+	 * Faz override ao setuser() para verificar se o username contem caracters expeciais 
+	 * */
+	@Override
+    public void setUsername(String username) throws InvalidUsernameException {
+		/*Padrao de "a" a "z" ou de "A" a "Z" ou de "0" a "10"*/
+		Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
+		/*Verifica se a string username corresponde ao padrao indicado*/
+		Matcher matcher = pattern.matcher(username);
+		/*Se nao corresponder faz InvalidUsernameException*/
+		if (!matcher.matches()) {
+			throw new InvalidUsernameException(username);
+		}
+		/*Se for username valido faz set ao username*/
+		else{
+			super.setUsername(username);
+		}
+    }
 
     /**
      * Imports a User from persistent state (XML format).
