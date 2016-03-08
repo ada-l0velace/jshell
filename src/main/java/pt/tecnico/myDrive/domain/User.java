@@ -51,7 +51,8 @@ public class User extends User_Base {
 	}
 	
 	/*
-	 * Faz override ao setuser() para verificar se o username contem caracters expeciais 
+	 * Do override of setUsername checking for special caracters
+	 * @param String (JavaPrimitive) which represents a username
 	 * */
 	@Override
     public void setUsername(String username) throws InvalidUsernameException {
