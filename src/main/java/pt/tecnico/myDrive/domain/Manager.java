@@ -1,5 +1,8 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.ist.fenixframework.FenixFramework;
+import pt.tecnico.myDrive.exception.UsernameAlreadyExistsException;
+
 
 public class Manager extends Manager_Base 
 { 
@@ -54,7 +57,7 @@ public class Manager extends Manager_Base
         }
         else
         {
-            throw new UsernameAlreadyExistsException(user.getUsername());
+            //throw new UsernameAlreadyExistsException(user.getUsername());
         }
     }
 
