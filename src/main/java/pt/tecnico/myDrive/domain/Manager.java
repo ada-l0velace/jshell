@@ -57,7 +57,7 @@ public class Manager extends Manager_Base
         }
         else
         {
-            //throw new UsernameAlreadyExistsException(user.getUsername());
+            throw new UsernameAlreadyExistsException(user.getUsername());
         }
     }
 
