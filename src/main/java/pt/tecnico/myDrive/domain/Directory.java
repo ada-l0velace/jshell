@@ -12,16 +12,14 @@ public class Directory extends Directory_Base {
     public Directory() {
         super();
     }
+
     /**
      * Alternate Constructor for a Directory.
-     * @param  id       int unique ID of the file.
-     * @param  name     String name of the file.
-     * @param  modified DateTime modified date from the field.
      * @param  owner    User user owner of the file.
      */
-    public Directory(int id, String name, DateTime modified, short umask, User owner) {
+    public Directory(User owner) {
         super();
-        super.init(id, name, modified, umask);
+        super.init(owner);
         setOwner(owner);
     }
 

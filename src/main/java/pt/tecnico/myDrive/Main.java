@@ -34,7 +34,6 @@ public class Main {
         //User u = new User("Super User","root","rootroot", (short)1);
         //m.createUser(u);
         //m.getUser(u).exportXml();
-        //   public Document xmlExport() {
         //Element element = new Element("mydrive");
         //Document doc = new Document(element);
         //for (User p: m.getUserSet())

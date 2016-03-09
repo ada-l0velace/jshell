@@ -5,6 +5,8 @@ import pt.tecnico.myDrive.interfaces.IElementXml;
 
 import org.jdom2.Element;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
@@ -32,9 +34,8 @@ public class File extends File_Base implements IElementXml {
 	 * @param  modified DateTime date when it was modified.
 	 * @param  umask int umask for permissions.
 	 */
-	public File(int id, String name, DateTime modified, short umask) {
-		super();
-		init(id, name, modified, umask);
+	public File(User owner) {
+		init(owner);
 	}
     
 	/**
@@ -46,11 +47,11 @@ public class File extends File_Base implements IElementXml {
 		importXml(xml);
 	}
 
-	public void init (int id, String name, DateTime modified, short umask) {
-		setId(id);
-		setName(name);
-		setModified(modified);
-		setPermissions(new Permissions(umask));
+	public void init (User owner) {
+		setId(1);
+		setName(owner.getName());
+		setModified(new DateTime(DateTimeZone.UTC));
+		setPermissions(owner.getPermissions());
 	}
 
 	/**
