@@ -4,6 +4,7 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.User;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.FileDoesNotExistException;
+import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
 
 public class Directory extends Directory_Base {
     
@@ -109,4 +110,18 @@ public class Directory extends Directory_Base {
     	}
     	return list;
     }
+   
+    @Override
+    public void addFile(File filetba){
+    	if (getName().equals(filetba.getName())){
+    		throw new NameFileAlreadyExistsException(getName());
+    	}
+    	for (File fName : getFileSet()){
+    		if (fName.getName().equals(filetba.getName())){
+    			throw new NameFileAlreadyExistsException(filetba.getName());
+    		}
+    	}
+    	getFileSet().add(filetba);
+    }
+   
 }
