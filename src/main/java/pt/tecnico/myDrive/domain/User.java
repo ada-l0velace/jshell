@@ -1,4 +1,5 @@
 package pt.tecnico.myDrive.domain;
+
 import pt.tecnico.myDrive.interfaces.IElementXml;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -6,7 +7,8 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.Directory;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
-import java.util.regex.Pattern;
+import pt.tecnico.myDrive.exception.FileDoesNotExistException;
+
 
 /**
  * Identifies the current person that is working, creating or managing files.
@@ -111,12 +113,10 @@ public class User extends User_Base {
 		return node;
 	}
 
-
     /**
      * Delete a file or empty directory,
      * @param String link represents the link to the file or empty directory.
      */
-
     public void deleteFileOrEmptyDirectory(String link)
     {
         File to_delete  = getFileByPath(link);
@@ -128,7 +128,7 @@ public class User extends User_Base {
     * @param  String link receives a String with the link content. 
     * @return  File  returns the last File that appears in the path.
     */
-    public File getFileByPath (String link){
+    public File getFileByPath (String link) throws FileDoesNotExistException {
     	String[] spliTest = link.split("/");
     	if (spliTest.length == 1){
     		if(link.equals("home")){
@@ -141,7 +141,7 @@ public class User extends User_Base {
     	if(nomeInit.equals("home")){
     		return getHome().getFileByPath(rest);
     	}
-    	throw new UnsupportedOperationException("Not Implemented!");
+    	throw new FileDoesNotExistException(nomeInit);
     }
     
     /**
@@ -149,8 +149,7 @@ public class User extends User_Base {
      * @return  String returns the string with the plain file content.
      */
 
-    public String getPFileContentByLink(Link link){
-    	
+    public String getPFileContentByLink(Link link){ 	
     	return getFileByPath(link.getContent()).toString();
     }
     

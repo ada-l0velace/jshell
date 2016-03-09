@@ -1,8 +1,9 @@
 package pt.tecnico.myDrive.domain;
+
 import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.User;
 import org.joda.time.DateTime;
-
+import pt.tecnico.myDrive.exception.FileDoesNotExistException;
 
 public class Directory extends Directory_Base {
     
@@ -62,7 +63,7 @@ public class Directory extends Directory_Base {
         return node;
 	}
 
-    public File getFileByPath (String link){
+    public File getFileByPath (String link) throws FileDoesNotExistException {
     	String[] spliTest = link.split("/");
     	String[] split = spliTest;
     	String rest = "";
@@ -82,7 +83,7 @@ public class Directory extends Directory_Base {
     			}
     		}
     	}
-    	throw new UnsupportedOperationException("Not Implemented!");
+    	throw new FileDoesNotExistException(nomeInit);
     }
 
     /**

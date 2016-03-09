@@ -102,7 +102,6 @@ public class File extends File_Base implements IElementXml {
 		//node.addContent(getOwner().exportXml());
 
 		return node;
-
 	}
 
     
