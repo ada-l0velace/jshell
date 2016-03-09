@@ -35,7 +35,7 @@ public class User extends User_Base {
         init(name,username,password,umask);
 	}
 	
-	public void init(String name, String username, String password, Short umask) {
+	protected void init(String name, String username, String password, Short umask) {
 		setName(name);
 		setUsername(username);
 		setPassword(password);

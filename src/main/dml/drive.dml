@@ -44,9 +44,9 @@ relation FileHasPermissions {
     Permissions playsRole permissions { multiplicity 1; }
 }
 
-relation FileHasUser {
-    File playsRole file { multiplicity *; }
+relation UserHasFile {
     User playsRole owner { multiplicity 1; }
+    File playsRole file { multiplicity *; }
 }
 
 relation UserHasPermissions {

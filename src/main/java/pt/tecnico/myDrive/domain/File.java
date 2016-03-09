@@ -44,7 +44,7 @@ public class File extends File_Base implements IElementXml {
 		importXml(xml);
 	}
 
-	public void init (User owner, String nome) {
+	protected void init (User owner, String nome) {
 		setId(1);
 		setName(nome);
 		setModified(new DateTime(DateTimeZone.UTC));
