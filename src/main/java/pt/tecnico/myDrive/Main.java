@@ -30,24 +30,25 @@ public class Main {
 
     @Atomic
     public static void someTransaction() {
-        //Manager m = Manager.getInstance();
-        User u = new User("Super User","root","rootroot", (short)1);
+        /*Manager m = Manager.getInstance();
+        User u = m.getSuperuser();
         User u1 = new User("Daniel", "Poodle", "GangnamStyle", (short)1);
-        //m.createUser(u);
+        m.createUser(u1);
         //m.getUser(u).exportXml();
         Element element = new Element("mydrive");
-        Document doc = new Document(element);	
-        File f = new File(u);
+        File f = new File(u, "CRL");
         element.addContent(f.exportXml());
-        System.out.println(f.exportXml());		
+        System.out.println(f.exportXml());      
         element.addContent(u.exportXml());
-        System.out.println(u.exportXml());		
+        System.out.println(u.exportXml());      
         element.addContent(u1.exportXml());
         System.out.println(u1.exportXml());
+        Document doc = new Document(element);	
+        
         XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
         try { xmlOutput.output(doc, new PrintStream(System.out));
         } catch (IOException e) { System.out.println(e); }
         System.out.println("FenixFramework's root object is: " + FenixFramework.getDomainRoot());
-				
+		*/		
     }
 }

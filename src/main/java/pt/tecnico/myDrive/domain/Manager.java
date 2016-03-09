@@ -14,7 +14,7 @@ public class Manager extends Manager_Base
     {
         setRoot(FenixFramework.getDomainRoot());
         setSuperuser(new SuperUser()); 
-        setHome(new Directory()); 
+        setHome(new Directory(getSuperuser(),"/")); 
     }
 
     public static Manager getInstance() 

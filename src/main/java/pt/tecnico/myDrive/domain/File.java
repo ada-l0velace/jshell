@@ -28,13 +28,11 @@ public class File extends File_Base implements IElementXml {
 
 	/**
 	 * Alternative construtor to create a File.
-	 * @param  id       int unique ID of the file.
-	 * @param  name     String name of the file.
-	 * @param  modified DateTime date when it was modified.
-	 * @param  umask int umask for permissions.
+	 * @param owner User user owner of the file.
+     * @param name String represents the name of the folder.
 	 */
-	public File(User owner) {
-		init(owner);
+	public File(User owner, String nome) {
+		init(owner, nome);
 	}
     
 	/**
@@ -46,9 +44,9 @@ public class File extends File_Base implements IElementXml {
 		importXml(xml);
 	}
 
-	public void init (User owner) {
+	public void init (User owner, String nome) {
 		setId(1);
-		setName(owner.getName());
+		setName(nome);
 		setModified(new DateTime(DateTimeZone.UTC));
 		setPermissions(new Permissions(owner.getPermissions().getUmask()));
 	}

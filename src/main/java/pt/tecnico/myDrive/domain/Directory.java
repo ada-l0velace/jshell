@@ -15,11 +15,12 @@ public class Directory extends Directory_Base {
 
     /**
      * Alternate Constructor for a Directory.
-     * @param  owner    User user owner of the file.
+     * @param  owner User user owner of the file.
+     * @param name Represents the name of the folder.
      */
-    public Directory(User owner) {
+    public Directory(User owner, String name) {
         super();
-        super.init(owner);
+        super.init(owner, name);
         setOwner(owner);
     }
 
