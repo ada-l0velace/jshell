@@ -55,7 +55,7 @@ public class File extends File_Base implements IElementXml {
 		setModified(new DateTime(DateTimeZone.UTC));
 		setPermissions(new Permissions(owner.getPermissions().getUmask()));
 	}
-
+	
 	/**
 	 * Imports a File from persistent state (XML format).
      * @param xml Element (JDOM library type) which represents a File.
