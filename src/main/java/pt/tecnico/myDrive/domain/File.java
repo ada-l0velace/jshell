@@ -2,7 +2,6 @@ package pt.tecnico.myDrive.domain;
 
 import pt.tecnico.myDrive.domain.Permissions;
 import pt.tecnico.myDrive.interfaces.IElementXml;
-
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -90,23 +89,24 @@ public class File extends File_Base implements IElementXml {
 	 */
 	@Override
 	public Element exportXml () {
-		Element node = new Element("file");
+		Element node = new Element(this.getClass().getSimpleName());
 		node.setAttribute("id", Integer.toString(getId()));
 		node.setAttribute("name", getName());
 
 		DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-		node.setAttribute("modifier", fmt.print(getModified()));
+		node.setAttribute("modified", fmt.print(getModified()));
 		
 		Element perm = new Element("permissions");
 		perm.setAttribute("umask", Short.toString(getPermissions().getUmask()));
 
 		node.addContent(perm);
 
-		node.addContent(getOwner().exportXml());
+		//node.addContent(getOwner().exportXml());
 
 		return node;
 
 	}
+
     
 	@Override
 	public File getFileByPath (String link){

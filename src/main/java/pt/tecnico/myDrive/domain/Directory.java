@@ -56,7 +56,7 @@ public class Directory extends Directory_Base {
 		Element filesElement = new Element("files");
 		node.addContent(filesElement);
 		for (File f: getFileSet())
-			filesElement.addContent(f.exportXml());
+			node.addContent(f.exportXml());
 
         return node;
 	}

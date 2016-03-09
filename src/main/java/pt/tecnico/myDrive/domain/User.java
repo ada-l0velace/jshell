@@ -32,15 +32,15 @@ public class User extends User_Base {
 		super();
         init(name,username,password,umask);
 	}
-
-    public void init(String name, String username, String password, Short umask) {
-        setName(name);
-        setUsername(username);
-        setPassword(password);
-        setPermissions(new Permissions(umask));
-        setHome(new Directory(this));   
-    }
-
+	
+	public void init(String name, String username, String password, Short umask) {
+		setName(name);
+		setUsername(username);
+		setPassword(password);
+		setPermissions(new Permissions(umask));
+		setHome(new Directory(1, username, new DateTime(), umask, this));   
+	}
+	
 	/**
 	 * Alternate construtor to create a user with xml
 	 * @param Element (JDOM library type) which represents a User
@@ -56,27 +56,28 @@ public class User extends User_Base {
 	 * */
 	@Override
     public void setUsername(String username) throws InvalidUsernameException {
-		/*Patthern from "a" to "z" or from "A" to "Z" ou from "0" to "10"*/
+		/*Padrao de "a" a "z" ou de "A" a "Z" ou de "0" a "10"*/
 		Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
-		/*Check ifstring username is a pattern created before*/
+		/*Verifica se a string username corresponde ao padrao indicado*/
 		Matcher matcher = pattern.matcher(username);
-		/*If it isnt a pattern thorws InvalidUsernameException*/
+		/*Se nao corresponder faz InvalidUsernameException*/
 		if (!matcher.matches()) {
 			throw new InvalidUsernameException(username);
 		}
-		/*If it is a valid username makes set of username*/
+		/*Se for username valido faz set ao username*/
 		else{
 			super.setUsername(username);
 		}
     }
 
-    /**
+ 	
+	/**
      * Imports a User from persistent state (XML format).
      * @param Element (JDOM library type) which represents a User
      * @see Permissions
      * @throws ImportDocumentException
      */
-    public void importXml (Element xml) {
+	public void importXml (Element xml) {
         Element node = xml;
         String name = node.getAttribute("name").getValue();
         String username = node.getAttribute("username").getValue();
@@ -109,6 +110,7 @@ public class User extends User_Base {
 		
 		return node;
 	}
+
 
     /**
      * Delete a file or empty directory,
