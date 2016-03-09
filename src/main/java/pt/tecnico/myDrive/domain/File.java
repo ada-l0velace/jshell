@@ -3,6 +3,8 @@ package pt.tecnico.myDrive.domain;
 import pt.tecnico.myDrive.domain.Permissions;
 import pt.tecnico.myDrive.interfaces.IElementXml;
 import org.jdom2.Element;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -10,7 +12,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import pt.tecnico.myDrive.domain.User;
-
+import pt.tecnico.myDrive.exception.InvalidNameFileException;
 
 /**
  * 
@@ -55,6 +57,22 @@ public class File extends File_Base implements IElementXml {
 		setModified(new DateTime(DateTimeZone.UTC));
 		setPermissions(new Permissions(owner.getPermissions().getUmask()));
 	}
+	
+	/**
+	 * Do override of setName checking for special caracters
+	 * @param String (JavaPrimitive) which represents a name for the file
+	 * */
+	@Override
+    public void setName(String name) throws InvalidNameFileException {
+		Pattern pattern = Pattern.compile("[^/\0]*");
+		Matcher matcher = pattern.matcher(name);
+		if (!matcher.matches()) {
+			throw new InvalidNameFileException(name);
+		}
+		else{
+			super.setName(name);
+		}
+    }
 	
 	/**
 	 * Imports a File from persistent state (XML format).
