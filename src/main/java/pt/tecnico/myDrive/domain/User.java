@@ -35,6 +35,13 @@ public class User extends User_Base {
         init(name,username,password,umask);
 	}
 	
+    /**
+     * Protected constructor to init a user.
+     * @param name     String (Primary java type) represents the real name.
+     * @param username String (Primary java type) represents the username. 
+     * @param password String (Primary java type) represents the password.
+     * @param umask    Int (Primary java type) represents the permissions umask.
+     */
 	protected void init(String name, String username, String password, Short umask) {
 		setName(name);
 		setUsername(username);
@@ -52,10 +59,10 @@ public class User extends User_Base {
 		importXml(xml);
 	}
 	
-	/*
+	/**
 	 * Do override of setUsername checking for special caracters
 	 * @param String (JavaPrimitive) which represents a username
-	 * */
+	 */
 	@Override
     public void setUsername(String username) throws InvalidUsernameException {
 		/*Padrao de "a" a "z" ou de "A" a "Z" ou de "0" a "10"*/

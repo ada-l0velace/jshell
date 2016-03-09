@@ -44,6 +44,11 @@ public class File extends File_Base implements IElementXml {
 		importXml(xml);
 	}
 
+	/**
+	 * Protected init Constructor for File
+	 * @param owner User which represents a File.
+	 * @param nome  String (Primary java type) which represents the name of File.
+	 */
 	protected void init (User owner, String nome) {
 		setId(1);
 		setName(nome);
