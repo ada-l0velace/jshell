@@ -4,6 +4,7 @@ import pt.ist.fenixframework.FenixFramework;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pt.tecnico.myDrive.exception.UsernameAlreadyExistsException;
+import org.jdom2.Element;
 
 
 public class Manager extends Manager_Base 
@@ -50,6 +51,25 @@ public class Manager extends Manager_Base
             }
         }
         return null;
+    }
+
+    public User getUserByUsername(String username) {
+        for(User u : getUsersSet())
+            if(username.equals(u.getUsername()))
+                return u;
+        return null;
+    }
+
+    public void importXml(Element xml) {
+        for (Element node: xml.getChildren("users")) {
+            String username = node.getAttribute("username").getValue();
+            User user = getUserByUsername(username);
+
+            if (user == null) // Does not exist
+                user = new User(node);
+
+            user.importXml(node);
+        }
     }
 
     public void createUser(User user) throws UsernameAlreadyExistsException
