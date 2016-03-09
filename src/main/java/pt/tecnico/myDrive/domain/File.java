@@ -50,7 +50,7 @@ public class File extends File_Base implements IElementXml {
 		setId(1);
 		setName(owner.getName());
 		setModified(new DateTime(DateTimeZone.UTC));
-		setPermissions(owner.getPermissions());
+		setPermissions(new Permissions(owner.getPermissions().getUmask()));
 	}
 
 	/**

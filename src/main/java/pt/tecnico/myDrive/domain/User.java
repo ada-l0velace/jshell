@@ -38,7 +38,7 @@ public class User extends User_Base {
 		setUsername(username);
 		setPassword(password);
 		setPermissions(new Permissions(umask));
-		setHome(new Directory(1, username, new DateTime(), umask, this));   
+		setHome(new Directory(this));   
 	}
 	
 	/**
