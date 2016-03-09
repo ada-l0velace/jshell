@@ -65,15 +65,15 @@ public class User extends User_Base {
 	 */
 	@Override
     public void setUsername(String username) throws InvalidUsernameException {
-		/*Padrao de "a" a "z" ou de "A" a "Z" ou de "0" a "10"*/
+		/*Pattern from "a" to "z" or from "A" to "Z" or from "0" to "10"*/
 		Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
-		/*Verifica se a string username corresponde ao padrao indicado*/
+		/*Check if string username macth the indicated pattern*/
 		Matcher matcher = pattern.matcher(username);
-		/*Se nao corresponder faz InvalidUsernameException*/
+		/*If it doesnt macth thorws InvalidUsernameException*/
 		if (!matcher.matches()) {
 			throw new InvalidUsernameException(username);
 		}
-		/*Se for username valido faz set ao username*/
+		/*If username macth does set to username*/
 		else{
 			super.setUsername(username);
 		}
