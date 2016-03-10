@@ -1,23 +1,29 @@
 package pt.tecnico.myDrive;
+
 import pt.tecnico.myDrive.domain.*;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.DomainRoot;
 import pt.ist.fenixframework.FenixFramework;
+
 import org.jdom2.Element;
 import org.jdom2.Document;
 import org.jdom2.output.XMLOutputter;
-import java.io.PrintStream;
-import java.io.IOException;
+import org.jdom2.JDOMException;
+
 import org.jdom2.output.Format;
+import org.jdom2.input.SAXBuilder;
 import org.joda.time.DateTime;
 
+import java.io.File;
+import java.io.PrintStream;
+import java.io.IOException;
 
 public class Main {
 
     // FenixFramework will try automatic initialization when first accessed
     public static void main(String [] args) {
         try {
-            applicationCodeGoesHere();
+            for (String s: args) xmlScan(new File(s));
         } finally {
             // ensure an orderly shutdown
             FenixFramework.shutdown();
@@ -51,5 +57,21 @@ public class Main {
         // try { xmlOutput.output(doc, new PrintStream(System.out));
         // } catch (IOException e) { System.out.println(e); }
         // System.out.println("FenixFramework's root object is: " + FenixFramework.getDomainRoot());		
+    }
+
+    /**
+     * Scans the xml file and imports to database.
+     * @param file (Java.io.File) represents a file. 
+     */
+    @Atomic
+    public static void xmlScan(File file) {
+        Manager m = Manager.getInstance();
+        SAXBuilder builder = new SAXBuilder();
+        try {
+            Document document = (Document)builder.build(file);
+            m.importXml(document.getRootElement());
+        } catch (JDOMException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }
