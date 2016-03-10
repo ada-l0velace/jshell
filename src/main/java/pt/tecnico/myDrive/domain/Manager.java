@@ -1,9 +1,13 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.exception.UsernameAlreadyExistsException;
+
 import pt.ist.fenixframework.FenixFramework;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pt.tecnico.myDrive.exception.UsernameAlreadyExistsException;
+
+
 import org.jdom2.Element;
 
 

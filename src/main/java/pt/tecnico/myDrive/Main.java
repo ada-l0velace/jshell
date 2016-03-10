@@ -9,10 +9,12 @@ import org.jdom2.Element;
 import org.jdom2.Document;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.JDOMException;
-
 import org.jdom2.output.Format;
 import org.jdom2.input.SAXBuilder;
 import org.joda.time.DateTime;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -20,9 +22,11 @@ import java.io.IOException;
 
 public class Main {
 
-    // FenixFramework will try automatic initialization when first accessed
+    private static final Logger logger = LogManager.getRootLogger();
+    
     public static void main(String [] args) {
         try {
+            logger.trace("Entering application.");
             for (String s: args) xmlScan(new File(s));
         } finally {
             // ensure an orderly shutdown
