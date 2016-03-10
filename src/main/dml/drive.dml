@@ -75,6 +75,8 @@ relation ManagerHasHome {
     Directory playsRole home { multiplicity 0..1; }
 }
 
+class RootDirectory extends Directory;
+
 class Link extends PlainFile;
 
 class App extends PlainFile;

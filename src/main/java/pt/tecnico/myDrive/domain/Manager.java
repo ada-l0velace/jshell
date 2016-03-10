@@ -18,16 +18,15 @@ public class Manager extends Manager_Base
     private Manager() 
     {
         setRoot(FenixFramework.getDomainRoot());
-        setSuperuser(new SuperUser()); 
-        setHome(new Directory(getSuperuser(),"/")); 
+        setSuperuser(new SuperUser());
+        setHome(new RootDirectory(getSuperuser(),"/")); 
     }
 
     public static Manager getInstance() 
     {
         Manager instance = FenixFramework.getDomainRoot().getManager();
 
-        if(instance == null)
-        {
+        if(instance == null) {
             return new Manager();
         }
         return instance;

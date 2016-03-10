@@ -4,18 +4,18 @@ public class InvalidNameFileException extends MyDriveException {
 	
 	 private static final long serialVersionUID = 1L;
 	 
-	 private String name;
+	 private String _name;
 
 	 public InvalidNameFileException(String name) {
-		 name = name;
+		 _name = name;
 	 }
 
 	 public String getInvalidName() {
-		 return name;
+		 return _name;
 	 }
 
     @Override
     public String getMessage() {
-    	return "Name " + name + " is not valid";
+    	return "Name " + _name + " is not valid";
     }
 }
