@@ -3,7 +3,7 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.User;
 import org.joda.time.DateTime;
-import pt.tecnico.myDrive.exception.FileDoesNotExistException;
+import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
 
 public class Directory extends Directory_Base {
@@ -68,7 +68,7 @@ public class Directory extends Directory_Base {
         return node;
 	}
 
-    public File getFileByPath (String link) throws FileDoesNotExistException {
+    public File getFileByPath (String link) throws FileNotFoundException {
     	String[] spliTest = link.split("/");
     	String[] split = spliTest;
     	String rest = "";
@@ -88,7 +88,7 @@ public class Directory extends Directory_Base {
     			}
     		}
     	}
-    	throw new FileDoesNotExistException(nomeInit);
+    	throw new FileNotFoundException(nomeInit);
     }
 
     /**

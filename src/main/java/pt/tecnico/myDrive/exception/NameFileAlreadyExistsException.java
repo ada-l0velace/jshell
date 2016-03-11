@@ -4,18 +4,18 @@ public class NameFileAlreadyExistsException extends MyDriveException {
 
     private static final long serialVersionUID = 1L;
 
-    private String conflictingName;
+    private String _conflictingName;
 
     public NameFileAlreadyExistsException(String conflictingName) {
-        conflictingName = conflictingName;
+        _conflictingName = conflictingName;
     }
 
     public String getConflictingName() {
-        return conflictingName;
+        return _conflictingName;
     }
 
     @Override
     public String getMessage() {
-        return "This name " + conflictingName + " is already being used on this directory";
+        return "This name " + _conflictingName + " is already being used on this directory";
     }
 }

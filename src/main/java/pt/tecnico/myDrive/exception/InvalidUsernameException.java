@@ -4,18 +4,18 @@ public class InvalidUsernameException extends MyDriveException {
 	
 	 private static final long serialVersionUID = 1L;
 	 
-	 private String username;
+	 private String _username;
 
-	 public InvalidUsernameException(String name) {
-		 username = username;
+	 public InvalidUsernameException(String username) {
+		 _username = username;
 	 }
 
 	 public String getInvalidUsername() {
-		 return username;
+		 return _username;
 	 }
 
     @Override
     public String getMessage() {
-    	return "Username " + username + " is not valid";
+    	return "Username " + _username + " is not valid";
     }
 }

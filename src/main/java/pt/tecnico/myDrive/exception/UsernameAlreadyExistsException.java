@@ -4,18 +4,18 @@ public class UsernameAlreadyExistsException extends MyDriveException {
 
     private static final long serialVersionUID = 1L;
 
-    private String conflictingUsername;
+    private String _conflictingUsername;
 
     public UsernameAlreadyExistsException(String conflictingUsername) {
-        conflictingUsername = conflictingUsername;
+        _conflictingUsername = conflictingUsername;
     }
 
     public String getConflictingUsername() {
-        return conflictingUsername;
+        return _conflictingUsername;
     }
 
     @Override
     public String getMessage() {
-        return "This username " + conflictingUsername + " is already being used";
+        return "This username " + _conflictingUsername + " is already being used";
     }
 }

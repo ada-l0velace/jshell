@@ -7,7 +7,7 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.Directory;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
-import pt.tecnico.myDrive.exception.FileDoesNotExistException;
+import pt.tecnico.myDrive.exception.FileNotFoundException;
 
 
 /**
@@ -133,7 +133,7 @@ public class User extends User_Base {
     * @param  String link receives a String with the link content. 
     * @return  File  returns the last File that appears in the path.
     */
-    public File getFileByPath (String link) throws FileDoesNotExistException {
+    public File getFileByPath (String link) throws FileNotFoundException {
     	String[] spliTest = link.split("/");
     	if (spliTest.length == 1){
     		if(link.equals("home")){
@@ -146,7 +146,7 @@ public class User extends User_Base {
     	if(nomeInit.equals("home")){
     		return getHome().getFileByPath(rest);
     	}
-    	throw new FileDoesNotExistException(nomeInit);
+    	throw new FileNotFoundException(nomeInit);
     }
     
     /**
