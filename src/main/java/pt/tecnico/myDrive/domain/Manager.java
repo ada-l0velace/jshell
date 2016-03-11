@@ -97,8 +97,12 @@ public class Manager extends Manager_Base{
         return false;
     }
 
-	
+	/**
+   * Searches for the Home Directory.
+   * @return Directory returns directory /Home.
+	 */
 	public Directory searchHome(){
 		return (Directory) getHome().searchFile("Home");
 	}
+
 }

@@ -129,7 +129,14 @@ public class Directory extends Directory_Base {
     	getFileSet().add(filetba);
     }
 
-	public File searchFile(String name){
+
+  /**
+   * Searches for a File by name in a Directory
+   * @param String name recieves a String which is the name of the File
+   * @return File returns the file with the name recieved
+   * @throws FileNotFoundException when there is no File with that name
+   */
+  public File searchFile(String name){
 		for(File f: getFileSet())
 			if (f.getName().equals(name))
 				return f;
