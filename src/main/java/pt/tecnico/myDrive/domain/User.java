@@ -43,12 +43,12 @@ public class User extends User_Base {
      * @param umask    Int (Primary java type) represents the permissions umask.
      */
 	protected void init(String name, String username, String password, Short umask) {
-        setName(name);
-        setUsername(username);
-        setPassword(password);
-        setPermissions(new Permissions(umask));
-        // Manager.log.trace(Manager.getInstance().getHome());
-        setHome(new Directory(this, username, new Link ("..", Manager.getInstance().getDirHome())));
+    setName(name);
+    setUsername(username);
+    setPassword(password);
+    setPermissions(new Permissions(umask));
+    // Manager.log.trace(Manager.getInstance().getHome());
+    setHome(new Directory(this, username, new Link ("..", Manager.getInstance().getDirHome())));
     }
 	
 	/**
@@ -88,14 +88,14 @@ public class User extends User_Base {
      * @throws ImportDocumentException
      */
 	public void importXml (Element xml) {
-        Element node = xml;
-        String name = node.getAttribute("name").getValue();
-        String username = node.getAttribute("username").getValue();
-        String password = node.getAttribute("password").getValue();
-        Element permission = node.getChild("permissions");
-        short umask = Short.parseShort(permission.getAttribute("umask").getValue());
-        
-		setName(new String(name));
+    Element node = xml;
+    String name = node.getAttribute("name").getValue();
+    String username = node.getAttribute("username").getValue();
+    String password = node.getAttribute("password").getValue();
+    Element permission = node.getChild("permissions");
+    short umask = Short.parseShort(permission.getAttribute("umask").getValue());
+    
+    setName(new String(name));
 		setUsername(new String(username));
 		setPassword(new String(password));
 		setPermissions(new Permissions(umask));

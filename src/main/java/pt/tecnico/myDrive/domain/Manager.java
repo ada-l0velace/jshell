@@ -104,5 +104,15 @@ public class Manager extends Manager_Base{
 	public Directory searchHome(){
 		return (Directory) getHome().searchFile("Home");
 	}
+  
+  public Document exportXml(){
+    Element node = new Element("Manager");
+    Document doc = new Document(node);
+
+    for (User u: getUsersSet())
+      node.addContent(u.exportXml());
+
+    return doc;
+  }
 
 }

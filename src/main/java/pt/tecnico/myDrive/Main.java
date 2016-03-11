@@ -40,14 +40,24 @@ public class Main {
 
     @Atomic
     public static void someTransaction() {
-        Manager m = Manager.getInstance();
-        User u = m.getSuperuser();
-        
         Element element = new Element("mydrive");
+        Manager m = Manager.getInstance();
+        User su = m.getSuperuser();
+        File f = new File(su, "myFile");
+        PlainFile pf = new PlainFile(su, "poodlePlainFile");
+        App a = new App(su, "poodleApp");
+        Link l = new Link("poodleLink", f);
+        //User u1 = new User("Daniel", "poodle", "poodlePass", (short) 1);
+
+
+        su.getHome().addFile(f);
+        //su.getHome().addFile(pf);
+        su.getHome().addFile(l);
+        m.createUser(su);
         
-        element.addContent(u.exportXml());
+        element.addContent(su.exportXml());
         
-        Document doc = new Document(element);
+        Document doc = m.exportXml();
         XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
         try { xmlOutput.output(doc, new PrintStream(System.out));
         } catch (IOException e) { System.out.println(e); }
