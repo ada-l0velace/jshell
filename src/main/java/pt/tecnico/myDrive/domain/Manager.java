@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 
 import org.jdom2.Element;
+import org.jdom2.Document;
 
 
 public class Manager extends Manager_Base{ 
@@ -96,6 +97,7 @@ public class Manager extends Manager_Base{
         return false;
     }
 
+	
 	public Directory searchHome(){
 		return (Directory) getHome().searchFile("Home");
 	}

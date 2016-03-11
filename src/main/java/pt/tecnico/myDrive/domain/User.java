@@ -111,11 +111,8 @@ public class User extends User_Base {
 		node.setAttribute("name", getName());
 		node.setAttribute("username", getUsername());
 		node.setAttribute("password", getPassword());
+		node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
 
-		Element perm = new Element("Permissions");
-		perm.setAttribute("umask", Short.toString(getPermissions().getUmask()));
-
-		node.addContent(perm);
 		node.addContent(getHome().exportXml());
 		
 		return node;
