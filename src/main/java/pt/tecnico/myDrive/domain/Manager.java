@@ -95,4 +95,8 @@ public class Manager extends Manager_Base{
             }
         return false;
     }
+
+	public Directory searchHome(){
+		return (Directory) getHome().searchFile("Home");
+	}
 }
