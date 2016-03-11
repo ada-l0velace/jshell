@@ -26,7 +26,7 @@ public class Main {
     public static void main(String [] args) {
         try {
             //logger.trace("Entering application.");
-            for (String s: args) xmlScan(new java.io.File(s));
+            //for (String s: args) xmlScan(new java.io.File(s));
             applicationCodeGoesHere();
         } finally {
             // ensure an orderly shutdown
@@ -41,7 +41,6 @@ public class Main {
     @Atomic
     public static void someTransaction() {
         Manager m = Manager.getInstance();
-        
         User u = m.getSuperuser();
         
         Element element = new Element("mydrive");

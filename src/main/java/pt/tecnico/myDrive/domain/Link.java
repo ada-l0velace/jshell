@@ -20,7 +20,7 @@ public class Link extends Link_Base {
         setId(1);
         setName(name);
         setModified(new DateTime(DateTimeZone.UTC));
-        Manager.log.trace("File Constructor LINK ->" + file);
+        //Manager.log.trace("File Constructor LINK ->" + file);
         setPermissions(new Permissions(file.getPermissions().getUmask()));
         //super.init(file.getOwner(), file.getName());
         setContent("-> " + getFilePath());

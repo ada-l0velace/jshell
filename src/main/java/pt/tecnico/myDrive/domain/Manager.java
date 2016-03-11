@@ -12,46 +12,58 @@ import org.jdom2.Element;
 
 
 public class Manager extends Manager_Base{ 
-	static final Logger log = LogManager.getRootLogger();
-	
-    protected Manager(){
+    static final Logger log = LogManager.getRootLogger();
+    
+    protected Manager() {
         SuperUser su = new SuperUser();
         RootDirectory rootDir = new RootDirectory(su,"/");
         Directory home = new Directory(su, "home", new Link ("..", rootDir));
         su.setHome(home);
         setSuperuser(su);
-        setRoot(FenixFramework.getDomainRoot());
         setHome(rootDir);
+        FenixFramework.getDomainRoot().setManager(this);
+        setRoot(FenixFramework.getDomainRoot());
     }
 
-    public static Manager getInstance(){
+    public static Manager getInstance() {
         Manager instance = FenixFramework.getDomainRoot().getManager();
         if(instance == null) {
-            Manager.log.trace("New Manager"); 
+            //Manager.log.trace("New Manager"); 
             return new Manager();
         }
         return instance;
     }
 
-    public boolean existUser(User user){
-			if(getUser(user) != null)
-				return true;
-			else
-				return false;
+    public File getDirHome() {
+        return getHome().searchFile("home");
     }
 
-    public User getUser(User user){
-			for(User u : getUsersSet())
-				if(u.getUsername().equals(user.getUsername()))
-					return u;
-			return null;
+    public User getUser(User user) {
+        for(User u : getUsersSet())
+            if(u.getUsername().equals(user.getUsername()))
+                return u;
+        return null;
     }
-	
+    
     public User getUserByUsername(String username) {
         for(User u : getUsersSet())
             if(username.equals(u.getUsername()))
                 return u;
         return null;
+    }
+
+    public boolean existUser(User user) {
+        if(getUser(user) != null)
+            return true;
+        else
+            return false;
+    }
+
+    public File resourceFile(String filename) {
+        log.trace("Resource: "+filename);
+        ClassLoader classLoader = getClass().getClassLoader();
+        if (classLoader.getResource(filename) == null) return null;
+        return new java.io.File(classLoader.getResource(filename).getFile());
     }
 
     public void importXml(Element xml) {
@@ -66,21 +78,21 @@ public class Manager extends Manager_Base{
         }
     }
 
-    public void createUser(User user) throws UsernameAlreadyExistsException{
-			if(existUser(user) != true)
-				getUsersSet().add(user);
-			else
-				throw new UsernameAlreadyExistsException(user.getUsername());
+    public void createUser(User user) throws UsernameAlreadyExistsException {
+        if(existUser(user) != true)
+            getUsersSet().add(user);
+        else
+            throw new UsernameAlreadyExistsException(user.getUsername());
     }
 
-    public boolean deleteUser(User user){
-			if(existUser(user))
-				for(User u : getUsersSet()){
-					if(u.getUsername().equals(user.getUsername())){
-						u.remove();
-						return true;
-					}
-				}
-			return false;
-		}
+    public boolean deleteUser(User user) {
+        if(existUser(user))
+            for(User u : getUsersSet()) {
+                if(u.getUsername().equals(user.getUsername())){
+                    u.remove();
+                    return true;
+                }
+            }
+        return false;
+    }
 }
