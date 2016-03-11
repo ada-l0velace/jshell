@@ -11,12 +11,10 @@ import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 
 
-public class Manager extends Manager_Base 
-{ 
+public class Manager extends Manager_Base{ 
 	static final Logger log = LogManager.getRootLogger();
 	
-    protected Manager() 
-    {
+    protected Manager(){
         SuperUser su = new SuperUser();
         RootDirectory rootDir = new RootDirectory(su,"/");
         Directory home = new Directory(su, "home", new Link ("..", rootDir));
@@ -26,8 +24,7 @@ public class Manager extends Manager_Base
         setHome(rootDir);
     }
 
-    public static Manager getInstance() 
-    {
+    public static Manager getInstance(){
         Manager instance = FenixFramework.getDomainRoot().getManager();
         if(instance == null) {
             Manager.log.trace("New Manager"); 
@@ -36,30 +33,20 @@ public class Manager extends Manager_Base
         return instance;
     }
 
-    public boolean existUser(User user)
-    {
-        if(getUser(user) != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    public boolean existUser(User user){
+			if(getUser(user) != null)
+				return true;
+			else
+				return false;
     }
 
-    public User getUser(User user)
-    {
-        for(User u : getUsersSet())
-        {
-            if(u.getUsername().equals(user.getUsername()))
-            {
-                return u;
-            }
-        }
-        return null;
+    public User getUser(User user){
+			for(User u : getUsersSet())
+				if(u.getUsername().equals(user.getUsername()))
+					return u;
+			return null;
     }
-
+	
     public User getUserByUsername(String username) {
         for(User u : getUsersSet())
             if(username.equals(u.getUsername()))
@@ -79,35 +66,21 @@ public class Manager extends Manager_Base
         }
     }
 
-    public void createUser(User user) throws UsernameAlreadyExistsException
-    {
-        if(existUser(user) != true)
-        {
-            getUsersSet().add(user);
-        }
-        else
-        {
-            throw new UsernameAlreadyExistsException(user.getUsername());
-        }
+    public void createUser(User user) throws UsernameAlreadyExistsException{
+			if(existUser(user) != true)
+				getUsersSet().add(user);
+			else
+				throw new UsernameAlreadyExistsException(user.getUsername());
     }
 
-    public boolean deleteUser(User user)
-    {
-        if(existUser(user))
-        {
-            for(User u : getUsersSet())
-            {
-                if(u.getUsername().equals(user.getUsername()))
-                {
-                    u.remove();
-                }
-            }
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    public boolean deleteUser(User user){
+			if(existUser(user))
+				for(User u : getUsersSet()){
+					if(u.getUsername().equals(user.getUsername())){
+						u.remove();
+						return true;
+					}
+				}
+			return false;
+		}
 }
-
