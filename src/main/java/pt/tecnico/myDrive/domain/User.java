@@ -32,7 +32,7 @@ public class User extends User_Base {
 	 */
 	public User(String name, String username, String password, Short umask) {
 		super();
-        init(name,username,password,umask);
+        init(name, username, password, umask);
 	}
 	
     /**
@@ -43,12 +43,13 @@ public class User extends User_Base {
      * @param umask    Int (Primary java type) represents the permissions umask.
      */
 	protected void init(String name, String username, String password, Short umask) {
-		setName(name);
-		setUsername(username);
-		setPassword(password);
-		setPermissions(new Permissions(umask));
-		setHome(new Directory(this, name));   
-	}
+        setName(name);
+        setUsername(username);
+        setPassword(password);
+        setPermissions(new Permissions(umask));
+        // Manager.log.trace(Manager.getInstance().getHome());
+        setHome(new Directory(this, name, new Link ("..", Manager.getInstance().getHome())));
+    }
 	
 	/**
 	 * Alternate construtor to create a user with xml

@@ -15,18 +15,21 @@ public class Manager extends Manager_Base
 { 
 	static final Logger log = LogManager.getRootLogger();
 	
-    private Manager() 
+    protected Manager() 
     {
+        SuperUser su = new SuperUser();
+        RootDirectory rd = new RootDirectory(su,"/", null);
+        su.setHome(rd);
+        setSuperuser(su);
         setRoot(FenixFramework.getDomainRoot());
-        setSuperuser(new SuperUser());
-        setHome(new RootDirectory(getSuperuser(),"/")); 
+        setHome(rd);
     }
 
     public static Manager getInstance() 
     {
         Manager instance = FenixFramework.getDomainRoot().getManager();
-
         if(instance == null) {
+            Manager.log.trace("New Manager"); 
             return new Manager();
         }
         return instance;

@@ -16,6 +16,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
 
+import java.io.UnsupportedEncodingException;
 /**
  * 
  */
@@ -82,17 +83,12 @@ public class File extends File_Base implements IElementXml {
      * @see User Permissions  
      */
     @Override
-    public void importXml (Element xml) { 
+    public void importXml (Element xml) /*ImportDocumentException*/ { 
         Element node = xml;
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
 
         int id = Integer.parseInt(node.getAttribute("id").getValue());
-        try {
-            setName(new String(personElement.getAttribute("name").getValue().getBytes("UTF-8")));
-        } catch (UnsupportedEncodingException e) {
-            throw new ImportDocumentException();
-        }
-        String name = node.getAttribute("name").getValue();
+        String name = new String(node.getAttribute("name").getValue());
         DateTime dateModified = new DateTime(fmt.parseDateTime(node.getAttribute("modified").getValue()));
         
         Element permission = node.getChild("permissions");
