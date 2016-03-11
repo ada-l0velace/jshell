@@ -59,7 +59,7 @@ public class Manager extends Manager_Base{
             return false;
     }
 
-    public File resourceFile(String filename) {
+    public java.io.File resourceFile(String filename) {
         log.trace("Resource: "+filename);
         ClassLoader classLoader = getClass().getClassLoader();
         if (classLoader.getResource(filename) == null) return null;
