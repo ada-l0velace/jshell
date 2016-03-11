@@ -129,5 +129,13 @@ public class Directory extends Directory_Base {
     	}
     	getFileSet().add(filetba);
     }
-   
+
+	public File searchFile(String name){
+		for(File f: getFileSet())
+			if (f.getName().equals(name))
+				return f;
+		return null;
+		// Throw FileNotFoundExeption
+	}
+	
 }
