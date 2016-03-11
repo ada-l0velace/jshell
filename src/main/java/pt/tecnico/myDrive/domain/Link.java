@@ -35,6 +35,8 @@ public class Link extends Link_Base {
         setPermissions(new Permissions(file.getPermissions().getUmask()));
         //super.init(file.getOwner(), file.getName());
         setContent("-> " + getFilePath());
+
+				setOwner(file.getOwner());
     }
     
     /**
