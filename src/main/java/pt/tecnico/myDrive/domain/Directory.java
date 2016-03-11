@@ -61,10 +61,10 @@ public class Directory extends Directory_Base {
 	public Element exportXml () {
 		Element node = super.exportXml();
 
-		Element filesElement = new Element("files");
+		Element filesElement = new Element("Files");
 		node.addContent(filesElement);
 		for (File f: getFileSet())
-			node.addContent(f.exportXml());
+			filesElement.addContent(f.exportXml());
 
         return node;
 	}

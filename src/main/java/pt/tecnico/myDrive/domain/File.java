@@ -119,7 +119,7 @@ public class File extends File_Base implements IElementXml {
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
         node.setAttribute("modified", fmt.print(getModified()));
         
-        Element perm = new Element("permissions");
+        Element perm = new Element("Permissions");
         perm.setAttribute("umask", Short.toString(getPermissions().getUmask()));
 
         node.addContent(perm);

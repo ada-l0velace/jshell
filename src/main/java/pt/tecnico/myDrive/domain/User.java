@@ -107,12 +107,12 @@ public class User extends User_Base {
 	 * @return Element (JDOM library type) which represents a User
 	 */
 	public Element exportXml () {
-		Element node = new Element("user");
+		Element node = new Element("User");
 		node.setAttribute("name", getName());
 		node.setAttribute("username", getUsername());
 		node.setAttribute("password", getPassword());
 
-		Element perm = new Element("permissions");
+		Element perm = new Element("Permissions");
 		perm.setAttribute("umask", Short.toString(getPermissions().getUmask()));
 
 		node.addContent(perm);
