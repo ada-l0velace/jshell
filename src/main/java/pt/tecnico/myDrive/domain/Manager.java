@@ -18,11 +18,12 @@ public class Manager extends Manager_Base
     protected Manager() 
     {
         SuperUser su = new SuperUser();
-        RootDirectory rd = new RootDirectory(su,"/");
-        su.setHome(rd);
+        RootDirectory rootDir = new RootDirectory(su,"/");
+        Directory home = new Directory(su, "home", new Link ("..", rootDir));
+        su.setHome(home);
         setSuperuser(su);
         setRoot(FenixFramework.getDomainRoot());
-        setHome(rd);
+        setHome(rootDir);
     }
 
     public static Manager getInstance() 

@@ -15,7 +15,6 @@ public class SuperUser extends SuperUser_Base {
 	
 	public static String ROOT_USERNAME = "root";
 	public static String ROOT_NAME = "Super User";
-	public static String ROOT_DIRECTORY = "/home/root";
 	public static Short ROOT_UMASK = (short) Integer.parseInt("F2",16);
 	
 	/**
@@ -33,6 +32,6 @@ public class SuperUser extends SuperUser_Base {
 
 	@Override
 	public void setHome(Directory managerHome) {		
-		super.setHome(new Directory(this, getName(), new Link ("..", managerHome)));
+		super.setHome(new Directory(this, getUsername(), new Link ("..", managerHome)));
 	}
 }
