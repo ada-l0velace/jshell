@@ -13,7 +13,18 @@ public class Link extends Link_Base {
     }
 
     /**
-     * Default Constructor
+     * Alternate construtor to create a Link with xml.
+     * @param  xml Element (JDOM library type) which represents a File.
+     */
+    public Link(Element xml) {
+        super();
+        importXml(xml);
+    }
+
+    /**
+     * Alternate construtor to create a Link.
+     * @param  name (Java Primitive) which represents the name of the file.
+     * @param  file (File) which represents a file
      */
     public Link(String name, File file) {
         super();
@@ -25,16 +36,7 @@ public class Link extends Link_Base {
         //super.init(file.getOwner(), file.getName());
         setContent("-> " + getFilePath());
     }
-
-    /**
-     * Alternate construtor to create a Link with xml.
-     * @param  xml Element (JDOM library type) which represents a File.
-     */
-    public Link(Element xml) {
-        super();
-        importXml(xml);
-    }
-
+    
     /**
      * [getFilePath description]
      * @return [description]

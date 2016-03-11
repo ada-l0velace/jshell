@@ -24,7 +24,6 @@ public class Directory extends Directory_Base {
     public Directory(User owner, String name, Link parent) {
         super();
         super.init(owner, name);
-        setOwner(owner);
         //setParent(parent);
         addFile(parent);
         addFile(new Link (".", this));

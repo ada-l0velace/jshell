@@ -24,6 +24,16 @@ public class PlainFile extends PlainFile_Base {
     }
 
     /**
+     * Alternate construtor to create a PlainFile.
+     * @param owner User (JDOM library type) which represents a User.
+     * @param name String (Java Primitive) which represents the name a File.
+     */
+    public PlainFile(User owner, String name) {
+        super();
+        super.init(owner, name);
+    }
+
+    /**
      * Imports a PlainFile from persistent state (XML format).
      * @throws ImportDocumentException
      */
