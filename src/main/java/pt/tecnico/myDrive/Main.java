@@ -43,12 +43,10 @@ public class Main {
         Manager m = Manager.getInstance();
         
         User u = m.getSuperuser();
-        User u1 = new User("Daniel", "Poodle", "GangnamStyle", (short)1);
         
         Element element = new Element("mydrive");
         
         element.addContent(u.exportXml());
-        element.addContent(u1.exportXml());
         
         Document doc = new Document(element);
         XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());

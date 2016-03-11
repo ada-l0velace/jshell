@@ -18,7 +18,7 @@ public class Manager extends Manager_Base
     protected Manager() 
     {
         SuperUser su = new SuperUser();
-        RootDirectory rd = new RootDirectory(su,"/", null);
+        RootDirectory rd = new RootDirectory(su,"/");
         su.setHome(rd);
         setSuperuser(su);
         setRoot(FenixFramework.getDomainRoot());

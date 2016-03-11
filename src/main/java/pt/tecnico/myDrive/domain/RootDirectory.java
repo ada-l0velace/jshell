@@ -19,7 +19,7 @@ public class RootDirectory extends RootDirectory_Base {
      * @param  owner User user owner of the file.
      * @param name Represents the name of the folder.
      */
-    public RootDirectory(User owner, String name, Link parent) {
+    public RootDirectory(User owner, String name) {
         super();
         super.nameRegex = "[^\0]*";
         super.init(owner, name);
