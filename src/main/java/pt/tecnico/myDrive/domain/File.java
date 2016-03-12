@@ -70,7 +70,6 @@ public class File extends File_Base implements IElementXml {
         int id = m.getLastFileId();
         setId(id+1);
         m.setLastFileId(id+1);
-        setId(id);
     }
     
     /**
