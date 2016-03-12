@@ -24,7 +24,7 @@ public class RootDirectory extends RootDirectory_Base {
         super.nameRegex = "[^\0]*";
         super.init(owner, name, m);
         //setParent(parent);
-        addFile(new Link ("..", this, m));
+        addFile(new Link ("..", this, "/"));
     }
     
 }

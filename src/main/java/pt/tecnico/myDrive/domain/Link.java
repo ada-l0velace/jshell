@@ -12,6 +12,21 @@ public class Link extends Link_Base {
         super();
     }
 
+  /**Alternate constructor to create a Link with a path
+   * @param name (Java Primitive) which represents the name of the file.
+   * @param  file (File) which represents a file
+   * @param path (Java Primitive) which represents the path of the link.
+   */
+  public Link(String name, File file, String path){
+    super();
+    setId(1);
+    setName(name);
+    setModified(new DateTime(DateTimeZone.UTC));
+    setPermissions(new Permissions(file.getPermissions().getUmask()));    
+    setContent(path);
+    setOwner(file.getOwner());
+  }
+
     /**
      * Alternate construtor to create a Link with xml.
      * @param  xml Element (JDOM library type) which represents a File.
@@ -21,20 +36,20 @@ public class Link extends Link_Base {
         importXml(xml);
     }
 
-    /**
-     * Alternate construtor to create a Link.
-     * @param  name (Java Primitive) which represents the name of the file.
-     * @param  file (File) which represents a file
-     */
-    public Link(String name, File file, Manager m) {
-        super();
-        setId(1);
-        setName(name);
-        setModified(new DateTime(DateTimeZone.UTC));
-        setPermissions(new Permissions(file.getPermissions().getUmask()));
-        setContent("-> " + getFilePath());
-		setOwner(file.getOwner());
-    }
+    // /**
+    //  * Alternate construtor to create a Link.
+    //  * @param  name (Java Primitive) which represents the name of the file.
+    //  * @param  file (File) which represents a file
+    //  */
+    // public Link(String name, File file, Manager m) {
+    //     super();
+    //     setId(1);
+    //     setName(name);
+    //     setModified(new DateTime(DateTimeZone.UTC));
+    //     setPermissions(new Permissions(file.getPermissions().getUmask()));
+    //     setContent("-> " + getFilePath());
+		// setOwner(file.getOwner());
+    // }
     
     /**
      * [getFilePath description]

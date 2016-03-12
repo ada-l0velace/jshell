@@ -19,7 +19,7 @@ public class Manager extends Manager_Base{
         SuperUser su = new SuperUser();
         RootDirectory rootDir = new RootDirectory(su,"/",this);
 
-        Directory home = new Directory(su, "home", new Link ("..", rootDir,this),this);
+        Directory home = new Directory(su, "home", new Link ("..", rootDir, "/"),this);
         su.setHome(home,this);
         home.addFile(su.getHome());
         setSuperuser(su);

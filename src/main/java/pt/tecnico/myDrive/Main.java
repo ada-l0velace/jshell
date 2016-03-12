@@ -59,7 +59,7 @@ public class Main {
         File f = new File(su, "myFile", m);
         PlainFile pf = new PlainFile(su, "poodlePlainFile", m);
         App a = new App(su, "poodleApp", m);
-        Link l = new Link("poodleLink", f, m);
+        Link l = new Link("poodleLink", f, "/home/root");
         //User u1 = new User("Daniel", "poodle", "poodlePass", (short) 1);
 
 

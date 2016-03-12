@@ -48,7 +48,7 @@ public class User extends User_Base {
         setPassword(password);
         setPermissions(new Permissions(umask));
         // Manager.log.trace(Manager.getInstance().getHome());
-        setHome(new Directory(this, username, new Link ("..", m.getDirHome(),m),m));
+        setHome(new Directory(this, username, new Link ("..", m.getDirHome(),"/home/" + username),m));
     }
 	
 	/**

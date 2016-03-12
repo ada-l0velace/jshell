@@ -26,7 +26,7 @@ public class Directory extends Directory_Base {
         super.init(owner, name, m);
         //setParent(parent);
         addFile(parent);
-        addFile(new Link (".", this, m));
+        addFile(new Link (".", this, parent.getContent() + "/" + name));
         //addFile(this);
     }
 
