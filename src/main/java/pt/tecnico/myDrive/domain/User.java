@@ -88,10 +88,8 @@ public class User extends User_Base {
      * @throws ImportDocumentException
      */
     public void importXml (Element xml) {
-        for(File f : getFileSet())
-        {
+        for (File f: getFileSet())
             f.remove();
-        }
         Element node = xml;
         String name = node.getAttribute("name").getValue();
         String username = node.getAttribute("username").getValue();
