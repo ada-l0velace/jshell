@@ -7,8 +7,8 @@ import pt.ist.fenixframework.FenixFramework;
 
 import org.jdom2.Element;
 import org.jdom2.Document;
-import org.jdom2.output.XMLOutputter;
 import org.jdom2.JDOMException;
+import org.jdom2.output.XMLOutputter;
 import org.jdom2.output.Format;
 import org.jdom2.input.SAXBuilder;
 import org.joda.time.DateTime;
@@ -75,7 +75,7 @@ public class Main {
    */
   @Atomic
   public static void xmlPrint() {
-    log.trace("xmlPrint: " + FenixFramework.getDomainRoot());
+    logger.trace("xmlPrint: " + FenixFramework.getDomainRoot());
     Document doc = Manager.getInstance().exportXml();
     XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 
