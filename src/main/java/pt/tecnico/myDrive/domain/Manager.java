@@ -71,10 +71,9 @@ public class Manager extends Manager_Base{
     }
 
     public void importXml(Element xml) {
-        for (Element node: xml.getChildren("users")) {
+        for (Element node: xml.getChildren("User")) {
             String username = node.getAttribute("username").getValue();
             User user = getUserByUsername(username);
-
             if (user == null) // Does not exist
                 user = new User(node);
 

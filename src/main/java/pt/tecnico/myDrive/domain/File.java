@@ -93,11 +93,10 @@ public class File extends File_Base implements IElementXml {
         String name = new String(node.getAttribute("name").getValue());
         DateTime dateModified = new DateTime(fmt.parseDateTime(node.getAttribute("modified").getValue()));
         
-        Element permission = node.getChild("permissions");
-        short umask = Short.parseShort(permission.getAttribute("umask").getValue());
+        short umask = Short.parseShort(node.getAttribute("umask").getValue());
         
-        Element ownerXml = node.getChild("owner");
-        User owner = new User(ownerXml);
+        String userName = node.getAttribute("owner").getValue();
+        User owner = Manager.getInstance().getUserByUsername(userName);
 
         setId(id);
         setName(name);

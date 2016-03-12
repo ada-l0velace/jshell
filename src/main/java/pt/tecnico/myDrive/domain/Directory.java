@@ -46,9 +46,15 @@ public class Directory extends Directory_Base {
     @Override
     public void importXml (Element xml) {
         super.importXml(xml);
-        Element files = xml.getChild("files");
-        for (Element file: files.getChildren("file"))
-            addFile(new File(file));
+        Element files = xml.getChild("Files");
+        for (Element link : files.getChildren("Link"))
+            addFile(new Link(link));
+        for (Element plainFile : files.getChildren("PlainFile"))
+            addFile(new PlainFile(plainFile));
+        for (Element app : files.getChildren("App"))
+            addFile(new App(app));
+        for (Element directory : files.getChildren("Directory"))
+            addFile(new Directory(directory));
     }
 
 	/**

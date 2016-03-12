@@ -22,54 +22,21 @@ import java.io.IOException;
 public class Main {
 
   private static final Logger logger = LogManager.getRootLogger();
-    
-  public static void main(String [] args) {
-    try {
-      //logger.trace("Entering application.");
-      //for (String s: args) xmlScan(new java.io.File(s));
-      applicationCodeGoesHere();
-    } finally {
-      // ensure an orderly shutdown
-      FenixFramework.shutdown();
+
+    public static void main(String [] args) {
+        try {
+            //logger.trace("Entering application.");
+            setup();
+            for (String s: args) xmlScan(new java.io.File(s));
+            applicationCodeGoesHere();
+        } finally {
+            // ensure an orderly shutdown
+            FenixFramework.shutdown();
+        }
     }
-  }
 
   public static void applicationCodeGoesHere() {
     someTransaction();
-  }
-
-  @Atomic
-  public static void someTransaction() {
-    /*
-      logger.trace(m.getHome().getName());
-      for (File f : m.getHome().getFileSet() ) {
-      if (f.getName().equals("home")) {
-      logger.trace(f.getName());
-      Directory a = (Directory) f;
-      for (File f1 : a.getFileSet())
-      logger.trace(f1.getName());
-      }
-
-      }
-    */
-    //logger.trace(m.getDirHome().getName());
-    Element element = new Element("mydrive");
-    Manager m = Manager.getInstance();
-    User su = m.getSuperuser();
-    File f = new File(su, "myFile", m);
-    PlainFile pf = new PlainFile(su, "poodlePlainFile", m);
-    App a = new App(su, "poodleApp", "Scripts bue bons", m);
-    Link l = new Link("poodleLink", f, "/home/root/poodleLink");
-    //User u1 = new User("Daniel", "poodle", "poodlePass", (short) 1);
-
-    su.getHome().addFile(f);
-    //su.getHome().addFile(pf);
-    su.getHome().addFile(l);
-    m.createUser(su);
-        
-    element.addContent(su.exportXml());
-
-    xmlPrint();
   }
 
   /**
@@ -85,6 +52,18 @@ public class Main {
     try { xmlOutput.output(doc, new PrintStream(System.out));
     } catch (IOException e) { System.out.println(e); }
   }
+    
+    @Atomic
+    public static void setup() { // phonebook with debug data
+        logger.trace("Setup: " + FenixFramework.getDomainRoot());
+        Manager m = Manager.getInstance();
+    }
+
+
+    @Atomic
+    public static void someTransaction() {
+        xmlPrint();
+    }
 
   /**
    * Scans the xml file and imports to database.

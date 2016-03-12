@@ -81,25 +81,29 @@ public class User extends User_Base {
     }
 
  	
-	/**
+    /**
      * Imports a User from persistent state (XML format).
      * @param Element (JDOM library type) which represents a User
      * @see Permissions
      * @throws ImportDocumentException
      */
-	public void importXml (Element xml) {
-    Element node = xml;
-    String name = node.getAttribute("name").getValue();
-    String username = node.getAttribute("username").getValue();
-    String password = node.getAttribute("password").getValue();
-    Element permission = node.getChild("permissions");
-    short umask = Short.parseShort(permission.getAttribute("umask").getValue());
-    
-    setName(new String(name));
-		setUsername(new String(username));
-		setPassword(new String(password));
-		setPermissions(new Permissions(umask));
-	}
+    public void importXml (Element xml) {
+        Element node = xml;
+        String name = node.getAttribute("name").getValue();
+        String username = node.getAttribute("username").getValue();
+        String password = node.getAttribute("password").getValue();
+        short umask = Short.parseShort(node.getAttribute("umask").getValue());
+        Directory home;
+        Manager.log.trace(name);
+        setName(new String(name));
+        setUsername(new String(username));
+        setPassword(new String(password));
+        setPermissions(new Permissions(umask));
+        for (Element dir: xml.getChildren("Directory")) {
+            home = new Directory(dir);
+            setHome(home);
+        }
+    }
 
 	/**
 	 * Exports a User to a persistent state (XML format),
