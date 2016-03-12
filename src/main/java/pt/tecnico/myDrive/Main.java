@@ -68,6 +68,8 @@ public class Main {
     m.createUser(su);
         
     element.addContent(su.exportXml());
+
+    xmlPrint();
   }
 
   /**

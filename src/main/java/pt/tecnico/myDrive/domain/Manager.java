@@ -112,8 +112,12 @@ public class Manager extends Manager_Base{
     Element node = new Element("Manager");
     Document doc = new Document(node);
 
+    Element users = new Element("Users");
+    node.addContent(users);
+
+    
     for (User u: getUsersSet())
-      node.addContent(u.exportXml());
+      users.addContent(u.exportXml());
 
     return doc;
   }
