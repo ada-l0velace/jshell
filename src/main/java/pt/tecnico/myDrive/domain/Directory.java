@@ -81,7 +81,7 @@ public class Directory extends Directory_Base {
         return node;
 	}
 
-    public File getFileByPath (String link) throws FileNotFoundException {
+    public File getFileByPath(String link) throws FileNotFoundException {
     	String[] spliTest = link.split("/");
     	String[] split = spliTest;
     	String rest = "";

@@ -88,6 +88,10 @@ public class User extends User_Base {
      * @throws ImportDocumentException
      */
     public void importXml (Element xml) {
+        for(File f : getFileSet())
+        {
+            f.remove();
+        }
         Element node = xml;
         String name = node.getAttribute("name").getValue();
         String username = node.getAttribute("username").getValue();
@@ -172,6 +176,7 @@ public class User extends User_Base {
     	return Dir.listContent();
     }
 
+    
     public void remove()
     {
         for(File i : getFileSet())
@@ -179,6 +184,7 @@ public class User extends User_Base {
             i.remove();
         }
         setHome(null);
+        setPermissions(null);
         deleteDomainObject();
     }
 }

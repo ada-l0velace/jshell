@@ -88,7 +88,10 @@ public class Main {
             "jolaisthebest", 
             (short) Integer.parseInt("AA",16), 
             m));
-
+        User frodo = m.getUserByUsername("pedofrodo");
+        Directory dir = new Directory(frodo, "pedocampos", new Link ("..", frodo.getHome(),"/home/pedofrodo", m),m);
+        frodo.getHome().addFile(dir);
+        dir.remove();
     }   
 
 

@@ -151,6 +151,8 @@ public class File extends File_Base implements IElementXml {
     public void remove()
     { 
         setOwner(null); 
+        setPermissions(null);
+        setDirectory(null);
         deleteDomainObject();
     }
 }
