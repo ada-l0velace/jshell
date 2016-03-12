@@ -6,12 +6,12 @@ import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
 
+
 public class Directory extends Directory_Base {
     
     /**
      * Default Constructor.
-     */
-    
+     */ 
     public Directory() {
         super();
     }

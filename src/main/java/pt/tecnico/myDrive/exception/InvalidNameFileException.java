@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.exception;
 
+
 public class InvalidNameFileException extends MyDriveException {
 	
 	 private static final long serialVersionUID = 1L;
