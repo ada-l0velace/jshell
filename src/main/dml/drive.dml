@@ -8,7 +8,9 @@ class User {
 
 class SuperUser extends User;
 
-class Manager {}
+class Manager {
+  int lastFileId;
+}
 
 relation ManagerContainsSuperUser {
   Manager playsRole managerSu {

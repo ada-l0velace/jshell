@@ -55,7 +55,9 @@ public class File extends File_Base implements IElementXml {
      * @param name  String (Primary java type) which represents the name of File.
      */
     protected void init (User owner, String name, Manager m) {
-        setId(1);
+    	int id = m.getLastFileId();
+        setId(id+1);
+        m.setLastFileId(id+1);
         setName(name);
         setModified(new DateTime(DateTimeZone.UTC));
         setPermissions(new Permissions(owner.getPermissions().getUmask()));

@@ -14,12 +14,15 @@ public class Link extends Link_Base {
 
   /**Alternate constructor to create a Link with a path
    * @param name (Java Primitive) which represents the name of the file.
-   * @param  file (File) which represents a file
+   * @param file (File) which represents a file
    * @param path (Java Primitive) which represents the path of the link.
+   * @param m (Manager) which represents the Manager
    */
-  public Link(String name, File file, String path){
+  public Link(String name, File file, String path, Manager m){
     super();
-    setId(1);
+    int id = m.getLastFileId();
+    setId(id+1);
+    m.setLastFileId(id+1);
     setName(name);
     setModified(new DateTime(DateTimeZone.UTC));
     setPermissions(new Permissions(file.getPermissions().getUmask()));    

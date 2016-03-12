@@ -16,10 +16,10 @@ public class Manager extends Manager_Base{
     static final Logger log = LogManager.getRootLogger();
     
     protected Manager() {
+    	setLastFileId(0);
         SuperUser su = new SuperUser();
         RootDirectory rootDir = new RootDirectory(su,"/",this);
-
-        Directory home = new Directory(su, "home", new Link ("..", rootDir, "/"),this);
+        Directory home = new Directory(su, "home", new Link ("..", rootDir, "/", this),this);
         su.setHome(home,this);
         home.addFile(su.getHome());
         setSuperuser(su);
