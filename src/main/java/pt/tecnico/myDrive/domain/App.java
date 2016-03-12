@@ -21,13 +21,15 @@ public class App extends App_Base {
     }
 
     /**
-     * Alternate construtor to create a PlainFile.
+     * Alternate construtor to create a App.
      * @param owner User (JDOM library type) which represents a User.
      * @param name String (Java Primitive) which represents the name a App.
+     * @param content String (Java Primitive) which represents the content of the App
      */
-    public App(User owner, String name, Manager m) {
+  public App(User owner, String name, String content, Manager m) {
         super();
         super.init(owner, name, m);
+        setContent(content);
     }
 
     /**
