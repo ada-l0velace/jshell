@@ -16,7 +16,7 @@ public class Manager extends Manager_Base{
     static final Logger log = LogManager.getRootLogger();
     
     protected Manager() {
-    	setLastFileId(0);
+        setLastFileId(0);
         SuperUser su = new SuperUser();
         RootDirectory rootDir = new RootDirectory(su,"/",this);
         Directory home = new Directory(su, "home", new Link ("..", rootDir, "/", this),this);
@@ -30,6 +30,10 @@ public class Manager extends Manager_Base{
         setRoot(FenixFramework.getDomainRoot());
     }
 
+    /**
+     * Implements getInstance from Singleton Design Pattern.
+     * @return if no instance of Manager exists, returns a new instance of Manager, otherwise returns the existing Manager.
+     */
     public static Manager getInstance() {
         Manager instance = FenixFramework.getDomainRoot().getManager();
         if(instance == null) {
@@ -43,13 +47,11 @@ public class Manager extends Manager_Base{
         return getHome().searchFile("home");
     }
 
-    public User getUser(User user) {
-        for(User u : getUsersSet())
-            if(u.getUsername().equals(user.getUsername()))
-                return u;
-        return null;
-    }
-    
+    /**
+     * Get a user by username.
+     * @param String username : receives the username of the user we want to search for.
+     * @return Returns the user if found, null otherwise.
+     */
     public User getUserByUsername(String username) {
         for(User u : getUsersSet())
             if(username.equals(u.getUsername()))
@@ -57,8 +59,13 @@ public class Manager extends Manager_Base{
         return null;
     }
 
+    /**
+     * Checks if a certain user exists.
+     * @param User user : receives the user to search for.
+     * @return Returns true if the user was found, false otherwise.
+     */
     public boolean existUser(User user) {
-        if(getUser(user) != null)
+        if(getUserByUsername(user.getUsername()) != null)
             return true;
         else
             return false;
@@ -87,6 +94,10 @@ public class Manager extends Manager_Base{
         }
     }
 
+    /**
+     *  Creates a new user.
+     *  @param User user : receives the new user to create.
+     */
     public void createUser(User user) throws UsernameAlreadyExistsException {
         if(existUser(user) != true)
             getUsersSet().add(user);
@@ -94,6 +105,11 @@ public class Manager extends Manager_Base{
             throw new UsernameAlreadyExistsException(user.getUsername());
     }
 
+    /**
+     * Creates a new user.
+     * @param User user : receives the new user to delete.
+     * @return Returns true if the user was deleted, false otherwise.
+     */
     public boolean deleteUser(User user) {
         if(existUser(user))
             for(User u : getUsersSet()) {
@@ -105,13 +121,13 @@ public class Manager extends Manager_Base{
         return false;
     }
 
-	/**
-   * Searches for the Home Directory.
-   * @return Directory returns directory /Home.
-	 */
-	public Directory searchHome(){
-		return (Directory) getHome().searchFile("Home");
-	}
+    /**
+     * Searches for the Home Directory.
+     * @return Directory returns directory /Home.
+     */
+    public Directory searchHome(){
+        return (Directory) getHome().searchFile("Home");
+    }
   
   public Document exportXml(){
     Element node = new Element("Manager");
