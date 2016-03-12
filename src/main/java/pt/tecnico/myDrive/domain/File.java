@@ -26,7 +26,7 @@ public class File extends File_Base implements IElementXml {
     /**
      * Default construtor to create File. 
      */
-    public File() {
+    protected File() {
         super();
     }
 
@@ -35,7 +35,7 @@ public class File extends File_Base implements IElementXml {
      * @param owner User user owner of the file.
      * @param name String represents the name of the folder.
      */
-    public File(User owner, String nome, Manager m) {
+    protected File(User owner, String nome, Manager m) {
         super();
         init(owner, nome, m);
     }
@@ -44,7 +44,7 @@ public class File extends File_Base implements IElementXml {
      * Alternate construtor to create a File with xml.
      * @param xml Element (JDOM library type) which represents a File.
      */
-    public File(Element xml){
+    protected File(Element xml){
         super();
         importXml(xml);
     }

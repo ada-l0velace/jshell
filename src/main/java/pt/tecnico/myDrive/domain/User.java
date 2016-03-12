@@ -100,6 +100,7 @@ public class User extends User_Base {
         setPassword(new String(password));
         setPermissions(new Permissions(umask));
         for (Element dir: xml.getChildren("Directory")) {
+            Manager.log.trace("DIRECTORY INNN" + dir);
             home = new Directory(dir);
             setHome(home);
         }

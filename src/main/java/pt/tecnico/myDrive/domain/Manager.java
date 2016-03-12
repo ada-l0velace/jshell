@@ -25,6 +25,7 @@ public class Manager extends Manager_Base{
         setSuperuser(su);
         setHome(rootDir);
         rootDir.addFile(home);
+        addUsers(su);
         FenixFramework.getDomainRoot().setManager(this);
         setRoot(FenixFramework.getDomainRoot());
     }
@@ -71,12 +72,17 @@ public class Manager extends Manager_Base{
     }
 
     public void importXml(Element xml) {
-        for (Element node: xml.getChildren("User")) {
+        Manager.log.trace("USERS BEFORE!!!!");
+        for (Element n : xml.getChildren("Users")) {
+            Manager.log.trace("INN USERS!!!!");
+            Element node = n.getChild("User");
             String username = node.getAttribute("username").getValue();
             User user = getUserByUsername(username);
-            if (user == null) // Does not exist
+            if (user == null) { // Does not exist
+                log.trace("NEW USER ->" + getUserByUsername(username));
                 user = new User(node);
-
+            }
+            log.trace("NOT a NEW USER ->" + getUserByUsername(username));
             user.importXml(node);
         }
     }

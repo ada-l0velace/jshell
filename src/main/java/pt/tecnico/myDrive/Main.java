@@ -71,6 +71,7 @@ public class Main {
    */
   @Atomic
   public static void xmlScan(java.io.File file) {
+    logger.trace("XMLSCAN!!!!");
     Manager m = Manager.getInstance();
     SAXBuilder builder = new SAXBuilder();
     try {
