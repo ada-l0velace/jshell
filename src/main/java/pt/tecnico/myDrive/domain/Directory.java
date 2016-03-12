@@ -21,12 +21,12 @@ public class Directory extends Directory_Base {
      * @param  owner User user owner of the file.
      * @param name Represents the name of the folder.
      */
-    public Directory(User owner, String name, Link parent) {
+    public Directory(User owner, String name, Link parent, Manager m) {
         super();
-        super.init(owner, name);
+        super.init(owner, name, m);
         //setParent(parent);
         addFile(parent);
-        addFile(new Link (".", this));
+        addFile(new Link (".", this, m));
         //addFile(this);
     }
 

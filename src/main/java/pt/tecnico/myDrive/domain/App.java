@@ -25,9 +25,9 @@ public class App extends App_Base {
      * @param owner User (JDOM library type) which represents a User.
      * @param name String (Java Primitive) which represents the name a App.
      */
-    public App(User owner, String name) {
+    public App(User owner, String name, Manager m) {
         super();
-        super.init(owner, name);
+        super.init(owner, name, m);
     }
 
     /**

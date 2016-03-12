@@ -35,8 +35,9 @@ public class File extends File_Base implements IElementXml {
      * @param owner User user owner of the file.
      * @param name String represents the name of the folder.
      */
-    public File(User owner, String nome) {
-        init(owner, nome);
+    public File(User owner, String nome, Manager m) {
+        super();
+        init(owner, nome, m);
     }
     
     /**
@@ -53,7 +54,7 @@ public class File extends File_Base implements IElementXml {
      * @param owner User which represents a File.
      * @param name  String (Primary java type) which represents the name of File.
      */
-    protected void init (User owner, String name) {
+    protected void init (User owner, String name, Manager m) {
         setId(1);
         setName(name);
         setModified(new DateTime(DateTimeZone.UTC));

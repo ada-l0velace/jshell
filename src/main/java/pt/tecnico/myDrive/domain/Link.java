@@ -26,17 +26,14 @@ public class Link extends Link_Base {
      * @param  name (Java Primitive) which represents the name of the file.
      * @param  file (File) which represents a file
      */
-    public Link(String name, File file) {
+    public Link(String name, File file, Manager m) {
         super();
         setId(1);
         setName(name);
         setModified(new DateTime(DateTimeZone.UTC));
-        //Manager.log.trace("File Constructor LINK ->" + file);
         setPermissions(new Permissions(file.getPermissions().getUmask()));
-        //super.init(file.getOwner(), file.getName());
         setContent("-> " + getFilePath());
-
-				setOwner(file.getOwner());
+		setOwner(file.getOwner());
     }
     
     /**

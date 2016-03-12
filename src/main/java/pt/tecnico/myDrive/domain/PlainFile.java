@@ -28,9 +28,9 @@ public class PlainFile extends PlainFile_Base {
      * @param owner User (JDOM library type) which represents a User.
      * @param name String (Java Primitive) which represents the name a File.
      */
-    public PlainFile(User owner, String name) {
+    public PlainFile(User owner, String name, Manager m) {
         super();
-        super.init(owner, name);
+        super.init(owner, name, m);
     }
 
     /**

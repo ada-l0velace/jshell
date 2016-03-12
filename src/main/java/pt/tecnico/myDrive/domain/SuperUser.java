@@ -30,8 +30,7 @@ public class SuperUser extends SuperUser_Base {
         //setHome();
 	}
 
-	@Override
-	public void setHome(Directory managerHome) {		
-		super.setHome(new Directory(this, getUsername(), new Link ("..", managerHome)));
-	}
+	public void setHome(Directory managerHome, Manager m) {		
+	   super.setHome(new Directory(this, getUsername(), new Link ("..", managerHome,m),m));
+    }
 }

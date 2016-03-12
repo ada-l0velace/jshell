@@ -17,11 +17,14 @@ public class Manager extends Manager_Base{
     
     protected Manager() {
         SuperUser su = new SuperUser();
-        RootDirectory rootDir = new RootDirectory(su,"/");
-        Directory home = new Directory(su, "home", new Link ("..", rootDir));
-        su.setHome(home);
+        RootDirectory rootDir = new RootDirectory(su,"/",this);
+
+        Directory home = new Directory(su, "home", new Link ("..", rootDir,this),this);
+        su.setHome(home,this);
+        home.addFile(su.getHome());
         setSuperuser(su);
         setHome(rootDir);
+        rootDir.addFile(home);
         FenixFramework.getDomainRoot().setManager(this);
         setRoot(FenixFramework.getDomainRoot());
     }

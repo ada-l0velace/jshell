@@ -40,13 +40,26 @@ public class Main {
 
     @Atomic
     public static void someTransaction() {
+        /*
+        logger.trace(m.getHome().getName());
+        for (File f : m.getHome().getFileSet() ) {
+            if (f.getName().equals("home")) {
+                logger.trace(f.getName());
+                Directory a = (Directory) f;
+                for (File f1 : a.getFileSet())
+                    logger.trace(f1.getName());
+            }
+
+        }
+        */
+        //logger.trace(m.getDirHome().getName());
         Element element = new Element("mydrive");
         Manager m = Manager.getInstance();
         User su = m.getSuperuser();
-        File f = new File(su, "myFile");
-        PlainFile pf = new PlainFile(su, "poodlePlainFile");
-        App a = new App(su, "poodleApp");
-        Link l = new Link("poodleLink", f);
+        File f = new File(su, "myFile", m);
+        PlainFile pf = new PlainFile(su, "poodlePlainFile", m);
+        App a = new App(su, "poodleApp", m);
+        Link l = new Link("poodleLink", f, m);
         //User u1 = new User("Daniel", "poodle", "poodlePass", (short) 1);
 
 

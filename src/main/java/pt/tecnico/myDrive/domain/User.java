@@ -30,9 +30,9 @@ public class User extends User_Base {
 	 * @param password String (Primary java type) represents the login password.
 	 * @param umasks Short (Primary java type) represents the permission umask.
 	 */
-	public User(String name, String username, String password, Short umask) {
+	public User(String name, String username, String password, Short umask, Manager m) {
 		super();
-        init(name, username, password, umask);
+        init(name, username, password, umask, m);
 	}
 	
     /**
@@ -42,13 +42,13 @@ public class User extends User_Base {
      * @param password String (Primary java type) represents the password.
      * @param umask    Int (Primary java type) represents the permissions umask.
      */
-	protected void init(String name, String username, String password, Short umask) {
-    setName(name);
-    setUsername(username);
-    setPassword(password);
-    setPermissions(new Permissions(umask));
-    // Manager.log.trace(Manager.getInstance().getHome());
-    setHome(new Directory(this, username, new Link ("..", Manager.getInstance().getDirHome())));
+	protected void init(String name, String username, String password, Short umask, Manager m) {
+        setName(name);
+        setUsername(username);
+        setPassword(password);
+        setPermissions(new Permissions(umask));
+        // Manager.log.trace(Manager.getInstance().getHome());
+        setHome(new Directory(this, username, new Link ("..", m.getDirHome(),m),m));
     }
 	
 	/**
