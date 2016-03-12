@@ -69,16 +69,16 @@ public class Main {
    * Scans the xml file and imports to database.
    * @param file (Java.io.File) represents a file. 
    */
-  @Atomic
-  public static void xmlScan(java.io.File file) {
-    logger.trace("XMLSCAN!!!!");
-    Manager m = Manager.getInstance();
-    SAXBuilder builder = new SAXBuilder();
-    try {
-      Document document = (Document)builder.build(file);
-      m.importXml(document.getRootElement());
-    } catch (JDOMException | IOException e) {
-      e.printStackTrace();
+    @Atomic
+    public static void xmlScan(java.io.File file) {
+        logger.trace("XMLSCAN!!!!");
+        Manager m = Manager.getInstance();
+        SAXBuilder builder = new SAXBuilder();
+        try {
+            Document document = (Document)builder.build(file);
+            m.importXml(document.getRootElement());
+        } catch (JDOMException | IOException e) {
+          e.printStackTrace();
+        }
     }
-  }
 }

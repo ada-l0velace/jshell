@@ -55,13 +55,22 @@ public class File extends File_Base implements IElementXml {
      * @param name  String (Primary java type) which represents the name of File.
      */
     protected void init (User owner, String name, Manager m) {
-    	int id = m.getLastFileId();
-        setId(id+1);
-        m.setLastFileId(id+1);
+    	setLastId(m);
         setName(name);
         setModified(new DateTime(DateTimeZone.UTC));
         setPermissions(new Permissions(owner.getPermissions().getUmask()));
         setOwner(owner);
+    }
+
+    /**
+     * Set the last id with the manager
+     * @param  m (Manager) which representes the Manager
+     */
+    public void setLastId(Manager m) {
+        int id = m.getLastFileId();
+        setId(id+1);
+        m.setLastFileId(id+1);
+        setId(id);
     }
     
     /**
@@ -100,7 +109,8 @@ public class File extends File_Base implements IElementXml {
         String userName = node.getAttribute("owner").getValue();
         User owner = Manager.getInstance().getUserByUsername(userName);
 
-        setId(id);
+        //setId(id);
+        setLastId(Manager.getInstance());
         setName(name);
         setModified(dateModified);
         setPermissions(new Permissions(umask));

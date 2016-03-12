@@ -9,10 +9,7 @@ import pt.tecnico.myDrive.domain.User;
  * Identifies the admin that as total access to all files.
  */
 public class SuperUser extends SuperUser_Base {
-	/*Defines the properaties of the SuperUser
-	 * its username, name, directory and mask
-	 * */
-	
+
 	public static String ROOT_USERNAME = "root";
 	public static String ROOT_NAME = "Super User";
 	public static Short ROOT_UMASK = (short) Integer.parseInt("F2",16);
@@ -30,7 +27,12 @@ public class SuperUser extends SuperUser_Base {
         //setHome();
 	}
 
+    /**
+     * Inserts on SuperUser home directory a link to /home
+     * @param managerHome (Directory) which represents a directory where all Users will be.
+     * @param m           (Manager) represents the Manager.
+     */
 	public void setHome(Directory managerHome, Manager m) {		
-    super.setHome(new Directory(this, getUsername(), new Link ("..", managerHome,"/home",m),m));
+        super.setHome(new Directory(this, getUsername(), new Link ("..", managerHome,"/home",m),m));
     }
 }
