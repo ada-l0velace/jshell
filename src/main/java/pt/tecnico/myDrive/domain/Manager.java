@@ -99,11 +99,15 @@ public class Manager extends Manager_Base{
         for (Element node : xml.getChild("Users").getChildren("User")) {
             String username = node.getAttribute("username").getValue();
             User user = getUserByUsername(username);
+            //log.trace(username);
+            //log.trace("-----------------");
             if (user == null) {
                 user = new User(node);
                 createUser(user);
             }
-            user.importXml(node);
+            else {
+                user.importXml(node);
+            }
         }
     }
 
@@ -112,8 +116,10 @@ public class Manager extends Manager_Base{
      *  @param User user : receives the new user to create.
      */
     public void createUser(User user) throws UsernameAlreadyExistsException {
-        if(existUser(user) != true)
-            getUsersSet().add(user);
+        if(existUser(user) != true) {
+            addUsers(user);
+            getDirHome().addFile(user.getHome());
+        }
         else
             throw new UsernameAlreadyExistsException(user.getUsername());
     }
@@ -138,11 +144,11 @@ public class Manager extends Manager_Base{
      * Searches for the Home Directory.
      * @return Directory returns directory /Home.
      */
-    public Directory searchHome(){
+    public Directory searchHome() {
         return (Directory) getHome().searchFile("Home");
     }
   
-    public Document exportXml(){
+    public Document exportXml() {
         Element node = new Element("Manager");
         Document doc = new Document(node);
 

@@ -46,6 +46,7 @@ public class Directory extends Directory_Base {
     @Override
     public void importXml (Element xml) {
         super.importXml(xml);
+        
         //Element files = xml.getChildren("Files");
         for (Element files : xml.getChildren("Files") ) {
             for (Element link : files.getChildren("Link"))
@@ -105,8 +106,7 @@ public class Directory extends Directory_Base {
      */
     public void remove()
     {
-        for(File f : getFileSet())
-        {
+        for(File f : getFileSet()) {
             f.remove();
         }
         super.remove();
@@ -127,10 +127,7 @@ public class Directory extends Directory_Base {
     @Override
     public void addFile(File filetba){
 
-        if (getName().equals(filetba.getName())){
-            throw new NameFileAlreadyExistsException(getName());
-        }
-        for (File fName : getFileSet()){
+        for (File fName : getFileSet()) {
             if (fName.getName().equals(filetba.getName())){
                 throw new NameFileAlreadyExistsException(filetba.getName());
             }

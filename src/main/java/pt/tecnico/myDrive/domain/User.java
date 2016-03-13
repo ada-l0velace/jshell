@@ -91,17 +91,26 @@ public class User extends User_Base {
         short umask = Short.parseShort(node.getAttribute("umask").getValue());
         Directory home;
         //Manager.log.trace(name);
-        if (getHome() != null)
+        /*
+        if (getHome() != null) {
             for (File f : getHome().getFileSet())
                 f.remove();
-        setName(new String(name));
-        setUsername(new String(username));
-        setPassword(new String(password));
-        setPermissions(new Permissions(umask));
+        }
+        */
+        if (getHome() == null) {
+            //getHome().remove();
 
-        for (Element dir: xml.getChildren("Directory")) {
+            setName(new String(name));
+            setUsername(new String(username));
+            setPassword(new String(password));
+            setPermissions(new Permissions(umask));
+            //Manager.log.trace(">>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            //Manager.log.trace(username);
+            Element dir = xml.getChild("Directory");
             home = new Directory(dir);
             setHome(home);
+            //Manager.getInstance().getDirHome().addFile(home);
+            //Manager.log.trace("<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         }
     }
 

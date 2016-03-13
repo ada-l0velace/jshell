@@ -91,8 +91,7 @@ public class Main {
         User u = m.getUserByUsername("sagres");
         u.getHome().addFile(new App(u, "beer", "yolo", m));
         u.getHome().addFile(new PlainFile(u, "yolo", "yolo", m));*/
-        Directory r = (Directory) m.getDirHome();
-        logger.trace(r.listContent());
+        
     }   
 
 
@@ -108,6 +107,7 @@ public class Main {
     @Atomic
     public static void xmlScan(java.io.File file) {
         Manager m = Manager.getInstance();
+        
         SAXBuilder builder = new SAXBuilder();
         try {
             Document document = (Document)builder.build(file);
@@ -115,5 +115,7 @@ public class Main {
         } catch (JDOMException | IOException e) {
             e.printStackTrace();
         }
+        Directory r = m.getDirHome();
+        logger.trace(r.listContent());
     }
 }
