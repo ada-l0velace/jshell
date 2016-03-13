@@ -11,7 +11,7 @@ public class SuperUser extends SuperUser_Base {
 
 	public static String ROOT_USERNAME = "root";
 	public static String ROOT_NAME = "Super User";
-	public static Short ROOT_UMASK = (short) Integer.parseInt("F2",16);
+	public static Short ROOT_UMASK = (short) Integer.parseInt("FA",16);
 	
 	/**
 	 * Default Constructor

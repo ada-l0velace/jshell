@@ -29,7 +29,8 @@ public class Main {
             //logger.trace("Entering application.");
             setup();
             for (String s: args) xmlScan(new java.io.File(s));
-            applicationCodeGoesHere();
+            testCode();
+            //applicationCodeGoesHere();
         } finally {
             // ensure an orderly shutdown
             FenixFramework.shutdown();
@@ -53,7 +54,18 @@ public class Main {
         try { xmlOutput.output(doc, new PrintStream(System.out));
         } catch (IOException e) { System.out.println(e); }
     }
-    
+    @Atomic
+    public static void testCode() {
+        Manager m = Manager.getInstance();
+        User campos = m.getUserByUsername("sagres");
+        logger.trace(campos.getHome().listContent());
+        logger.trace(Integer.toBinaryString(campos.getPermissions().getUmask()));
+        logger.trace(campos.getPermissions());
+        logger.trace(Integer.toBinaryString(m.getSuperuser().getPermissions().getUmask()));
+        logger.trace(m.getSuperuser().getPermissions());
+    }
+
+
     @Atomic
     public static void setup() { // phonebook with debug data
         logger.trace("Setup: " + FenixFramework.getDomainRoot());
