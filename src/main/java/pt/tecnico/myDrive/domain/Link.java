@@ -3,7 +3,6 @@ import org.jdom2.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-
 public class Link extends Link_Base {
     
     /**
@@ -68,5 +67,10 @@ public class Link extends Link_Base {
 
     public File getFileByPath (String link){
         throw new UnsupportedOperationException("Not Implemented!");
+    }
+    
+    public String toString(){
+    	String a = super.toString();
+	    return a + "->" + this.getContent();
     }
 }

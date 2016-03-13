@@ -155,4 +155,12 @@ public class File extends File_Base implements IElementXml {
         setDirectory(null);
         deleteDomainObject();
     }
+
+	public String toString(){
+		String type = this.getClass().getSimpleName();
+	    String permissions = this.getPermissions().toString();	
+    
+	    String list = type + " " + permissions + " ";
+	    return list;
+	}
 }

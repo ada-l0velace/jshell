@@ -191,9 +191,8 @@ public class User extends User_Base {
      * @param Link link represents the path to the directory.
      */
     public String getDirContentByLink(Link link){
-        Directory Dir = (Directory)getFileByPath(link.getContent());
-        String list = link + " -> " + Dir.listContent(); 
-        return list;
+    	Directory Dir = (Directory)getFileByPath(link.getContent()); 
+    	return Dir.listContent(); 
     }
 
     

@@ -1,11 +1,13 @@
 package pt.tecnico.myDrive.domain;
 
+
 import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.User;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class Directory extends Directory_Base {
     
@@ -110,8 +112,18 @@ public class Directory extends Directory_Base {
         for(File f : getFileSet()) {
             f.remove();
         }
-        super.remove();
-        
+        super.remove();       
+    }
+    
+    public String toString(){
+    	String a = super.toString();
+    	String dim = getFileSet().size() + "";  	
+    	String username = this.getOwner().getUsername();
+	    DateFormat d = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+	    String modified = d.format(this.getModified());
+	    
+	    String rest = dim + " " + username + " " + this.getId() + " " + modified + " " + this.getName();
+	    return a + rest;
     }
     
     /**
@@ -120,7 +132,7 @@ public class Directory extends Directory_Base {
     public String listContent(){
         String list = "";
         for(File path : this.getFileSet()){
-            list += path.getName() + " ";
+        	list += path.toString() + "\n";
         }
         return list;
     }
