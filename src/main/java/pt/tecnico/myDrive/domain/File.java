@@ -116,7 +116,8 @@ public class File extends File_Base implements IElementXml {
         setName(name);
         setModified(dateModified);
         setPermissions(new Permissions(umask));
-        //setOwner(owner);
+        if (owner != null)
+            setOwner(owner);
     }
 
     /**

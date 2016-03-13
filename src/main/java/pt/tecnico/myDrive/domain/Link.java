@@ -35,7 +35,12 @@ public class Link extends Link_Base {
     public Link(Element xml, User owner) {
         super();
         importXml(xml);
-        setOwner(owner);
+        String userName = xml.getAttribute("owner").getValue();
+        User owner_ = Manager.getInstance().getUserByUsername(userName);
+        if (owner_ != null)
+            setOwner(owner_);
+        else
+            setOwner(owner);
     }
     
     /**
