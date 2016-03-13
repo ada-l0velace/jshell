@@ -1,10 +1,9 @@
 package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.io.UnsupportedEncodingException;
-import pt.tecnico.myDrive.exception.ImportDocumentException;
-
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 /**
  * 
  */
@@ -75,7 +74,7 @@ public class PlainFile extends PlainFile_Base {
     public String getDim() throws RuntimeException {
     	String dim = "";
     	try {
-            dim = new String(getContent().getBytes("UTF-8"));
+            dim = getContent().getBytes("UTF-8").length + "";
     	} catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
     	}
@@ -86,10 +85,10 @@ public class PlainFile extends PlainFile_Base {
     	String a = super.toString();
     	String dim = getDim(); 	
     	String username = this.getOwner().getUsername();
-	    DateFormat d = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-	    String modified = d.format(this.getModified());
+    	DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+	    String modified = fmt.print(getModified());
 	    
-	    String rest = dim + " " + username + " " + this.getId() + " " + modified + " " + this.getName();
+	    String rest = dim + "kb " + username + " " + this.getId() + " " + modified + " " + this.getName();
 	    return a + rest;
     }
 }
