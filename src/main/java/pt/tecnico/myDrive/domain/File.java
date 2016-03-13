@@ -148,9 +148,8 @@ public class File extends File_Base implements IElementXml {
      * Removes the file.
      * @throws PermissionDeniedException The user doesn't have the privilege to remove the file.
      */
-    public void remove()
-    { 
-        setOwner(null); 
+    public void remove() {
+        setOwner(null);
         setPermissions(null);
         setDirectory(null);
         deleteDomainObject();

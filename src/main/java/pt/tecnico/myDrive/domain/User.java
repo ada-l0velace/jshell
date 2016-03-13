@@ -61,23 +61,17 @@ public class User extends User_Base {
 	}
 	
 	/**
-	 * Do override of setUsername checking for special caracters
+	 * Do override of setUsername checking for special characters
 	 * @param String (JavaPrimitive) which represents a username
 	 */
 	@Override
     public void setUsername(String username) throws InvalidUsernameException {
-		/*Pattern from "a" to "z" or from "A" to "Z" or from "0" to "10"*/
 		Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
-		/*Check if string username macth the indicated pattern*/
 		Matcher matcher = pattern.matcher(username);
-		/*If it doesnt macth thorws InvalidUsernameException*/
-		if (!matcher.matches()) {
+		if (!matcher.matches())
 			throw new InvalidUsernameException(username);
-		}
-		/*If username macth does set to username*/
-		else{
+		else
 			super.setUsername(username);
-		}
     }
 
  	
@@ -88,15 +82,17 @@ public class User extends User_Base {
      * @throws ImportDocumentException
      */
     public void importXml (Element xml) {
-        for (File f: getFileSet())
+        for (File f: getHome().getFileSet()) {
+            //Manager.log.trace("---> "+f.getName() + " " + getHome());
             f.remove();
+        }
         Element node = xml;
         String name = node.getAttribute("name").getValue();
         String username = node.getAttribute("username").getValue();
         String password = node.getAttribute("password").getValue();
         short umask = Short.parseShort(node.getAttribute("umask").getValue());
         Directory home;
-        Manager.log.trace(name);
+        //Manager.log.trace(name);
         setName(new String(name));
         setUsername(new String(username));
         setPassword(new String(password));

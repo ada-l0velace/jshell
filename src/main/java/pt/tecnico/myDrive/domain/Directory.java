@@ -115,6 +115,7 @@ public class Directory extends Directory_Base {
             f.remove();
         }
         super.remove();
+        
     }
 	
     /**
