@@ -2,21 +2,21 @@ package pt.tecnico.myDrive.domain;
 
 public class Permissions extends Permissions_Base {
     
-	/**
+    /**
      * Default Contructor
      */
     public Permissions() {
-		super();
-	}
+        super();
+    }
 
     /**
      * Alternate Constructor for Permissions with Umask
      * @param  umask [description]
      */
-	public Permissions(short umask) {
-		super();
-		setUmask(umask);
-	}
+    public Permissions(short umask) {
+        super();
+        setUmask(umask);
+    }
 
     /**
      * Returns the byte position

@@ -7,15 +7,15 @@ public class ImportDocumentException extends MyDriveException {
     private String _name;
     
     public ImportDocumentException(String name) {
-		_name = name;
-	 }
+        _name = name;
+     }
 
-	public String getInvalidName() {
-		return _name;
-	 }
+    public String getInvalidName() {
+        return _name;
+     }
 
    @Override
    public String getMessage() {
-	   return "Error in importing " + _name + "from XML";
+       return "Error in importing " + _name + "from XML";
     }
 }

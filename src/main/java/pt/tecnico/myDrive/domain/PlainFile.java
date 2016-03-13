@@ -10,9 +10,9 @@ public class PlainFile extends PlainFile_Base {
     /**
      * Default constructor to create PlainFile
      */
-	public PlainFile() {
-		super();
-	}
+    public PlainFile() {
+        super();
+    }
 
     /**
      * Alternate construtor to create a File with xml.
@@ -48,17 +48,17 @@ public class PlainFile extends PlainFile_Base {
     }
 
 
-	/**
-	 * Exports a PlainFile to a persistent state (XML format),
-	 * @see File
-	 * @return Element (JDOM library type) which represents a PlainFile
-	 */
-	@Override
-	public Element exportXml () {
-		Element node = super.exportXml();
-		node.setAttribute("content", getContent());
-		return node;
-	}
+    /**
+     * Exports a PlainFile to a persistent state (XML format),
+     * @see File
+     * @return Element (JDOM library type) which represents a PlainFile
+     */
+    @Override
+    public Element exportXml () {
+        Element node = super.exportXml();
+        node.setAttribute("content", getContent());
+        return node;
+    }
 
 
     /**
@@ -67,11 +67,11 @@ public class PlainFile extends PlainFile_Base {
      */
 
     public File getFileByPath (String link){
-    	return this;
+        return this;
     }
     
     @Override
     public String toString(){
-    	return getContent();
+        return getContent();
     }
 }

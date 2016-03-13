@@ -16,25 +16,25 @@ import pt.tecnico.myDrive.exception.FileNotFoundException;
  */
 public class User extends User_Base {
     
-	/**
-	 * Default Constructor
-	 */
-	public User() {
-		super();
-	}
+    /**
+     * Default Constructor
+     */
+    public User() {
+        super();
+    }
 
-	/**
-	 * Alternative construtor to create a user.
-	 * @param name String (Primary java type) represents the real name.
-	 * @param username String (Primary java type) represents the login username.
-	 * @param password String (Primary java type) represents the login password.
-	 * @param umasks Short (Primary java type) represents the permission umask.
-	 */
-	public User(String name, String username, String password, Short umask, Manager m) {
-		super();
+    /**
+     * Alternative construtor to create a user.
+     * @param name String (Primary java type) represents the real name.
+     * @param username String (Primary java type) represents the login username.
+     * @param password String (Primary java type) represents the login password.
+     * @param umasks Short (Primary java type) represents the permission umask.
+     */
+    public User(String name, String username, String password, Short umask, Manager m) {
+        super();
         init(name, username, password, umask, m);
-	}
-	
+    }
+    
     /**
      * Protected constructor to init a user.
      * @param name     String (Primary java type) represents the real name.
@@ -42,7 +42,7 @@ public class User extends User_Base {
      * @param password String (Primary java type) represents the password.
      * @param umask    Int (Primary java type) represents the permissions umask.
      */
-	protected void init(String name, String username, String password, Short umask, Manager m) {
+    protected void init(String name, String username, String password, Short umask, Manager m) {
         setName(name);
         setUsername(username);
         setPassword(password);
@@ -52,31 +52,31 @@ public class User extends User_Base {
         setHome(home);
         m.getDirHome().addFile(home);
     }
-	
-	/**
-	 * Alternate construtor to create a user with xml
-	 * @param Element (JDOM library type) which represents a User
-	 */
-	public User(Element xml) {
+    
+    /**
+     * Alternate construtor to create a user with xml
+     * @param Element (JDOM library type) which represents a User
+     */
+    public User(Element xml) {
         super();
-		importXml(xml);
-	}
-	
-	/**
-	 * Do override of setUsername checking for special characters
-	 * @param String (JavaPrimitive) which represents a username
-	 */
-	@Override
+        importXml(xml);
+    }
+    
+    /**
+     * Do override of setUsername checking for special characters
+     * @param String (JavaPrimitive) which represents a username
+     */
+    @Override
     public void setUsername(String username) throws InvalidUsernameException {
-		Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
-		Matcher matcher = pattern.matcher(username);
-		if (!matcher.matches())
-			throw new InvalidUsernameException(username);
-		else
-			super.setUsername(username);
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
+        Matcher matcher = pattern.matcher(username);
+        if (!matcher.matches())
+            throw new InvalidUsernameException(username);
+        else
+            super.setUsername(username);
     }
 
- 	
+    
     /**
      * Imports a User from persistent state (XML format).
      * @param Element (JDOM library type) which represents a User
@@ -114,22 +114,22 @@ public class User extends User_Base {
         //}
     }
 
-	/**
-	 * Exports a User to a persistent state (XML format),
-	 * @see Permissions
-	 * @return Element (JDOM library type) which represents a User
-	 */
-	public Element exportXml () {
-		Element node = new Element("User");
-		node.setAttribute("name", getName());
-		node.setAttribute("username", getUsername());
-		node.setAttribute("password", getPassword());
-		node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
+    /**
+     * Exports a User to a persistent state (XML format),
+     * @see Permissions
+     * @return Element (JDOM library type) which represents a User
+     */
+    public Element exportXml () {
+        Element node = new Element("User");
+        node.setAttribute("name", getName());
+        node.setAttribute("username", getUsername());
+        node.setAttribute("password", getPassword());
+        node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
 
-		node.addContent(getHome().exportXml());
-		
-		return node;
-	}
+        node.addContent(getHome().exportXml());
+        
+        return node;
+    }
 
     /**
      * Delete a file or empty directory,
@@ -139,7 +139,7 @@ public class User extends User_Base {
     {
         File to_delete  = getFileByPath(link);
         to_delete.remove();
-	}
+    }
 
     /**
     * 
@@ -147,33 +147,33 @@ public class User extends User_Base {
     * @return  File  returns the last File that appears in the path.
     */
     public File getFileByPath (String link) throws FileNotFoundException {
-    	if(link.charAt(0) == '/'){
-    		String[] spliTest = link.split("/");
-        	if (spliTest.length == 0){
-        		return Manager.getInstance().getHome();
-        	}
-    		String[] noBar = link.split("/",2);
-    		return Manager.getInstance().getHome().getFileByPath(noBar[1]);
-    	}
-    	String[] spliTest = link.split("/");
-    	if (spliTest.length == 1){
-    		if(spliTest[1].equals(getName())){
-    		return getHome();
-    		}
-    		else{
-    			return Manager.getInstance().getDirHome();
-    		}
-    	}
-    	String[] split = link.split("/",2);
-    	String rest = split[1];
-    	String nomeInit = split[0];
-    	if(nomeInit.equals("home")){
-    		return Manager.getInstance().getDirHome().getFileByPath(rest);
-    	}
-    	else if (nomeInit.equals(getUsername())){
-    		return getHome().getFileByPath(rest);
-    	}
-    	throw new FileNotFoundException(nomeInit);
+        if(link.charAt(0) == '/'){
+            String[] spliTest = link.split("/");
+            if (spliTest.length == 0){
+                return Manager.getInstance().getHome();
+            }
+            String[] noBar = link.split("/",2);
+            return Manager.getInstance().getHome().getFileByPath(noBar[1]);
+        }
+        String[] spliTest = link.split("/");
+        if (spliTest.length == 1){
+            if(spliTest[1].equals(getName())){
+            return getHome();
+            }
+            else{
+                return Manager.getInstance().getDirHome();
+            }
+        }
+        String[] split = link.split("/",2);
+        String rest = split[1];
+        String nomeInit = split[0];
+        if(nomeInit.equals("home")){
+            return Manager.getInstance().getDirHome().getFileByPath(rest);
+        }
+        else if (nomeInit.equals(getUsername())){
+            return getHome().getFileByPath(rest);
+        }
+        throw new FileNotFoundException(nomeInit);
     }
     
     /**
@@ -181,9 +181,9 @@ public class User extends User_Base {
      * @return  String returns the string with the plain file content.
      */
 
-    public String getPFileContentByLink(Link link){ 	
-    	PlainFile PF = (PlainFile)getFileByPath(link.getContent());
-    	return PF.getContent();
+    public String getPFileContentByLink(Link link){     
+        PlainFile PF = (PlainFile)getFileByPath(link.getContent());
+        return PF.getContent();
     }
     
     /**
@@ -191,9 +191,9 @@ public class User extends User_Base {
      * @param Link link represents the path to the directory.
      */
     public String getDirContentByLink(Link link){
-    	Directory Dir = (Directory)getFileByPath(link.getContent());
-    	String list = link + " -> " + Dir.listContent(); 
-    	return list;
+        Directory Dir = (Directory)getFileByPath(link.getContent());
+        String list = link + " -> " + Dir.listContent(); 
+        return list;
     }
 
     

@@ -27,7 +27,7 @@ public class App extends App_Base {
      * @param name String (Java Primitive) which represents the name a App.
      * @param content String (Java Primitive) which represents the content of the App
      */
-  public App(User owner, String name, String content, Manager m) {
+    public App(User owner, String name, String content, Manager m) {
         super();
         super.init(owner, name, m);
         setContent(content);
@@ -42,17 +42,17 @@ public class App extends App_Base {
         super.importXml(xml);
     }
 
-	/**
-	 * Exports an App to a persistent state (XML format),
-	 * @see PlainFile
-	 * @return Element (JDOM library type) which represents an App
-	 */
-	@Override
-	public Element exportXml () {
-		return super.exportXml();
-	}
-	
+    /**
+     * Exports an App to a persistent state (XML format),
+     * @see PlainFile
+     * @return Element (JDOM library type) which represents an App
+     */
+    @Override
+    public Element exportXml () {
+        return super.exportXml();
+    }
+    
     public File getFileByPath (String link){
-    	throw new UnsupportedOperationException("Not Implemented!");
+        throw new UnsupportedOperationException("Not Implemented!");
     }  
 }
