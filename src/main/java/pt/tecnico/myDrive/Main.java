@@ -59,35 +59,35 @@ public class Main {
         logger.trace("Setup: " + FenixFramework.getDomainRoot());
         Manager m = Manager.getInstance();
         m.createUser(new User("frodo", 
-                              "pedofrodo", 
-                              "mordor", 
-                              (short) Integer.parseInt("F2",16), 
-                              m));
+            "pedofrodo", 
+            "mordor", 
+            (short) Integer.parseInt("F2",16), 
+            m));
         m.createUser(new User("Chavetas", 
-                              "biana", 
-                              "HorribleIndentation", 
-                              (short) Integer.parseInt("B2",16), 
-                              m));
+            "biana", 
+            "HorribleIndentation", 
+            (short) Integer.parseInt("B2",16), 
+            m));
         m.createUser(new User("Ines", 
-                              "ines", 
-                              "rootroot", 
-                              (short) Integer.parseInt("98",16), 
-                              m));
+            "ines", 
+            "rootroot", 
+            (short) Integer.parseInt("98",16), 
+            m));
         m.createUser(new User("bras", 
-                              "bacalhau", 
-                              "lhaulhau", 
-                              (short) Integer.parseInt("FF",16), 
-                              m));
+            "bacalhau", 
+            "lhaulhau", 
+            (short) Integer.parseInt("FF",16), 
+            m));
         m.createUser(new User("Daniel", 
-                              "poodle", 
-                              "pedigree", 
-                              (short) Integer.parseInt("FA",16), 
-                              m));
+            "poodle", 
+            "pedigree", 
+            (short) Integer.parseInt("FA",16), 
+            m));
         m.createUser(new User("campos", 
-                              "sagres", 
-                              "jolaisthebest", 
-                              (short) Integer.parseInt("AA",16), 
-                              m));
+            "sagres", 
+            "jolaisthebest", 
+            (short) Integer.parseInt("AA",16), 
+            m));
     }   
 
 
