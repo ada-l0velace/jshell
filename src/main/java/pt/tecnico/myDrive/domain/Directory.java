@@ -78,27 +78,27 @@ public class Directory extends Directory_Base {
         return node;
     }
 
-    public File getFileByPath(String link) throws FileNotFoundException {
-        String[] spliTest = link.split("/");
-        String[] split = spliTest;
-        String rest = "";
-        String nomeInit = link;
-        for(File path : this.getFileSet()){
-            if (spliTest.length != 1){
-                split = link.split("/",2);
-                rest = split[1];
-                nomeInit = split[0];
-                if(path.getName().equals(nomeInit)){
-                    return path.getFileByPath(rest);
-                }
-            }
-            else{
-                if(path.getName().equals(link)){
-                    return path;
-                }
-            }
-        }
-        throw new FileNotFoundException(nomeInit);
+    public File getFileByPath (String link) throws FileNotFoundException {
+    	String[] spliTest = link.split("/");
+    	String[] split = spliTest;
+    	String rest = "";
+    	String nomeInit = link;
+    	for(File path : getFileSet()){
+    		if (spliTest.length != 1){
+        		split = link.split("/",2);
+            	rest = split[1];
+            	nomeInit = split[0];
+        		if(path.getName().equals(nomeInit)){
+        			return path.getFileByPath(rest);
+        		}
+    		}
+    		else{
+    			if(path.getName().equals(link)){
+        			return path;
+    			}
+    		}
+    	}
+    	throw new FileNotFoundException(nomeInit);
     }
 
     /**
@@ -126,14 +126,14 @@ public class Directory extends Directory_Base {
     }
    
     @Override
-    public void addFile(File filetba){
 
-        for (File fName : getFileSet()) {
-            if (fName.getName().equals(filetba.getName())){
-                throw new NameFileAlreadyExistsException(filetba.getName());
-            }
-        }
-        getFileSet().add(filetba);
+    public void addFile(File filetba) throws NameFileAlreadyExistsException {
+    	for (File fName : getFileSet()){
+    		if (fName.getName().equals(filetba.getName())){
+    			throw new NameFileAlreadyExistsException(filetba.getName());
+    		}
+    	}
+    	super.addFile(filetba);
     }
 
 

@@ -147,16 +147,30 @@ public class User extends User_Base {
     * @return  File  returns the last File that appears in the path.
     */
     public File getFileByPath (String link) throws FileNotFoundException {
+    	if(link.charAt(0) == '/'){
+    		String[] spliTest = link.split("/");
+        	if (spliTest.length == 0){
+        		return Manager.getInstance().getHome();
+        	}
+    		String[] noBar = link.split("/",2);
+    		return Manager.getInstance().getHome().getFileByPath(noBar[1]);
+    	}
     	String[] spliTest = link.split("/");
     	if (spliTest.length == 1){
-    		if(link.equals("home")){
+    		if(spliTest[1].equals(getName())){
     		return getHome();
     		}
+    		else{
+    			return Manager.getInstance().getDirHome();
+    		}
     	}
-    	String[] split = link.split(Pattern.quote("/"),2);
+    	String[] split = link.split("/",2);
     	String rest = split[1];
     	String nomeInit = split[0];
     	if(nomeInit.equals("home")){
+    		return Manager.getInstance().getDirHome().getFileByPath(rest);
+    	}
+    	else if (nomeInit.equals(getUsername())){
     		return getHome().getFileByPath(rest);
     	}
     	throw new FileNotFoundException(nomeInit);
@@ -168,7 +182,8 @@ public class User extends User_Base {
      */
 
     public String getPFileContentByLink(Link link){ 	
-    	return getFileByPath(link.getContent()).toString();
+    	PlainFile PF = (PlainFile)getFileByPath(link.getContent());
+    	return PF.getContent();
     }
     
     /**
