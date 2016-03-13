@@ -50,8 +50,8 @@ public class Manager extends Manager_Base{
         return instance;
     }
 
-    public File getDirHome() {
-        return getHome().searchFile("home");
+    public Directory getDirHome() {
+        return (Directory) getHome().searchFile("home");
     }
 
     /**
@@ -99,7 +99,7 @@ public class Manager extends Manager_Base{
         for (Element node : xml.getChild("Users").getChildren("User")) {
             String username = node.getAttribute("username").getValue();
             User user = getUserByUsername(username);
-            if (user == null) { // Does not exist
+            if (user == null) {
                 user = new User(node);
                 createUser(user);
             }
@@ -146,6 +146,8 @@ public class Manager extends Manager_Base{
         Element node = new Element("Manager");
         Document doc = new Document(node);
 
+        node.addContent(getHome().exportXml());
+        
         Element users = new Element("Users");
         node.addContent(users);
 

@@ -91,6 +91,8 @@ public class Main {
         User u = m.getUserByUsername("sagres");
         u.getHome().addFile(new App(u, "beer", "yolo", m));
         u.getHome().addFile(new PlainFile(u, "yolo", "yolo", m));*/
+        Directory r = (Directory) m.getDirHome();
+        logger.trace(r.listContent());
     }   
 
 

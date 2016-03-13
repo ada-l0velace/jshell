@@ -2,7 +2,7 @@ package pt.tecnico.myDrive.domain;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import org.jdom2.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -28,5 +28,14 @@ public class RootDirectory extends RootDirectory_Base {
         addFile(new Link ("..", this, "/", m));
         addFile(new Link (".", this, "/", m));
     }
-    
+
+    /**
+     * Exports the root Directory to a persistent state (XML format),
+     * @see Directory
+     * @return Element (JDOM library type) which represents the root directory
+     */
+    @Override
+    public Element exportXml () {
+        return super.exportXml();
+    }
 }
