@@ -30,7 +30,7 @@ public class Main {
             setup();
             for (String s: args) xmlScan(new java.io.File(s));
             testCode();
-            //applicationCodeGoesHere();
+            applicationCodeGoesHere();
         } finally {
             // ensure an orderly shutdown
             FenixFramework.shutdown();
