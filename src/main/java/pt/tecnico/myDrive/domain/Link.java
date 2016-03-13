@@ -33,9 +33,10 @@ public class Link extends Link_Base {
      * Alternate construtor to create a Link with xml.
      * @param  xml Element (JDOM library type) which represents a File.
      */
-    public Link(Element xml) {
+    public Link(Element xml, User owner) {
         super();
         importXml(xml);
+        setOwner(owner);
     }
     
     /**

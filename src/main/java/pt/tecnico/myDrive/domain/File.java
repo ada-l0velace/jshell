@@ -115,7 +115,7 @@ public class File extends File_Base implements IElementXml {
         setName(name);
         setModified(dateModified);
         setPermissions(new Permissions(umask));
-        setOwner(owner);
+        //setOwner(owner);
     }
 
     /**
@@ -130,7 +130,7 @@ public class File extends File_Base implements IElementXml {
         node.setAttribute("id", Integer.toString(getId()));
         node.setAttribute("name", getName());
         node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
-				node.setAttribute("owner", getOwner().getUsername());
+		node.setAttribute("owner", getOwner().getUsername());
 				
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
         node.setAttribute("modified", fmt.print(getModified()));

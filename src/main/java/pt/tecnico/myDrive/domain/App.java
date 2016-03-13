@@ -15,9 +15,10 @@ public class App extends App_Base {
      * Alternate construtor to create a App with xml.
      * @param  xml Element (JDOM library type) which represents a File.
      */
-    public App(Element xml) {
+    public App(Element xml, User owner) {
         super();
         importXml(xml);
+        setOwner(owner);
     }
 
     /**

@@ -106,7 +106,7 @@ public class Manager extends Manager_Base{
                 createUser(user);
             }
             else {
-                user.importXml(node);
+                //user.importXml(node);
             }
         }
     }

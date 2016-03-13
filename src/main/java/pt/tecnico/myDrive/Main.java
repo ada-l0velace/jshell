@@ -115,7 +115,5 @@ public class Main {
         } catch (JDOMException | IOException e) {
             e.printStackTrace();
         }
-        Directory r = m.getDirHome();
-        logger.trace(r.listContent());
     }
 }

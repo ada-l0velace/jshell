@@ -97,7 +97,7 @@ public class User extends User_Base {
                 f.remove();
         }
         */
-        if (getHome() == null) {
+        //if (getHome() == null) {
             //getHome().remove();
 
             setName(new String(name));
@@ -107,11 +107,11 @@ public class User extends User_Base {
             //Manager.log.trace(">>>>>>>>>>>>>>>>>>>>>>>>>>>");
             //Manager.log.trace(username);
             Element dir = xml.getChild("Directory");
-            home = new Directory(dir);
+            home = new Directory(dir, this);
             setHome(home);
             //Manager.getInstance().getDirHome().addFile(home);
             //Manager.log.trace("<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        }
+        //}
     }
 
 	/**

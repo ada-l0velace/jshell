@@ -34,8 +34,9 @@ public class Directory extends Directory_Base {
      * Alternate construtor to create a Link with xml.
      * @param  xml Element (JDOM library type) which represents a File.
      */
-    public Directory(Element xml) {
+    public Directory(Element xml, User owner) {
         super();
+        setOwner(owner);
         importXml(xml);
     }
     
@@ -50,13 +51,13 @@ public class Directory extends Directory_Base {
         //Element files = xml.getChildren("Files");
         for (Element files : xml.getChildren("Files") ) {
             for (Element link : files.getChildren("Link"))
-                addFile(new Link(link));
+                addFile(new Link(link, getOwner()));
             for (Element plainFile : files.getChildren("PlainFile"))
-                addFile(new PlainFile(plainFile));
+                addFile(new PlainFile(plainFile, getOwner()));
             for (Element app : files.getChildren("App"))
-                addFile(new App(app));
+                addFile(new App(app, getOwner()));
             for (Element directory : files.getChildren("Directory"))
-                addFile(new Directory(directory));
+                addFile(new Directory(directory, getOwner()));
         }
     }
 
