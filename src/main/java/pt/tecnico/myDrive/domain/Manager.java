@@ -147,7 +147,7 @@ public class Manager extends Manager_Base{
         Element users = new Element("Users");
         node.addContent(users);
 
-        for (User user: getUsersSet())
+        for (User u: getUsersSet())
             users.addContent(u.exportXml());
         
         return doc;
