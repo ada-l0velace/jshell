@@ -147,15 +147,6 @@ public class User extends User_Base {
     * @return  File  returns the last File that appears in the path.
     */
     public File getFileByPath (String link) throws FileNotFoundException {
-        if(link.charAt(0) == '/'){
-            String[] spliTest = link.split("/");
-            if (spliTest.length == 0){
-                return Manager.getInstance().getHome();
-            }
-            String[] noBar = link.split("/",2);
-            return Manager.getInstance().getHome().getFileByPath(noBar[1]);
-        }
-        String[] spliTest = link.split("/");
         if (link.charAt(link.length() - 1)== '/'){
     		link = link.substring(0, link.length() -1);
     	}
