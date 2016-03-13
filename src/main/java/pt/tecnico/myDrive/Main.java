@@ -58,7 +58,7 @@ public class Main {
     public static void setup() { // phonebook with debug data
         logger.trace("Setup: " + FenixFramework.getDomainRoot());
         Manager m = Manager.getInstance();
-        m.createUser(new User("frodo", 
+        /*m.createUser(new User("frodo", 
             "pedofrodo", 
             "mordor", 
             (short) Integer.parseInt("F2",16), 
@@ -88,6 +88,9 @@ public class Main {
             "jolaisthebest", 
             (short) Integer.parseInt("AA",16), 
             m));
+        User u = m.getUserByUsername("sagres");
+        u.getHome().addFile(new App(u, "beer", "yolo", m));
+        u.getHome().addFile(new PlainFile(u, "yolo", "yolo", m));*/
     }   
 
 
@@ -102,7 +105,6 @@ public class Main {
      */
     @Atomic
     public static void xmlScan(java.io.File file) {
-        logger.trace("XMLSCAN!!!!");
         Manager m = Manager.getInstance();
         SAXBuilder builder = new SAXBuilder();
         try {

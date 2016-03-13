@@ -95,12 +95,14 @@ public class Manager extends Manager_Base{
      * @param xml (JDOM library type) which represents a MyDrive element.
      */
     public void importXml(Element xml) {
-        for (Element n : xml.getChildren("Users")) {
-            Element node = n.getChild("User");
+
+        for (Element node : xml.getChild("Users").getChildren("User")) {
             String username = node.getAttribute("username").getValue();
             User user = getUserByUsername(username);
-            if (user == null) // Does not exist
+            if (user == null) { // Does not exist
                 user = new User(node);
+                createUser(user);
+            }
             user.importXml(node);
         }
     }

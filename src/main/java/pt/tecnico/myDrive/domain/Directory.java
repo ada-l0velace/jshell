@@ -48,15 +48,10 @@ public class Directory extends Directory_Base {
         super.importXml(xml);
         //Element files = xml.getChildren("Files");
         for (Element files : xml.getChildren("Files") ) {
-            Manager.log.trace("1<->2");
-            for (Element link : files.getChildren("Link")) {
-                Manager.log.trace("1<-LINKS>2");
+            for (Element link : files.getChildren("Link"))
                 addFile(new Link(link));
-            }
-            for (Element plainFile : files.getChildren("PlainFile")) {
-                Manager.log.trace("1<-PLAINFILES>2");
+            for (Element plainFile : files.getChildren("PlainFile"))
                 addFile(new PlainFile(plainFile));
-            }
             for (Element app : files.getChildren("App"))
                 addFile(new App(app));
             for (Element directory : files.getChildren("Directory"))
@@ -64,44 +59,44 @@ public class Directory extends Directory_Base {
         }
     }
 
-	/**
-	 * Exports a Directory to a persistent state (XML format),
-	 * @see File
-	 * @return Element (JDOM library type) which represents a Directory
-	 */
-	@Override
-	public Element exportXml () {
-		Element node = super.exportXml();
+    /**
+     * Exports a Directory to a persistent state (XML format),
+     * @see File
+     * @return Element (JDOM library type) which represents a Directory
+     */
+    @Override
+    public Element exportXml () {
+        Element node = super.exportXml();
 
-		Element filesElement = new Element("Files");
-		node.addContent(filesElement);
-		for (File f: getFileSet())
-			filesElement.addContent(f.exportXml());
+        Element filesElement = new Element("Files");
+        node.addContent(filesElement);
+        for (File f: getFileSet())
+            filesElement.addContent(f.exportXml());
 
         return node;
-	}
+    }
 
     public File getFileByPath(String link) throws FileNotFoundException {
-    	String[] spliTest = link.split("/");
-    	String[] split = spliTest;
-    	String rest = "";
-    	String nomeInit = link;
-    	for(File path : this.getFileSet()){
-    		if (spliTest.length != 1){
-        		split = link.split("/",2);
-            	rest = split[1];
-            	nomeInit = split[0];
-        		if(path.getName().equals(nomeInit)){
-        			return path.getFileByPath(rest);
-        		}
-    		}
-    		else{
-    			if(path.getName().equals(link)){
-        			return path;
-    			}
-    		}
-    	}
-    	throw new FileNotFoundException(nomeInit);
+        String[] spliTest = link.split("/");
+        String[] split = spliTest;
+        String rest = "";
+        String nomeInit = link;
+        for(File path : this.getFileSet()){
+            if (spliTest.length != 1){
+                split = link.split("/",2);
+                rest = split[1];
+                nomeInit = split[0];
+                if(path.getName().equals(nomeInit)){
+                    return path.getFileByPath(rest);
+                }
+            }
+            else{
+                if(path.getName().equals(link)){
+                    return path;
+                }
+            }
+        }
+        throw new FileNotFoundException(nomeInit);
     }
 
     /**
@@ -117,45 +112,52 @@ public class Directory extends Directory_Base {
         super.remove();
         
     }
-	
+    
     /**
      * @return list String (Primary java type) with the file names inside of the directory.
      */
     public String listContent(){
-    	String list = "";
-    	for(File path : this.getFileSet()){
-    		list += path.getName() + " ";
-    	}
-    	return list;
+        String list = "";
+        for(File path : this.getFileSet()){
+            list += path.getName() + " ";
+        }
+        return list;
     }
    
     @Override
     public void addFile(File filetba){
 
-    	if (getName().equals(filetba.getName())){
-    		throw new NameFileAlreadyExistsException(getName());
-    	}
-    	for (File fName : getFileSet()){
-    		if (fName.getName().equals(filetba.getName())){
-    			throw new NameFileAlreadyExistsException(filetba.getName());
-    		}
-    	}
-    	getFileSet().add(filetba);
+        if (getName().equals(filetba.getName())){
+            throw new NameFileAlreadyExistsException(getName());
+        }
+        for (File fName : getFileSet()){
+            if (fName.getName().equals(filetba.getName())){
+                throw new NameFileAlreadyExistsException(filetba.getName());
+            }
+        }
+        getFileSet().add(filetba);
     }
 
 
-  /**
-   * Searches for a File by name in a Directory
-   * @param String name recieves a String which is the name of the File
-   * @return File returns the file with the name recieved
-   * @throws FileNotFoundException when there is no File with that name
-   */
-  public File searchFile(String name){
-		for(File f: getFileSet())
-			if (f.getName().equals(name))
-				return f;
-		return null;
-		// Throw FileNotFoundExeption
-	}
-	
+    /**
+    * Searches for a File by name in a Directory
+    * @param String name recieves a String which is the name of the File
+    * @return File returns the file with the name recieved
+    * @throws FileNotFoundException when there is no File with that name
+    */
+    public File searchFile(String name) {
+        for(File f: getFileSet())
+            if (f.getName().equals(name))
+                return f;
+        return null;
+        // Throw FileNotFoundExeption
+    }
+
+    public File searchFile(int id) {
+        for(File f: getFileSet())
+            if (f.getId() == id)
+                return f;
+        return null;
+    }
+    
 }

@@ -37,21 +37,6 @@ public class Link extends Link_Base {
         super();
         importXml(xml);
     }
-
-    // /**
-    //  * Alternate construtor to create a Link.
-    //  * @param  name (Java Primitive) which represents the name of the file.
-    //  * @param  file (File) which represents a file
-    //  */
-    // public Link(String name, File file, Manager m) {
-    //     super();
-    //     setId(1);
-    //     setName(name);
-    //     setModified(new DateTime(DateTimeZone.UTC));
-    //     setPermissions(new Permissions(file.getPermissions().getUmask()));
-    //     setContent("-> " + getFilePath());
-    // setOwner(file.getOwner());
-    // }
     
     /**
      * [getFilePath description]

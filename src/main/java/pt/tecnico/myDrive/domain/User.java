@@ -82,10 +82,6 @@ public class User extends User_Base {
      * @throws ImportDocumentException
      */
     public void importXml (Element xml) {
-        for (File f: getHome().getFileSet()) {
-            //Manager.log.trace("---> "+f.getName() + " " + getHome());
-            f.remove();
-        }
         Element node = xml;
         String name = node.getAttribute("name").getValue();
         String username = node.getAttribute("username").getValue();
@@ -93,12 +89,15 @@ public class User extends User_Base {
         short umask = Short.parseShort(node.getAttribute("umask").getValue());
         Directory home;
         //Manager.log.trace(name);
+        if (getHome() != null)
+            for (File f : getHome().getFileSet())
+                f.remove();
         setName(new String(name));
         setUsername(new String(username));
         setPassword(new String(password));
         setPermissions(new Permissions(umask));
+
         for (Element dir: xml.getChildren("Directory")) {
-            Manager.log.trace("DIRECTORY INNN" + dir);
             home = new Directory(dir);
             setHome(home);
         }
