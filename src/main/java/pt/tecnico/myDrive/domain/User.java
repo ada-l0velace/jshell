@@ -177,7 +177,8 @@ public class User extends User_Base {
      */
     public String getDirContentByLink(Link link){
     	Directory Dir = (Directory)getFileByPath(link.getContent());
-    	return Dir.listContent();
+    	String list = link + " -> " + Dir.listContent(); 
+    	return list;
     }
 
     
