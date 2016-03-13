@@ -12,10 +12,17 @@ import org.jdom2.Element;
 import org.jdom2.Document;
 
 
+/**
+ * This class implements a singleton design pattern.
+ */
 public class Manager extends Manager_Base{ 
     static final Logger log = LogManager.getRootLogger();
     
-    protected Manager() {
+    /**
+     * Creates a Manager, the singleton object of the application. 
+     * Also initiates Super User root.
+     */
+    private Manager() {
         setLastFileId(0);
         SuperUser su = new SuperUser();
         RootDirectory rootDir = new RootDirectory(su,"/",this);
@@ -71,6 +78,11 @@ public class Manager extends Manager_Base{
             return false;
     }
 
+    /**
+     * [resourceFile description]
+     * @param  filename (Java Primitive) name of the file
+     * @return java.io.file which represents the file instance.
+     */
     public java.io.File resourceFile(String filename) {
         log.trace("Resource: "+filename);
         ClassLoader classLoader = getClass().getClassLoader();
@@ -78,18 +90,17 @@ public class Manager extends Manager_Base{
         return new java.io.File(classLoader.getResource(filename).getFile());
     }
 
+    /**
+     * Main import for Manager.
+     * @param xml (JDOM library type) which represents a MyDrive element.
+     */
     public void importXml(Element xml) {
-        Manager.log.trace("USERS BEFORE!!!!");
         for (Element n : xml.getChildren("Users")) {
-            Manager.log.trace("INN USERS!!!!");
             Element node = n.getChild("User");
             String username = node.getAttribute("username").getValue();
             User user = getUserByUsername(username);
-            if (user == null) { // Does not exist
-                log.trace("NEW USER ->" + getUserByUsername(username));
+            if (user == null) // Does not exist
                 user = new User(node);
-            }
-            log.trace("NOT a NEW USER ->" + getUserByUsername(username));
             user.importXml(node);
         }
     }
@@ -129,18 +140,17 @@ public class Manager extends Manager_Base{
         return (Directory) getHome().searchFile("Home");
     }
   
-  public Document exportXml(){
-    Element node = new Element("Manager");
-    Document doc = new Document(node);
+    public Document exportXml(){
+        Element node = new Element("Manager");
+        Document doc = new Document(node);
 
-    Element users = new Element("Users");
-    node.addContent(users);
+        Element users = new Element("Users");
+        node.addContent(users);
 
-    
-    for (User u: getUsersSet())
-      users.addContent(u.exportXml());
+        for (User u: getUsersSet())
+            users.addContent(u.exportXml());
 
-    return doc;
-  }
+        return doc;
+    }
 
 }
