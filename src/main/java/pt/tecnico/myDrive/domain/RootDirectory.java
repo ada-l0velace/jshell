@@ -26,6 +26,7 @@ public class RootDirectory extends RootDirectory_Base {
         super.init(owner, name, m);
         //setParent(parent);
         addFile(new Link ("..", this, "/", m));
+        addFile(new Link (".", this, "/", m));
     }
     
 }

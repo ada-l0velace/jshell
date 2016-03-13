@@ -32,6 +32,6 @@ public class SuperUser extends SuperUser_Base {
      * @param m           (Manager) represents the Manager.
      */
 	public void setHome(Directory managerHome, Manager m) {		
-        super.setHome(new Directory(this, getUsername(), new Link ("..", managerHome,"/home",m),m));
+        super.setHome(new Directory(this, getUsername(), new Link ("..", managerHome,"/home/",m),m));
     }
 }
