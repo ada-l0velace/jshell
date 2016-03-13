@@ -147,8 +147,7 @@ public class Directory extends Directory_Base {
         for(File f: getFileSet())
             if (f.getName().equals(name))
                 return f;
-        return null;
-        // Throw FileNotFoundExeption
+        throw new FileNotFoundException(name);
     }
 
     public File searchFile(int id) {
@@ -156,6 +155,7 @@ public class Directory extends Directory_Base {
             if (f.getId() == id)
                 return f;
         return null;
+        //throw new FileNotFoundException(id);
     }
     
 }
