@@ -151,14 +151,14 @@ public class User extends User_Base {
     		link = link.substring(0, link.length() -1);
     	}
     	if(link.charAt(0) == '/'){
-    		String[] spliTest = link.split("/");
+    		spliTest = link.split("/");
         	if (spliTest.length == 0){
         		return Manager.getInstance().getHome();
         	}
     		String[] noBar = link.split("/",2);
     		return Manager.getInstance().getHome().getFileByPath(noBar[1]);
     	}
-    	String[] spliTest = link.split("/");
+    	spliTest = link.split("/");
     	if (spliTest.length == 1){
     		if(spliTest[1].equals(getName())){
     		return getHome();

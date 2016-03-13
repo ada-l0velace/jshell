@@ -59,7 +59,7 @@ public class Main {
     public static void testCode() {
         Manager m = Manager.getInstance();
         User campos = m.getUserByUsername("sagres");
-        System.out.println(m.getDirHome().listContent());
+        System.out.println(campos.getHome().listContent());
         logger.trace(Integer.toBinaryString(campos.getPermissions().getUmask()));
         logger.trace(campos.getPermissions());
         logger.trace(Integer.toBinaryString(m.getSuperuser().getPermissions().getUmask()));

@@ -1,11 +1,5 @@
 package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
-<<<<<<< HEAD
-import java.io.UnsupportedEncodingException;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-=======
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import java.text.SimpleDateFormat;
@@ -13,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 import pt.tecnico.myDrive.exception.ImportDocumentException;
 import org.joda.time.format.ISODateTimeFormat;
 
->>>>>>> small changes
+
 /**
  * 
  */
