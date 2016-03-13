@@ -1,9 +1,11 @@
+
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.User;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
+import pt.tecnico.myDrive.exception.FileIdNotFoundException;
 import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -163,12 +165,11 @@ public class Directory extends Directory_Base {
         throw new FileNotFoundException(name);
     }
 
-    public File searchFile(int id) {
+    public File searchFile(int id) throws FileIdNotFoundException {
         for(File f: getFileSet())
             if (f.getId() == id)
                 return f;
-        return null;
-        //throw new FileNotFoundException(id);
+        throw new FileIdNotFoundException(id);
     }
     
 }
