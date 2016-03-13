@@ -77,6 +77,7 @@ public class File extends File_Base implements IElementXml {
     /**
      * Do override of setName checking for special caracters
      * @param String (JavaPrimitive) which represents a name for the file
+     * @throws InvalidNameFileException occurs when file name contains '/' or '\0'.
      * */
     @Override
     public void setName(String name) throws InvalidNameFileException {
