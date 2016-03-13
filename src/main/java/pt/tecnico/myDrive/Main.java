@@ -22,7 +22,7 @@ import java.io.IOException;
 
 public class Main {
 
-  private static final Logger logger = LogManager.getRootLogger();
+    private static final Logger logger = LogManager.getRootLogger();
 
     public static void main(String [] args) {
         try {
@@ -36,58 +36,58 @@ public class Main {
         }
     }
 
-  public static void applicationCodeGoesHere() {
-    someTransaction();
-  }
+    public static void applicationCodeGoesHere() {
+        someTransaction();
+    }
 
-  /**
-   * Exports the Manager to a xml file
-   */
-  @Atomic
-  public static void xmlPrint() {
-    logger.trace("xmlPrint: " + FenixFramework.getDomainRoot());
-    Document doc = Manager.getInstance().exportXml();
-    XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
+    /**
+     * Exports the Manager to a xml file
+     */
+    @Atomic
+    public static void xmlPrint() {
+        logger.trace("xmlPrint: " + FenixFramework.getDomainRoot());
+        Document doc = Manager.getInstance().exportXml();
+        XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 
 
-    try { xmlOutput.output(doc, new PrintStream(System.out));
-    } catch (IOException e) { System.out.println(e); }
-  }
+        try { xmlOutput.output(doc, new PrintStream(System.out));
+        } catch (IOException e) { System.out.println(e); }
+    }
     
     @Atomic
     public static void setup() { // phonebook with debug data
         logger.trace("Setup: " + FenixFramework.getDomainRoot());
         Manager m = Manager.getInstance();
         m.createUser(new User("frodo", 
-            "pedofrodo", 
-            "mordor", 
-            (short) Integer.parseInt("F2",16), 
-            m));
+                              "pedofrodo", 
+                              "mordor", 
+                              (short) Integer.parseInt("F2",16), 
+                              m));
         m.createUser(new User("Chavetas", 
-            "biana", 
-            "HorribleIndentation", 
-            (short) Integer.parseInt("B2",16), 
-            m));
+                              "biana", 
+                              "HorribleIndentation", 
+                              (short) Integer.parseInt("B2",16), 
+                              m));
         m.createUser(new User("Ines", 
-            "ines", 
-            "rootroot", 
-            (short) Integer.parseInt("98",16), 
-            m));
+                              "ines", 
+                              "rootroot", 
+                              (short) Integer.parseInt("98",16), 
+                              m));
         m.createUser(new User("bras", 
-            "bacalhau", 
-            "lhaulhau", 
-            (short) Integer.parseInt("FF",16), 
-            m));
+                              "bacalhau", 
+                              "lhaulhau", 
+                              (short) Integer.parseInt("FF",16), 
+                              m));
         m.createUser(new User("Daniel", 
-            "poodle", 
-            "pedigree", 
-            (short) Integer.parseInt("FA",16), 
-            m));
+                              "poodle", 
+                              "pedigree", 
+                              (short) Integer.parseInt("FA",16), 
+                              m));
         m.createUser(new User("campos", 
-            "sagres", 
-            "jolaisthebest", 
-            (short) Integer.parseInt("AA",16), 
-            m));
+                              "sagres", 
+                              "jolaisthebest", 
+                              (short) Integer.parseInt("AA",16), 
+                              m));
     }   
 
 
@@ -96,10 +96,10 @@ public class Main {
         xmlPrint();
     }
 
-  /**
-   * Scans the xml file and imports to database.
-   * @param file (Java.io.File) represents a file. 
-   */
+    /**
+     * Scans the xml file and imports to database.
+     * @param file (Java.io.File) represents a file. 
+     */
     @Atomic
     public static void xmlScan(java.io.File file) {
         logger.trace("XMLSCAN!!!!");
@@ -109,7 +109,7 @@ public class Main {
             Document document = (Document)builder.build(file);
             m.importXml(document.getRootElement());
         } catch (JDOMException | IOException e) {
-          e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }
