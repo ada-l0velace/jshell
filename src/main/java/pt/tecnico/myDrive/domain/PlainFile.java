@@ -1,9 +1,19 @@
 package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
+<<<<<<< HEAD
 import java.io.UnsupportedEncodingException;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+=======
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.io.UnsupportedEncodingException;
+import pt.tecnico.myDrive.exception.ImportDocumentException;
+import org.joda.time.format.ISODateTimeFormat;
+
+>>>>>>> small changes
 /**
  * 
  */
@@ -72,23 +82,23 @@ public class PlainFile extends PlainFile_Base {
     }
     
     public String getDim() throws RuntimeException {
-    	String dim = "";
-    	try {
+        String dim = "";
+        try {
             dim = getContent().getBytes("UTF-8").length + "";
-    	} catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
-    	}
-    	return dim;
+        }
+        return dim;
     }
     
     public String toString() {
-    	String a = super.toString();
-    	String dim = getDim(); 	
-    	String username = this.getOwner().getUsername();
-    	DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-	    String modified = fmt.print(getModified());
-	    
-	    String rest = dim + "kb " + username + " " + this.getId() + " " + modified + " " + this.getName();
-	    return a + rest;
+        String a = super.toString();
+        String dim = getDim();  
+        String username = this.getOwner().getUsername();
+        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+        String modified = fmt.print(getModified());
+        
+        String rest = dim + "kb " + username + " " + this.getId() + " " + modified + " " + this.getName();
+        return a + rest;
     }
 }

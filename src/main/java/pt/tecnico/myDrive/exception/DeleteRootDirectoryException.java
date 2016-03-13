@@ -7,15 +7,15 @@ public class DeleteRootDirectoryException extends MyDriveException {
     private String _name;
     
     public DeleteRootDirectoryException(String name) {
-		_name = name;
-	}
+        _name = name;
+    }
 
-	public String getInvalidName() {
-		return _name;
-	}
+    public String getInvalidName() {
+        return _name;
+    }
 
     @Override
     public String getMessage() {
-    	return "You cannot delete " + _name + " directory";
+        return "You cannot delete " + _name + " directory";
     }
 }
