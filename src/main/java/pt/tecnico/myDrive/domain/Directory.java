@@ -128,6 +128,10 @@ public class Directory extends Directory_Base {
 	    return a + rest;
     }
     
+    public String getContent() {
+        return listContent();
+    }
+
     /**
      * @return list String (Primary java type) with the file names inside of the directory.
      */

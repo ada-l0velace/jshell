@@ -60,8 +60,8 @@ public class Main {
         User su = m.getSuperuser();
         String n = "";
         
-        Directory  usrlocal = (Directory) su.getFileByPath("/usr/local");
-        Directory  home = (Directory) su.getFileByPath("/home");
+        File usrlocal = su.getFileByPath("/usr/local");
+        File home = su.getFileByPath("/home");
         
         // #1
         for (User u : m.getUsers())
@@ -77,7 +77,7 @@ public class Main {
         
         // #3
         Link l = su.createLink(readme,"README"); 
-        System.out.println(su.getPFileContentByLink(l));
+        System.out.println(su.getFileContentByLink(l));
         
         // #4
         bin.remove();
@@ -89,10 +89,9 @@ public class Main {
         readme.remove();
         
         // #7
-        
-        System.out.println(home.listContent());
-        //RootDirectory  rootD = (RootDirectory) su.getFileByPath("/");
-        //System.out.println(m.getHome().listContent());
+        System.out.println(home.getContent());
+        Directory  rootD = (Directory) su.getFileByPath("/usr/local");
+        System.out.println(rootD.listContent());
     }   
 
 

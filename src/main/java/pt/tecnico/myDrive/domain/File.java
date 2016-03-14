@@ -140,8 +140,14 @@ public class File extends File_Base implements IElementXml {
         return node;
     }
 
+    public String getContent() {
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    public void addFile(File file) {
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
     
-    @Override
     public File getFileByPath (String link){
         throw new UnsupportedOperationException("Not Implemented!");
     }

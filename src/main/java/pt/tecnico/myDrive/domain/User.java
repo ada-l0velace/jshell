@@ -184,25 +184,15 @@ public class User extends User_Base {
     	}
     	throw new FileNotFoundException(nomeInit);
     }
+
     /**
      * @param  Link link receives a link to a plain file. 
      * @return  String returns the string with the plain file content.
      */
-
-    public String getPFileContentByLink(Link link){     
-        PlainFile PF = (PlainFile)getFileByPath(link.getContent());
-        return PF.getContent();
+    public String getFileContentByLink(Link link){     
+        File pf = getFileByPath(link.getContent());
+        return pf.getContent();
     }
-    
-    /**
-     * Get a list of the file names inside of the directory
-     * @param Link link represents the path to the directory.
-     */
-    public String getDirContentByLink(Link link){
-    	Directory Dir = (Directory)getFileByPath(link.getContent()); 
-    	return Dir.listContent(); 
-    }
-
     
     public void remove()
     {
