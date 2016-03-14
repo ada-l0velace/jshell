@@ -5,11 +5,11 @@ Software Engineering project
 (Linux)
 Run on terminal (with Dbclean)
 ``` 
-> mvn clean dbclean:dbclean package dml2yuml:dml2yuml exec:java
+> mvn clean dbclean:dbclean package exec:java -Dexec.args="drive.xml"
 ``` 
 Run on terminal(without Dbclean)
 ``` 
-> mvn clean package dml2yuml:dml2yuml exec:java
+> mvn clean package exec:java -Dexec.args="drive.xml"
 ``` 
 
 # Development
