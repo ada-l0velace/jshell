@@ -161,7 +161,7 @@ public class File extends File_Base implements IElementXml {
 		String type = this.getClass().getSimpleName();
 	    String permissions = this.getPermissions().toString();	
     
-	    String list = type + " " + permissions + " ";
+	    String list = type.charAt(0) + " " + permissions + " ";
 	    return list;
 	}
 }

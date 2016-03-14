@@ -111,6 +111,7 @@ public class Manager extends Manager_Base{
             }
             else {
                 user.importXml(node);
+                getDirHome().addFile(user.getHome());   
             }
         }
     }

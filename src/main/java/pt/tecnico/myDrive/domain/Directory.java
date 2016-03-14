@@ -122,10 +122,9 @@ public class Directory extends Directory_Base {
     	String a = super.toString();
     	String dim = getFileSet().size() + "";  	
     	String username = this.getOwner().getUsername();
-    	DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-	    String modified = fmt.print(getModified());
+    	String modified = getModified().toString("MMM dd hh:mm");
 	    
-	    String rest = dim + " " + username + " " + this.getId() + " " + modified + " " + this.getName();
+	    String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();
 	    return a + rest;
     }
     

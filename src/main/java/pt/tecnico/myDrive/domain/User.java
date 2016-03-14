@@ -90,9 +90,11 @@ public class User extends User_Base {
         String password = node.getAttribute("password").getValue();
         short umask = Short.parseShort(node.getAttribute("umask").getValue());
         Directory home;
-        if (getHome() != null)
-            for (File f : getHome().getFileSet())
-                f.remove();
+        if (getHome() != null) {
+            Directory h = getHome();
+            setHome(null);
+            h.remove();
+        }
         setName(new String(name));
         setUsername(new String(username));
         setPassword(new String(password));

@@ -89,10 +89,8 @@ public class PlainFile extends PlainFile_Base {
     	String a = super.toString();
     	String dim = getDim(); 	
     	String username = getOwner().getUsername();
-        DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-        String modified = fmt.print(getModified());
-        
-        String rest = dim + "kb " + username + " " + this.getId() + " " + modified + " " + this.getName();
+        String modified = getModified().toString("MMM dd hh:mm");
+        String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();
         return a + rest;
     }
 }
