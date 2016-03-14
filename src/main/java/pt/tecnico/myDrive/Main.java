@@ -89,7 +89,10 @@ public class Main {
         readme.remove();
         
         // #7
+        
         System.out.println(home.listContent());
+        //RootDirectory  rootD = (RootDirectory) su.getFileByPath("/");
+        //System.out.println(m.getHome().listContent());
     }   
 
 
