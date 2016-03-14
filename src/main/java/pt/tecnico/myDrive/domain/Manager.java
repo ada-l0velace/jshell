@@ -27,11 +27,15 @@ public class Manager extends Manager_Base{
         SuperUser su = new SuperUser();
         RootDirectory rootDir = new RootDirectory(su,"/",this);
         Directory home = new Directory(su, "home", new Link ("..", rootDir, "/", this),this);
+        Directory usr = new Directory(su, "usr", new Link ("..", rootDir, "/", this),this);
+        Directory local = new Directory(su, "local", new Link ("..", usr, "/usr/", this),this);
         su.setHome(home,this);
         home.addFile(su.getHome());
         setSuperuser(su);
         setHome(rootDir);
         rootDir.addFile(home);
+        rootDir.addFile(usr);
+        usr.addFile(local);
         addUsers(su);
         FenixFramework.getDomainRoot().setManager(this);
         setRoot(FenixFramework.getDomainRoot());
@@ -99,14 +103,14 @@ public class Manager extends Manager_Base{
         for (Element node : xml.getChild("Users").getChildren("User")) {
             String username = node.getAttribute("username").getValue();
             User user = getUserByUsername(username);
-            //log.trace(username);
-            //log.trace("-----------------");
+            
             if (user == null) {
                 user = new User(node);
-                createUser(user);
+                addUsers(user);
+                getDirHome().addFile(user.getHome());
             }
             else {
-                //user.importXml(node);
+                user.importXml(node);
             }
         }
     }
@@ -115,13 +119,14 @@ public class Manager extends Manager_Base{
      *  Creates a new user.
      *  @param User user : receives the new user to create.
      */
-    public void createUser(User user) throws UsernameAlreadyExistsException {
-        if(existUser(user) != true) {
+    public void createUser(User user) throws UsernameAlreadyExistsException  {
+        if(getUserByUsername(user.getUsername()) == null) {
             addUsers(user);
-            getDirHome().addFile(user.getHome());
         }
-        else
+        else {
+
             throw new UsernameAlreadyExistsException(user.getUsername());
+        }
     }
 
     /**
@@ -151,7 +156,7 @@ public class Manager extends Manager_Base{
     public Document exportXml() {
         Element node = new Element("Manager");
         Document doc = new Document(node);
-        
+        node.addContent(getHome().exportXml()); 
         Element users = new Element("Users");
         node.addContent(users);
 

@@ -26,11 +26,9 @@ public class Main {
 
     public static void main(String [] args) {
         try {
-            //logger.trace("Entering application.");
-            setup();
             for (String s: args) xmlScan(new java.io.File(s));
-            testCode();
-            applicationCodeGoesHere();
+            setup();
+            //applicationCodeGoesHere();
         } finally {
             // ensure an orderly shutdown
             FenixFramework.shutdown();
@@ -56,54 +54,42 @@ public class Main {
     }
 
     @Atomic
-    public static void testCode() {
-        Manager m = Manager.getInstance();
-        User campos = m.getUserByUsername("sagres");
-        System.out.println(campos.getHome().listContent());
-        logger.trace(Integer.toBinaryString(campos.getPermissions().getUmask()));
-        logger.trace(campos.getPermissions());
-        logger.trace(Integer.toBinaryString(m.getSuperuser().getPermissions().getUmask()));
-        logger.trace(m.getSuperuser().getPermissions());
-    }
-
-    @Atomic
     public static void setup() { // phonebook with debug data
         logger.trace("Setup: " + FenixFramework.getDomainRoot());
         Manager m = Manager.getInstance();
-        /*m.createUser(new User("frodo", 
-            "pedofrodo", 
-            "mordor", 
-            (short) Integer.parseInt("F2",16), 
-            m));
-        m.createUser(new User("Chavetas", 
-            "biana", 
-            "HorribleIndentation", 
-            (short) Integer.parseInt("B2",16), 
-            m));
-        m.createUser(new User("Ines", 
-            "ines", 
-            "rootroot", 
-            (short) Integer.parseInt("98",16), 
-            m));
-        m.createUser(new User("bras", 
-            "bacalhau", 
-            "lhaulhau", 
-            (short) Integer.parseInt("FF",16), 
-            m));
-        m.createUser(new User("Daniel", 
-            "poodle", 
-            "pedigree", 
-            (short) Integer.parseInt("FA",16), 
-            m));
-        m.createUser(new User("campos", 
-            "sagres", 
-            "jolaisthebest", 
-            (short) Integer.parseInt("AA",16), 
-            m));
-        User u = m.getUserByUsername("sagres");
-        u.getHome().addFile(new App(u, "beer", "yolo", m));
-        u.getHome().addFile(new PlainFile(u, "yolo", "yolo", m));*/
+        User su = m.getSuperuser();
+        String n = "";
         
+        Directory  usrlocal = (Directory) su.getFileByPath("/usr/local");
+        Directory  home = (Directory) su.getFileByPath("/home");
+        
+        // #1
+        for (User u : m.getUsers())
+            n += u.getUsername() + "\n";
+        File readme = new PlainFile(su, "README", n, m); 
+        home.addFile(readme);
+
+        // #2
+        Link lBin = su.createLink(usrlocal,"..");
+        lBin.setContent(lBin.getContent() + "/");
+        Directory bin = new Directory(su, "bin", lBin, m);
+        usrlocal.addFile(bin);
+        
+        // #3
+        Link l = su.createLink(readme,"README"); 
+        System.out.println(su.getPFileContentByLink(l));
+        
+        // #4
+        bin.remove();
+        
+        // #5
+        xmlPrint();
+        
+        // #6
+        readme.remove();
+        
+        // #7
+        System.out.println(home.listContent());
     }   
 
 

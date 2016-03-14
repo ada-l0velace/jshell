@@ -90,28 +90,30 @@ public class User extends User_Base {
         String password = node.getAttribute("password").getValue();
         short umask = Short.parseShort(node.getAttribute("umask").getValue());
         Directory home;
-        //Manager.log.trace(name);
-        /*
-        if (getHome() != null) {
+        if (getHome() != null)
             for (File f : getHome().getFileSet())
                 f.remove();
-        }
-        */
-        //if (getHome() == null) {
-            //getHome().remove();
+        setName(new String(name));
+        setUsername(new String(username));
+        setPassword(new String(password));
+        setPermissions(new Permissions(umask));
+        Element dir = xml.getChild("Directory");
+        home = new Directory(dir, this);
+        setHome(home);
+    }
 
-            setName(new String(name));
-            setUsername(new String(username));
-            setPassword(new String(password));
-            setPermissions(new Permissions(umask));
-            //Manager.log.trace(">>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            //Manager.log.trace(username);
-            Element dir = xml.getChild("Directory");
-            home = new Directory(dir, this);
-            setHome(home);
-            //Manager.getInstance().getDirHome().addFile(home);
-            //Manager.log.trace("<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        //}
+    public Link createLink(File file, String name) {
+        Manager m = Manager.getInstance();
+        File f = file.getDirectory();
+        String l = "";
+        while (f != null) {
+            if (f.getDirectory() != null)
+                l = f.getName()+ "/" + l;
+            else
+                l = f.getName() + l;
+            f = f.getDirectory();
+        }
+        return new Link (name, file, l + file.getName(), m);
     }
 
     /**
