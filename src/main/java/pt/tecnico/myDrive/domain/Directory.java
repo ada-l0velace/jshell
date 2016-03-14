@@ -136,9 +136,30 @@ public class Directory extends Directory_Base {
      * @return list String (Primary java type) with the file names inside of the directory.
      */
     public String listContent(){
+    	String[] names = new String[getFileSet().size()];
+    	String[] entries = new String[getFileSet().size()];
         String list = "";
+        String tempStr = "";
+        int k = 0;
         for(File path : this.getFileSet()){
-        	list += path.toString() + "\n";
+        	entries[k]= path.toString();
+        	names[k] = path.getName();
+        	k++;
+        }
+        for (int t = 0; t < names.length - 1; t++) {
+            for (int i= 0; i < names.length - t -1; i++) {
+                if(names[i+1].compareTo(names[i])<0) {
+                    tempStr = names[i];
+                    names[i] = names[i + 1];
+                    names[i + 1] = tempStr;
+                    tempStr = entries[i];
+                    entries[i] = entries[i + 1];
+                    entries[i + 1] = tempStr;
+                }
+            }
+        }
+        for (int j = 0; j < names.length; j++){
+        	list += entries[j] + "\n";        	
         }
         return list;
     }
