@@ -90,8 +90,6 @@ public class Main {
         
         // #7
         System.out.println(home.getContent());
-        Directory  rootD = (Directory) su.getFileByPath("/usr/local");
-        System.out.println(rootD.listContent());
     }   
 
 

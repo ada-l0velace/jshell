@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Manager>
+  <Users>
+    <User name="Super User" username="root" password="***" umask="242">
+      <Directory id="33" name="root" umask="242" owner="root" modified="2016-03-12T02:55:38.147Z">
+        <Files>
+          <Link id="32" name="." umask="242" owner="root" modified="2016-03-12T02:55:38.147Z" content="/home/root" />
+          <Link id="31" name=".." umask="242" owner="root" modified="2016-03-12T02:55:38.147Z" content="/home" />
+        </Files>
+      </Directory>
+    </User>
+  </Users>
+</Manager>

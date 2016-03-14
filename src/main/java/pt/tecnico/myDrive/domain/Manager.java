@@ -157,7 +157,7 @@ public class Manager extends Manager_Base{
     public Document exportXml() {
         Element node = new Element("Manager");
         Document doc = new Document(node);
-        node.addContent(getHome().exportXml()); 
+        //node.addContent(getHome().exportXml()); 
         Element users = new Element("Users");
         node.addContent(users);
 
