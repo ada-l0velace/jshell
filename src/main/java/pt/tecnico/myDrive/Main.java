@@ -2,16 +2,13 @@ package pt.tecnico.myDrive;
 
 import pt.tecnico.myDrive.domain.*;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.DomainRoot;
 import pt.ist.fenixframework.FenixFramework;
 
-import org.jdom2.Element;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.output.Format;
 import org.jdom2.input.SAXBuilder;
-import org.joda.time.DateTime;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,15 +25,10 @@ public class Main {
         try {
             for (String s: args) xmlScan(new java.io.File(s));
             setup();
-            //applicationCodeGoesHere();
         } finally {
             // ensure an orderly shutdown
             FenixFramework.shutdown();
         }
-    }
-
-    public static void applicationCodeGoesHere() {
-        someTransaction();
     }
 
     /**
@@ -91,13 +83,7 @@ public class Main {
         // #7
         System.out.println(home.getContent());
     }   
-
-
-    @Atomic
-    public static void someTransaction() {
-        xmlPrint();
-    }
-
+    
     /**
      * Scans the xml file and imports to database.
      * @param file (Java.io.File) represents a file. 

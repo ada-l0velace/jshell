@@ -1,13 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.jdom2.Element;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
-import pt.tecnico.myDrive.exception.InvalidNameFileException;
-
 
 public class RootDirectory extends RootDirectory_Base {
 

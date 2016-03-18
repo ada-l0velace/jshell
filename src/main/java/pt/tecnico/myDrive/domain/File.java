@@ -1,6 +1,5 @@
 package pt.tecnico.myDrive.domain;
 
-import pt.tecnico.myDrive.domain.Permissions;
 import pt.tecnico.myDrive.interfaces.IElementXml;
 
 import org.jdom2.Element;
@@ -13,7 +12,6 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
-import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
 
 import java.io.UnsupportedEncodingException;

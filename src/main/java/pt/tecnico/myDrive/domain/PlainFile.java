@@ -1,11 +1,9 @@
 package pt.tecnico.myDrive.domain;
+
 import org.jdom2.Element;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import java.text.SimpleDateFormat;
+
 import java.io.UnsupportedEncodingException;
 import pt.tecnico.myDrive.exception.ImportDocumentException;
-import org.joda.time.format.ISODateTimeFormat;
 
 
 public class PlainFile extends PlainFile_Base {

@@ -1,7 +1,7 @@
 package pt.tecnico.myDrive.interfaces;
+
 import org.jdom2.Element;
 import pt.tecnico.myDrive.domain.*;
-import java.io.UnsupportedEncodingException;
 
 /**
  *  Xml interface for classes that can search for files and import/export xml.

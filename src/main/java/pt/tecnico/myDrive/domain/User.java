@@ -1,11 +1,10 @@
 package pt.tecnico.myDrive.domain;
 
-import pt.tecnico.myDrive.interfaces.IElementXml;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.jdom2.Element;
-import pt.tecnico.myDrive.domain.Directory;
-import org.joda.time.DateTime;
+
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 

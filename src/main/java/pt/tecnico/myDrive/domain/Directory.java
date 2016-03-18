@@ -133,6 +133,7 @@ public class Directory extends Directory_Base {
     }
 
     /**
+     * @// FIXME: 18/03/16 needs refactoring.
      * @return list (String) returns a list of files inside a directory.
      */
     public String listContent(){
@@ -166,7 +167,7 @@ public class Directory extends Directory_Base {
 
     /**
      * Adds a File to a Directory.
-     * @param file (File)
+     * @param file (File) receives a file.
      * @see File
      * @throws NameFileAlreadyExistsException occurs when adding a File in the same Directory has same name.
      */

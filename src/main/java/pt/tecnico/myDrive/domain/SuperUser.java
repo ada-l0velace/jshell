@@ -1,8 +1,4 @@
 package pt.tecnico.myDrive.domain;
-import org.joda.time.DateTime;
-import pt.tecnico.myDrive.domain.Directory;
-import pt.tecnico.myDrive.domain.User;
-
 
 /**
  * Identifies the admin that as total access to all files.
