@@ -1,6 +1,8 @@
 package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
+import java.io.UnsupportedEncodingException;
+
 
 public class App extends App_Base {
     
@@ -12,8 +14,8 @@ public class App extends App_Base {
     }
 
     /**
-     * Alternate construtor to create a App with xml.
-     * @param  xml Element (JDOM library type) which represents a File.
+     * Alternate constructor to create a App with xml.
+     * @param  xml (Element JDOM) which represents a File.
      */
     public App(Element xml, User owner) {
         super();
@@ -22,10 +24,11 @@ public class App extends App_Base {
     }
 
     /**
-     * Alternate construtor to create a App.
-     * @param owner User (JDOM library type) which represents a User.
-     * @param name String (Java Primitive) which represents the name a App.
-     * @param content String (Java Primitive) which represents the content of the App
+     * Alternate constructor to create a App.
+     * @param owner (User) represents a User.
+     * @param name (String) represents the name a App.
+     * @param content (String) represents the content of the App.
+     * @param m (Manager) represents an instance of Manager.
      */
     public App(User owner, String name, String content, Manager m) {
         super();
@@ -35,6 +38,7 @@ public class App extends App_Base {
 
     /**
      * Imports a App from persistent state (XML format).
+     * @see PlainFile
      * @throws ImportDocumentException
      */
     @Override
@@ -45,14 +49,18 @@ public class App extends App_Base {
     /**
      * Exports an App to a persistent state (XML format),
      * @see PlainFile
-     * @return Element (JDOM library type) which represents an App
+     * @return (Element JDOM) which represents an App.
      */
     @Override
     public Element exportXml () {
         return super.exportXml();
     }
-    
-    public File getFileByPath (String link){
+
+    /**
+     * Interface method.
+     * @throws UnsupportedEncodingException occurs always if called directly with an App.
+     */
+    public File getFileByPath (String link) {
         throw new UnsupportedOperationException("Not Implemented!");
-    }  
+    }
 }

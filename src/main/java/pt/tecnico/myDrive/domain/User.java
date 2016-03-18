@@ -24,11 +24,11 @@ public class User extends User_Base {
     }
 
     /**
-     * Alternative construtor to create a user.
-     * @param name String (Primary java type) represents the real name.
-     * @param username String (Primary java type) represents the login username.
-     * @param password String (Primary java type) represents the login password.
-     * @param umasks Short (Primary java type) represents the permission umask.
+     * Alternative constructor to create a user.
+     * @param name (String) represents the real name.
+     * @param username (String) represents the login username.
+     * @param password (String) represents the login password.
+     * @param umask (Short) represents the permission umask.
      */
     public User(String name, String username, String password, Short umask, Manager m) {
         super();
@@ -37,10 +37,10 @@ public class User extends User_Base {
     
     /**
      * Protected constructor to init a user.
-     * @param name     String (Primary java type) represents the real name.
-     * @param username String (Primary java type) represents the username. 
-     * @param password String (Primary java type) represents the password.
-     * @param umask    Int (Primary java type) represents the permissions umask.
+     * @param name     (String) represents the real name.
+     * @param username (String) represents the username.
+     * @param password (String) represents the password.
+     * @param umask    (Short)  represents the permissions umask.
      */
     protected void init(String name, String username, String password, Short umask, Manager m) {
         setName(name);
@@ -54,18 +54,19 @@ public class User extends User_Base {
     }
     
     /**
-     * Alternate construtor to create a user with xml
-     * @param Element (JDOM library type) which represents a User
+     * Alternate constructor to create a user with xml
+     * @param xml (Element JDOM) represents a User in xml format.
      */
     public User(Element xml) {
         super();
         importXml(xml);
     }
-    
+
     /**
-     * Do override of setUsername checking for special characters
-     * @param String (JavaPrimitive) which represents a username
-     */
+     * Overrides setName for checking username validation.
+     * @param username (String) represents a name for the file.
+     * @throws InvalidUsernameException occurs when a file name contains other than letters and numbers.
+     * */
     @Override
     public void setUsername(String username) throws InvalidUsernameException {
         Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
@@ -76,10 +77,9 @@ public class User extends User_Base {
             super.setUsername(username);
     }
 
-    
     /**
      * Imports a User from persistent state (XML format).
-     * @param Element (JDOM library type) which represents a User
+     * @param xml (Element JDOM) represents a User in xml format.
      * @see Permissions
      * @throws ImportDocumentException
      */
@@ -104,6 +104,12 @@ public class User extends User_Base {
         setHome(home);
     }
 
+    /**
+     * Creates a link to a File.
+     * @param file (File) represents the file to Link.
+     * @param name (String) represents the name of the Link.
+     * @return Link returns the Link created.
+     */
     public Link createLink(File file, String name) {
         Manager m = Manager.getInstance();
         File f = file.getDirectory();
@@ -136,20 +142,21 @@ public class User extends User_Base {
     }
 
     /**
-     * Delete a file or empty directory,
-     * @param String link represents the link to the file or empty directory.
+     * Delete a file.
+     * @param link (Link) represents the link to the file or empty directory.
      */
-    public void deleteFileOrEmptyDirectory(String link)
+    public void deleteFile(String link)
     {
         File to_delete  = getFileByPath(link);
         to_delete.remove();
     }
 
     /**
-    * 
-    * @param  String link receives a String with the link content. 
-    * @return  File  returns the last File that appears in the path.
-    */
+     * Gets the file by a path.
+     * @// FIXME: 18/03/16 needs refactoring.
+     * @param  link (String) receives a String with the link content.
+     * @return  File returns the last File that appears in the path.
+     */
     public File getFileByPath (String link) throws FileNotFoundException {
         if (link.charAt(link.length() - 1)== '/'){
         	if (link.length() > 1){
@@ -186,18 +193,21 @@ public class User extends User_Base {
     }
 
     /**
-     * @param  Link link receives a link to a plain file. 
-     * @return  String returns the string with the plain file content.
+     * Gets a File by a path.
+     * @param  link (Link) receives a link to a plain file.
+     * @return  String returns the string with the File content.
      */
     public String getFileContentByLink(Link link){     
         File pf = getFileByPath(link.getContent());
         return pf.getContent();
     }
-    
-    public void remove()
-    {
-        for(File i : getFileSet())
-        {
+
+    /**
+     * Removes User and related objects.
+     * @// FIXME: 18/03/16 doesn't work because needs to setHome(null); before the loop.
+     */
+    public void remove() {
+        for(File i : getFileSet()) {
             i.remove();
         }
         setHome(null);

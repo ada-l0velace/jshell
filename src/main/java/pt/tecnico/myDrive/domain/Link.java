@@ -3,6 +3,8 @@ import org.jdom2.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.io.UnsupportedEncodingException;
+
 public class Link extends Link_Base {
     
     /**
@@ -12,7 +14,8 @@ public class Link extends Link_Base {
         super();
     }
 
-    /**Alternate constructor to create a Link with a path
+    /**
+     * Alternate constructor to create a Link with a path
      * @param name (Java Primitive) which represents the name of the file.
      * @param file (File) which represents a file
      * @param path (Java Primitive) which represents the path of the link.
@@ -42,14 +45,6 @@ public class Link extends Link_Base {
         else
             setOwner(owner);
     }
-    
-    /**
-     * [getFilePath description]
-     * @return [description]
-     */
-    public String getFilePath() {
-        return "";
-    }
 
     /**
      * Imports a Link from persistent state (XML format).
@@ -70,10 +65,18 @@ public class Link extends Link_Base {
         return super.exportXml();
     }
 
+    /**
+     * Interface method.
+     * @throws UnsupportedEncodingException occurs always if called directly with a Link.
+     */
     public File getFileByPath (String link){
         throw new UnsupportedOperationException("Not Implemented!");
     }
-    
+
+    /**
+     * Overrides original toString() to the current object implementation.
+     * @return String represents the output string of File.
+     */
     public String toString(){
     	String a = super.toString();
 	    return a + " -> " + this.getContent();

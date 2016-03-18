@@ -10,7 +10,10 @@ import pt.tecnico.myDrive.exception.InvalidNameFileException;
 
 
 public class RootDirectory extends RootDirectory_Base {
-    
+
+    /**
+     * Default Constructor.
+     */
     public RootDirectory() {
         super();
     }

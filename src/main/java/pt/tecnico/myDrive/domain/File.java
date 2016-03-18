@@ -20,22 +20,23 @@ import java.io.UnsupportedEncodingException;
 
 
 /**
- * 
+ * Abstract File Class
  */
-public class File extends File_Base implements IElementXml {
+public abstract class File extends File_Base implements IElementXml {
     
     protected String nameRegex = "[^/\0]*";
     /**
-     * Default construtor to create File. 
+     * Default constructor to create File.
      */
     protected File() {
         super();
     }
 
     /**
-     * Alternative construtor to create a File.
-     * @param owner User user owner of the file.
-     * @param name String represents the name of the folder.
+     * Alternative constructor to create a File.
+     * @param owner (User user owner of the file.
+     * @param name (String) represents the name of the folder.
+     * @param m (Manager) represents an instance of Manager.
      */
     protected File(User owner, String nome, Manager m) {
         super();
@@ -43,7 +44,7 @@ public class File extends File_Base implements IElementXml {
     }
     
     /**
-     * Alternate construtor to create a File with xml.
+     * Alternate constructor to create a File with xml.
      * @param xml Element (JDOM library type) which represents a File.
      */
     protected File(Element xml){
@@ -53,8 +54,9 @@ public class File extends File_Base implements IElementXml {
 
     /**
      * Protected init Constructor for File
-     * @param owner User which represents a File.
-     * @param name  String (Primary java type) which represents the name of File.
+     * @param owner (User) represents the owner of the File.
+     * @param name  (String) represents the name of the File.
+     * @param m (Manager) represents an instance of Manager.
      */
     protected void init (User owner, String name, Manager m) {
     	setLastId(m);
@@ -66,7 +68,7 @@ public class File extends File_Base implements IElementXml {
 
     /**
      * Set the last id with the manager
-     * @param  m (Manager) which representes the Manager
+     * @param  m (Manager) represents an instance of Manager.
      */
     public void setLastId(Manager m) {
         int id = m.getLastFileId();
@@ -75,9 +77,9 @@ public class File extends File_Base implements IElementXml {
     }
     
     /**
-     * Do override of setName checking for special caracters
-     * @param String (JavaPrimitive) which represents a name for the file
-     * @throws InvalidNameFileException occurs when file name contains '/' or '\0'.
+     * Overrides setName for checking filename validation.
+     * @param String (JavaPrimitive) which represents a name for the file.
+     * @throws InvalidNameFileException occurs when a file name contains '/' or '\0'.
      * */
     @Override
     public void setName(String name) throws InvalidNameFileException {
@@ -93,7 +95,7 @@ public class File extends File_Base implements IElementXml {
     
     /**
      * Imports a File from persistent state (XML format).
-     * @param xml Element (JDOM library type) which represents a File.
+     * @param xml (Element JDOM) which represents a File.
      * @throws ImportDocumentException occurs when there is an error with the import.
      * @see User Permissions  
      */
@@ -136,18 +138,29 @@ public class File extends File_Base implements IElementXml {
 				
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
         node.setAttribute("modified", fmt.print(getModified()));
-				
         return node;
     }
 
+    /**
+     * Interface method.
+     * @throws UnsupportedEncodingException occurs always if called directly with File.
+     */
     public String getContent() {
         throw new UnsupportedOperationException("Not Implemented!");
     }
 
+    /**
+     * Interface method.
+     * @throws UnsupportedEncodingException occurs always if called directly with File.
+     */
     public void addFile(File file) {
         throw new UnsupportedOperationException("Not Implemented!");
     }
-    
+
+    /**
+     * Interface method.
+     * @throws UnsupportedEncodingException occurs always if called directly with File.
+     */
     public File getFileByPath (String link){
         throw new UnsupportedOperationException("Not Implemented!");
     }
@@ -163,6 +176,10 @@ public class File extends File_Base implements IElementXml {
         deleteDomainObject();
     }
 
+    /**
+     * Overrides original toString() to the current object implementation.
+     * @return String represents the output string of File.
+     */
 	public String toString(){
 		String type = this.getClass().getSimpleName();
 	    String permissions = this.getPermissions().toString();	

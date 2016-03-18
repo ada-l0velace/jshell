@@ -3,15 +3,15 @@ package pt.tecnico.myDrive.domain;
 public class Permissions extends Permissions_Base {
     
     /**
-     * Default Contructor
+     * Default constructor
      */
     public Permissions() {
         super();
     }
 
     /**
-     * Alternate Constructor for Permissions with Umask
-     * @param  umask [description]
+     * Alternate constructor for Permissions with Umask
+     * @param umask represents the numeric user mask.
      */
     public Permissions(short umask) {
         super();
@@ -34,7 +34,7 @@ public class Permissions extends Permissions_Base {
      * @return char represents the string form of that byte. 
      */
     public char getBitToChar(int position) {
-       char permission = '\0';
+       char permission;
        switch (position) {
             case 0:  permission = readToString(getBit(7));
                      break;

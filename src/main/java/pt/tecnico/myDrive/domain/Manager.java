@@ -20,7 +20,8 @@ public class Manager extends Manager_Base{
     
     /**
      * Creates a Manager, the singleton object of the application. 
-     * Also initiates Super User root.
+     * Also initiates a SuperUser, RootDirectory and default system Directories.
+     * @see SuperUser RootDirectory Directory
      */
     private Manager() {
         setLastFileId(0);
@@ -42,26 +43,32 @@ public class Manager extends Manager_Base{
     }
 
     /**
-     * Implements getInstance from Singleton Design Pattern.
-     * @return if no instance of Manager exists, returns a new instance of Manager, otherwise returns the existing Manager.
+     * Gets the Manager Singleton Instance.
+     * @return Manager returns the Manager single instance.
      */
     public static Manager getInstance() {
         Manager instance = FenixFramework.getDomainRoot().getManager();
         if(instance == null) {
-            //Manager.log.trace("New Manager"); 
+            //Manager.log.trace("New Manager");
             return new Manager();
         }
         return instance;
     }
 
+    /**
+     * Gets the /home instance Directory
+     * @see Directory
+     * @return Directory represents the Directory Instance.
+     */
     public Directory getDirHome() {
         return (Directory) getHome().searchFile("home");
     }
 
     /**
      * Get a user by username.
-     * @param String username : receives the username of the user we want to search for.
-     * @return Returns the user if found, null otherwise.
+     * @param username (User) receives the username of the user we want to search for.
+     * @see User
+     * @return User returns the user if found, null otherwise.
      */
     public User getUserByUsername(String username) {
         for(User u : getUsersSet())
@@ -72,8 +79,9 @@ public class Manager extends Manager_Base{
 
     /**
      * Checks if a certain user exists.
-     * @param User user : receives the user to search for.
-     * @return Returns true if the user was found, false otherwise.
+     * @param user (User) receives the user to search for.
+     * @see User
+     * @return Boolean returns true if the user was found, false otherwise.
      */
     public boolean existUser(User user) {
         if(getUserByUsername(user.getUsername()) != null)
@@ -83,8 +91,9 @@ public class Manager extends Manager_Base{
     }
 
     /**
-     * [resourceFile description]
+     * Gets a resource file.
      * @param  filename (Java Primitive) name of the file
+     * @see java.io.File
      * @return java.io.file which represents the file instance.
      */
     public java.io.File resourceFile(String filename) {
@@ -96,6 +105,7 @@ public class Manager extends Manager_Base{
 
     /**
      * Main import for Manager.
+     * @see User
      * @param xml (JDOM library type) which represents a MyDrive element.
      */
     public void importXml(Element xml) {
@@ -118,7 +128,8 @@ public class Manager extends Manager_Base{
 
     /**
      *  Creates a new user.
-     *  @param User user : receives the new user to create.
+     *  @see User
+     *  @param user (User) receives the new user to create.
      */
     public void createUser(User user) throws UsernameAlreadyExistsException  {
         if(getUserByUsername(user.getUsername()) == null) {
@@ -132,8 +143,8 @@ public class Manager extends Manager_Base{
 
     /**
      * Creates a new user.
-     * @param User user : receives the new user to delete.
-     * @return Returns true if the user was deleted, false otherwise.
+     * @param user (User) receives the new user to delete.
+     * @return Boolean returns true if the user was deleted, false otherwise.
      */
     public boolean deleteUser(User user) {
         if(existUser(user))
@@ -147,13 +158,9 @@ public class Manager extends Manager_Base{
     }
 
     /**
-     * Searches for the Home Directory.
-     * @return Directory returns directory /Home.
+     * Main export xml.
+     * @return Document represents the exported document.
      */
-    public Directory searchHome() {
-        return (Directory) getHome().searchFile("Home");
-    }
-  
     public Document exportXml() {
         Element node = new Element("Manager");
         Document doc = new Document(node);

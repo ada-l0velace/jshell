@@ -8,9 +8,6 @@ import pt.tecnico.myDrive.exception.ImportDocumentException;
 import org.joda.time.format.ISODateTimeFormat;
 
 
-/**
- * 
- */
 public class PlainFile extends PlainFile_Base {
 
     /**
@@ -21,7 +18,7 @@ public class PlainFile extends PlainFile_Base {
     }
 
     /**
-     * Alternate construtor to create a File with xml.
+     * Alternate constructor to create a File with xml.
      * @param  xml Element (JDOM library type) which represents a File.
      */
     public PlainFile(Element xml, User owner) {
@@ -31,7 +28,7 @@ public class PlainFile extends PlainFile_Base {
     }
 
     /**
-     * Alternate construtor to create a PlainFile.
+     * Alternate constructor to create a PlainFile.
      * @param owner User (JDOM library type) which represents a User.
      * @param name String (Java Primitive) which represents the name a File.
      */
@@ -43,7 +40,7 @@ public class PlainFile extends PlainFile_Base {
 
     /**
      * Imports a PlainFile from persistent state (XML format).
-     * @throws ImportDocumentException
+     * @throws ImportDocumentException occurs when there is an error in import.
      */
     @Override
     public void importXml (Element xml) {
@@ -57,7 +54,7 @@ public class PlainFile extends PlainFile_Base {
     /**
      * Exports a PlainFile to a persistent state (XML format),
      * @see File
-     * @return Element (JDOM library type) which represents a PlainFile
+     * @return (Element JDOM) which represents a PlainFile in xml format.
      */
     @Override
     public Element exportXml () {
@@ -74,9 +71,14 @@ public class PlainFile extends PlainFile_Base {
     public File getFileByPath (String link){
         return this;
     }
-    
+
+    /**
+     * Gets directory dimension.
+     * @return String represents the directory dimension in string.
+     * @throws RuntimeException occurs when there is an error in an unicode character.
+     */
     public String getDim() throws RuntimeException {
-        String dim = "";
+        String dim;
         try {
             dim = getContent().getBytes("UTF-8").length + "";
         } catch (UnsupportedEncodingException e) {
@@ -84,7 +86,11 @@ public class PlainFile extends PlainFile_Base {
         }
         return dim;
     }
-    
+
+    /**
+     * Overrides original toString() to the current object implementation.
+     * @return String represents the output string of PlainFile.
+     */
     public String toString() {
     	String a = super.toString();
     	String dim = getDim(); 	

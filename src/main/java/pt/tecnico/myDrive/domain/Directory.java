@@ -2,14 +2,10 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
-import pt.tecnico.myDrive.domain.User;
-import org.joda.time.DateTime;
+
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.FileIdNotFoundException;
 import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 
 
 public class Directory extends Directory_Base {
@@ -25,6 +21,7 @@ public class Directory extends Directory_Base {
      * Alternate Constructor for a Directory.
      * @param  owner User user owner of the file.
      * @param name Represents the name of the folder.
+     * @param m represents
      */
     public Directory(User owner, String name, Link parent, Manager m) {
         super();
@@ -36,8 +33,8 @@ public class Directory extends Directory_Base {
     }
 
     /**
-     * Alternate construtor to create a Link with xml.
-     * @param  xml Element (JDOM library type) which represents a File.
+     * Alternate constructor to create a Link with xml.
+     * @param  xml (Element JDOM) represents a File in xml format.
      */
     public Directory(Element xml, User owner) {
         super();
@@ -47,6 +44,7 @@ public class Directory extends Directory_Base {
     
     /**
      * Imports a Directory to a persistent state (XML format).
+     * @see PlainFile Link App Directory
      * @throws ImportDocumentException
      */
     @Override
@@ -67,9 +65,9 @@ public class Directory extends Directory_Base {
     }
 
     /**
-     * Exports a Directory to a persistent state (XML format),
+     * Exports a Directory to a persistent state (XML format).
      * @see File
-     * @return Element (JDOM library type) which represents a Directory
+     * @return (Element JDOM) which represents a Directory.
      */
     @Override
     public Element exportXml () {
@@ -83,6 +81,13 @@ public class Directory extends Directory_Base {
         return node;
     }
 
+    /**
+     * Finds a file in a current given path.
+     * @param link (String) represents a the path to the file (relative or absolute).
+     * @return File represents the file found.
+     * @throws FileNotFoundException occurs when the given path is invalid.
+     */
+    @Override
     public File getFileByPath (String link) throws FileNotFoundException {
         String[] spliTest = link.split("/");
         String[] split = spliTest;
@@ -107,33 +112,28 @@ public class Directory extends Directory_Base {
     }
 
     /**
-     * If the array size equals zero the directory is removed.
+     * Removes the Files in a Directory.
      * @throws PermissionDeniedException The user doesn't have the privilege to remove the directory.
      */
-    public void remove()
-    {
+    @Override
+    public void remove() {
         for(File f : getFileSet()) {
             f.remove();
         }
         super.remove();       
     }
-    
-    public String toString(){
-    	String a = super.toString();
-    	String dim = getFileSet().size() + "";  	
-    	String username = this.getOwner().getUsername();
-    	String modified = getModified().toString("MMM dd hh:mm");
-	    
-	    String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();
-	    return a + rest;
-    }
-    
+
+    /**
+     * Returns a list of files.
+     * @return String represents the list of files.
+     */
+    @Override
     public String getContent() {
         return listContent();
     }
 
     /**
-     * @return list String (Primary java type) with the file names inside of the directory.
+     * @return list (String) returns a list of files inside a directory.
      */
     public String listContent(){
     	String[] names = new String[getFileSet().size()];
@@ -163,25 +163,30 @@ public class Directory extends Directory_Base {
         }
         return list;
     }
-   
-    @Override
 
-    public void addFile(File filetba) throws NameFileAlreadyExistsException {
+    /**
+     * Adds a File to a Directory.
+     * @param file (File)
+     * @see File
+     * @throws NameFileAlreadyExistsException occurs when adding a File in the same Directory has same name.
+     */
+    @Override
+    public void addFile(File file) throws NameFileAlreadyExistsException {
         for (File fName : getFileSet()){
-            if (fName.getName().equals(filetba.getName())){
-                throw new NameFileAlreadyExistsException(filetba.getName());
+            if (fName.getName().equals(file.getName())){
+                throw new NameFileAlreadyExistsException(file.getName());
             }
         }
-        super.addFile(filetba);
+        super.addFile(file);
     }
 
 
     /**
-    * Searches for a File by name in a Directory
-    * @param String name recieves a String which is the name of the File
-    * @return File returns the file with the name recieved
-    * @throws FileNotFoundException when there is no File with that name
-    */
+     * Searches for a File by name in a Directory.
+     * @param  name (String) receives a String which is the name of the File.
+     * @throws FileNotFoundException when there is no File with that name.
+     * @return File returns the file with the name received.
+     */
     public File searchFile(String name) {
         for(File f: getFileSet())
             if (f.getName().equals(name))
@@ -189,11 +194,30 @@ public class Directory extends Directory_Base {
         throw new FileNotFoundException(name);
     }
 
+    /**
+     * Search a File by id in a Directory
+     * @param id (int) receives a String which is the name of the File
+     * @see File
+     * @throws FileIdNotFoundException
+     */
     public File searchFile(int id) throws FileIdNotFoundException {
         for(File f: getFileSet())
             if (f.getId() == id)
                 return f;
         throw new FileIdNotFoundException(id);
     }
-    
+
+    /**
+     * Overrides original toString() to the current object implementation.
+     * @return String represents the output string of a Directory.
+     */
+    public String toString(){
+        String a = super.toString();
+        String dim = getFileSet().size() + "";
+        String username = this.getOwner().getUsername();
+        String modified = getModified().toString("MMM dd hh:mm");
+
+        String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();
+        return a + rest;
+    }
 }
