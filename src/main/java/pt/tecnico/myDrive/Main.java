@@ -83,7 +83,7 @@ public class Main {
         // #7
         System.out.println(home.getContent());
     }   
-    
+
     /**
      * Scans the xml file and imports to database.
      * @param file (Java.io.File) represents a file. 

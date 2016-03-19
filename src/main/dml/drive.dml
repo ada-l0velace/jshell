@@ -76,6 +76,38 @@ relation ManagerHasHome {
     Manager playsRole managerHm { multiplicity 1; }
     Directory playsRole home { multiplicity 0..1; }
 }
+class EnvironmentVariable {
+    String name;
+    String value;
+}
+
+class Login;
+
+class Session {
+    long token;
+    DateTime lastActive;
+}
+
+relation LoginHasSessions {
+    Login playsRole login { multiplicity 1; }
+    Session playsRole session { multiplicity *; }
+}
+
+relation SessionHasCurrentDirectory {
+    Session playsRole session { multiplicity 1; }
+    Directory playsRole currentDirectory { multiplicity 1; }
+}
+
+relation UserOwnsLogin {
+    User playsRole user { multiplicity 1; }
+    Login playsRole login { multiplicity 1; }
+}
+
+relation LoginHasEnvironmentVariables {
+    Login playsRole login { multiplicity 1; }
+    EnvironmentVariable playsRole envVar { multiplicity *; }
+}
+
 
 class RootDirectory extends Directory;
 
