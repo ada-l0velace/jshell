@@ -29,6 +29,13 @@ public class Permissions extends Permissions_Base {
     }
 
     /**
+     * @return true if can write the file, false otherwise.
+     */
+    public boolean worldCanWrite() {
+        return (getBit(2) == 1) ? true : false;
+    }
+
+    /**
      * Permission table
      * @param  position (int) Which represents the position of the byte.
      * @return char represents the string form of that byte. 

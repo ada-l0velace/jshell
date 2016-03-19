@@ -7,7 +7,7 @@ import org.jdom2.Element;
 
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
-
+import pt.tecnico.myDrive.exception.WritePermissionException;
 
 /**
  * Identifies the current person that is working, creating or managing files.
@@ -125,6 +125,42 @@ public class User extends User_Base {
     }
 
     /**
+     * Modifies a file with a link.
+     * @param link represents the path to the file.
+     * @param file represents the file to add to the directory.
+     * @throws WritePermissionException occurs when the user doesn't have permissions to write on this directory.
+     */
+    public void createFile(Directory parent, File file) throws WritePermissionException {
+        if (getUsername() == parent.getOwner().getUsername())
+            parent.addFile(file);
+        else {
+            if (parent.getPermissions().worldCanWrite())
+                parent.addFile(file);
+            else
+                throw new WritePermissionException(parent.getName());
+        }
+    }
+
+    /**
+     * Modifies a file with a link
+     * @param link represents the path to the file.
+     * @param content represents
+     */
+    /*
+    public void modifyFile(Link link, String content) throws WritePermissionException, FileNotFoundException {
+        File file = getFileByPath(link.getContent());
+        if (getUsername() == link.getOwner().getUsername())
+            file.setContent(content);
+        else {
+            if (link.getPermissions().worldCanWrite())
+                file.setContent(content);
+            else
+                throw new WritePermissionException(file.getName());
+        }
+    }
+    */
+    
+    /**
      * Exports a User to a persistent state (XML format),
      * @see Permissions
      * @return Element (JDOM library type) which represents a User
@@ -139,16 +175,6 @@ public class User extends User_Base {
         node.addContent(getHome().exportXml());
         
         return node;
-    }
-
-    /**
-     * Delete a file.
-     * @param link (Link) represents the link to the file or empty directory.
-     */
-    public void deleteFile(String link)
-    {
-        File to_delete  = getFileByPath(link);
-        to_delete.remove();
     }
 
     /**
@@ -174,7 +200,7 @@ public class User extends User_Base {
     	String[] spliTest = link.split("/");
     	if (spliTest.length == 1){
     		if(spliTest[0].equals(getUsername())){
-    		return getHome();
+    		    return getHome();
     		}
     		else{
     			return Manager.getInstance().getDirHome();
@@ -200,6 +226,15 @@ public class User extends User_Base {
     public String getFileContentByLink(Link link){     
         File pf = getFileByPath(link.getContent());
         return pf.getContent();
+    }
+
+    /**
+     * Delete a file.
+     * @param link (Link) represents the link to the file or empty directory.
+     */
+    public void deleteFile(Link link) {
+        File to_delete  = getFileByPath(link.getContent());
+        to_delete.remove();
     }
 
     /**

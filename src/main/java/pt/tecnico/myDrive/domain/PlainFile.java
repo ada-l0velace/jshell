@@ -17,7 +17,7 @@ public class PlainFile extends PlainFile_Base {
 
     /**
      * Alternate constructor to create a File with xml.
-     * @param  xml Element (JDOM library type) which represents a File.
+     * @param  xml (Element JDOM) which represents a File.
      */
     public PlainFile(Element xml, User owner) {
         super();
@@ -27,8 +27,8 @@ public class PlainFile extends PlainFile_Base {
 
     /**
      * Alternate constructor to create a PlainFile.
-     * @param owner User (JDOM library type) which represents a User.
-     * @param name String (Java Primitive) which represents the name a File.
+     * @param owner (User) which represents a User.
+     * @param name (String) which represents the name a File.
      */
     public PlainFile(User owner, String name, String content, Manager m) {
         super();
