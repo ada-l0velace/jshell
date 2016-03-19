@@ -63,7 +63,7 @@ class PlainFile extends File {
 class Directory extends File;
 
 relation DirectoryContainsFile {
-    Directory playsRole directory { multiplicity 1; }
+    Directory playsRole parent { multiplicity 1; }
     File playsRole file { multiplicity *; }
 }
 
@@ -81,16 +81,9 @@ class EnvironmentVariable {
     String value;
 }
 
-class Login;
-
 class Session {
-    long token;
+    String token;
     DateTime lastActive;
-}
-
-relation LoginHasSessions {
-    Login playsRole login { multiplicity 1; }
-    Session playsRole session { multiplicity *; }
 }
 
 relation SessionHasCurrentDirectory {
@@ -98,13 +91,13 @@ relation SessionHasCurrentDirectory {
     Directory playsRole currentDirectory { multiplicity 1; }
 }
 
-relation UserOwnsLogin {
+relation UserOwnsSession {
     User playsRole user { multiplicity 1; }
-    Login playsRole login { multiplicity 1; }
+    Session playsRole session { multiplicity 1; }
 }
 
-relation LoginHasEnvironmentVariables {
-    Login playsRole login { multiplicity 1; }
+relation UserHasEnvironmentVariables {
+    User playsRole user { multiplicity 1; }
     EnvironmentVariable playsRole envVar { multiplicity *; }
 }
 

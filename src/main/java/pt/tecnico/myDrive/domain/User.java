@@ -111,14 +111,14 @@ public class User extends User_Base {
      */
     public Link createLink(File file, String name) {
         Manager m = Manager.getInstance();
-        File f = file.getDirectory();
+        File f = file.getParent();
         String l = "";
         while (f != null) {
-            if (f.getDirectory() != null)
+            if (f.getParent() != null)
                 l = f.getName()+ "/" + l;
             else
                 l = f.getName() + l;
-            f = f.getDirectory();
+            f = f.getParent();
         }
         return new Link (name, file, l + file.getName(), m);
     }
