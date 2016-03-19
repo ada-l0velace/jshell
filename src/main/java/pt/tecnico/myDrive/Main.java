@@ -23,6 +23,7 @@ public class Main {
 
     public static void main(String [] args) {
         try {
+            xmlPrint();
             for (String s: args) xmlScan(new java.io.File(s));
             setup();
         } finally {

@@ -73,7 +73,7 @@ relation UserHasHome {
 }
 
 relation ManagerHasHome {
-    Manager playsRole managerHm { multiplicity 1; }
+    Manager playsRole manager { multiplicity 1; }
     Directory playsRole home { multiplicity 0..1; }
 }
 class EnvironmentVariable {

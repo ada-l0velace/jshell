@@ -6,48 +6,48 @@
         <Files>
           <PlainFile id="29" name="yolo" umask="170" owner="sagres" modified="2016-03-13T02:18:44.212Z" content="yolo" />
           <App id="28" name="beer" umask="170" owner="sagres" modified="2016-03-13T02:18:44.212Z" content="yolo" />
-          <Link id="27" name="." umask="170" owner="sagres" modified="2016-03-13T02:18:44.211Z" content="/home/sagres/" />
-          <Link id="25" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.211Z" content="/home/" />
+          <Link id="27" name="." umask="170" owner="sagres" modified="2016-03-13T02:18:44.211Z" content="/home/sagres" />
+          <Link id="25" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.211Z" content="/home" />
         </Files>
       </Directory>
     </User>
     <User name="Daniel" username="poodle" password="pedigree" umask="250">
       <Directory id="23" name="poodle" umask="250" owner="poodle" modified="2016-03-13T02:18:44.210Z">
         <Files>
-          <Link id="24" name="." umask="250" owner="poodle" modified="2016-03-13T02:18:44.210Z" content="/home/poodle/" />
-          <Link id="22" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.210Z" content="/home/" />
+          <Link id="24" name="." umask="250" owner="poodle" modified="2016-03-13T02:18:44.210Z" content="/home/poodle" />
+          <Link id="22" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.210Z" content="/home" />
         </Files>
       </Directory>
     </User>
     <User name="bras" username="bacalhau" password="lhaulhau" umask="255">
       <Directory id="20" name="bacalhau" umask="255" owner="bacalhau" modified="2016-03-13T02:18:44.210Z">
         <Files>
-          <Link id="21" name="." umask="255" owner="bacalhau" modified="2016-03-13T02:18:44.210Z" content="/home/bacalhau/" />
-          <Link id="19" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.210Z" content="/home/" />
+          <Link id="21" name="." umask="255" owner="bacalhau" modified="2016-03-13T02:18:44.210Z" content="/home/bacalhau" />
+          <Link id="19" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.210Z" content="/home" />
         </Files>
       </Directory>
     </User>
     <User name="Ines" username="ines" password="rootroot" umask="152">
       <Directory id="17" name="ines" umask="152" owner="ines" modified="2016-03-13T02:18:44.209Z">
         <Files>
-          <Link id="18" name="." umask="152" owner="ines" modified="2016-03-13T02:18:44.209Z" content="/home/ines/" />
-          <Link id="16" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.209Z" content="/home/" />
+          <Link id="18" name="." umask="152" owner="ines" modified="2016-03-13T02:18:44.209Z" content="/home/ines" />
+          <Link id="16" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.209Z" content="/home" />
         </Files>
       </Directory>
     </User>
     <User name="Chavetas" username="biana" password="HorribleIndentation" umask="178">
       <Directory id="14" name="biana" umask="178" owner="biana" modified="2016-03-13T02:18:44.209Z">
         <Files>
-          <Link id="15" name="." umask="178" owner="biana" modified="2016-03-13T02:18:44.209Z" content="/home/biana/" />
-          <Link id="13" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.209Z" content="/home/" />
+          <Link id="15" name="." umask="178" owner="biana" modified="2016-03-13T02:18:44.209Z" content="/home/biana" />
+          <Link id="13" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.209Z" content="/home" />
         </Files>
       </Directory>
     </User>
     <User name="frodo" username="pedofrodo" password="mordor" umask="242">
       <Directory id="11" name="pedofrodo" umask="242" owner="pedofrodo" modified="2016-03-13T02:18:44.208Z">
         <Files>
-          <Link id="12" name="." umask="242" owner="pedofrodo" modified="2016-03-13T02:18:44.208Z" content="/home/pedofrodo/" />
-          <Link id="10" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.208Z" content="/home/" />
+          <Link id="12" name="." umask="242" owner="pedofrodo" modified="2016-03-13T02:18:44.208Z" content="/home/pedofrodo" />
+          <Link id="10" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.208Z" content="/home" />
         </Files>
       </Directory>
     </User>

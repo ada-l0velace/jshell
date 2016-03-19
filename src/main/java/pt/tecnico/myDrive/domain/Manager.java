@@ -25,19 +25,24 @@ public class Manager extends Manager_Base{
      */
     private Manager() {
         setLastFileId(0);
-        SuperUser su = new SuperUser();
+        SuperUser su = new SuperUser(this);
+
         RootDirectory rootDir = new RootDirectory(su,"/",this);
-        Directory home = new Directory(su, "home", new Link ("..", rootDir, "/", this),this);
-        Directory usr = new Directory(su, "usr", new Link ("..", rootDir, "/", this),this);
-        Directory local = new Directory(su, "local", new Link ("..", usr, "/usr/", this),this);
-        su.setHome(home,this);
-        home.addFile(su.getHome());
+        Directory home = new Directory(su, "home", su.createLink(rootDir, ".."), this);
+        Directory usr = new Directory(su, "usr", su.createLink(rootDir, ".."), this);
+        rootDir.addFile(usr);
+        rootDir.addFile(home);
+
+        Directory local = new Directory(su, "local", su.createLink(usr, ".."), this);
+        Directory suHome = new Directory(su, su.getUsername(), su.createLink(home, ".."), this);
+        home.addFile(suHome);
+        su.setHome(suHome);
+        usr.addFile(local);
+
         setSuperuser(su);
         setHome(rootDir);
-        rootDir.addFile(home);
-        rootDir.addFile(usr);
-        usr.addFile(local);
         addUsers(su);
+
         FenixFramework.getDomainRoot().setManager(this);
         setRoot(FenixFramework.getDomainRoot());
     }
@@ -164,7 +169,7 @@ public class Manager extends Manager_Base{
     public Document exportXml() {
         Element node = new Element("Manager");
         Document doc = new Document(node);
-        //node.addContent(getHome().exportXml()); 
+        node.addContent(getHome().exportXml());
         Element users = new Element("Users");
         node.addContent(users);
 

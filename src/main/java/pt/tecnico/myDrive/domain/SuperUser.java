@@ -18,16 +18,11 @@ public class SuperUser extends SuperUser_Base {
         setUsername(ROOT_USERNAME);
         setPassword("***");
         setPermissions(new Permissions(ROOT_UMASK));
-        // Manager.log.trace(Manager.getInstance().getHome());
-        //setHome();
+    }
+    public SuperUser(Manager m) {
+        this();
+        setManagerSu(m);
+        setManagerU(m);
     }
 
-    /**
-     * Inserts on SuperUser home directory a link to /home
-     * @param managerHome (Directory) which represents a directory where all Users will be.
-     * @param m           (Manager) represents the Manager.
-     */
-    public void setHome(Directory managerHome, Manager m) {     
-        super.setHome(new Directory(this, getUsername(), new Link ("..", managerHome,"/home/",m),m));
-    }
 }

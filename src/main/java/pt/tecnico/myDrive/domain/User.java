@@ -42,6 +42,7 @@ public class User extends User_Base {
      * @param umask    (Short)  represents the permissions umask.
      */
     protected void init(String name, String username, String password, Short umask, Manager m) {
+        setManagerU(m);
         setName(name);
         setUsername(username);
         setPassword(password);
@@ -110,7 +111,7 @@ public class User extends User_Base {
      * @return Link returns the Link created.
      */
     public Link createLink(File file, String name) {
-        Manager m = Manager.getInstance();
+        Manager m = getManagerU();
         File f = file.getParent();
         String l = "";
         while (f != null) {
