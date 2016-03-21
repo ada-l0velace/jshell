@@ -159,7 +159,7 @@ public class User extends User_Base {
         }
     }
     */
-    
+
     /**
      * Exports a User to a persistent state (XML format),
      * @see Permissions
