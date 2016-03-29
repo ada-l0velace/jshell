@@ -23,13 +23,13 @@ public class Directory extends Directory_Base {
      * @param name Represents the name of the folder.
      * @param m represents
      */
-    public Directory(User owner, String name, Link parent, Manager m) {
+    public Directory(User owner, String name, Directory parent, Manager m) {
         super();
-        super.init(owner, name, m);
+        super.init(owner, name,parent, m);
         //setParent(parent);
-        addFile(parent);
-        String n = (!parent.getContent().equals("/")) ? "/" : "";
-        addFile(new Link (".", this, parent.getContent() + n + name, m));
+
+        addFile(getOwner().createLink(parent,".."));
+        addFile(getOwner().createLink(this,"."));
         //addFile(this);
     }
 

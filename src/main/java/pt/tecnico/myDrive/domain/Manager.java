@@ -27,24 +27,25 @@ public class Manager extends Manager_Base{
         setLastFileId(0);
         SuperUser su = new SuperUser(this);
 
-        RootDirectory rootDir = new RootDirectory(su,"/",this);
-        Directory home = new Directory(su, "home", su.createLink(rootDir, ".."), this);
-        Directory usr = new Directory(su, "usr", su.createLink(rootDir, ".."), this);
-        rootDir.addFile(usr);
-        rootDir.addFile(home);
+        RootDirectory rootDir = new RootDirectory(su,"/", this);
+        Directory home = new Directory(su, "home", rootDir, this);
+        Directory usr = new Directory(su, "usr", rootDir, this);
+        //rootDir.addFile(usr);
+        //rootDir.addFile(home);
 
-        Directory local = new Directory(su, "local", su.createLink(usr, ".."), this);
-        Directory suHome = new Directory(su, su.getUsername(), su.createLink(home, ".."), this);
-        home.addFile(suHome);
-        su.setHome(suHome);
-        usr.addFile(local);
+        Directory local = new Directory(su, "local", usr, this);
+        //Directory suHome = new Directory(su, su.getUsername(), home, this);
+        //home.addFile(suHome);
+        //su.setHome(suHome);
+        //usr.addFile(local);
 
         setSuperuser(su);
         setHome(rootDir);
-        addUsers(su);
+        su.initSu();
 
         FenixFramework.getDomainRoot().setManager(this);
         setRoot(FenixFramework.getDomainRoot());
+
     }
 
     /**
@@ -121,7 +122,7 @@ public class Manager extends Manager_Base{
             
             if (user == null) {
                 user = new User(node);
-                addUsers(user);
+                //addUsers(user);
                 getDirHome().addFile(user.getHome());
             }
             else {

@@ -59,19 +59,19 @@ public class Main {
         // #1
         for (User u : m.getUsers())
             n += u.getUsername() + "\n";
-        File readme = new PlainFile(su, "README", n, m); 
-        home.addFile(readme);
+        File readme = new PlainFile(su, "README", n, (Directory) home, m);
+        //home.addFile(readme);
 
         // #2
-        Link lBin = su.createLink(usrlocal,"..");
-        lBin.setContent(lBin.getContent() + "/");
-        Directory bin = new Directory(su, "bin", lBin, m);
-        usrlocal.addFile(bin);
+        //Link lBin = su.createLink(usrlocal,"..");
+        //lBin.setContent(lBin.getContent() + "/");
+        Directory bin = new Directory(su, "bin", (Directory) usrlocal, m);
+        //usrlocal.addFile(bin);
         
         // #3
-        Link l = su.createLink(readme,"README"); 
-        System.out.println(su.getFileContentByLink(l));
-        
+        //Link l = su.createLink(readme,"README");
+        //System.out.println(su.getFileContentByLink(l));
+        System.out.println(readme.getContent());
         // #4
         bin.remove();
         

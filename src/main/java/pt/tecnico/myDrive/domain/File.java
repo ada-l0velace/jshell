@@ -29,17 +29,6 @@ public abstract class File extends File_Base implements IElementXml {
     protected File() {
         super();
     }
-
-    /**
-     * Alternative constructor to create a File.
-     * @param owner (User user owner of the file.
-     * @param name (String) represents the name of the folder.
-     * @param m (Manager) represents an instance of Manager.
-     */
-    protected File(User owner, String nome, Manager m) {
-        super();
-        init(owner, nome, m);
-    }
     
     /**
      * Alternate constructor to create a File with xml.
@@ -56,12 +45,14 @@ public abstract class File extends File_Base implements IElementXml {
      * @param name  (String) represents the name of the File.
      * @param m (Manager) represents an instance of Manager.
      */
-    protected void init (User owner, String name, Manager m) {
+    protected void init (User owner, String name, Directory parent, Manager m) {
     	setLastId(m);
         setName(name);
         setModified(new DateTime(DateTimeZone.UTC));
         setPermissions(new Permissions(owner.getPermissions().getUmask()));
         setOwner(owner);
+        if (parent != null)
+            parent.addFile(this);
     }
 
     /**

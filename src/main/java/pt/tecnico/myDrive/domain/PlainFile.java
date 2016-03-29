@@ -30,10 +30,11 @@ public class PlainFile extends PlainFile_Base {
      * @param owner (User) which represents a User.
      * @param name (String) which represents the name a File.
      */
-    public PlainFile(User owner, String name, String content, Manager m) {
+    public PlainFile(User owner, String name, String content, Directory parent, Manager m) {
         super();
-        super.init(owner, name, m);
+        super.init(owner, name, parent, m);
         setContent(content);
+
     }
 
     /**

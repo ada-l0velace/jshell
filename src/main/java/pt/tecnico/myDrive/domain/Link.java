@@ -21,7 +21,7 @@ public class Link extends Link_Base {
      * @param path (Java Primitive) which represents the path of the link.
      * @param m (Manager) which represents the Manager
      */
-    public Link(String name, File file, String path, Manager m){
+    public Link(String name, File file, String path, Directory parent, Manager m){
         super();
         setLastId(m);
         setName(name);

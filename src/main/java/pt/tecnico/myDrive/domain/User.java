@@ -31,7 +31,9 @@ public class User extends User_Base {
      */
     public User(String name, String username, String password, Short umask, Manager m) {
         super();
+        setManagerU(m);
         init(name, username, password, umask, m);
+        m.createUser(this);
     }
     
     /**
@@ -48,9 +50,9 @@ public class User extends User_Base {
         setPassword(password);
         setPermissions(new Permissions(umask));
         // Manager.log.trace(Manager.getInstance().getHome());
-        Directory home = new Directory(this, username, new Link ("..", m.getDirHome(),"/home/", m),m);
+        Directory home = new Directory(this, username, m.getDirHome(), m);
         setHome(home);
-        m.getDirHome().addFile(home);
+        //m.getDirHome().addFile(home);
     }
     
     /**
@@ -113,6 +115,7 @@ public class User extends User_Base {
     public Link createLink(File file, String name) {
         Manager m = getManagerU();
         File f = file.getParent();
+        Directory p = file.getParent();
         String l = "";
         while (f != null) {
             if (f.getParent() != null)
@@ -121,7 +124,7 @@ public class User extends User_Base {
                 l = f.getName() + l;
             f = f.getParent();
         }
-        return new Link (name, file, l + file.getName(), m);
+        return new Link (name, file, l + file.getName(), p, m);
     }
 
     /**
@@ -242,6 +245,7 @@ public class User extends User_Base {
      * @// FIXME: 18/03/16 doesn't work because needs to setHome(null); before the loop.
      */
     public void remove() {
+        setManagerU(null);
         for(File i : getFileSet()) {
             i.remove();
         }

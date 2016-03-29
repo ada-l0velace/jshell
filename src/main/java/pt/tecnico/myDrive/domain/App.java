@@ -30,9 +30,9 @@ public class App extends App_Base {
      * @param content (String) represents the content of the App.
      * @param m (Manager) represents an instance of Manager.
      */
-    public App(User owner, String name, String content, Manager m) {
+    public App(User owner, String name, String content, Directory parent, Manager m) {
         super();
-        super.init(owner, name, m);
+        super.init(owner, name, parent, m);
         setContent(content);
     }
 
