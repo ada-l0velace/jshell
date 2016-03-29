@@ -23,7 +23,6 @@ public class Main {
 
     public static void main(String [] args) {
         try {
-            xmlPrint();
             for (String s: args) xmlScan(new java.io.File(s));
             setup();
         } finally {
@@ -52,8 +51,11 @@ public class Main {
         Manager m = Manager.getInstance();
         User su = m.getSuperuser();
         String n = "";
-        
-        File usrLocal = su.getFileByPath("/usr/local");
+        File rootDir = su.getFileByPath("/");
+
+        Directory usr = new Directory(su, "usr", (RootDirectory) rootDir, m);
+        Directory local = new Directory(su, "local", usr, m);
+
         File home = su.getFileByPath("/home");
         
         // #1
@@ -62,7 +64,7 @@ public class Main {
         File readme = new PlainFile(su, "README", n, (Directory) home, m);
 
         // #2
-        Directory bin = new Directory(su, "bin", (Directory) usrLocal, m);
+        Directory bin = new Directory(su, "bin", (Directory) local, m);
 
         // #3
         System.out.println(readme.getContent());

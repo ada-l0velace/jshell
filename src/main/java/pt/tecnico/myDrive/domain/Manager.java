@@ -28,9 +28,9 @@ public class Manager extends Manager_Base{
         SuperUser su = new SuperUser(this);
 
         RootDirectory rootDir = new RootDirectory(su,"/", this);
-        Directory usr = new Directory(su, "usr", rootDir, this);
+
         new Directory(su, "home", rootDir, this);
-        new Directory(su, "local", usr, this);
+
         //setSuperuser(su);
         setHome(rootDir);
         su.initSu();
