@@ -182,8 +182,6 @@ public class User extends User_Base {
         node.setAttribute("username", getUsername());
         node.setAttribute("password", getPassword());
         node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
-
-        node.addContent(getHome().exportXml());
         
         return node;
     }
