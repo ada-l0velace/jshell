@@ -16,21 +16,34 @@ public class SuperUser extends SuperUser_Base {
      */
     public SuperUser() {
         super();
-       setName(ROOT_NAME);
-       setUsername(ROOT_USERNAME);
-       setPassword("***");
-       setPermissions(new Permissions(ROOT_UMASK));
+        setName(ROOT_NAME);
+        setUsername(ROOT_USERNAME);
+        setPassword("***");
+        setPermissions(new Permissions(ROOT_UMASK));
     }
+
+    /**
+     * Alternate constructor
+     * @param m represents the manager.
+     */
     public SuperUser(Manager m) {
         this();
         setManagerU(m);
-        setManagerSu(m);
         //init(ROOT_NAME, ROOT_USERNAME, "***", ROOT_UMASK, m);
         //m.createUser(this);
     }
 
+    /**
+     * Determines if is a super user
+     * @return Boolean true if it is, false if not.
+     */
+    @Override
+    public boolean isSuperUser() {
+        return true;
+    }
+
     public void initSu() {
-        init(getName(),getUsername(),getPassword(), getPermissions().getUmask(), getManagerSu());
+        init(getName(),getUsername(),getPassword(), getPermissions().getUmask(), getManagerU());
     }
 
     /**
@@ -39,7 +52,7 @@ public class SuperUser extends SuperUser_Base {
      */
     @Override
     public void remove() throws SuperUserRemoveException {
-        throw new SuperUserRemoveException(ROOT_USERNAME);
+        throw new SuperUserRemoveException(getUsername());
     }
 
 }

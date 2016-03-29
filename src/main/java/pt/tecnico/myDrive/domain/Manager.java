@@ -28,18 +28,10 @@ public class Manager extends Manager_Base{
         SuperUser su = new SuperUser(this);
 
         RootDirectory rootDir = new RootDirectory(su,"/", this);
-        Directory home = new Directory(su, "home", rootDir, this);
         Directory usr = new Directory(su, "usr", rootDir, this);
-        //rootDir.addFile(usr);
-        //rootDir.addFile(home);
-
-        Directory local = new Directory(su, "local", usr, this);
-        //Directory suHome = new Directory(su, su.getUsername(), home, this);
-        //home.addFile(suHome);
-        //su.setHome(suHome);
-        //usr.addFile(local);
-
-        setSuperuser(su);
+        new Directory(su, "home", rootDir, this);
+        new Directory(su, "local", usr, this);
+        //setSuperuser(su);
         setHome(rootDir);
         su.initSu();
 
@@ -94,6 +86,18 @@ public class Manager extends Manager_Base{
             return true;
         else
             return false;
+    }
+
+    /**
+     * Gets the SuperUser.
+     * @return User which represents the superuser.
+     */
+    public User getSuperuser() {
+        for(User u : getUsersSet()) {
+            if (u.isSuperUser())
+                return u;
+        }
+        return null;
     }
 
     /**

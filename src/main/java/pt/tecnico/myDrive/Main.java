@@ -53,25 +53,20 @@ public class Main {
         User su = m.getSuperuser();
         String n = "";
         
-        File usrlocal = su.getFileByPath("/usr/local");
+        File usrLocal = su.getFileByPath("/usr/local");
         File home = su.getFileByPath("/home");
         
         // #1
-        for (User u : m.getUsers())
+        for (User u : m.getUsersSet())
             n += u.getUsername() + "\n";
         File readme = new PlainFile(su, "README", n, (Directory) home, m);
-        //home.addFile(readme);
 
         // #2
-        //Link lBin = su.createLink(usrlocal,"..");
-        //lBin.setContent(lBin.getContent() + "/");
-        Directory bin = new Directory(su, "bin", (Directory) usrlocal, m);
-        //usrlocal.addFile(bin);
-        
+        Directory bin = new Directory(su, "bin", (Directory) usrLocal, m);
+
         // #3
-        //Link l = su.createLink(readme,"README");
-        //System.out.println(su.getFileContentByLink(l));
         System.out.println(readme.getContent());
+
         // #4
         bin.remove();
         

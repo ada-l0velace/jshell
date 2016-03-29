@@ -80,6 +80,14 @@ public class User extends User_Base {
     }
 
     /**
+     * Determines if is a super user
+     * @return Boolean true if it is, false if not.
+     */
+    public boolean isSuperUser() {
+        return false;
+    }
+
+    /**
      * Imports a User from persistent state (XML format).
      * @param xml (Element JDOM) represents a User in xml format.
      * @see Permissions

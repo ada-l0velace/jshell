@@ -12,15 +12,6 @@ class Manager {
   int lastFileId;
 }
 
-relation ManagerContainsSuperUser {
-  Manager playsRole managerSu {
-    multiplicity 1;
-  }
-  SuperUser playsRole superuser {
-    multiplicity 1;
-  }
-}
-
 relation ManagerContainsUser {
   Manager playsRole managerU {
     multiplicity 1;
