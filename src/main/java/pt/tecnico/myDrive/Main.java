@@ -64,7 +64,7 @@ public class Main {
         File readme = new PlainFile(su, "README", n, (Directory) home, m);
 
         // #2
-        Directory bin = new Directory(su, "bin", (Directory) local, m);
+        Directory bin = new Directory(su, "bin", local, m);
 
         // #3
         System.out.println(readme.getContent());

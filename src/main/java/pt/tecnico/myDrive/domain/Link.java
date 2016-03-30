@@ -26,9 +26,10 @@ public class Link extends Link_Base {
         setLastId(m);
         setName(name);
         setModified(new DateTime(DateTimeZone.UTC));
-        setPermissions(new Permissions(file.getPermissions().getUmask()));    
-        setContent(path);
+        setPermissions(new Permissions(file.getPermissions().getUmask()));
         setOwner(file.getOwner());
+        setContent(path);
+        setParent(parent);
     }
 
     /**

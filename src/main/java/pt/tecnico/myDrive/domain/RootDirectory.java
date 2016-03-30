@@ -19,11 +19,13 @@ public class RootDirectory extends RootDirectory_Base {
     public RootDirectory(User owner, String name, Manager m) {
         super();
         super.nameRegex = "[^\0]*";
-        super.init(owner, name, null, m);
+        init(owner,name, null, m);
+        //owner.createLink(this, "..", this, m);
+        //owner.createLink(this, ".", this, m);
+    }
+    protected void init(User owner, String name, Directory parent, Manager m) {
+        super.init(owner, name, parent, m);
         m.setHome(this);
-        //setParent(parent);
-        addFile(owner.createLink(this, "..", m));
-        addFile(owner.createLink(this, ".", m));
     }
 
     /**

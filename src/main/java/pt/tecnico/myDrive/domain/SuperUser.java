@@ -28,8 +28,7 @@ public class SuperUser extends SuperUser_Base {
      */
     public SuperUser(Manager m) {
         this();
-        RootDirectory rootDir = new RootDirectory(this,"/", m);
-        new Directory(this, "home", rootDir, m);
+        new Directory(this, "home", new RootDirectory(this,"/", m), m);
         setManagerU(m);
         initHome();
     }

@@ -51,8 +51,7 @@ public abstract class File extends File_Base implements IElementXml {
         setModified(new DateTime(DateTimeZone.UTC));
         setPermissions(new Permissions(owner.getPermissions().getUmask()));
         setOwner(owner);
-        if (parent != null)
-            parent.addFile(this);
+        setParent(parent);
     }
 
     /**
@@ -63,6 +62,14 @@ public abstract class File extends File_Base implements IElementXml {
         int id = m.getLastFileId();
         setId(id+1);
         m.setLastFileId(id+1);
+    }
+
+    @Override
+    public void setParent(Directory d) {
+        if (d == null)
+            super.setParent(null);
+        else
+            d.addFile(this);
     }
 
     /**

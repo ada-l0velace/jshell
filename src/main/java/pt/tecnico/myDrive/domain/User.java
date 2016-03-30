@@ -123,24 +123,11 @@ public class User extends User_Base {
      * Creates a link to a File.
      * @param file (File) represents the file to Link.
      * @param name (String) represents the name of the Link.
-     * @return Link returns the Link created.
-     */
-    public Link createLink(File file, String name) {
-        Manager m = getManagerU();
-        Directory p = file.getParent();
-        String l = file.getPath();
-        return new Link (name, file, l + file.getName(), p, m);
-    }
-
-    /**
-     * Creates a link to a File.
-     * @param file (File) represents the file to Link.
-     * @param name (String) represents the name of the Link.
+     * @param p (Directory) represents the parent directory where the link is inserted.
      * @param m (Manager) represents the application manager.
      * @return Link returns the Link created.
      */
-    public Link createLink(File file, String name, Manager m) {
-        Directory p = file.getParent();
+    public Link createLink(File file, String name, Directory p, Manager m) {
         String l = file.getPath();
         return new Link (name, file, l + file.getName(), p, m);
     }

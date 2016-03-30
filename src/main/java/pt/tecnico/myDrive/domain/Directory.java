@@ -24,13 +24,10 @@ public class Directory extends Directory_Base {
      * @param m represents
      */
     public Directory(User owner, String name, Directory parent, Manager m) {
-        super();
+        this();
         super.init(owner, name,parent, m);
-        //setParent(parent);
-
-        addFile(getOwner().createLink(parent,"..", m));
-        addFile(getOwner().createLink(this,".", m));
-        //addFile(this);
+        //getOwner().createLink(parent,"..", this, m);
+        //getOwner().createLink(this,".", this, m);
     }
 
     /**
@@ -138,18 +135,18 @@ public class Directory extends Directory_Base {
      * @return list (String) returns a list of files inside a directory.
      */
     public String listContent(){
-    	String[] names = new String[getFileSet().size()];
-    	String[] entries = new String[getFileSet().size()];
+    	String[] names = new String[getFileSet().size()+2];
+    	String[] entries = new String[getFileSet().size()+2];
         String list = "";
         String tempStr = "";
-        int k = 0;
+        int k = 2;
         for(File path : this.getFileSet()){
         	entries[k]= path.toString();
         	names[k] = path.getName();
         	k++;
         }
-        for (int t = 0; t < names.length - 1; t++) {
-            for (int i= 0; i < names.length - t -1; i++) {
+        for (int t = 2; t < names.length - 1; t++) {
+            for (int i= 2; i < names.length - t -1; i++) {
                 if(names[i+1].compareTo(names[i])<0) {
                     tempStr = names[i];
                     names[i] = names[i + 1];
@@ -160,6 +157,9 @@ public class Directory extends Directory_Base {
                 }
             }
         }
+        Directory p = getParent();
+        entries[0] = toString().replace(getName(), ".");
+        entries[1] = p.toString().replace(p.getName(), "..");
         for (int j = 0; j < names.length; j++){
         	list += entries[j] + "\n";        	
         }
@@ -189,7 +189,7 @@ public class Directory extends Directory_Base {
      * @throws FileNotFoundException when there is no File with that name.
      * @return File returns the file with the name received.
      */
-    public File searchFile(String name) {
+    public File searchFile(String name) throws FileIdNotFoundException {
         for(File f: getFileSet())
             if (f.getName().equals(name))
                 return f;
@@ -198,7 +198,7 @@ public class Directory extends Directory_Base {
 
     /**
      * Search a File by id in a Directory
-     * @param id (int) receives a String which is the name of the File
+     * @param id (int) receives a String which is the id of the File
      * @see File
      * @throws FileIdNotFoundException
      */
@@ -218,7 +218,6 @@ public class Directory extends Directory_Base {
         String dim = getFileSet().size() + "";
         String username = this.getOwner().getUsername();
         String modified = getModified().toString("MMM dd hh:mm");
-
         String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();
         return a + rest;
     }
