@@ -20,9 +20,10 @@ public class RootDirectory extends RootDirectory_Base {
         super();
         super.nameRegex = "[^\0]*";
         super.init(owner, name, null, m);
+        m.setHome(this);
         //setParent(parent);
-        addFile(owner.createLink(this, ".."));
-        addFile(owner.createLink(this, "."));
+        addFile(owner.createLink(this, "..", m));
+        addFile(owner.createLink(this, ".", m));
     }
 
     /**

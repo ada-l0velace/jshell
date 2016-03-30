@@ -28,8 +28,10 @@ public class SuperUser extends SuperUser_Base {
      */
     public SuperUser(Manager m) {
         this();
-        setManagerU(m);
-        //init(ROOT_NAME, ROOT_USERNAME, "***", ROOT_UMASK, m);
+        RootDirectory rootDir = new RootDirectory(this,"/", m);
+        new Directory(this, "home", rootDir, m);
+
+        init(ROOT_NAME, ROOT_USERNAME, "***", ROOT_UMASK, m);
         //m.createUser(this);
     }
 
@@ -43,7 +45,9 @@ public class SuperUser extends SuperUser_Base {
     }
 
     public void initSu() {
-        init(getName(),getUsername(),getPassword(), getPermissions().getUmask(), getManagerU());
+
+        //init(getName(),getUsername(),getPassword(), getPermissions().getUmask(), getManagerU());
+
     }
 
     /**

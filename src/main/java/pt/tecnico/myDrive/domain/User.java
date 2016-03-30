@@ -31,9 +31,10 @@ public class User extends User_Base {
      */
     public User(String name, String username, String password, Short umask, Manager m) {
         super();
-        setManagerU(m);
+        super.setManagerU(m);
         init(name, username, password, umask, m);
-        m.createUser(this);
+        //m.createUser(this);
+        //m.createUser(this);
     }
     
     /**
@@ -52,6 +53,7 @@ public class User extends User_Base {
         // Manager.log.trace(Manager.getInstance().getHome());
         Directory home = new Directory(this, username, m.getDirHome(), m);
         setHome(home);
+
         //m.getDirHome().addFile(home);
     }
     
@@ -122,16 +124,21 @@ public class User extends User_Base {
      */
     public Link createLink(File file, String name) {
         Manager m = getManagerU();
-        File f = file.getParent();
         Directory p = file.getParent();
-        String l = "";
-        while (f != null) {
-            if (f.getParent() != null)
-                l = f.getName()+ "/" + l;
-            else
-                l = f.getName() + l;
-            f = f.getParent();
-        }
+        String l = file.getPath();
+        return new Link (name, file, l + file.getName(), p, m);
+    }
+
+    /**
+     * Creates a link to a File.
+     * @param file (File) represents the file to Link.
+     * @param name (String) represents the name of the Link.
+     * @param m (Manager) represents the application manager.
+     * @return Link returns the Link created.
+     */
+    public Link createLink(File file, String name, Manager m) {
+        Directory p = file.getParent();
+        String l = file.getPath();
         return new Link (name, file, l + file.getName(), p, m);
     }
 
@@ -228,6 +235,21 @@ public class User extends User_Base {
     }
 
     /**
+     * Overriding set manager.
+     * @param m Application Manager.
+     */
+    @Override
+    public void setManagerU(Manager m) {
+        if (m == null)
+            remove();
+        else {
+            System.out.println("QWERTY");
+            //super.setManagerU(m);
+            m.createUser(this);
+        }
+    }
+
+    /**
      * Gets a File by a path.
      * @param  link (Link) receives a link to a plain file.
      * @return  String returns the string with the File content.
@@ -251,7 +273,7 @@ public class User extends User_Base {
      * @// FIXME: 18/03/16 doesn't work because needs to setHome(null); before the loop.
      */
     public void remove() {
-        setManagerU(null);
+        super.setManagerU(null);
         for(File i : getFileSet()) {
             i.remove();
         }

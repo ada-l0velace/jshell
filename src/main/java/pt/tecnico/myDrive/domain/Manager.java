@@ -25,16 +25,7 @@ public class Manager extends Manager_Base{
      */
     private Manager() {
         setLastFileId(0);
-        SuperUser su = new SuperUser(this);
-
-        RootDirectory rootDir = new RootDirectory(su,"/", this);
-
-        new Directory(su, "home", rootDir, this);
-
-        //setSuperuser(su);
-        setHome(rootDir);
-        su.initSu();
-
+        new SuperUser(this);
         FenixFramework.getDomainRoot().setManager(this);
         setRoot(FenixFramework.getDomainRoot());
 
@@ -146,7 +137,6 @@ public class Manager extends Manager_Base{
             addUsers(user);
         }
         else {
-
             throw new UsernameAlreadyExistsException(user.getUsername());
         }
     }

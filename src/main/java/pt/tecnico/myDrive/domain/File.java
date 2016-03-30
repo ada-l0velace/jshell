@@ -64,7 +64,20 @@ public abstract class File extends File_Base implements IElementXml {
         setId(id+1);
         m.setLastFileId(id+1);
     }
-    
+
+    public String getPath() {
+        File f = getParent();
+        String l = "";
+        while (f != null) {
+            if (f.getParent() != null)
+                l = f.getName()+ "/" + l;
+            else
+                l = f.getName() + l;
+            f = f.getParent();
+        }
+        return l;
+    }
+
     /**
      * Overrides setName for checking filename validation.
      * @param String (JavaPrimitive) which represents a name for the file.

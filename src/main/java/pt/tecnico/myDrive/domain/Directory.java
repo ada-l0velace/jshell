@@ -28,8 +28,8 @@ public class Directory extends Directory_Base {
         super.init(owner, name,parent, m);
         //setParent(parent);
 
-        addFile(getOwner().createLink(parent,".."));
-        addFile(getOwner().createLink(this,"."));
+        addFile(getOwner().createLink(parent,"..", m));
+        addFile(getOwner().createLink(this,".", m));
         //addFile(this);
     }
 
