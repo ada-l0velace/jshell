@@ -34,7 +34,6 @@ public class User extends User_Base {
         super.setManagerU(m);
         init(name, username, password, umask, m);
         //m.createUser(this);
-        //m.createUser(this);
     }
     
     /**
@@ -50,11 +49,15 @@ public class User extends User_Base {
         setUsername(username);
         setPassword(password);
         setPermissions(new Permissions(umask));
-        // Manager.log.trace(Manager.getInstance().getHome());
-        Directory home = new Directory(this, username, m.getDirHome(), m);
-        setHome(home);
+        initHome();
+    }
 
-        //m.getDirHome().addFile(home);
+    /**
+     * Initiate directory home at default location.
+     */
+    protected void initHome() {
+        Directory home = new Directory(this, getUsername(), getManagerU().getDirHome(), getManagerU());
+        setHome(home);
     }
     
     /**

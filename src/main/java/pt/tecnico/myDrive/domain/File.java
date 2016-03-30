@@ -65,6 +65,10 @@ public abstract class File extends File_Base implements IElementXml {
         m.setLastFileId(id+1);
     }
 
+    /**
+     * Gets the parent absolute path.
+     * @return String returns the absolute path string.
+     */
     public String getPath() {
         File f = getParent();
         String l = "";
