@@ -167,6 +167,9 @@ public class Manager extends Manager_Base{
 
         for (User u: getUsersSet()){
             node.addContent(u.exportXml());
+        }
+        
+        for (User u: getUsersSet()){
             for (File f: u.getFileSet())
                 node.addContent(f.exportXml());
         }
