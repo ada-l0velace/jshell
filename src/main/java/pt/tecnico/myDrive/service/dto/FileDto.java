@@ -3,18 +3,27 @@ package pt.tecnico.myDrive.service.dto;
 import org.joda.time.DateTime;
 
 
-public abstract class FileDto implements Comparable<FileDto> {
+public class FileDto implements Comparable<FileDto> {
 
     private int _id;
     private String _name;
     private DateTime _modified;
     private Short _umask;
+    private String _parent;
+    private String _owner;
 
-    public FileDto(int id, String name, DateTime modified, short umask) {
+    public FileDto(int id,
+                   String name,
+                   DateTime modified,
+                   short umask,
+                   String parent,
+                   String owner) {
         _id = id;
         _name = name;
         _modified = modified;
         _umask = umask;
+        _parent = parent;
+        _owner = owner;
     }
 
     /**
@@ -47,6 +56,22 @@ public abstract class FileDto implements Comparable<FileDto> {
      */
     public final Short getUmask() {
         return _umask;
+    }
+
+    /**
+     * Getter for _owner.
+     * @return String returns the username of the owner.
+     */
+    public String getOwner() {
+        return _owner;
+    }
+
+    /**
+     * Getter for _parent.
+     * @return String returns the parent directory name.
+     */
+    public String getParent() {
+        return _parent;
     }
 
     /**

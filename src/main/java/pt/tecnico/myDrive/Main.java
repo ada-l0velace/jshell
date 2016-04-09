@@ -33,7 +33,7 @@ public class Main {
 
     @Atomic
     public static void init() { // empty phonebook
-        logger.trace("Init: " + FenixFramework.getDomainRoot());
+        logger.trace("Init lol: " + FenixFramework.getDomainRoot());
         Manager.getInstance();
     }
 

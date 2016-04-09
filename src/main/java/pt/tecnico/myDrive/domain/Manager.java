@@ -60,9 +60,11 @@ public class Manager extends Manager_Base{
      * @return User returns the user if found, null otherwise.
      */
     public User getUserByUsername(String username) {
-        for(User u : getUsersSet())
-            if(username.equals(u.getUsername()))
+        for(User u : getUsersSet()) {
+            if(username.equals(u.getUsername())) {
                 return u;
+            }
+        }
         return null;
     }
 
@@ -155,6 +157,32 @@ public class Manager extends Manager_Base{
                 }
             }
         return false;
+    }
+
+    /**
+     * Gets the session by a token.
+     * @param token (String) receives the token string to find.
+     * @return boolean returns the session if the token exists.
+     */
+    public Session getSessionByToken(String token) {
+        for(User u : getUsersSet()) {
+            if (u.getSession().getToken().equals(token))
+                return  u.getSession();
+        }
+        return null;
+    }
+
+    /**
+     * Gets the user by a token.
+     * @param token (String) receives the token string to find.
+     * @return boolean returns the user if the token exists.
+     */
+    public User getUserByToken(String token) {
+        for(User u : getUsersSet()) {
+            if (u.getSession().getToken().equals(token))
+                return u;
+        }
+        return null;
     }
 
     /**

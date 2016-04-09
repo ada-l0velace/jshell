@@ -65,12 +65,12 @@ public abstract class BaseServiceTest {
     /**
      * Creates a user in the application.
      * @param username (String) represents the username of the user.
-     * @param email (String) represents the email of the user.
+     * @param password (String) represents the password of the user.
      * @param name (String) represents the name of the user.
      * @param umask (Short) represents the umask of the user.
      * @return User returns the user created.
      */
-    User createUser(String username, String password, String email, String name, Short umask) {
+    User createUser(String username, String password, String name, Short umask) {
         return new User(name, username, password, umask, Manager.getInstance());
     }
 

@@ -23,6 +23,7 @@ public class Session extends Session_Base {
     public Session(User user) {
         this();
         setUser(user);
+        setCurrentDirectory(user.getHome());
         this.setToken(user.getUsername()+ new BigInteger(64, new Random()).longValue());
     }
 

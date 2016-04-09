@@ -31,7 +31,7 @@ public class User extends User_Base {
      */
     public User(String name, String username, String password, Short umask, Manager m) {
         super();
-        super.setManagerU(m);
+        //super.setManagerU(m);
         init(name, username, password, umask, m);
         //m.createUser(this);
     }
@@ -44,11 +44,11 @@ public class User extends User_Base {
      * @param umask    (Short)  represents the permissions umask.
      */
     protected void init(String name, String username, String password, Short umask, Manager m) {
-        setManagerU(m);
         setName(name);
         setUsername(username);
         setPassword(password);
         setPermissions(new Permissions(umask));
+        setManagerU(m);
         initHome();
     }
 
@@ -232,7 +232,6 @@ public class User extends User_Base {
         if (m == null)
             remove();
         else {
-            System.out.println("QWERTY");
             //super.setManagerU(m);
             m.createUser(this);
         }
