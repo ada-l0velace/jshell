@@ -190,38 +190,22 @@ public class User extends User_Base {
      * @return  File returns the last File that appears in the path.
      */
     public File getFileByPath (String link) throws FileNotFoundException {
-        if (link.charAt(link.length() - 1)== '/'){
-        	if (link.length() > 1){
+        if ( (link.charAt(link.length() - 1)== '/') && (link.length() > 1)){
         		link = link.substring(0, link.length() -1);
-        	}
     	}
-    	if(link.charAt(0) == '/'){
-    		String[] spliTest = link.split("/");
-        	if (spliTest.length == 0){
-        		return Manager.getInstance().getHome();
-        	}
-    		String[] noBar = link.split("/",2);
-    		return Manager.getInstance().getHome().getFileByPath(noBar[1]);
-    	}
-    	String[] spliTest = link.split("/");
-    	if (spliTest.length == 1){
-    		if(spliTest[0].equals(getUsername())){
-    		    return getHome();
-    		}
-    		else{
-    			return Manager.getInstance().getDirHome();
-    		}
-    	}
-    	String[] split = link.split("/",2);
+        if (link.equals("session")){
+        	return getSession().getCurrentDirectory();
+        }
+        String[] split = link.split("/",2);
+        String init = split[0];
     	String rest = split[1];
-    	String nomeInit = split[0];
-    	if(nomeInit.equals("home")){
-    		return Manager.getInstance().getDirHome().getFileByPath(rest);
-    	}
-    	else if (nomeInit.equals(getUsername())){
-    		return getHome().getFileByPath(rest);
-    	}
-    	throw new FileNotFoundException(nomeInit);
+        if(link.startsWith("/")){
+            	return Manager.getInstance().getHome().getFileByPath(rest);
+        }
+        else if (link.startsWith("session/")){
+            	return getSession().getCurrentDirectory().getFileByPath(rest);
+        }
+        throw new FileNotFoundException(link);
     }
 
     /**

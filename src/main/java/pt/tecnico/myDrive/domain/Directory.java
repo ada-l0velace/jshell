@@ -87,6 +87,9 @@ public class Directory extends Directory_Base {
      */
     @Override
     public File getFileByPath (String link) throws FileNotFoundException {
+    	if(link.equals("")){
+    		return this;
+    	}
         String[] spliTest = link.split("/");
         String[] split = spliTest;
         String rest = "";
