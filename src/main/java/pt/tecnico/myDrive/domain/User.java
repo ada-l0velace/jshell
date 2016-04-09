@@ -175,10 +175,25 @@ public class User extends User_Base {
      */
     public Element exportXml () {
         Element node = new Element("User");
-        node.setAttribute("name", getName());
         node.setAttribute("username", getUsername());
-        node.setAttribute("password", getPassword());
-        node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
+        // node.setAttribute("name", getName());
+        // node.setAttribute("password", getPassword());
+        // node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
+
+        Element name = new Element("name");
+        name.addContent(getName());
+        Element password = new Element("password");
+        password.addContent(getPassword());
+        Element umask = new Element("umask");
+        umask.addContent(Short.toString(getPermissions().getUmask()));
+        Element home = new Element("home");
+        home.addContent(getHome().getPath() + getHome().getName());
+        
+        
+        node.addContent(name);
+        node.addContent(password);
+        node.addContent(umask);
+        node.addContent(home);
         
         return node;
     }
