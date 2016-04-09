@@ -69,14 +69,15 @@ public class Directory extends Directory_Base {
      */
     @Override
     public Element exportXml () {
-        Element node = super.exportXml();
+        //        Element node = super.exportXml();
 
-        Element filesElement = new Element("Files");
-        node.addContent(filesElement);
-        for (File f: getFileSet())
-            filesElement.addContent(f.exportXml());
+        //        Element filesElement = new Element("Files");
+        //node.addContent(filesElement);
+        //        for (File f: getFileSet())
+        //    filesElement.addContent(f.exportXml());
 
-        return node;
+        //        return node;
+        return super.exportXml();
     }
 
     /**

@@ -164,13 +164,12 @@ public class Manager extends Manager_Base{
     public Document exportXml() {
         Element node = new Element("Manager");
         Document doc = new Document(node);
-        node.addContent(getHome().exportXml());
-        Element users = new Element("Users");
-        node.addContent(users);
 
-        for (User u: getUsersSet())
-            users.addContent(u.exportXml());
-        
+        for (User u: getUsersSet()){
+            node.addContent(u.exportXml());
+            for (File f: u.getFileSet())
+                node.addContent(f.exportXml());
+        }
         return doc;
     }
 

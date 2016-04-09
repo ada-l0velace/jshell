@@ -58,7 +58,12 @@ public class PlainFile extends PlainFile_Base {
     @Override
     public Element exportXml () {
         Element node = super.exportXml();
-        node.setAttribute("content", getContent());
+
+        Element content = new Element("content");
+        content.addContent(getContent());
+
+        node.addContent(content);
+        
         return node;
     }
 

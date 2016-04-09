@@ -144,13 +144,29 @@ public abstract class File extends File_Base implements IElementXml {
     @Override
     public Element exportXml () {
         Element node = new Element(this.getClass().getSimpleName());
-        node.setAttribute("id", Integer.toString(getId()));
-        node.setAttribute("name", getName());
-        node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
-		node.setAttribute("owner", getOwner().getUsername());
-				
+        //        node.setAttribute("id", Integer.toString(getId()));
+        // node.setAttribute("name", getName());
+        //node.setAttribute("mask", Short.toString(getPermissions().getUmask()));
+        //node.setAttribute("owner", getOwner().getUsername());
+        
+        
+        Element name = new Element("name");
+        name.addContent(getName());
+        Element perm = new Element("perm");
+        perm.addContent(Short.toString(getPermissions().getUmask()));
+        Element owner = new Element("owner");
+        owner.addContent(getOwner().getUsername());
+
+        Element lastModified = new Element("lastModified");        
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
-        node.setAttribute("modified", fmt.print(getModified()));
+        lastModified.addContent(fmt.print(getModified()));
+
+        node.addContent(name);
+        node.addContent(perm);
+        node.addContent(owner);
+        node.addContent(lastModified);
+
+        
         return node;
     }
 

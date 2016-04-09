@@ -184,7 +184,7 @@ public class User extends User_Base {
         name.addContent(getName());
         Element password = new Element("password");
         password.addContent(getPassword());
-        Element umask = new Element("umask");
+        Element umask = new Element("mask");
         umask.addContent(Short.toString(getPermissions().getUmask()));
         Element home = new Element("home");
         home.addContent(getHome().getPath() + getHome().getName());
