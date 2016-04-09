@@ -23,6 +23,14 @@ public class RootDirectory extends RootDirectory_Base {
         //owner.createLink(this, "..", this, m);
         //owner.createLink(this, ".", this, m);
     }
+
+    /**
+     * Initiates the data in the object
+     * @param owner (User) represents the owner of the File.
+     * @param name  (String) represents the name of the File.
+     * @param parent (Directory) represents parent directory.
+     * @param m (Manager) represents an instance of Manager.
+     */
     protected void init(User owner, String name, Directory parent, Manager m) {
         super.init(owner, name, parent, m);
         m.setHome(this);

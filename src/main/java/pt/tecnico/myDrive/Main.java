@@ -31,6 +31,12 @@ public class Main {
         }
     }
 
+    @Atomic
+    public static void init() { // empty phonebook
+        logger.trace("Init: " + FenixFramework.getDomainRoot());
+        Manager.getInstance();
+    }
+
     /**
      * Exports the Manager to a xml file
      */

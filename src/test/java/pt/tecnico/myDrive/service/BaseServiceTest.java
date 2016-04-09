@@ -14,16 +14,28 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.tecnico.myDrive.Main;
 
+import pt.tecnico.myDrive.domain.Manager;
+import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.domain.User;
+
 public abstract class BaseServiceTest {
     protected static final Logger log = LogManager.getRootLogger();
 
-    @BeforeClass // run once berfore each test class
+    /**
+     * Run once before each test class
+     * @throws Exception
+     */
+    @BeforeClass
     public static void setUpBeforeAll() throws Exception {
         // run tests with a clean database!!!
-        Main.setup();
+        Main.init();
     }
 
-    @Before // run before each test
+    /**
+     * Run before each test
+     * @throws Exception
+     */
+    @Before
     public void setUp() throws Exception {
         try {
             FenixFramework.getTransactionManager().begin(false);
@@ -33,7 +45,10 @@ public abstract class BaseServiceTest {
         }
     }
 
-    @After // rollback after each test
+    /**
+     * Rollback after each test
+     */
+    @After
     public void tearDown() {
         try {
             FenixFramework.getTransactionManager().rollback();
@@ -42,5 +57,33 @@ public abstract class BaseServiceTest {
         }
     }
 
-    protected abstract void populate(); // each test adds its own data
+    /**
+     * Each test adds its own data.
+     */
+    protected abstract void populate();
+
+    /**
+     * Creates a user in the application.
+     * @param username (String) represents the username of the user.
+     * @param email (String) represents the email of the user.
+     * @param name (String) represents the name of the user.
+     * @param umask (Short) represents the umask of the user.
+     * @return User returns the user created.
+     */
+    User createUser(String username, String password, String email, String name, Short umask) {
+        return new User(name, username, password, umask, Manager.getInstance());
+    }
+
+    /**
+     * Creates a session for a specific username.
+     * @param username (String) represents the username of the user.
+     * @return token returns the token of the session created.
+     */
+    String createSession(String username) {
+        User u = Manager.getInstance().getUserByUsername(username);
+        Session s = new Session(u);
+        return s.getToken();
+    }
+
+
 }
