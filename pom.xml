@@ -109,7 +109,7 @@
 
     <properties>
     <java.version>1.8</java.version>
-
+        <version.junit>4.12</version.junit>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -120,7 +120,7 @@
         <version.slf4j.api>1.7.7</version.slf4j.api>
         <version.ch.qos.logback.logback.classic>1.1.2</version.ch.qos.logback.logback.classic>
 
-    <version.org.jdom.jdom>2.0.5</version.org.jdom.jdom>
+        <version.org.jdom.jdom>2.0.5</version.org.jdom.jdom>
     </properties>
 
     <build>
@@ -178,22 +178,22 @@
                 </configuration>
           </plugin>
         <plugin>
-	<groupId>pt.tecnico.plugin</groupId>
-	<artifactId>dml2yuml-maven-plugin</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<configuration>
-	  <names>false</names>
-	  <outputDirectory>info</outputDirectory>
-	  <url>http://yuml.me/diagram/scruffy;dir:lr/class/</url>
-	</configuration>
-	<executions>
-	  <execution>
-	    <phase>compile</phase>
-	    <goals>
-	      <goal>dml2yuml</goal>
-	    </goals>
-	  </execution>
-	</executions>
+            <groupId>pt.tecnico.plugin</groupId>
+            <artifactId>dml2yuml-maven-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <configuration>
+              <names>false</names>
+              <outputDirectory>info</outputDirectory>
+              <url>http://yuml.me/diagram/scruffy;dir:lr/class/</url>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>compile</phase>
+                <goals>
+                  <goal>dml2yuml</goal>
+                </goals>
+              </execution>
+            </executions>
       </plugin>
 
 	</plugins>
@@ -204,6 +204,12 @@
           <groupId>pt.ist</groupId>
           <artifactId>fenix-framework-core-api</artifactId>
           <version>${version.pt.ist.fenix.framework}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
           <groupId>pt.ist</groupId>
