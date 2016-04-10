@@ -46,6 +46,15 @@ public class Link extends Link_Base {
         else
             setOwner(owner);
     }
+    
+    @Override
+    public void setContent(String cont){
+    	if (cont.length() > 1024){
+    		throw new UnsupportedOperationException("Not Implemented!");
+    	}
+    	else 
+    		super.setContent(cont);
+    }
 
     /**
      * Imports a Link from persistent state (XML format).
