@@ -76,9 +76,9 @@ public class User extends User_Base {
      * */
     @Override
     public void setUsername(String username) throws InvalidUsernameException {
-        Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9]{3,}");
         Matcher matcher = pattern.matcher(username);
-        if (!matcher.matches() || username.length()<3)
+        if (!matcher.matches())
             throw new InvalidUsernameException(username);
         else
             super.setUsername(username);
