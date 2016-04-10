@@ -63,20 +63,29 @@ public class Directory extends Directory_Base {
     }
 
     /**
+     * @deprecated and replaced with new exportXml
+     */
+    @Deprecated
+    public Element xmlExport(){
+        Element node = super.exportXml();
+
+        Element filesElement = new Element("Files");
+        node.addContent(filesElement);
+
+        for (File f: getFileSet())
+            filesElement.addContent(f.exportXml());
+        
+        return node;
+    }
+
+    /**
      * Exports a Directory to a persistent state (XML format).
      * @see File
      * @return (Element JDOM) which represents a Directory.
      */
     @Override
     public Element exportXml () {
-        //        Element node = super.exportXml();
-
-        //        Element filesElement = new Element("Files");
-        //node.addContent(filesElement);
-        //        for (File f: getFileSet())
-        //    filesElement.addContent(f.exportXml());
-
-        //        return node;
+        
         return super.exportXml();
     }
 

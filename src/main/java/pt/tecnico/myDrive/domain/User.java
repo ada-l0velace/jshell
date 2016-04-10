@@ -169,6 +169,19 @@ public class User extends User_Base {
     */
 
     /**
+     * @deprecated and replaced with new exportXml
+     */
+    @Deprecated
+    public Element xmlExport(){
+        Element node = new Element("User");
+        node.setAttribute("username", getUsername());
+        node.setAttribute("name", getName());
+        node.setAttribute("password", getPassword());
+        node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
+        return node;
+    }
+
+    /**
      * Exports a User to a persistent state (XML format),
      * @see Permissions
      * @return Element (JDOM library type) which represents a User
@@ -176,10 +189,7 @@ public class User extends User_Base {
     public Element exportXml () {
         Element node = new Element("User");
         node.setAttribute("username", getUsername());
-        // node.setAttribute("name", getName());
-        // node.setAttribute("password", getPassword());
-        // node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
-
+        
         Element name = new Element("name");
         name.addContent(getName());
         Element password = new Element("password");

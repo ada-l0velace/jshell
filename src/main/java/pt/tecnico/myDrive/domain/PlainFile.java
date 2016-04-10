@@ -15,6 +15,7 @@ public class PlainFile extends PlainFile_Base {
         super();
     }
 
+
     /**
      * Alternate constructor to create a File with xml.
      * @param  xml (Element JDOM) which represents a File.
@@ -47,6 +48,16 @@ public class PlainFile extends PlainFile_Base {
         super.importXml(node);
         String content = node.getAttribute("content").getValue();
         setContent(content);
+    }
+
+    /**
+     * @deprecated and replaced with new exportXml
+     */
+    @Deprecated
+    public Element xmlExport(){    
+        Element node = super.exportXml();
+        node.setAttribute("content", getContent());
+        return node;
     }
 
 
