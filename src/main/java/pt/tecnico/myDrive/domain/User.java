@@ -257,13 +257,20 @@ public class User extends User_Base {
         return pf.getContent();
     }
 
-
+    /**
+     * Gets the first to be found valid session.
+     * @return Session returns the valid session.
+     */
     public Session getValidSession() {
         for (Session s: getSessionSet()) {
             if (!s.hasExpired())
                 return s;
         }
         return null;
+    }
+
+    public boolean isValidPassword(String password) {
+        return getPassword() == password;
     }
 
     /**

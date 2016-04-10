@@ -73,6 +73,7 @@ public class ListDirectoryTest extends BaseServiceTest {
             assertEquals("9th file is", "shawnda", ds.get(8).getName());
             assertEquals("10th file is", "suzette", ds.get(9).getName());
         }
+
     }
 
 }
