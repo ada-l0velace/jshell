@@ -144,7 +144,7 @@ public abstract class File extends File_Base implements IElementXml {
     @Override
     public Element exportXml () {
         Element node = new Element(this.getClass().getSimpleName());
-        //        node.setAttribute("id", Integer.toString(getId()));
+        node.setAttribute("id", Integer.toString(getId()));
         // node.setAttribute("name", getName());
         //node.setAttribute("mask", Short.toString(getPermissions().getUmask()));
         //node.setAttribute("owner", getOwner().getUsername());
