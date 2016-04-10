@@ -156,7 +156,9 @@ public abstract class File extends File_Base implements IElementXml {
         perm.addContent(Short.toString(getPermissions().getUmask()));
         Element owner = new Element("owner");
         owner.addContent(getOwner().getUsername());
-
+        Element path = new Element("path");
+        path.addContent(getPath() + getName());
+        
         Element lastModified = new Element("lastModified");        
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
         lastModified.addContent(fmt.print(getModified()));
