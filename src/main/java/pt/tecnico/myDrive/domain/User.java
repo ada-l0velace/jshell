@@ -285,10 +285,10 @@ public class User extends User_Base {
      */
     public void remove() {
         super.setManagerU(null);
+        setHome(null);
         for(File i : getFileSet()) {
             i.remove();
         }
-        setHome(null);
         setPermissions(null);
         deleteDomainObject();
     }

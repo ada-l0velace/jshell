@@ -63,6 +63,11 @@ public class Main {
         Directory local = new Directory(su, "local", usr, m);
 
         File home = su.getFileByPath("/home");
+
+        User user = new User("Biana","yommere","pass", (short) Integer.parseInt("0F",16), m);
+
+        m.deleteUser(user);
+        
         // #1
         for (User u : m.getUsersSet())
             n += u.getUsername() + "\n";
