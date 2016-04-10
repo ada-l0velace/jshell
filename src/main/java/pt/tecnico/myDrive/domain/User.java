@@ -106,23 +106,14 @@ public class User extends User_Base {
      */
     public void importXml (Element xml) {
         Element node = xml;
-        String name = node.getAttribute("name").getValue();
+        Manager m = getManagerU();
+
+        String name = node.getChild("name").getValue();
         String username = node.getAttribute("username").getValue();
-        String password = node.getAttribute("password").getValue();
-        short umask = Short.parseShort(node.getAttribute("umask").getValue());
-        Directory home;
-        if (getHome() != null) {
-            Directory h = getHome();
-            setHome(null);
-            h.remove();
-        }
-        setName(new String(name));
-        setUsername(new String(username));
-        setPassword(new String(password));
-        setPermissions(new Permissions(umask));
-        Element dir = xml.getChild("Directory");
-        home = new Directory(dir, this);
-        setHome(home);
+        String password = node.getChild("password").getValue();
+        short umask = Short.parseShort(node.getChild("mask").getValue());
+        init(new String(name),new String(username),new String(password), new Short(umask),m);
+
     }
 
     /**

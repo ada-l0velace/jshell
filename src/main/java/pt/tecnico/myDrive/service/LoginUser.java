@@ -34,7 +34,7 @@ public class LoginUser extends MyDriveService {
         _userToken = new Session(u).getToken();
     }
 
-    public String returns() {
+    public String result() {
         return _userToken;
     }
 }

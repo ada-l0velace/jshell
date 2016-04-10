@@ -7,7 +7,7 @@ import pt.tecnico.myDrive.exception.MyDriveException;
 /**
  * Created by lolstorm on 09/04/16.
  */
-public class CreateFile extends MyDriveService {
+public class CreateFile extends LoginRequiredService {
 
     private User _user;
     private Session _session;
@@ -16,7 +16,7 @@ public class CreateFile extends MyDriveService {
     private String _content;
 
     public CreateFile(String token, String fileName, String fileType) {
-        super();
+        super(token);
         _user = Manager.getInstance().getUserByToken(token);
         _session = Manager.getInstance().getSessionByToken(token);
         _filename = fileName;
@@ -30,6 +30,7 @@ public class CreateFile extends MyDriveService {
 
     @Override
     protected void dispatch() throws MyDriveException {
+        super.dispatch();
         Directory p = _session.getCurrentDirectory();
         Manager m = Manager.getInstance();
         switch (_fileType) {

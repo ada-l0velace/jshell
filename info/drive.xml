@@ -1,63 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <Manager>
   <Users>
-    <User name="campos" username="sagres" password="jolaisthebest" umask="170">
-      <Directory id="26" name="sagres" umask="170" owner="sagres" modified="2016-03-13T02:18:44.211Z">
-        <Files>
-          <PlainFile id="29" name="yolo" umask="170" owner="sagres" modified="2016-03-13T02:18:44.212Z" content="yolo" />
-          <App id="28" name="beer" umask="170" owner="sagres" modified="2016-03-13T02:18:44.212Z" content="yolo" />
-          <Link id="27" name="." umask="170" owner="sagres" modified="2016-03-13T02:18:44.211Z" content="/home/sagres" />
-          <Link id="25" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.211Z" content="/home" />
-        </Files>
-      </Directory>
-    </User>
-    <User name="Daniel" username="poodle" password="pedigree" umask="250">
-      <Directory id="23" name="poodle" umask="250" owner="poodle" modified="2016-03-13T02:18:44.210Z">
-        <Files>
-          <Link id="24" name="." umask="250" owner="poodle" modified="2016-03-13T02:18:44.210Z" content="/home/poodle" />
-          <Link id="22" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.210Z" content="/home" />
-        </Files>
-      </Directory>
-    </User>
-    <User name="bras" username="bacalhau" password="lhaulhau" umask="255">
-      <Directory id="20" name="bacalhau" umask="255" owner="bacalhau" modified="2016-03-13T02:18:44.210Z">
-        <Files>
-          <Link id="21" name="." umask="255" owner="bacalhau" modified="2016-03-13T02:18:44.210Z" content="/home/bacalhau" />
-          <Link id="19" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.210Z" content="/home" />
-        </Files>
-      </Directory>
-    </User>
-    <User name="Ines" username="ines" password="rootroot" umask="152">
-      <Directory id="17" name="ines" umask="152" owner="ines" modified="2016-03-13T02:18:44.209Z">
-        <Files>
-          <Link id="18" name="." umask="152" owner="ines" modified="2016-03-13T02:18:44.209Z" content="/home/ines" />
-          <Link id="16" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.209Z" content="/home" />
-        </Files>
-      </Directory>
-    </User>
-    <User name="Chavetas" username="biana" password="HorribleIndentation" umask="178">
-      <Directory id="14" name="biana" umask="178" owner="biana" modified="2016-03-13T02:18:44.209Z">
-        <Files>
-          <Link id="15" name="." umask="178" owner="biana" modified="2016-03-13T02:18:44.209Z" content="/home/biana" />
-          <Link id="13" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.209Z" content="/home" />
-        </Files>
-      </Directory>
-    </User>
-    <User name="frodo" username="pedofrodo" password="mordor" umask="242">
-      <Directory id="11" name="pedofrodo" umask="242" owner="pedofrodo" modified="2016-03-13T02:18:44.208Z">
-        <Files>
-          <Link id="12" name="." umask="242" owner="pedofrodo" modified="2016-03-13T02:18:44.208Z" content="/home/pedofrodo" />
-          <Link id="10" name=".." umask="242" owner="root" modified="2016-03-13T02:18:44.208Z" content="/home" />
-        </Files>
-      </Directory>
-    </User>
-    <User name="Super User" username="root" password="***" umask="242">
-      <Directory id="30" name="root" umask="242" owner="root" modified="2016-03-12T02:55:38.147Z">
-        <Files>
-          <Link id="32" name="." umask="242" owner="root" modified="2016-03-12T02:55:38.147Z" content="/home/root" />
-          <Link id="31" name=".." umask="242" owner="root" modified="2016-03-12T02:55:38.147Z" content="/home" />
-        </Files>
-      </Directory>
+    <User username="root">
+      <name>Super User</name>
+      <password>***</password>
+      <mask>250</mask>
+      <home>/home/root</home>
     </User>
   </Users>
+  <Files>
+    <Directory id="4">
+      <name>usr</name>
+      <perm>250</perm>
+      <owner>root</owner>
+      <path>/usr</path>
+      <lastModified>2016-04-10T21:16:45.654Z</lastModified>
+    </Directory>
+    <Directory id="5">
+      <name>local</name>
+      <perm>250</perm>
+      <owner>root</owner>
+      <path>/usr/local</path>
+      <lastModified>2016-04-10T21:16:45.661Z</lastModified>
+    </Directory>
+    <PlainFile id="7">
+      <name>README</name>
+      <perm>250</perm>
+      <owner>root</owner>
+      <path>/home/README</path>
+      <lastModified>2016-04-10T21:16:45.665Z</lastModified>
+      <content>root</content>
+    </PlainFile>
+    <RootDirectory id="1">
+      <name>/</name>
+      <perm>250</perm>
+      <owner>root</owner>
+      <path>/</path>
+      <lastModified>2016-04-10T22:16:26.000+01:00</lastModified>
+    </RootDirectory>
+    <Directory id="3">
+      <name>root</name>
+      <perm>250</perm>
+      <owner>root</owner>
+      <path>/home/root</path>
+      <lastModified>2016-04-10T22:16:26.000+01:00</lastModified>
+    </Directory>
+    <Directory id="2">
+      <name>home</name>
+      <perm>250</perm>
+      <owner>root</owner>
+      <path>/home</path>
+      <lastModified>2016-04-10T22:16:26.000+01:00</lastModified>
+    </Directory>
+  </Files>
 </Manager>
