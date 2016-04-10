@@ -12,6 +12,15 @@ public class FileDto implements Comparable<FileDto> {
     private String _parent;
     private String _owner;
 
+    /**
+     * Construtor to FileDto
+     * @param id (int) receives the id of the file.
+     * @param name (String) receives the name of the file.
+     * @param modified (DateTime) receives the date of the file.
+     * @param umask (Short) receives the permission mask of the file.
+     * @param parent (String) receives the name of the parent directory.
+     * @param owner (String) receives the owner name of the file.
+     */
     public FileDto(int id,
                    String name,
                    DateTime modified,

@@ -81,7 +81,7 @@ relation SessionHasCurrentDirectory {
 
 relation UserOwnsSession {
     User playsRole user { multiplicity 1; }
-    Session playsRole session { multiplicity 1; }
+    Session playsRole session { multiplicity *; }
 }
 
 relation SessionHasEnvironmentVariables {

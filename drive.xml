@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <Manager>
   <User username="root">
     <name>Super User</name>
@@ -6,41 +5,41 @@
     <mask>250</mask>
     <home>/home/root</home>
   </User>
-  <Directory>
+  <Directory id="4">
     <name>usr</name>
     <perm>250</perm>
     <owner>root</owner>
-    <lastModified>2016-04-10T13:58:34.887Z</lastModified>
+    <lastModified>2016-04-10T14:02:14.367Z</lastModified>
   </Directory>
-  <Directory>
+  <Directory id="5">
     <name>local</name>
     <perm>250</perm>
     <owner>root</owner>
-    <lastModified>2016-04-10T13:58:34.893Z</lastModified>
+    <lastModified>2016-04-10T14:02:14.373Z</lastModified>
   </Directory>
-  <PlainFile>
+  <PlainFile id="6">
     <name>README</name>
     <perm>250</perm>
     <owner>root</owner>
-    <lastModified>2016-04-10T13:58:34.894Z</lastModified>
+    <lastModified>2016-04-10T14:02:14.374Z</lastModified>
     <content>root</content>
   </PlainFile>
-  <RootDirectory>
+  <RootDirectory id="1">
     <name>/</name>
     <perm>250</perm>
     <owner>root</owner>
-    <lastModified>2016-04-10T14:58:32.000+01:00</lastModified>
+    <lastModified>2016-04-10T15:02:12.000+01:00</lastModified>
   </RootDirectory>
-  <Directory>
+  <Directory id="3">
     <name>root</name>
     <perm>250</perm>
     <owner>root</owner>
-    <lastModified>2016-04-10T14:58:32.000+01:00</lastModified>
+    <lastModified>2016-04-10T15:02:12.000+01:00</lastModified>
   </Directory>
-  <Directory>
+  <Directory id="2">
     <name>home</name>
     <perm>250</perm>
     <owner>root</owner>
-    <lastModified>2016-04-10T14:58:32.000+01:00</lastModified>
+    <lastModified>2016-04-10T15:02:12.000+01:00</lastModified>
   </Directory>
 </Manager>

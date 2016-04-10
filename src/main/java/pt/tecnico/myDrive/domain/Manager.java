@@ -166,8 +166,10 @@ public class Manager extends Manager_Base{
      */
     public Session getSessionByToken(String token) {
         for(User u : getUsersSet()) {
-            if (u.getSession().getToken().equals(token))
-                return  u.getSession();
+            for (Session s: u.getSessionSet()) {
+                if (s.getToken().equals(token))
+                    return s;
+            }
         }
         return null;
     }
@@ -179,8 +181,10 @@ public class Manager extends Manager_Base{
      */
     public User getUserByToken(String token) {
         for(User u : getUsersSet()) {
-            if (u.getSession().getToken().equals(token))
-                return u;
+            for (Session s: u.getSessionSet()) {
+                if (s.getToken().equals(token))
+                    return u;
+            }
         }
         return null;
     }

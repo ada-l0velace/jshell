@@ -219,7 +219,7 @@ public class User extends User_Base {
         		link = link.substring(0, link.length() -1);
     	}
         if (link.equals("session")){
-        	return getSession().getCurrentDirectory();
+        	return getValidSession().getCurrentDirectory();
         }
         String[] split = link.split("/",2);
         String init = split[0];
@@ -228,7 +228,7 @@ public class User extends User_Base {
             	return Manager.getInstance().getHome().getFileByPath(rest);
         }
         else if (link.startsWith("session/")){
-            	return getSession().getCurrentDirectory().getFileByPath(rest);
+            	return getValidSession().getCurrentDirectory().getFileByPath(rest);
         }
         throw new FileNotFoundException(link);
     }
@@ -255,6 +255,15 @@ public class User extends User_Base {
     public String getFileContentByLink(Link link){     
         File pf = getFileByPath(link.getContent());
         return pf.getContent();
+    }
+
+
+    public Session getValidSession() {
+        for (Session s: getSessionSet()) {
+            if (!s.hasExpired())
+                return s;
+        }
+        return null;
     }
 
     /**

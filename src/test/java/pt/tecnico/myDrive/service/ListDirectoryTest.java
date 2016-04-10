@@ -54,7 +54,7 @@ public class ListDirectoryTest extends BaseServiceTest {
     @Test
     public void sortedDirectory() {
         Directory d = (Directory) _user.getFileByPath("/home");
-        _user.getSession().setCurrentDirectory(d);
+        Manager.getInstance().getSessionByToken(_token).setCurrentDirectory(d);
         ListDirectory service = new ListDirectory(_token);
         service.execute();
 
