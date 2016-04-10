@@ -166,6 +166,7 @@ public abstract class File extends File_Base implements IElementXml {
         node.addContent(name);
         node.addContent(perm);
         node.addContent(owner);
+        node.addContent(path);
         node.addContent(lastModified);
 
         
