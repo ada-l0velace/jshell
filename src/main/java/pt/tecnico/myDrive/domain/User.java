@@ -269,6 +269,10 @@ public class User extends User_Base {
         return null;
     }
 
+    /**
+     * Check if the password is correct.
+     * @param password (String) represents the user password
+     */
     public boolean isValidPassword(String password) {
         return getPassword() == password;
     }
