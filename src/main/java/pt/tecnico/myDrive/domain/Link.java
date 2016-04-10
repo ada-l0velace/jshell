@@ -19,6 +19,7 @@ public class Link extends Link_Base {
      * @param name (Java Primitive) which represents the name of the file.
      * @param file (File) which represents a file
      * @param path (Java Primitive) which represents the path of the link.
+     * @param parent (Directory) which represents the parent directory of the link.
      * @param m (Manager) which represents the Manager
      */
     public Link(String name, File file, String path, Directory parent, Manager m){

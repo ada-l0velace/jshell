@@ -4,9 +4,11 @@ public class WritePermissionException extends MyDriveException {
     private static final long serialVersionUID = 1L;
 
     private String _name;
+    private String _user;
 
-    public WritePermissionException(String name) {
+    public WritePermissionException(String name, String user) {
         _name = name;
+        _user = user;
     }
 
     public String getFileName() {
@@ -15,6 +17,6 @@ public class WritePermissionException extends MyDriveException {
 
     @Override
     public String getMessage() {
-        return "You don't have permissions to write on " + getFileName() + " file";
+        return _user+ " don't have permissions to write on " + getFileName() + " file";
     }
 }

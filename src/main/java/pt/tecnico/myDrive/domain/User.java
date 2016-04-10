@@ -56,7 +56,13 @@ public class User extends User_Base {
      * Initiate directory home at default location.
      */
     protected void initHome() {
-        Directory home = new Directory(this, getUsername(), getManagerU().getDirHome(), getManagerU());
+        User su = getManagerU().getSuperuser();
+        Directory home;
+        if(su == null)
+            home = new Directory(this, getUsername(), getManagerU().getDirHome(), getManagerU());
+        else
+            home = new Directory(su, getUsername(), getManagerU().getDirHome(), getManagerU());
+        home.setOwner(this);
         setHome(home);
     }
     
@@ -144,8 +150,8 @@ public class User extends User_Base {
         else {
             if (parent.getPermissions().worldCanWrite())
                 parent.addFile(file);
-            else
-                throw new WritePermissionException(parent.getName());
+            //else
+                //throw new WritePermissionException(parent.getName());
         }
     }
 

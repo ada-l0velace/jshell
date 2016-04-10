@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.interfaces.IElementXml;
 
 import org.jdom2.Element;
@@ -64,12 +65,23 @@ public abstract class File extends File_Base implements IElementXml {
         m.setLastFileId(id+1);
     }
 
+    /**
+     * Adds the file to the parent directory.
+     * @param d
+     */
     @Override
-    public void setParent(Directory d) {
+    public void setParent(Directory d) throws WritePermissionException {
         if (d == null)
             super.setParent(null);
-        else
-            d.addFile(this);
+        else {
+            //if ((d.getOwner().getUsername() == getOwner().getUsername()) || d.getPermissions().worldCanWrite())
+            if (getOwner().getPermissions().CanWrite(d))
+                d.addFile(this);
+            else
+                throw new WritePermissionException(d.getName(), getOwner().getUsername());
+            //else
+                //throw new WritePermissionException(getOwner().getUsername(), d.getName());
+        }
     }
 
     /**

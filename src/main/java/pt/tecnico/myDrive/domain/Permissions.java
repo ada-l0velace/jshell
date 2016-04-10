@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.exception.WritePermissionException;
+
 public class Permissions extends Permissions_Base {
     
     /**
@@ -33,6 +35,25 @@ public class Permissions extends Permissions_Base {
      */
     public boolean worldCanWrite() {
         return (getBit(2) == 1) ? true : false;
+    }
+
+    /**
+     * @return true if can write the file, false otherwise.
+     */
+    public boolean userCanWrite() {
+        return (getBit(6) == 1) ? true : false;
+    }
+
+    public boolean CanWrite(Directory d) {
+        String o = d.getOwner().getUsername();
+        String o2 = getUser().getUsername();
+        if(getUser().isSuperUser())
+            return true;
+        if ((userCanWrite() && o.equals(o2)) ||
+                d.getPermissions().worldCanWrite()){
+            return true;
+        }
+        return false;
     }
 
     /**
