@@ -133,8 +133,8 @@ public class User extends User_Base {
     }
 
     /**
-     * Modifies a file with a link.
-     * @param link represents the path to the file.
+     * Creates a file in a directory.
+     * @param parent represents the path to the file.
      * @param file represents the file to add to the directory.
      * @throws WritePermissionException occurs when the user doesn't have permissions to write on this directory.
      */

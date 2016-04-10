@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Manager>
-  <Users>
-    <User name="Super User" username="root" password="***" umask="242">
-      <Directory id="33" name="root" umask="242" owner="root" modified="2016-03-12T02:55:38.147Z">
-        <Files>
-          <Link id="32" name="." umask="242" owner="root" modified="2016-03-12T02:55:38.147Z" content="/home/root" />
-          <Link id="31" name=".." umask="242" owner="root" modified="2016-03-12T02:55:38.147Z" content="/home" />
-        </Files>
-      </Directory>
-    </User>
-  </Users>
+  <User username="root">
+    <name>Super User</name>
+    <password>***</password>
+    <mask>250</mask>
+    <home>/home/root</home>
+  </User>
+  <Directory>
+    <name>usr</name>
+    <perm>250</perm>
+    <owner>root</owner>
+    <lastModified>2016-04-10T13:58:34.887Z</lastModified>
+  </Directory>
+  <Directory>
+    <name>local</name>
+    <perm>250</perm>
+    <owner>root</owner>
+    <lastModified>2016-04-10T13:58:34.893Z</lastModified>
+  </Directory>
+  <PlainFile>
+    <name>README</name>
+    <perm>250</perm>
+    <owner>root</owner>
+    <lastModified>2016-04-10T13:58:34.894Z</lastModified>
+    <content>root</content>
+  </PlainFile>
+  <RootDirectory>
+    <name>/</name>
+    <perm>250</perm>
+    <owner>root</owner>
+    <lastModified>2016-04-10T14:58:32.000+01:00</lastModified>
+  </RootDirectory>
+  <Directory>
+    <name>root</name>
+    <perm>250</perm>
+    <owner>root</owner>
+    <lastModified>2016-04-10T14:58:32.000+01:00</lastModified>
+  </Directory>
+  <Directory>
+    <name>home</name>
+    <perm>250</perm>
+    <owner>root</owner>
+    <lastModified>2016-04-10T14:58:32.000+01:00</lastModified>
+  </Directory>
 </Manager>
