@@ -47,6 +47,14 @@ public class App extends App_Base {
     }
 
     /**
+     * @deprecated and replaced with new exportXml
+     */
+    @Deprecated
+    public Element xmlExport(){
+        return super.xmlExport();
+    }
+        
+    /**
      * Exports an App to a persistent state (XML format),
      * @see PlainFile
      * @return (Element JDOM) which represents an App.

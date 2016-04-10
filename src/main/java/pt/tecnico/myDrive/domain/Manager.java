@@ -190,6 +190,29 @@ public class Manager extends Manager_Base{
     }
 
     /**
+     * @deprecated and replaced with new exportXml
+     */
+    @Deprecated
+    public Document xmlExport(){
+        Element node = new Element("Manager");
+        Document doc = new Document(node);
+
+        Element users = new Element("Users");
+        node.addContent(users);
+        Element files = new Element("Files");
+        node.addContent(files);
+
+        
+        for (User u: getUsersSet()){
+            users.addContent(u.exportXml());
+        }
+
+        
+        return doc;
+    }
+
+    
+    /**
      * Main export xml.
      * @return Document represents the exported document.
      */

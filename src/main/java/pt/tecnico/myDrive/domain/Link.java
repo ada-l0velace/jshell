@@ -55,7 +55,15 @@ public class Link extends Link_Base {
     public void importXml (Element xml) {
         super.importXml(xml);
     }
-
+    
+    /**
+     * @deprecated and replaced with new exportXml
+     */
+    @Deprecated
+    public Element xmlExport(){
+        return super.xmlExport();
+    }
+    
     /**
      * Exports a Link to a persistent state (XML format),
      * @see PlainFile

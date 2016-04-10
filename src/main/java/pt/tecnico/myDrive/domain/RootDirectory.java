@@ -37,6 +37,14 @@ public class RootDirectory extends RootDirectory_Base {
     }
 
     /**
+     * @deprecated and replaced with new exportXml
+     */
+    @Deprecated
+    public Element xmlExport(){
+        return super.xmlExport();
+    }
+
+    /**
      * Exports the root Directory to a persistent state (XML format),
      * @see Directory
      * @return Element (JDOM library type) which represents the root directory
