@@ -36,6 +36,21 @@ public class Session extends Session_Base {
     }
 
     /**
+     * Sets the session the to user session list.
+     * @param u user to apply the session.
+     */
+    @Override
+    public void setUser(User u) {
+        if (u == null) {
+            remove();
+        }
+        else {
+            u.addSession(this);
+            //super.setUser(u);
+        }
+    }
+
+    /**
      * @// FIXME: 19/03/16 IMPLEMENT ME PLEASE
      */
     public void remove () {

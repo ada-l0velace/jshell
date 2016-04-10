@@ -44,13 +44,18 @@ public class Permissions extends Permissions_Base {
         return (getBit(6) == 1) ? true : false;
     }
 
-    public boolean CanWrite(Directory d) {
-        String o = d.getOwner().getUsername();
+    /**
+     * Checks if a user can write on a specific file.
+     * @param f represents the file to write.
+     * @return File returns the file that can be modified.
+     */
+    public boolean CanWrite(File f) {
+        String o = f.getOwner().getUsername();
         String o2 = getUser().getUsername();
         if(getUser().isSuperUser())
             return true;
         if ((userCanWrite() && o.equals(o2)) ||
-                d.getPermissions().worldCanWrite()){
+                f.getPermissions().worldCanWrite()){
             return true;
         }
         return false;
