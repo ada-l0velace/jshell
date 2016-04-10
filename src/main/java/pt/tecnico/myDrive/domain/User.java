@@ -218,19 +218,12 @@ public class User extends User_Base {
         if ( (link.charAt(link.length() - 1)== '/') && (link.length() > 1)){
         		link = link.substring(0, link.length() -1);
     	}
-        if (link.equals("session")){
-        	return getValidSession().getCurrentDirectory();
-        }
-        String[] split = link.split("/",2);
-        String init = split[0];
-    	String rest = split[1];
         if(link.startsWith("/")){
-            	return Manager.getInstance().getHome().getFileByPath(rest);
+        	String[] split0 = link.split("/",2);
+            String rest0 = split0[1];
+        	return Manager.getInstance().getHome().getFileByPath(rest0);
         }
-        else if (link.startsWith("session/")){
-            	return getValidSession().getCurrentDirectory().getFileByPath(rest);
-        }
-        throw new FileNotFoundException(link);
+        return getValidSession().getCurrentDirectory().getFileByPath(link);
     }
 
     /**

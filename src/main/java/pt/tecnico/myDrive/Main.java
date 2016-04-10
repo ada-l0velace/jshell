@@ -63,7 +63,6 @@ public class Main {
         Directory local = new Directory(su, "local", usr, m);
 
         File home = su.getFileByPath("/home");
-        
         // #1
         for (User u : m.getUsersSet())
             n += u.getUsername() + "\n";
