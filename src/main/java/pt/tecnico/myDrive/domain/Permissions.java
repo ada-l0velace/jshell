@@ -61,6 +61,10 @@ public class Permissions extends Permissions_Base {
         return false;
     }
 
+    public boolean canDelete(File file) {   
+        return true;
+    }
+
     /**
      * Permission table
      * @param  position (int) Which represents the position of the byte.
