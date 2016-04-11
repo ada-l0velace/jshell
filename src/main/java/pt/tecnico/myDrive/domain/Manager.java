@@ -7,6 +7,9 @@ import pt.ist.fenixframework.FenixFramework;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.jdom2.Element;
 import org.jdom2.Document;
@@ -217,6 +220,7 @@ public class Manager extends Manager_Base{
      * @return Document represents the exported document.
      */
     public Document exportXml() {
+        ArrayList<Element> elements = new ArrayList<Element>();
         Element node = new Element("Manager");
         Document doc = new Document(node);
 
@@ -229,13 +233,19 @@ public class Manager extends Manager_Base{
         for (User u: getUsersSet()){
             if (!u.getUsername().equals("root"))
                 users.addContent(u.exportXml());
+        
             for (File f: u.getFileSet()){
                 if (!(f.getName().equals("/") || (f.getPath().equals("/") && f.getName().equals("home"))))
-                    files.addContent(f.exportXml());
-                
+                    elements.add(f.exportXml());   
             }
         }
-
+        Collections.sort(elements, new Comparator<Element>(){
+                public int compare(Element e1, Element e2){
+                    return e1.getAttribute("id").getValue().compareTo(e2.getAttribute("id").getValue());
+                }
+            });
+        for (Element e : elements)
+            files.addContent(e);
         
         return doc;
     }
