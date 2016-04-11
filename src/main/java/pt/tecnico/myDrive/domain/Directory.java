@@ -6,6 +6,7 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.FileIdNotFoundException;
 import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
+import pt.tecnico.myDrive.exception.DeletePermissionException;
 
 
 public class Directory extends Directory_Base {
