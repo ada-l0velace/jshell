@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
 import pt.tecnico.myDrive.exception.WritePermissionException;
+import pt.tecnico.myDrive.exception.DeletePermissionException;
 import pt.tecnico.myDrive.interfaces.IElementXml;
 
 import org.jdom2.Element;
@@ -227,12 +228,19 @@ public abstract class File extends File_Base implements IElementXml {
      * Removes the file.
      * @throws PermissionDeniedException The user doesn't have the privilege to remove the file.
      */
-    public void remove() 
+    public void remove(User user) 
     {
-        setOwner(null);
-        setPermissions(null);
-        setParent(null);
-        deleteDomainObject();
+        if(user.getPermissions().canDelete(this))
+        {
+            setOwner(null);
+            setPermissions(null);
+            setParent(null);
+            deleteDomainObject();
+        }
+        else
+        {
+            throw new DeletePermissionException(this.getName(), user.getUsername());
+        }
     }
 
     /**

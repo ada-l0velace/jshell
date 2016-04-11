@@ -125,34 +125,31 @@ public class Directory extends Directory_Base {
 
     /**
      * Removes the Files in a Directory.
-     * @throws PermissionDeniedException The user doesn't have the privilege to remove the directory.
+     * @throws DeletePermissionException The user doesn't have the privilege to remove the directory.
      */
     @Override
-    public void remove() {
+    public void remove(User user)
+    { 
+        int contador = 0;
+
         for(File f : getFileSet()) {
-            f.remove();
-        }
-        super.remove();       
-    }
 
-    public boolean remove(User user, String filename) throws DeletePermissionException, FileNotFoundException 
-    {
-        File file = searchFile(filename);
-
-        if(file != null) {
-
-            if(user.getPermissions().canDelete(file)) {
-                file.remove();
-                return true;
+            try
+            {
+                f.remove(user);
             }
 
-            else {
-                throw new DeletePermissionException(filename, user.getUsername());
+            catch(DeletePermissionException e)
+            {
+                contador++;
             }
         }
-        else {
-            throw new FileNotFoundException(filename);
+
+        if(contador == 0)
+        {
+            super.remove(user);
         }
+        
     }
 
     /**

@@ -273,7 +273,7 @@ public class User extends User_Base {
      */
     public void deleteFile(Link link) {
         File to_delete  = getFileByPath(link.getContent());
-        to_delete.remove();
+        to_delete.remove(this);
     }
 
     /**
@@ -284,7 +284,7 @@ public class User extends User_Base {
         super.setManagerU(null);
         setHome(null);
         for(File i : getFileSet()) {
-            i.remove();
+            i.remove(this);
         }
         setPermissions(null);
         deleteDomainObject();

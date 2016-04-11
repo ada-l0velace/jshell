@@ -65,9 +65,7 @@ public class Main {
         File home = su.getFileByPath("/home");
 
         User user = new User("Biana","yommere","pass", (short) Integer.parseInt("0F",16), m);
-
-        m.deleteUser(user);
-        
+       
         // #1
         for (User u : m.getUsersSet())
             n += u.getUsername() + "\n";
@@ -78,15 +76,12 @@ public class Main {
 
         // #3
         System.out.println(readme.getContent());
-
-        // #4
-        bin.remove();
         
         // #5
         xmlPrint();
         
         // #6
-        readme.remove();
+        readme.remove(user);
         
         // #7
         System.out.println(home.getContent());

@@ -20,6 +20,8 @@ public class DeleteFile extends LoginRequiredService {
     protected void dispatch() throws MyDriveException {
         super.dispatch();
         Directory dir = _session.getCurrentDirectory();
-        dir.remove(_user, _filename);
+        File file = dir.searchFile(_filename);
+        if(file != null)
+            file.remove(_user);
     }
 }
