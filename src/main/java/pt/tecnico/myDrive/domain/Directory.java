@@ -197,6 +197,7 @@ public class Directory extends Directory_Base {
         return list;
     }
 
+    
     /**
      * Adds a File to a Directory.
      * @param file (File) receives a file.
@@ -205,7 +206,7 @@ public class Directory extends Directory_Base {
      */
     @Override
     public void addFile(File file) throws NameFileAlreadyExistsException {
-        for (File fName : getFileSet()){
+        for (File fName : this.getFileSet()){
             if (fName.getName().equals(file.getName())){
                 throw new NameFileAlreadyExistsException(file.getName());
             }

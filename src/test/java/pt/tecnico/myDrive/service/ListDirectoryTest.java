@@ -19,7 +19,7 @@ public class ListDirectoryTest extends BaseServiceTest {
         "shakita",
         "suzette",
         "1scarlett",
-        "senesis",
+        "genesis",
         "shawnda",
         "dessie",
         "rosari",
