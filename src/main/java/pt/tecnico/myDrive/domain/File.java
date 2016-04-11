@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.Main;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
 import pt.tecnico.myDrive.interfaces.IElementXml;
@@ -75,13 +76,10 @@ public abstract class File extends File_Base implements IElementXml {
         if (d == null)
             super.setParent(null);
         else {
-            //if ((d.getOwner().getUsername() == getOwner().getUsername()) || d.getPermissions().worldCanWrite())
             if (getOwner().getPermissions().CanWrite(d))
                 d.addFile(this);
             else
                 throw new WritePermissionException(d.getName(), getOwner().getUsername());
-            //else
-                //throw new WritePermissionException(getOwner().getUsername(), d.getName());
         }
     }
 
@@ -114,7 +112,7 @@ public abstract class File extends File_Base implements IElementXml {
         if (!matcher.matches()) {
             throw new InvalidNameFileException(name);
         }
-        else{
+        else {
             super.setName(name);
         }
     }
@@ -131,21 +129,27 @@ public abstract class File extends File_Base implements IElementXml {
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
 
         int id = Integer.parseInt(node.getAttribute("id").getValue());
-        String name = new String(node.getAttribute("name").getValue());
-        DateTime dateModified = new DateTime(fmt.parseDateTime(node.getAttribute("modified").getValue()));
+        String name = new String(node.getChild("name").getValue());
+        DateTime dateModified = new DateTime(fmt.parseDateTime(node.getChild("lastModified").getValue()));
         
-        short umask = Short.parseShort(node.getAttribute("umask").getValue());
+        short umask = Short.parseShort(node.getChild("perm").getValue());
         
-        String userName = node.getAttribute("owner").getValue();
+        String userName = node.getChild("owner").getValue();
         User owner = Manager.getInstance().getUserByUsername(userName);
+        String path = node.getChild("path").getValue();
 
-        //setId(id);
+        String parentPath = path.substring(0,path.lastIndexOf("/"));
+        parentPath = parentPath.equals("") ? "/" : parentPath;
+
+        Directory d = (Directory) owner.getFileByPath(parentPath);
+
         setLastId(Manager.getInstance());
         setName(name);
         setModified(dateModified);
         setPermissions(new Permissions(umask));
-        if (owner != null)
-            setOwner(owner);
+        setOwner(owner);
+        setParent(d);
+
     }
 
     /**

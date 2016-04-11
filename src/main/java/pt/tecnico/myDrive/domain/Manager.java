@@ -115,20 +115,24 @@ public class Manager extends Manager_Base{
      * @param xml (JDOM library type) which represents a MyDrive element.
      */
     public void importXml(Element xml) {
-
         for (Element node : xml.getChild("Users").getChildren("User")) {
             String username = node.getAttribute("username").getValue();
             User user = getUserByUsername(username);
-            
             if (user == null) {
                 user = new User(node);
-                //addUsers(user);
-                getDirHome().addFile(user.getHome());
             }
-            else {
-                user.importXml(node);
-                getDirHome().addFile(user.getHome());   
-            }
+        }
+        for (Element node : xml.getChild("Files").getChildren("Directory")) {
+            new Directory(node);
+        }
+        for (Element node : xml.getChild("Files").getChildren("PlainFile")) {
+            new PlainFile(node);
+        }
+        for (Element node : xml.getChild("Files").getChildren("Link")) {
+            new Link(node);
+        }
+        for (Element node : xml.getChild("Files").getChildren("App")) {
+            new App(node);
         }
     }
 
@@ -204,10 +208,10 @@ public class Manager extends Manager_Base{
         node.addContent(users);
         Element files = new Element("Files");
         node.addContent(files);
-
+        files.addContent(getHome().xmlExport());
         
         for (User u: getUsersSet()){
-            users.addContent(u.exportXml());
+            users.addContent(u.xmlExport());
         }
 
         

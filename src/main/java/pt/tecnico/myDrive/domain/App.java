@@ -17,10 +17,9 @@ public class App extends App_Base {
      * Alternate constructor to create a App with xml.
      * @param  xml (Element JDOM) which represents a File.
      */
-    public App(Element xml, User owner) {
+    public App(Element xml) {
         super();
         importXml(xml);
-        setOwner(owner);
     }
 
     /**
@@ -53,7 +52,7 @@ public class App extends App_Base {
     public Element xmlExport(){
         return super.xmlExport();
     }
-        
+
     /**
      * Exports an App to a persistent state (XML format),
      * @see PlainFile

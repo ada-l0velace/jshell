@@ -23,8 +23,10 @@ public class Main {
 
     public static void main(String [] args) {
         try {
+            init();
             for (String s: args) xmlScan(new java.io.File(s));
-            setup();
+            xmlPrint(); 
+            // setup();
         } finally {
             // ensure an orderly shutdown
             FenixFramework.shutdown();
@@ -35,6 +37,8 @@ public class Main {
     public static void init() { // empty phonebook
         logger.trace("Init lol: " + FenixFramework.getDomainRoot());
         Manager.getInstance();
+     //   logger.trace(Manager.getInstance().getSuperuser().getFileByPath("/home") + "<----------------------------");
+
     }
 
     /**
@@ -44,6 +48,20 @@ public class Main {
     public static void xmlPrint() {
         logger.trace("xmlPrint: " + FenixFramework.getDomainRoot());
         Document doc = Manager.getInstance().exportXml();
+        XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
+
+
+        try { xmlOutput.output(doc, new PrintStream(System.out));
+        } catch (IOException e) { System.out.println(e); }
+    }
+
+    /**
+     * Debug Xml
+     */
+    @Atomic
+    public static void debug() {
+        logger.trace("xmlPrint: " + FenixFramework.getDomainRoot());
+        Document doc = Manager.getInstance().xmlExport();
         XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 
 
@@ -64,8 +82,10 @@ public class Main {
 
         File home = su.getFileByPath("/home");
 
-        User user = new User("Biana","yommere","pass", (short) Integer.parseInt("0F",16), m);
-       
+        //User user = new User("Biana","yommere","pass", (short) Integer.parseInt("0F",16), m);
+
+        //m.deleteUser(user);
+        
         // #1
         for (User u : m.getUsersSet())
             n += u.getUsername() + "\n";
@@ -103,4 +123,5 @@ public class Main {
             e.printStackTrace();
         }
     }
+
 }

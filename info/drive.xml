@@ -1,10 +1,10 @@
 <Manager>
   <Users>
-    <User username="root">
-      <name>Super User</name>
-      <password>***</password>
-      <mask>250</mask>
-      <home>/home/root</home>
+    <User username="yommere">
+      <name>Biana</name>
+      <password>pass</password>
+      <mask>15</mask>
+      <home>/home/yommere</home>
     </User>
   </Users>
   <Files>
@@ -13,43 +13,24 @@
       <perm>250</perm>
       <owner>root</owner>
       <path>/usr</path>
-      <lastModified>2016-04-10T21:16:45.654Z</lastModified>
+      <lastModified>2016-04-11T16:23:54.730Z</lastModified>
     </Directory>
     <Directory id="5">
       <name>local</name>
       <perm>250</perm>
       <owner>root</owner>
       <path>/usr/local</path>
-      <lastModified>2016-04-10T21:16:45.661Z</lastModified>
+      <lastModified>2016-04-11T16:23:54.739Z</lastModified>
     </Directory>
     <PlainFile id="7">
       <name>README</name>
       <perm>250</perm>
       <owner>root</owner>
       <path>/home/README</path>
-      <lastModified>2016-04-10T21:16:45.665Z</lastModified>
-      <content>root</content>
+      <lastModified>2016-04-11T16:23:54.744Z</lastModified>
+      <content>yommere
+root</content>
     </PlainFile>
-    <RootDirectory id="1">
-      <name>/</name>
-      <perm>250</perm>
-      <owner>root</owner>
-      <path>/</path>
-      <lastModified>2016-04-10T22:16:26.000+01:00</lastModified>
-    </RootDirectory>
-    <Directory id="3">
-      <name>root</name>
-      <perm>250</perm>
-      <owner>root</owner>
-      <path>/home/root</path>
-      <lastModified>2016-04-10T22:16:26.000+01:00</lastModified>
-    </Directory>
-    <Directory id="2">
-      <name>home</name>
-      <perm>250</perm>
-      <owner>root</owner>
-      <path>/home</path>
-      <lastModified>2016-04-10T22:16:26.000+01:00</lastModified>
-    </Directory>
+
   </Files>
 </Manager>

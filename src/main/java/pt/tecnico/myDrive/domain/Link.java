@@ -37,15 +37,9 @@ public class Link extends Link_Base {
      * Alternate construtor to create a Link with xml.
      * @param  xml Element (JDOM library type) which represents a File.
      */
-    public Link(Element xml, User owner) {
+    public Link(Element xml) {
         super();
         importXml(xml);
-        String userName = xml.getAttribute("owner").getValue();
-        User owner_ = Manager.getInstance().getUserByUsername(userName);
-        if (owner_ != null)
-            setOwner(owner_);
-        else
-            setOwner(owner);
     }
     
     @Override
@@ -65,7 +59,7 @@ public class Link extends Link_Base {
     public void importXml (Element xml) {
         super.importXml(xml);
     }
-    
+
     /**
      * @deprecated and replaced with new exportXml
      */
@@ -73,7 +67,7 @@ public class Link extends Link_Base {
     public Element xmlExport(){
         return super.xmlExport();
     }
-    
+
     /**
      * Exports a Link to a persistent state (XML format),
      * @see PlainFile

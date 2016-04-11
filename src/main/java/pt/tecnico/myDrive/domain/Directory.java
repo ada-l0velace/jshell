@@ -8,6 +8,10 @@ import pt.tecnico.myDrive.exception.FileIdNotFoundException;
 import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
 
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
+
 
 public class Directory extends Directory_Base {
     
@@ -35,9 +39,8 @@ public class Directory extends Directory_Base {
      * Alternate constructor to create a Link with xml.
      * @param  xml (Element JDOM) represents a File in xml format.
      */
-    public Directory(Element xml, User owner) {
+    public Directory(Element xml) {
         super();
-        setOwner(owner);
         importXml(xml);
     }
     
@@ -49,18 +52,6 @@ public class Directory extends Directory_Base {
     @Override
     public void importXml (Element xml) {
         super.importXml(xml);
-        
-        //Element files = xml.getChildren("Files");
-        for (Element files : xml.getChildren("Files") ) {
-            for (Element link : files.getChildren("Link"))
-                addFile(new Link(link, getOwner()));
-            for (Element plainFile : files.getChildren("PlainFile"))
-                addFile(new PlainFile(plainFile, getOwner()));
-            for (Element app : files.getChildren("App"))
-                addFile(new App(app, getOwner()));
-            for (Element directory : files.getChildren("Directory"))
-                addFile(new Directory(directory, getOwner()));
-        }
     }
 
     /**
@@ -68,13 +59,13 @@ public class Directory extends Directory_Base {
      */
     @Deprecated
     public Element xmlExport(){
-        Element node = super.exportXml();
+        Element node = super.xmlExport();
 
         Element filesElement = new Element("Files");
         node.addContent(filesElement);
 
         for (File f: getFileSet())
-            filesElement.addContent(f.exportXml());
+            filesElement.addContent(f.xmlExport());
         
         return node;
     }
@@ -98,15 +89,16 @@ public class Directory extends Directory_Base {
      */
     @Override
     public File getFileByPath (String link) throws FileNotFoundException {
-    	if(link.equals("")){
+    	if(link.equals("")) {
     		return this;
     	}
         String[] spliTest = link.split("/");
         String[] split = spliTest;
         String rest = "";
         String nomeInit = link;
-        for(File path : getFileSet()){
-            if (spliTest.length != 1){
+        System.out.println("qwe1 "+ link);
+        for(File path : getFileSet()) {
+            if (spliTest.length != 1) {
                 split = link.split("/",2);
                 rest = split[1];
                 nomeInit = split[0];
@@ -114,7 +106,7 @@ public class Directory extends Directory_Base {
                     return path.getFileByPath(rest);
                 }
             }
-            else{
+            else {
                 if(path.getName().equals(link)){
                     return path;
                 }
