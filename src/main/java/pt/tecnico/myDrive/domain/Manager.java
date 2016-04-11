@@ -235,7 +235,7 @@ public class Manager extends Manager_Base{
                 users.addContent(u.exportXml());
         
             for (File f: u.getFileSet()){
-                if (!(f.getName().equals("/") || (f.getPath().equals("/") && f.getName().equals("home")) || (f.getName().equals("root") && f.getPath().equals("/home/"))))
+                if (!(f.getName().equals("/") || (f.getPath().equals("/") && f.getName().equals("home")) || f.equals(u.getHome())))
                     elements.add(f.exportXml());   
             }
         }
