@@ -17,6 +17,6 @@ public class DeletePermissionException extends MyDriveException {
 
     @Override
     public String getMessage() {
-        return "The user: " + getUsername() + "doesn't have permission to delete " + getFilename();
+        return "The user: " + getUsername() + " doesn't have permission to delete " + getFilename();
     }
 }
