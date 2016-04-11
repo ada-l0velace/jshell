@@ -227,9 +227,13 @@ public class Manager extends Manager_Base{
 
         
         for (User u: getUsersSet()){
-            users.addContent(u.exportXml());
-            for (File f: u.getFileSet())
-                files.addContent(f.exportXml());
+            if (!u.getUsername().equals("root"))
+                users.addContent(u.exportXml());
+            for (File f: u.getFileSet()){
+                if (!(f.getName().equals("/") || (f.getPath().equals("/") && f.getName().equals("home"))))
+                    files.addContent(f.exportXml());
+                
+            }
         }
 
         
