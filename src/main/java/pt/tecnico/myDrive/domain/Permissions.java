@@ -37,11 +37,19 @@ public class Permissions extends Permissions_Base {
         return (getBit(2) == 1) ? true : false;
     }
 
+    public boolean worldCanDelete() {
+        return (getBit(0) == 1) ? true : false;
+    }
+
     /**
      * @return true if can write the file, false otherwise.
      */
     public boolean userCanWrite() {
         return (getBit(6) == 1) ? true : false;
+    }
+
+    public boolean userCanDelete() {
+        return (getBit(4) == 1) ? true : false;
     }
 
     /**
@@ -62,7 +70,15 @@ public class Permissions extends Permissions_Base {
     }
 
     public boolean canDelete(File file) {   
-        return true;
+        String owner = file.getOwner().getUsername();
+        String user = getUser().getUsername();
+        if(getUser().isSuperUser())
+            return true;
+        if ((userCanDelete() && owner.equals(user)) ||
+                file.getPermissions().worldCanDelete()){
+            return true;
+        }
+        return false;
     }
 
     /**
