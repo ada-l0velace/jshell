@@ -135,6 +135,26 @@ public class Directory extends Directory_Base {
         super.remove();       
     }
 
+    public boolean remove(User user, String filename) throws DeletePermissionException, FileNotFoundException 
+    {
+        File file = searchFile(filename);
+
+        if(file != null) {
+
+            if(user.getPermissions().canDelete(file)) {
+                file.remove();
+                return true;
+            }
+
+            else {
+                throw new DeletePermissionException(filename, user.getUsername());
+            }
+        }
+        else {
+            throw new FileNotFoundException(filename);
+        }
+    }
+
     /**
      * Returns a list of files.
      * @return String represents the list of files.
