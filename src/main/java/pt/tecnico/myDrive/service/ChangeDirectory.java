@@ -1,19 +1,38 @@
 package pt.tecnico.myDrive.service;
 
-import pt.tecnico.myDrive.exception.MyDriveException;
+import pt.tecnico.myDrive.domain.Manager;
+import pt.tecnico.myDrive.domain.Directory;
+import pt.tecnico.myDrive.domain.Session;
+
+import pt.tecnico.myDrive.exception.FileNotFoundException;
+import pt.tecnico.myDrive.exception.UserSessionExpiredException;
+
 
 public class ChangeDirectory extends MyDriveService {
 
     private String _sessionToken;
+    private String _path;
     
-    public ChangeDirectory(Long token, String path){
-        
+    public ChangeDirectory(String token, String path){
+        this._sessionToken = token;
+        this._path = path; 
     }
 
     @Override
-    protected void dispatch() throws MyDriveException{}
+    protected void dispatch() throws FileNotFoundException, UserSessionExpiredException{
+        Session s = Manager.getInstance().getSessionByToken(_sessionToken);
+        Directory d = s.getCurrentDirectory();
+        if (this._path == ".")
+            this._path = d.getPath() + d.getName();
+        else if (this._path == "..")
+            this._path = d.getPath();
+        else if (!this._path.startsWith("/"))
+            this._path = d.getPath() + d.getName() + this._path;
+
+        s.setCurrentDirectory((Directory) s.getUser().getFileByPath(this._path));
+    }
 
     public String result(){
-        return _sessionToken;
+        return this._sessionToken;
     }
 }
