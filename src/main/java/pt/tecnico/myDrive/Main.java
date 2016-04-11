@@ -81,7 +81,7 @@ public class Main {
         xmlPrint();
         
         // #6
-        readme.remove(user);
+        readme.remove(su);
         
         // #7
         System.out.println(home.getContent());
