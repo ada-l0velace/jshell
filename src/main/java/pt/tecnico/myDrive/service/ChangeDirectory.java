@@ -8,18 +8,20 @@ import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.UserSessionExpiredException;
 
 
-public class ChangeDirectory extends MyDriveService {
+public class ChangeDirectory extends LoginRequiredService {
 
     private String _sessionToken;
     private String _path;
     
     public ChangeDirectory(String token, String path){
+        super(token);
         this._sessionToken = token;
         this._path = path; 
     }
 
     @Override
     protected void dispatch() throws FileNotFoundException, UserSessionExpiredException{
+        super.dispatch();
         Session s = Manager.getInstance().getSessionByToken(_sessionToken);
         Directory d = s.getCurrentDirectory();
         if (this._path == ".")

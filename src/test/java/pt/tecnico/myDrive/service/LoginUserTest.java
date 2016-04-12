@@ -44,5 +44,7 @@ public class LoginUserTest extends BaseServiceTest{
         LoginUser service = new LoginUser("miranda", _password);
         service.execute();
     }
+
+    
     
 }
