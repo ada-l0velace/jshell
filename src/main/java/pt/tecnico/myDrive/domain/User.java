@@ -323,4 +323,16 @@ public class User extends User_Base {
         setPermissions(null);
         deleteDomainObject();
     }
+    
+    /**
+     * Check if User has a file.
+     */
+    public boolean hasFile(String nameFile) {
+    	for(File f : getFileSet()) {
+            if (f.getName().equals(nameFile)){
+            	return true;
+            }
+        }
+    	return false;
+    }
 }
