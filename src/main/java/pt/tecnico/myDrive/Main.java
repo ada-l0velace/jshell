@@ -25,7 +25,7 @@ public class Main {
         try {
             init();
             for (String s: args) xmlScan(new java.io.File(s));
-            //setup();
+            setup();
         } finally {
             // ensure an orderly shutdown
             FenixFramework.shutdown();
