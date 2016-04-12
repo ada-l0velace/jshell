@@ -34,17 +34,27 @@ public class LoginUserTest extends BaseServiceTest{
     }
 
     @Test(expected = InvalidUserCredentialsException.class)
-    public void invalidPassword(){
+    public void wrongPassword(){
         LoginUser service = new LoginUser(_username, "general");
         service.execute();
     }
         
     @Test(expected = InvalidUserCredentialsException.class)
-    public void invalidUsername(){
+    public void wrongUsername(){
         LoginUser service = new LoginUser("miranda", _password);
         service.execute();
     }
 
-    
-    
+    @Test(expected = InvalidUsernameException.class)
+    public void emptyUsername(){
+        LoginUser service = new LoginUser("", _password);
+        service.execute();
+    }
+
+    @Test(expected = InvalidUsernameException.class)
+    public void lessThan3CharactersUsername(){
+        LoginUser service = new LoginUser("a", _password);
+        service.execute();
+        }
+
 }
