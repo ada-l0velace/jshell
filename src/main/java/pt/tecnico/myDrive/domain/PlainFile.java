@@ -4,6 +4,7 @@ import org.jdom2.Element;
 
 import java.io.UnsupportedEncodingException;
 import pt.tecnico.myDrive.exception.ImportDocumentException;
+import pt.tecnico.myDrive.exception.ReadPermissionException;
 
 
 public class PlainFile extends PlainFile_Base {
@@ -113,4 +114,23 @@ public class PlainFile extends PlainFile_Base {
         String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();
         return a + rest;
     }
+
+    /**
+     * Interface method.
+     * @throws ReadPermissionException occurs when user does not have permissions to read file.
+     */
+    @Override
+    public String getContent(User user) {
+        if (!user.getUsername().equals("root")){
+            if (!user.equals(getOwner())){
+                if (!getPermissions().worldCanRead())
+                    throw new ReadPermissionException(getName(), user.getUsername());
+            }
+            else
+                if (!getPermissions().userCanRead())
+                    throw new ReadPermissionException(getName(), user.getUsername());
+        }
+        return getContent();
+    }
+
 }

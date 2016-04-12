@@ -24,7 +24,7 @@ public class ReadPlainFile extends MyDriveService {
     @Override
     protected void dispatch() throws MyDriveException {
     	File pf = Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName);
-    	_content = pf.getContent();
+    	_content = pf.getContent(Manager.getInstance().getUserByToken(_plainFileToken));
     }
     
     public String result() {

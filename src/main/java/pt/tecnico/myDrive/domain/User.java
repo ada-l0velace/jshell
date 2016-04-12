@@ -279,7 +279,7 @@ public class User extends User_Base {
      */
     public String getFileContentByLink(Link link){     
         File pf = getFileByPath(link.getContent());
-        return pf.getContent();
+        return pf.getContent(this);
     }
 
     /**

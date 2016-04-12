@@ -29,11 +29,12 @@ public class ListDirectory extends MyDriveService {
         _files = new ArrayList<FileDto>();
 
         for (File f : _currentDir.getFileSet()) {
-            if (f instanceof PlainFile)
-                _files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
-                           f.getParent().getName(), f.getOwner().getName(), f.getContent()));
-            else
-                _files.add(new FileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
+	    if (f instanceof PlainFile)
+	    	_files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
+	                   f.getParent().getName(), f.getOwner().getName(), f.getContent(Manager
+                                                                                     .getInstance().getUserByToken(_directoryToken))));
+	    else
+	    	_files.add(new FileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
 	                   f.getParent().getName(), f.getOwner().getName()));
         }
 

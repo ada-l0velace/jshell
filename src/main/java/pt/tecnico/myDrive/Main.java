@@ -97,7 +97,7 @@ public class Main {
         Directory bin = new Directory(su, "bin", local, m);
 
         // #3
-        System.out.println(readme.getContent());
+        System.out.println(readme.getContent(Manager.getInstance().getUserByUsername("root")));
         
         // #5
         xmlPrint();
@@ -106,7 +106,7 @@ public class Main {
         readme.remove(su);
         
         // #7
-        System.out.println(home.getContent());
+        System.out.println(home.getContent(Manager.getInstance().getUserByUsername("root")));
     }   
 
     /**

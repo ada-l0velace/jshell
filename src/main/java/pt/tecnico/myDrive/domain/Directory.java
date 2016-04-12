@@ -7,6 +7,7 @@ import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.FileIdNotFoundException;
 import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
+import pt.tecnico.myDrive.exception.ReadPermissionException;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -148,7 +149,17 @@ public class Directory extends Directory_Base {
      * @return String represents the list of files.
      */
     @Override
-    public String getContent() {
+    public String getContent(User user) {
+        
+        if (!user.getUsername().equals("root")){
+            if (!user.equals(getOwner())){
+                if (!getPermissions().worldCanRead())
+                    throw new ReadPermissionException(getName(), user.getUsername());
+            }
+            else
+                if (!getPermissions().userCanRead())
+                    throw new ReadPermissionException(getName(), user.getUsername());
+        }
         return listContent();
     }
 

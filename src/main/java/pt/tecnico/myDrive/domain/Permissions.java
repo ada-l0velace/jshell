@@ -31,6 +31,13 @@ public class Permissions extends Permissions_Base {
     }
 
     /**
+     * @return true if can read the file, false otherwise.
+     */
+    public boolean worldCanRead(){
+        return (getBit(3) == 1) ? true : false;
+    }
+    
+    /**
      * @return true if can write the file, false otherwise.
      */
     public boolean worldCanWrite() {
@@ -41,6 +48,13 @@ public class Permissions extends Permissions_Base {
         return (getBit(0) == 1) ? true : false;
     }
 
+    /**
+     * @return true if owner can read the file, false otherwise.
+     */
+    public boolean userCanRead(){
+        return (getBit(7) == 1) ? true : false;
+    }
+    
     /**
      * @return true if can write the file, false otherwise.
      */
