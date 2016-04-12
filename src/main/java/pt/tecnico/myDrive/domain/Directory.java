@@ -128,6 +128,16 @@ public class Directory extends Directory_Base {
             {
                 f.remove();
             }
+            for(User i : user.getManagerU().getUsersSet())
+            {
+                for(Session k : i.getSessionSet())
+                {
+                    if(k.getCurrentDirectory().equals(this))
+                    {
+                        k.setCurrentDirectory(this.getParent());
+                    }
+                }
+            }
             super.remove();
         }
         else
@@ -135,6 +145,9 @@ public class Directory extends Directory_Base {
             throw new DeletePermissionException(this.getName(), user.getUsername());
         }       
     }
+
+    public boolean equals(Directory d) { return getName().equals(d.getName()) && 
+        getParent().equals(d.getParent());}
 
     /**
      * Returns a list of files.
