@@ -5,7 +5,7 @@
       <name>Biana</name>
       <password>pass</password>
       <mask>15</mask>
-      <home>/home/yommere</home>
+      <home>/</home>
     </User>
   </Users>
   <Files>

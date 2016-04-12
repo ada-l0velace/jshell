@@ -33,9 +33,26 @@ public class User extends User_Base {
         super();
         //super.setManagerU(m);
         init(name, username, password, umask, m);
+        initHome();
         //m.createUser(this);
     }
-    
+
+    /**
+     * Alternative constructor to create a user.
+     * @param name (String) represents the real name.
+     * @param username (String) represents the login username.
+     * @param password (String) represents the login password.
+     * @param umask (Short) represents the permission umask.
+     * @param pHomePath (String) represents the parent home path.
+     */
+    public User(String name, String username, String password, Short umask, String pHomePath, Manager m) {
+        super();
+        //super.setManagerU(m);
+        init(name, username, password, umask, m);
+        initHome(pHomePath);
+        //m.createUser(this);
+    }
+
     /**
      * Protected constructor to init a user.
      * @param name     (String) represents the real name.
@@ -49,7 +66,7 @@ public class User extends User_Base {
         setPassword(password);
         setPermissions(new Permissions(umask));
         setManagerU(m);
-        initHome();
+
     }
 
     /**
@@ -65,7 +82,22 @@ public class User extends User_Base {
         home.setOwner(this);
         setHome(home);
     }
-    
+
+    /**
+     * Initiate directory home at given location.
+     */
+    protected void initHome(String pHomePath) {
+        User su = getManagerU().getSuperuser();
+        Directory parent = (Directory) su.getFileByPath(pHomePath);
+        Directory home;
+        if(su == null)
+            home = new Directory(this, getUsername(), parent, getManagerU());
+        else
+            home = new Directory(su, getUsername(), parent, getManagerU());
+        home.setOwner(this);
+        setHome(home);
+    }
+
     /**
      * Alternate constructor to create a user with xml
      * @param xml (Element JDOM) represents a User in xml format.
@@ -112,9 +144,11 @@ public class User extends User_Base {
         String username = node.getAttribute("username").getValue();
         String password = node.getChild("password").getValue();
         short umask = Short.parseShort(node.getChild("mask").getValue());
-
+        String path = node.getChild("home").getValue();
+        String parentPath = path.substring(0,path.lastIndexOf("/"));
+        parentPath = parentPath.equals("") ? "/" : parentPath;
         init(new String(name),new String(username),new String(password), new Short(umask), m);
-
+        initHome(parentPath);
     }
 
     /**

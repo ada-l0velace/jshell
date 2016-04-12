@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.UsernameAlreadyExistsException;
 
 import pt.ist.fenixframework.FenixFramework;
@@ -10,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jdom2.Element;
 import org.jdom2.Document;
@@ -62,7 +65,11 @@ public class Manager extends Manager_Base{
      * @see User
      * @return User returns the user if found, null otherwise.
      */
-    public User getUserByUsername(String username) {
+    public User getUserByUsername(String username) throws InvalidUsernameException {
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9]{3,}");
+        Matcher matcher = pattern.matcher(username);
+        if (!matcher.matches())
+            throw new InvalidUsernameException(username);
         for(User u : getUsersSet()) {
             if(username.equals(u.getUsername())) {
                 return u;
