@@ -7,8 +7,8 @@ import pt.tecnico.myDrive.domain.SuperUser;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.File;
 
-import pt.tecnico.myDrive.exception.InvalidUserCredentialsException;
 import pt.tecnico.myDrive.exception.MyDriveException;
+import pt.tecnico.myDrive.exception.ReadPermissionException;
 
 public class ReadPlainFile extends MyDriveService {
 	
@@ -24,7 +24,8 @@ public class ReadPlainFile extends MyDriveService {
     @Override
     protected void dispatch() throws MyDriveException {
     	File pf = Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName);
-    	_content = pf.getContent(Manager.getInstance().getUserByToken(_plainFileToken));
+    		_content = pf.getContent(Manager.getInstance().getUserByToken(_plainFileToken));
+
     }
     
     public String result() {

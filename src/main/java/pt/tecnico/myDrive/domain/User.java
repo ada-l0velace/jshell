@@ -242,7 +242,6 @@ public class User extends User_Base {
 
     /**
      * Gets the file by a path.
-     * @// FIXME: 18/03/16 needs refactoring.
      * @param  link (String) receives a String with the link content.
      * @return  File returns the last File that appears in the path.
      */

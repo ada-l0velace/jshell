@@ -61,7 +61,7 @@ public class Permissions extends Permissions_Base {
     public boolean userCanWrite() {
         return (getBit(6) == 1) ? true : false;
     }
-
+    
     public boolean userCanDelete() {
         return (getBit(4) == 1) ? true : false;
     }
@@ -78,6 +78,18 @@ public class Permissions extends Permissions_Base {
             return true;
         if ((userCanWrite() && o.equals(o2)) ||
                 f.getPermissions().worldCanWrite()){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean CanRead(File f) {
+        String userOwner = f.getOwner().getUsername();
+        String testedUser = getUser().getUsername();
+        if(getUser().isSuperUser())
+            return true;
+        if ((userCanRead() && userOwner.equals(testedUser)) ||
+                f.getPermissions().worldCanRead()){
             return true;
         }
         return false;
