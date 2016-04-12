@@ -247,6 +247,14 @@ public abstract class File extends File_Base implements IElementXml {
         }
     }
 
+    protected void remove()
+    {
+        setOwner(null);
+        setPermissions(null);
+        setParent(null);
+        deleteDomainObject();
+    }
+
     /**
      * Overrides original toString() to the current object implementation.
      * @return String represents the output string of File.

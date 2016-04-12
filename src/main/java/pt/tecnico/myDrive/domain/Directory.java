@@ -122,26 +122,18 @@ public class Directory extends Directory_Base {
     @Override
     public void remove(User user)
     { 
-        int contador = 0;
-
-        for(File f : getFileSet()) {
-
-            try
-            {
-                f.remove(user);
-            }
-
-            catch(DeletePermissionException e)
-            {
-                contador++;
-            }
-        }
-
-        if(contador == 0)
+        if(user.getPermissions().canDelete(this))
         {
-            super.remove(user);
+            for(File f : getFileSet()) 
+            {
+                f.remove();
+            }
+            super.remove();
         }
-        
+        else
+        {
+            throw new DeletePermissionException(this.getName(), user.getUsername());
+        }       
     }
 
     /**
