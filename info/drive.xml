@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <Manager>
   <Users>
     <User username="yommere">
@@ -8,29 +9,44 @@
     </User>
   </Users>
   <Files>
-    <Directory id="4">
+    <Directory id="5">
       <name>usr</name>
       <perm>250</perm>
       <owner>root</owner>
       <path>/usr</path>
-      <lastModified>2016-04-11T16:23:54.730Z</lastModified>
+      <lastModified>2016-04-11T17:23:54.730+01:00</lastModified>
     </Directory>
-    <Directory id="5">
+    <Directory id="6">
       <name>local</name>
       <perm>250</perm>
       <owner>root</owner>
       <path>/usr/local</path>
-      <lastModified>2016-04-11T16:23:54.739Z</lastModified>
+      <lastModified>2016-04-11T17:23:54.739+01:00</lastModified>
     </Directory>
     <PlainFile id="7">
       <name>README</name>
       <perm>250</perm>
       <owner>root</owner>
       <path>/home/README</path>
-      <lastModified>2016-04-11T16:23:54.744Z</lastModified>
+      <lastModified>2016-04-11T17:23:54.744+01:00</lastModified>
       <content>yommere
-root</content>
+        root</content>
     </PlainFile>
-
+    <Link id="8">
+      <name>readme</name>
+      <perm>250</perm>
+      <owner>root</owner>
+      <path>/home/readme</path>
+      <lastModified>2016-04-12T00:15:11.244Z</lastModified>
+      <content>/home/README</content>
+    </Link>
+    <App id="9">
+      <name>ls</name>
+      <perm>250</perm>
+      <owner>root</owner>
+      <path>/home/ls</path>
+      <lastModified>2016-04-12T00:15:11.244Z</lastModified>
+      <content>pt.tecnico.myDrive.Main.GetContent()</content>
+    </App>
   </Files>
 </Manager>

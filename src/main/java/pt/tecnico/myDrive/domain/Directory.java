@@ -96,7 +96,6 @@ public class Directory extends Directory_Base {
         String[] split = spliTest;
         String rest = "";
         String nomeInit = link;
-        System.out.println("qwe1 "+ link);
         for(File path : getFileSet()) {
             if (spliTest.length != 1) {
                 split = link.split("/",2);

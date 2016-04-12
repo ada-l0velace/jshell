@@ -25,8 +25,8 @@ public class Main {
         try {
             init();
             for (String s: args) xmlScan(new java.io.File(s));
-            xmlPrint(); 
-            // setup();
+            setup();
+
         } finally {
             // ensure an orderly shutdown
             FenixFramework.shutdown();
@@ -37,6 +37,7 @@ public class Main {
     public static void init() { // empty phonebook
         logger.trace("Init lol: " + FenixFramework.getDomainRoot());
         Manager.getInstance();
+
      //   logger.trace(Manager.getInstance().getSuperuser().getFileByPath("/home") + "<----------------------------");
 
     }
