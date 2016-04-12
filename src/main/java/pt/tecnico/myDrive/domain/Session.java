@@ -50,11 +50,14 @@ public class Session extends Session_Base {
         }
     }
 
-    /**
-     * @// FIXME: 19/03/16 IMPLEMENT ME PLEASE
-     */
     public void remove () {
-
+        setCurrentDirectory(null);
+        setUser(null);
+        for(EnvironmentVariable i : getEnvVar())
+        {
+            i.remove();
+        }
+        deleteDomainObject();
     }
 
 
