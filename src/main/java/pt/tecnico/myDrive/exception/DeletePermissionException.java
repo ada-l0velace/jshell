@@ -1,6 +1,6 @@
 package pt.tecnico.myDrive.exception;
 
-public class DeletePermissionException extends MyDriveException {
+public class DeletePermissionException extends MyDriveException { 
 
     private static final long serialVersionUID = 1L;
 
