@@ -31,7 +31,9 @@ public class LoginUser extends MyDriveService {
             throw new InvalidUserCredentialsException();
         if (!u.isValidPassword(_password))
             throw new InvalidUserCredentialsException();
-        _userToken = new Session(u).getToken();
+        Session s = new Session(u);
+        _userToken = s.getToken();
+        s.remove();
     }
 
     public String result() {

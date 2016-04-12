@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by lolstorm on 09/04/16.
  */
-public class ListDirectoryTest extends BaseServiceTest {
+public class ListDirectoryTest extends TokenVerificationTest {
 
     private static final String USERNAME [] = {
         "shakita",
@@ -30,7 +30,7 @@ public class ListDirectoryTest extends BaseServiceTest {
     };
     private static final String PASSWORD = "lovely";
     private static final String NAME = "Herman Horton";
-    private static final Short UMASK = 0xFA;
+    private static final Short UMASK = 0xF0;
 
     private String _token;
     private String _rootToken;
@@ -106,4 +106,8 @@ public class ListDirectoryTest extends BaseServiceTest {
         service.execute();
     }
 
+    @Override
+    public MyDriveService CreateService(String token) {
+        return new ListDirectory(token);
+    }
 }
