@@ -14,25 +14,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
-public class ListDirectory extends MyDriveService {
+public class ListDirectory extends LoginRequiredService {
 
 	private List<FileDto> _files;
-    private String _directoryToken;
-    private Directory _currentDir;
+    private Session _session;
+    private String _token;
 
     public ListDirectory(String token) {
-    	_directoryToken = token;
+    	super(token);
+    	_token = token;
+    	_session = Manager.getInstance().getSessionByToken(token);
     }
 
+    @Override
     public final void dispatch() throws MyDriveException {
-    	_currentDir = Manager.getInstance().getSessionByToken(_directoryToken).getCurrentDirectory();
+    	super.dispatch();
+    	Directory currentDir = _session.getCurrentDirectory();
         _files = new ArrayList<FileDto>();
 
-        for (File f : _currentDir.getFileSet()) {
+        for (File f : currentDir.getFileSet()) {
 	    if (f instanceof PlainFile)
 	    	_files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
 	                   f.getParent().getName(), f.getOwner().getName(), f.getContent(Manager
-                                                                                     .getInstance().getUserByToken(_directoryToken))));
+                                                                                     .getInstance().getUserByToken(_token))));
 	    else
 	    	_files.add(new FileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
 	                   f.getParent().getName(), f.getOwner().getName()));

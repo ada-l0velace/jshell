@@ -6,13 +6,13 @@ import org.junit.Test;
 
 import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.User;
-import pt.tecnico.myDrive.service.CreateFile;
-import pt.tecnico.myDrive.domain.File;
+import pt.tecnico.myDrive.domain.Directory;
+import pt.tecnico.myDrive.exception.FileNotFoundException;
 
 
 public class DeleteFileTest extends TokenVerificationTest {
 	
-    private File _file;
+    private Directory _file;
 	private static final String _fileName = "Documents";
 	private static final String _fileType = "Directory";
 	private static final String _username = "Jonny";
@@ -22,10 +22,12 @@ public class DeleteFileTest extends TokenVerificationTest {
 	private User _user;
 	private String _token;
 	
+	
     protected void populate() {
 		_user = createUser(_username, _password, _name, _umask);
 		_token = createSession(_username);
-		_file = createFile(_token, _fileName, _fileType);   
+		_file = new Directory(_user, _fileName, Manager.getInstance().getSessionByToken(_token).getCurrentDirectory(),
+							Manager.getInstance());   
     }
 
     @Test
@@ -41,5 +43,10 @@ public class DeleteFileTest extends TokenVerificationTest {
     public void deleteNonExistingFile() {
         DeleteFile service = new DeleteFile(_token, "Images");
         service.execute();
+    }
+    
+    @Override
+    public MyDriveService CreateService(String token) {
+        return new DeleteFile(token, _fileName);
     }
 }
