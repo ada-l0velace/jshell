@@ -248,6 +248,9 @@ public class User extends User_Base {
      * @return  File returns the last File that appears in the path.
      */
     public File getFileByPath (String link) throws FileNotFoundException {
+    	if (link.equals("")){
+    		throw new FileNotFoundException(link);
+    	}
         if ( (link.charAt(link.length() - 1)== '/') && (link.length() > 1)){
         		link = link.substring(0, link.length() -1);
     	}
@@ -257,7 +260,7 @@ public class User extends User_Base {
         else if(link.equals("..")){
         	return getValidSession().getCurrentDirectory().getParent();
         }
-        if(link.startsWith("/")){
+        else if(link.startsWith("/")){
         	String[] split0 = link.split("/",2);
             String rest0 = split0[1];
         	return Manager.getInstance().getHome().getFileByPath(rest0);
@@ -353,4 +356,6 @@ public class User extends User_Base {
                 i.remove();
         }
     }
+    
+    //public boolean 
 }

@@ -10,6 +10,7 @@ import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
+import pt.tecnico.myDrive.exception.InvalidNameFileException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.service.ChangeDirectory;
 
@@ -69,14 +70,6 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         	n++;
         }
     }
-
-    @Test
-    public void emptyChange() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken , "");
-    	String prechange = s.getCurrentDirectory().getName();
-    	FullIvt.execute();
-    	assertTrue("mudou para um diretorio com path vazio", s.getCurrentDirectory().getName().equals(prechange));
-    }
     
     @Test
     public void failedChange() {
@@ -84,13 +77,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	FullIvt.execute();
     	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("games"));
     }
-    
-    @Test
-    public void tooMuchChars() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/" + giantName);
-    	FullIvt.execute();
-    	assertFalse("usou path com mais de 1024 caracteres", s.getCurrentDirectory().getName().equals(giantName));
-    }
+
     
     @Test
     public void rootNoChange() {
@@ -129,7 +116,17 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         Boom.execute();
     }
     
+    @Test(expected = FileNotFoundException.class)
+    public void noPath(){
+        ChangeDirectory Boom = new ChangeDirectory(_rootToken , "");
+        Boom.execute();
+    }
     
+    @Test(expected = InvalidNameFileException.class)
+    public void tooMuchChars() {
+    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/" + giantName);
+    	FullIvt.execute();
+    }
     
     @Test(expected = ReadPermissionException.class)
     public void surpassedPermission(){

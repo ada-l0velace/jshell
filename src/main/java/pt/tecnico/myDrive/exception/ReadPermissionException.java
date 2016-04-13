@@ -17,6 +17,6 @@ public class ReadPermissionException extends MyDriveException {
 
     @Override
     public String getMessage() {
-        return _user+ " don't have permissions to write on " + getFileName() + " file";
+        return _user+ " don't have permissions to read on " + getFileName() + " file";
     }
 }

@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.io.UnsupportedEncodingException;
+import pt.tecnico.myDrive.exception.InvalidNameFileException;
 
 public class Link extends Link_Base {
     
@@ -43,9 +44,9 @@ public class Link extends Link_Base {
     }
     
     @Override
-    public void setContent(String cont){
+    public void setContent(String cont) throws InvalidNameFileException{
     	if (cont.length() > 1024){
-    		throw new UnsupportedOperationException("Not Implemented!");
+    		throw new InvalidNameFileException(cont);
     	}
     	else 
     		super.setContent(cont);
