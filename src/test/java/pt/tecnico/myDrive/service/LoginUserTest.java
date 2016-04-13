@@ -13,6 +13,9 @@ import pt.tecnico.myDrive.exception.InvalidUserCredentialsException;
 
 public class LoginUserTest extends BaseServiceTest{
 
+
+
+
     private static final String _username = "shepard";
     private static final String _password = "commander";
     private User _user;
@@ -56,5 +59,22 @@ public class LoginUserTest extends BaseServiceTest{
         LoginUser service = new LoginUser("a", _password);
         service.execute();
         }
+
+    @Test
+    public void invalidSessionsDeleted(){
+        int i = 0;
+        while (i < 7){
+            String tok = createSession(_username);
+            Session invalid = Manager.getInstance().getSessionByToken(tok);
+            //            invalid.setLastActive(invalid.getLastActive().minusHours(5));
+            i++;    
+        }
+        
+        LoginUser service = new LoginUser(_username, _password);
+        service.execute();
+        
+        for(Session s : Manager.getInstance().getUserByUsername(_username).getSessionSet()) 
+            assertEquals("User still has invalid sessions",s.hasExpired(), false);
+    }
 
 }
