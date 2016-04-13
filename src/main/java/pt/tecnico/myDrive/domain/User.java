@@ -346,7 +346,7 @@ public class User extends User_Base {
     {
         for(Session i : getSessionSet())
         {
-            if(i.checkDisconnected())
+            if(i.hasExpired())
                 i.remove();
         }
     }
