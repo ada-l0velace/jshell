@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.service;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -25,6 +26,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     private String _token2;
     private Session s;
     private String _rootToken;
+    private static final String giantName = new String(new char[1024]).replace("\0", "1024 caracteres");
     private static final String dirName [] = {
             "games",
             "steam",
@@ -32,7 +34,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
             "Isaac",
             "Binding",
             "Dark",
-            "Souls",
+            giantName,
             "lol",
             "Malamar",
             "Tormenta"
@@ -73,28 +75,35 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken , "");
     	String prechange = s.getCurrentDirectory().getName();
     	FullIvt.execute();
-    	assertFalse("mudou para um diretorio com path vazio", prechange.equals(""));
+    	assertTrue("mudou para um diretorio com path vazio", s.getCurrentDirectory().getName().equals(prechange));
     }
     
     @Test
     public void failedChange() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_token, "/home/Dovah/games");
     	FullIvt.execute();
-    	assertFalse("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("games"));
+    	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("games"));
+    }
+    
+    @Test
+    public void tooMuchChars() {
+    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/" + giantName);
+    	FullIvt.execute();
+    	assertFalse("usou path com mais de 1024 caracteres", s.getCurrentDirectory().getName().equals(giantName));
     }
     
     @Test
     public void rootNoChange() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/games/lol");
+    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/Fallout");
     	FullIvt.execute();
-    	assertFalse("root sem permissoes?", s.getCurrentDirectory().getName().equals("lol"));
+    	assertTrue("root sem permissoes?", s.getCurrentDirectory().getName().equals("Fallout"));
     }
     
     @Test
     public void couldNotChangeRootDir() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_token, "/Dark");
     	FullIvt.execute();
-    	assertFalse("user nao conseguiu alterar um diretorio do root", s.getCurrentDirectory().getName().equals("Dark"));
+    	assertTrue("user nao conseguiu alterar um diretorio do root", s.getCurrentDirectory().getName().equals("Dark"));
     }
     
     @Test
@@ -102,16 +111,16 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, ".");
     	String prechange = s.getCurrentDirectory().getName();
     	FullIvt.execute();
-    	assertFalse("nao mudou corretamente para ele proprio", prechange.equals(s.getCurrentDirectory().getName()));
+    	assertTrue("nao mudou corretamente para ele proprio", prechange.equals(s.getCurrentDirectory().getName()));
     }
     
     
     @Test
     public void dotDotPathFail() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "..");
-    	String prechange = s.getCurrentDirectory().getName();
+    	String prechange = s.getCurrentDirectory().getParent().getName();
     	FullIvt.execute();
-    	assertFalse("nao mudou corretamente para o pai", s.getCurrentDirectory().getParent().getName().equals(prechange));
+    	assertTrue("nao mudou corretamente para o pai", s.getCurrentDirectory().getName().equals(prechange));
     }
 
     @Test(expected = FileNotFoundException.class)
@@ -119,6 +128,8 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         ChangeDirectory Boom = new ChangeDirectory(_rootToken , "/voidBorn");
         Boom.execute();
     }
+    
+    
     
     @Test(expected = ReadPermissionException.class)
     public void surpassedPermission(){
