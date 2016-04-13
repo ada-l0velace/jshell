@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
+import pt.tecnico.myDrive.exception.DeleteRootDirectoryException;
 
 public class RootDirectory extends RootDirectory_Base {
 
@@ -52,5 +53,9 @@ public class RootDirectory extends RootDirectory_Base {
     @Override
     public Element exportXml () {
         return super.exportXml();
+    }
+
+    public void remove(User user) throws DeleteRootDirectoryException {
+        throw new DeleteRootDirectoryException(this.getName());
     }
 }
