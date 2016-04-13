@@ -8,7 +8,8 @@ import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
-
+import pt.tecnico.myDrive.exception.ReadPermissionException;
+import static org.junit.Assert.assertFalse;
 
 public class CreateFileTest extends TokenVerificationTest {
 	
@@ -39,44 +40,44 @@ public class CreateFileTest extends TokenVerificationTest {
 
     @Test
     public void success() {
-        CreateFile service = new CreateFile(_token, FILENAME, FYLETPE);
+        CreateFile service = new CreateFile(_token, FILENAME, FILETYPEL);
         service.execute();
 
         // check file was created
-        assertFalse("File was not created", !_user.hasFile(_fileName));
+        assertFalse("File was not created", !_user.hasFile(FILENAME));
     }
 	
     @Test(expected = FileNotFoundException.class)
     public void deleteNonExistingFile() {
-        CreateFile service = new CreateFile(_token, "Bin");
+        CreateFile service = new CreateFile(_token, FILENAME, FILETYPEL);
         service.execute();
     }
 
     @Test
     public void createdPlainFile() {
-        CreateFile service = new CreateFile(_token, FILENAME, FYLETPP, CONTENT);
+        CreateFile service = new CreateFile(_token, FILENAME, FILETYPEP, CONTENT);
         service.execute();
 
         // check file was created
-        assertFalse("File was not created", !_user.hasFile(_fileName));
+        assertFalse("File was not created", !_user.hasFile(FILENAME));
     }
 
     @Test(expected = ReadPermissionException.class)
     public void creatNonAcesivelFile() {
-        ReadPlainFile service = new  CreateFile(_tokenNoAcess, FILENAME, FYLETPA);
+        CreateFile service = new  CreateFile(_tokenNoAcess, FILENAME, FILETYPEL);
         service.execute();
     }
 
     @Test(expected = ReadPermissionException.class)
     public void creatNonAcesivelPlainFile() {
-        ReadPlainFile service = new  CreateFile(_tokenNoAcess, FILENAME, FYLETPP, CONTENT);
+        CreateFile service = new  CreateFile(_tokenNoAcess, FILENAME, FILETYPEP, CONTENT);
         service.execute();
     }
 
     
     @Override
     public MyDriveService CreateService(String token) {
-        return new CreateFile(token, _fileName);
+        return new CreateFile(_token, FILENAME, FILETYPEL);
     }
 
 
