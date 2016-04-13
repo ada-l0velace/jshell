@@ -26,6 +26,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     private String _token;
     private String _token2;
     private Session s;
+    private Session rootSession;
     private String _rootToken;
     private static final String giantName = new String(new char[1024]).replace("\0", "1024 caracteres");
     private static final String dirName [] = {
@@ -55,6 +56,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         Manager m = Manager.getInstance();
         s = m.getSessionByToken(_token);
         _rootToken = createSession("root");
+        rootSession = m.getSessionByToken(_rootToken);
         int n = 0;
         
         for (int i=0; i<(dirName.length/2 - 1) ; i++) {
@@ -90,7 +92,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     public void rootNoChange() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/Fallout");
     	FullIvt.execute();
-    	assertTrue("root sem permissoes?", s.getCurrentDirectory().getName().equals("Fallout"));
+    	assertTrue("root sem permissoes?", rootSession.getCurrentDirectory().getName().equals("Fallout"));
     }
     
     @Test
@@ -103,18 +105,18 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     @Test
     public void dotPathFail() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, ".");
-    	String prechange = s.getCurrentDirectory().getName();
+    	String prechange = rootSession.getCurrentDirectory().getName();
     	FullIvt.execute();
-    	assertTrue("nao mudou corretamente para ele proprio", prechange.equals(s.getCurrentDirectory().getName()));
+    	assertTrue("nao mudou corretamente para ele proprio", prechange.equals(rootSession.getCurrentDirectory().getName()));
     }
     
     
     @Test
     public void dotDotPathFail() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "..");
-    	String prechange = s.getCurrentDirectory().getParent().getName();
+    	String prechange = rootSession.getCurrentDirectory().getParent().getName();
     	FullIvt.execute();
-    	assertTrue("nao mudou corretamente para o pai", s.getCurrentDirectory().getName().equals(prechange));
+    	assertTrue("nao mudou corretamente para o pai", rootSession.getCurrentDirectory().getName().equals(prechange));
     }
 
     @Test(expected = FileNotFoundException.class)
@@ -131,7 +133,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     
     @Test(expected = FileNotFoundException.class)
     public void invalidPartialPath(){
-        ChangeDirectory Boom = new ChangeDirectory(_rootToken ,s.getCurrentDirectory().getName() + "/balelas");
+        ChangeDirectory Boom = new ChangeDirectory(_rootToken ,rootSession.getCurrentDirectory().getName() + "/balelas");
         Boom.execute();
     }
     
