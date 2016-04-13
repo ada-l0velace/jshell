@@ -256,6 +256,11 @@ public abstract class File extends File_Base implements IElementXml {
         setParent(null);
         deleteDomainObject();
     }
+    
+    public boolean hasFile(String fileName)
+    {
+    	return this.getName().equals(fileName);
+    }
 
     /**
      * Overrides original toString() to the current object implementation.

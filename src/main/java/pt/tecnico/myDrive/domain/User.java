@@ -334,10 +334,11 @@ public class User extends User_Base {
      * Check if User has a file.
      */
     public boolean hasFile(String nameFile) {
+    	
+    	if(this.getName().equals(nameFile))
+    		return true;
     	for(File f : getFileSet()) {
-            if (f.getName().equals(nameFile)){
-            	return true;
-            }
+            f.hasFile(nameFile);
         }
     	return false;
     }

@@ -1,6 +1,6 @@
 package pt.tecnico.myDrive.service;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -20,6 +20,9 @@ public class DeleteFileTest extends TokenVerificationTest {
 	private static final String _username = "Jonny";
 	private static final String _password = "jopass";
     private static final String _name = "John";
+    private static final String _username2 = "Mikky";
+	private static final String _password2 = "mipass";
+    private static final String _name2 = "Mike";
     private static final Short _umask = 0xF0;
 	private User _user;
 	private String _token;
@@ -27,6 +30,7 @@ public class DeleteFileTest extends TokenVerificationTest {
 	
     protected void populate() {
 		_user = createUser(_username, _password, _name, _umask);
+		_user2 = createUser(_username2, _password2, _name2, _umask);
 		_token = createSession(_username);
 		_file = new Directory(_user, _fileName, Manager.getInstance().getSessionByToken(_token).getCurrentDirectory(),
 							Manager.getInstance());   
