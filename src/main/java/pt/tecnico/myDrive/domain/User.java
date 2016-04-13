@@ -249,6 +249,12 @@ public class User extends User_Base {
         if ( (link.charAt(link.length() - 1)== '/') && (link.length() > 1)){
         		link = link.substring(0, link.length() -1);
     	}
+        if(link.equals(".")){
+        	return getValidSession().getCurrentDirectory();
+        }
+        else if(link.equals("..")){
+        	return getValidSession().getCurrentDirectory().getParent();
+        }
         if(link.startsWith("/")){
         	String[] split0 = link.split("/",2);
             String rest0 = split0[1];
