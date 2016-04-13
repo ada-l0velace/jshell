@@ -99,6 +99,27 @@ public class ListDirectoryTest extends TokenVerificationTest {
         }
     }
 
+    @Test
+    public void ListRootDirectory() {
+        Manager m = Manager.getInstance();
+        Directory slash = m.getHome();
+        Directory home = (Directory) slash.searchFile("home");
+        m.getSessionByToken(_rootToken).setCurrentDirectory(slash);
+        ListDirectory service = new ListDirectory(_rootToken);
+
+        service.execute();
+        String fOut0 = "D rwxdr-x- 3 root 1 "+home.getModified().toString("MMM dd hh:mm")+" .\n";
+        String fOut1 = "D rwxdr-x- 3 root 1 "+home.getModified().toString("MMM dd hh:mm")+" ..\n";
+        String fOut2 = "D rwxdr-x- 12 root 2 "+home.getModified().toString("MMM dd hh:mm")+" home\n";
+
+        List<FileDto> ds = service.result();
+        if (ds != null) {
+            //log.trace(service.output());
+            assertEquals("List with 3 files", 3, ds.size());
+            assertEquals("Directory output", fOut0 + fOut1 + fOut2, service.output());
+        }
+    }
+
     @Test(expected = ReadPermissionException.class)
     public void readPermissionDeniedDirectory() {
         Manager m = Manager.getInstance();
