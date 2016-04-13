@@ -9,6 +9,7 @@ import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
+import pt.tecnico.myDrive.exception.DeleteRootDirectoryException;
 
 
 public class DeleteFileTest extends TokenVerificationTest {
@@ -37,7 +38,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         service.execute();
 
         // check file was deleted
-        assertFalse("File was not deleted", _user.hasFile(_fileName));
+        assertTrue("File was not deleted", _user.hasFile(_fileName));
     }
 	
     @Test(expected = FileNotFoundException.class)
@@ -60,6 +61,8 @@ public class DeleteFileTest extends TokenVerificationTest {
     
     @Test(expected = DeleteRootDirectoryException.class)
     public void deleteRootDirPermissionDenied() {
+    	Directory d = (Directory) _user.getFileByPath("/");
+    	Manager.getInstance().getSessionByToken(_token).setCurrentDirectory(d);
     	DeleteFile service = new DeleteFile(_token, "/");
         service.execute();
     }
