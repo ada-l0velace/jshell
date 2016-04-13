@@ -26,6 +26,7 @@ public class Main {
             init();
             for (String s: args) xmlScan(new java.io.File(s));
             setup();
+            //debug();
         } finally {
             // ensure an orderly shutdown
             FenixFramework.shutdown();
@@ -82,7 +83,7 @@ public class Main {
 
         File home = su.getFileByPath("/home");
 
-        //User user = new User("Biana","yommere","pass", (short) Integer.parseInt("0F",16), m);
+        User user = new User("Biana","yommere","pass", (short) 0xF0, m);
 
         //m.deleteUser(user);
         
@@ -98,13 +99,18 @@ public class Main {
         System.out.println(readme.getContent(Manager.getInstance().getUserByUsername("root")));
         
         // #5
-        xmlPrint();
+        //xmlPrint();
         
         // #6
         readme.remove(su);
         
         // #7
-        System.out.println(home.getContent(Manager.getInstance().getUserByUsername("root")));
+        Session s = new Session(user);
+        for (File f:
+                ((Directory) home).listContent(s.getToken())) {
+            System.out.println(f);
+        }
+
     }   
 
     /**

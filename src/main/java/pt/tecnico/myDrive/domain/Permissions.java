@@ -86,8 +86,14 @@ public class Permissions extends Permissions_Base {
     public boolean CanRead(File f) {
         String userOwner = f.getOwner().getUsername();
         String testedUser = getUser().getUsername();
+
         if(getUser().isSuperUser())
             return true;
+
+        Manager.getInstance().log.warn(userCanRead() + " " + userOwner.equals(testedUser) + " "+ f.getPermissions().worldCanRead());
+
+
+
         if ((userCanRead() && userOwner.equals(testedUser)) ||
                 f.getPermissions().worldCanRead()){
             return true;

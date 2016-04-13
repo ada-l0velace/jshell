@@ -80,6 +80,7 @@ public class User extends User_Base {
         else
             home = new Directory(su, getUsername(), getManagerU().getDirHome(), getManagerU());
         home.setOwner(this);
+        home.setPermissions(this.getPermissions());
         setHome(home);
     }
 
@@ -95,6 +96,7 @@ public class User extends User_Base {
         else
             home = new Directory(su, getUsername(), parent, getManagerU());
         home.setOwner(this);
+        home.setPermissions(this.getPermissions());
         setHome(home);
     }
 

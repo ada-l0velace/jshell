@@ -174,6 +174,7 @@ public class Directory extends Directory_Base {
     public Set<File> listContent(String token) throws ReadPermissionException {
     	User user = Manager.getInstance().getUserByToken(token);
     	if (user.getPermissions().CanRead(this)) {
+            Manager.getInstance().log.trace("FODA_SE" + this.getName());
     		return getFileSet();
     	} 
     	else {
