@@ -100,7 +100,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
     }
 
     @Test
-    public void ListRootDirectory() {
+    public void listRootDirectory() {
         Manager m = Manager.getInstance();
         Directory slash = m.getHome();
         Directory home = (Directory) slash.searchFile("home");
@@ -119,6 +119,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
             assertEquals("Directory output", fOut0 + fOut1 + fOut2, service.output());
         }
     }
+
 
     @Test(expected = ReadPermissionException.class)
     public void readPermissionDeniedDirectory() {

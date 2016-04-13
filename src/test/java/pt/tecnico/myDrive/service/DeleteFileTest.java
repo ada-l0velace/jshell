@@ -45,7 +45,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         // check file was deleted
         assertTrue("File was not deleted", _user.hasFile(_fileName));
     }
-	
+
     @Test(expected = FileNotFoundException.class)
     public void deleteNonExistingFile() {
         DeleteFile service = new DeleteFile(_token, "Images");
@@ -63,7 +63,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     	DeleteFile service = new DeleteFile(_token, ".");
         service.execute();
     }
-    
+
     @Test(expected = DeleteRootDirectoryException.class)
     public void deleteRootDirPermissionDenied() {
     	Directory d = (Directory) _user.getFileByPath("/");
@@ -71,7 +71,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     	DeleteFile service = new DeleteFile(_token, "/");
         service.execute();
     }
-    
+
     @Override
     public MyDriveService CreateService(String token) {
         return new DeleteFile(token, _fileName);

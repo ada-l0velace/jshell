@@ -109,7 +109,6 @@ public class ReadPlainFileTest extends TokenVerificationTest {
         service.execute();
     }
 
-
     @Override
     public MyDriveService CreateService(String token) {
         return new ReadPlainFile(token, _fileName);

@@ -74,7 +74,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         }
         new Directory(m.getUserByToken(_token) , "oneAboveAll", s.getCurrentDirectory(), m);
     }
-    
+
     @Test
     public void failedChange() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_token, "/home/Dovah/games");
@@ -82,7 +82,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	s = m.getSessionByToken(FullIvt.result());
     	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("games"));
     }
-    
+
     @Test
     public void failedPartialPath() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_token, "games/lol");
@@ -98,7 +98,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	rootSession = m.getSessionByToken(FullIvt.result());
     	assertTrue("root sem permissoes?", rootSession.getCurrentDirectory().getName().equals("Fallout"));
     }
-    
+
     @Test
     public void couldNotChangeRootDir() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_token, "/Dark");
@@ -106,7 +106,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	s = m.getSessionByToken(FullIvt.result());
     	assertTrue("user nao conseguiu alterar um diretorio do root", s.getCurrentDirectory().getName().equals("Dark"));
     }
-    
+
     @Test
     public void dotPathFail() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, ".");
@@ -115,7 +115,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	rootSession = m.getSessionByToken(FullIvt.result());
     	assertTrue("nao mudou corretamente para ele proprio", prechange.equals(rootSession.getCurrentDirectory().getName()));
     }
-    
+
     
     @Test
     public void dotDotPathFail() {
@@ -131,7 +131,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         ChangeDirectory Boom = new ChangeDirectory(_rootToken , "/voidBorn");
         Boom.execute();
     }
-    
+
     @Test(expected = FileNotFoundException.class)
     public void noPath(){
         ChangeDirectory Boom = new ChangeDirectory(_rootToken , "");
@@ -149,13 +149,13 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/" + giantName);
     	FullIvt.execute();
     }
-    
+
     @Test(expected = ReadPermissionException.class)
     public void surpassedPermission(){
         ChangeDirectory Boom = new ChangeDirectory(_token , "/home/Nathan/Binding");
         Boom.execute();
     }
-    
+
     @Override
     public MyDriveService CreateService(String token) {
         return new ChangeDirectory(token, "/");
