@@ -8,7 +8,7 @@ import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.Session;
-import pt.tecnico.myDrive.exception.UserSessionExpiredException;
+import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.service.ChangeDirectory;
 
@@ -17,8 +17,12 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     private  Directory _dirTest;
     private static final String _username = "Dovah";
     private static final String _password = "Khin";
+    private static final String _username2 = "Nathan";
+    private static final String _password2 = "Drake";
     private User _user;
+    private User _user2;
     private String _token;
+    private String _token2;
     private Session s;
     private String _rootToken;
     private static final String dirName [] = {
@@ -42,21 +46,24 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         };
     protected void populate(){
         _user = createUser(_username, _password, "DragonBorn",(short) 255);
+        _user2 = createUser(_username2, _password2, "Uncharted",(short) 255);
         _token = createSession(_username);
+        _token2 = createSession(_username2);
         Manager m = Manager.getInstance();
         s = m.getSessionByToken(_token);
         _rootToken = createSession("root");
         int n = 0;
         
-        for (int i=0; i<(dirName.length/2) ; i++) {
+        for (int i=0; i<(dirName.length/2 - 1) ; i++) {
         	String direcName = dirName[i];
         	_dirTest = new Directory(_user , direcName, (Directory)m.getUserByToken(_token).getHome(), m);
         }
+        String direcName2 = dirName[4];
+        _dirTest = new Directory(_user2 , direcName2, (Directory)m.getUserByToken(_token2).getHome(), m);
         for (int j=5; j < (dirName.length -1) ; j++) {
         	String direcName = dirName[j];
         	String path = paths[n];
         	_dirTest = new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path), m);
-        	log.trace(_dirTest.getPath());
         	n++;
         }
     }
@@ -78,9 +85,9 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     
     @Test
     public void rootNoChange() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/Dark");
+    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/games/lol");
     	FullIvt.execute();
-    	assertFalse("root sem permissoes?", s.getCurrentDirectory().getName().equals("Dark"));
+    	assertFalse("root sem permissoes?", s.getCurrentDirectory().getName().equals("lol"));
     }
     
     @Test
@@ -103,6 +110,12 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     @Test(expected = FileNotFoundException.class)
     public void invalidFile(){
         ChangeDirectory Boom = new ChangeDirectory(_rootToken , "/voidBorn");
+        Boom.execute();
+    }
+    
+    @Test(expected = ReadPermissionException.class)
+    public void surpassedPermission(){
+        ChangeDirectory Boom = new ChangeDirectory(_token , "/home/Nathan/Binding");
         Boom.execute();
     }
     
