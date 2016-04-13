@@ -225,7 +225,13 @@ public class Directory extends Directory_Base {
                 return f;
         throw new FileNotFoundException(name);
     }
-
+    
+    public String search(String name, String token) {
+        for(File f: listContent(token))
+            if (f.getName().equals(name))
+                return f.getName();
+        return null;
+    }
     /**
      * Search a File by id in a Directory
      * @param id (int) receives a String which is the id of the File
