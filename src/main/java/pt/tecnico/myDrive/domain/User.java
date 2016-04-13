@@ -341,4 +341,13 @@ public class User extends User_Base {
         }
     	return false;
     }
+
+    public void disconnectExpiredSessions()
+    {
+        for(Session i : getSessionSet())
+        {
+            if(i.checkDisconnected())
+                i.remove();
+        }
+    }
 }

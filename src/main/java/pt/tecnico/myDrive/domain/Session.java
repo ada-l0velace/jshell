@@ -53,7 +53,7 @@ public class Session extends Session_Base {
     public void remove () {
         setCurrentDirectory(null);
         setUser(null);
-        for(EnvironmentVariable i : getEnvVar())
+        for(EnvironmentVariable i : getEnvVarSet())
         {
             i.remove();
         }
