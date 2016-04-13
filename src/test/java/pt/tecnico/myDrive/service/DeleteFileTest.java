@@ -52,6 +52,12 @@ public class DeleteFileTest extends TokenVerificationTest {
         service.execute();
     }
     
+    @Test(expected = DeletePermissionException.class)
+    public void deletePermissionDenied() {
+    	DeleteFile service = new DeleteFile(_token, ".");
+        service.execute();
+    }
+    
     @Override
     public MyDriveService CreateService(String token) {
         return new DeleteFile(token, _fileName);
