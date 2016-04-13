@@ -2,16 +2,14 @@ package pt.tecnico.myDrive.service;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
-import pt.tecnico.myDrive.domain.Directory;
-import pt.tecnico.myDrive.domain.Manager;
-import pt.tecnico.myDrive.domain.User;
-import pt.tecnico.myDrive.domain.PlainFile;
+import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.service.dto.FileDto;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 
@@ -40,66 +38,81 @@ public class ReadPlainFileTest extends TokenVerificationTest {
 	private static final String _password = "pwjack";
     private static final String _name = "Stevie";
     private static final Short _umask = 0xF0;
-    private static final Short _umask0 = 0x00;
+    private static final Short _umask0 = 0xF0;
 	private User _user;
 	private String _token;
-	private String _rootToken;
+
+    private User _user1;
+    private String _token1;
+
+    private PlainFile _file2;
+
+    private String _rootToken;
 	private String _nonPremitionsToken;
 
 	
 	protected void populate() {
-		for (String content : CONTENT ){
-		_user = createUser(_username, _password, _name, _umask);
-		_token = createSession(_username);
-		_file = new PlainFile(_user, _fileName, content ,Manager.getInstance().getSessionByToken(_token).getCurrentDirectory(),
-							Manager.getInstance());
-		}
-		//Creates user without premissions
-		_user = createUser("derp", _password, _name, _umask0);
+		int i = 0;
+        Manager m = Manager.getInstance();
+		/*for (String content : CONTENT ){
+			_user = createUser(_username+ i++, _password, _name, _umask);
+			_token = createSession(_username + (i-1));
+			_file = new PlainFile(_user, _fileName + i++, content ,Manager.getInstance().getSessionByToken(_token).getCurrentDirectory(),
+								Manager.getInstance());
+		}*/
+
+		//Creates user without permissions
+		_user = createUser("derp", _password, _name, _umask);
 		_token = createSession("derp");
-		_file = new PlainFile(_user, _fileName, _testContent ,Manager.getInstance().getSessionByToken(_token).getCurrentDirectory(),
-							Manager.getInstance());
-		
-		//Creates SuperUser
-		_user = createUser("root", _password, _name, _umask0);
-		_rootToken = createSession("root");
-		_file = new PlainFile(_user, _fileName,_testContent ,Manager.getInstance().getSessionByToken(_rootToken).getCurrentDirectory(),
-				Manager.getInstance());
+        //Second user the read.
+        _user1 = createUser("derp1", _password, _name, _umask);
+        _token1 = createSession("derp1");
+        //Root token.
+        _rootToken = createSession("root");
+        //Change directory to check read permissions
+        Session s = m.getSessionByToken(_token);
+        new PlainFile(m.getSuperuser(), _fileName, _testContent , s.getCurrentDirectory(), m);
+        new PlainFile(_user, _fileName + "1", _testContent , s.getCurrentDirectory(), m);
+
+
     }
 
     @Test
     public void success() {
         ReadPlainFile service = new ReadPlainFile(_token, _fileName);
         service.execute();
-
-        // check file was readed
-        assertFalse("File was not readed", _user.hasFile(_fileName));
+        assertEquals("Content is not returned", service.result(), _testContent);
     }
-	
+
     @Test(expected = FileNotFoundException.class)
-    public void readNonExistingFile() {
+    public void PlainFileNotFound() {
         ReadPlainFile service = new ReadPlainFile(_token, "Bin");
         service.execute();
+
     }
-    
+
+    @Test
+    public void readPublicPlainFile() {
+        ReadPlainFile service = new ReadPlainFile(_token, _fileName);
+        service.execute();
+    }
+
+    @Test(expected = ReadPermissionException.class)
+    public void fileReadAccessDenied() {
+        Manager m = Manager.getInstance();
+        Session s = m.getSessionByToken(_token);
+        Session s2 = m.getSessionByToken(_token1);
+        // change user current directory.
+        s2.setCurrentDirectory(s.getCurrentDirectory());
+
+        ReadPlainFile service = new ReadPlainFile(_token1, _fileName);
+        service.execute();
+    }
+
+
     @Override
     public MyDriveService CreateService(String token) {
         return new ReadPlainFile(token, _fileName);
-    }
-    
-    @Test
-    public void rootPlainFile() {
-        ReadPlainFile service = new ReadPlainFile(_rootToken, _fileName);
-        service.execute();
-
-        // check file was readed
-        assertFalse("File was not readed", _user.hasFile(_fileName));
-    }
-    
-    @Test(expected = ReadPermissionException.class)
-    public void readNonAcesivelFile() {
-        ReadPlainFile service = new ReadPlainFile(_token, "Bin");
-        service.execute();
     }
     
 }
