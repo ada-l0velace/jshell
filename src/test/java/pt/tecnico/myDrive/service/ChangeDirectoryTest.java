@@ -45,8 +45,8 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
             "//"
         };
     protected void populate(){
-        _user = createUser(_username, _password, "DragonBorn",(short) 255);
-        _user2 = createUser(_username2, _password2, "Uncharted",(short) 255);
+        _user = createUser(_username, _password, "DragonBorn",(short) 0xF0);
+        _user2 = createUser(_username2, _password2, "Uncharted",(short) 0xF0);
         _token = createSession(_username);
         _token2 = createSession(_username2);
         Manager m = Manager.getInstance();
