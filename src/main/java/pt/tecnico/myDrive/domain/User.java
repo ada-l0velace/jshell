@@ -8,6 +8,7 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.WritePermissionException;
+import pt.tecnico.myDrive.exception.InvalidNameFileException;
 
 /**
  * Identifies the current person that is working, creating or managing files.
@@ -247,7 +248,10 @@ public class User extends User_Base {
      * @param  link (String) receives a String with the link content.
      * @return  File returns the last File that appears in the path.
      */
-    public File getFileByPath (String link) throws FileNotFoundException {
+    public File getFileByPath (String link) throws FileNotFoundException, InvalidNameFileException {
+    	if (link.length() > 1024){
+    		throw new InvalidNameFileException(link);
+    	}
     	if (link.equals("")){
     		throw new FileNotFoundException(link);
     	}
