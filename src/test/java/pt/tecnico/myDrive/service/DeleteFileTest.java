@@ -25,6 +25,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     private static final String _name2 = "Mike";
     private static final Short _umask = 0xF0;
 	private User _user;
+	private User _user2;
 	private String _token;
 	
 	
