@@ -99,7 +99,7 @@ public class Main {
         System.out.println(readme.getContent(Manager.getInstance().getUserByUsername("root")));
         
         // #5
-        //xmlPrint();
+        xmlPrint();
         
         // #6
         readme.remove(su);

@@ -91,13 +91,14 @@ public abstract class File extends File_Base implements IElementXml {
         File f = getParent();
         String l = "";
         while (f != null) {
-            if (f.getParent().getName() != "/")
+            if (!f.getName().equals("/"))
                 l = f.getName()+ "/" + l;
             else {
                 l = f.getName() + l;
                 return l;
             }
                 f = f.getParent();
+            Manager.getInstance().log.trace(f.getName());
         }
         return l;
     }
@@ -162,7 +163,7 @@ public abstract class File extends File_Base implements IElementXml {
         Element node = new Element(this.getClass().getSimpleName());
         node.setAttribute("id", Integer.toString(getId()));
         node.setAttribute("name", getName());
-        node.setAttribute("mask", Short.toString(getPermissions().getUmask()));
+        node.setAttribute("mask", getPermissions().toString());
         node.setAttribute("owner", getOwner().getUsername());
 
         Element lastModified = new Element("lastModified");        
