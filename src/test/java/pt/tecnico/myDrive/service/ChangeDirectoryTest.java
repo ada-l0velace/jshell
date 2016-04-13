@@ -9,9 +9,11 @@ import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.domain.PlainFile;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
+import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 import pt.tecnico.myDrive.service.ChangeDirectory;
 
 public class ChangeDirectoryTest extends TokenVerificationTest{
@@ -72,7 +74,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         	_dirTest = new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path), m);
         	n++;
         }
-        new Directory(m.getUserByToken(_token) , "oneAboveAll", s.getCurrentDirectory(), m);
+        new PlainFile(m.getUserByToken(_token) , "oneAboveAll", "estoirar o cao", (Directory)m.getUserByToken(_token).getHome(), m);
     }
 
     @Test
@@ -147,6 +149,12 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     @Test(expected = InvalidNameFileException.class)
     public void tooMuchChars() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/" + giantName);
+    	FullIvt.execute();
+    }
+    
+    @Test(expected = InvalidFileTypeException.class)
+    public void wrongFileType() {
+    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/oneAboveAll");
     	FullIvt.execute();
     }
 
