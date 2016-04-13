@@ -12,36 +12,19 @@ import pt.tecnico.myDrive.exception.ReadPermissionException;
 import static org.junit.Assert.assertFalse;
 
 public class CreateFileTest extends TokenVerificationTest {
-
-    private Directory _dir
-    
 	
+    private Directory _dir;
+    
     protected void populate() {
     }
 
     @Test
     public void success() {
     }
-	
-    @Test(expected = FileNotFoundException.class)
-    public void deleteNonExistingFile() {
-    }
-
-    @Test
-    public void createdPlainFile() {
-    }
-
-    @Test(expected = ReadPermissionException.class)
-    public void createNonAcessibleFile() {
-    }
-
-    @Test(expected = ReadPermissionException.class)
-    public void creatNonAcessiblePlainFile() {
-    }
-
     
     @Override
     public MyDriveService CreateService(String token) {
+        return new CreateFile(token, "somethingfile", "l");
     }
 
 
