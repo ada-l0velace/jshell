@@ -47,13 +47,13 @@ public class DeleteFileTest extends TokenVerificationTest {
     }
     
     @Test(expected = DeletePermissionException.class)
-    public void deletePermissionDenied() {
+    public void deletePermissionDeniedDotDot() {
     	DeleteFile service = new DeleteFile(_token, "..");
         service.execute();
     }
     
     @Test(expected = DeletePermissionException.class)
-    public void deletePermissionDenied() {
+    public void deletePermissionDeniedDot() {
     	DeleteFile service = new DeleteFile(_token, ".");
         service.execute();
     }
