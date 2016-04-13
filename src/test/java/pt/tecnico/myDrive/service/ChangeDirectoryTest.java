@@ -91,6 +91,13 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     }
     
     @Test
+    public void couldNotChangeRootDir() {
+    	ChangeDirectory FullIvt = new ChangeDirectory(_token, "/Dark");
+    	FullIvt.execute();
+    	assertFalse("user nao conseguiu alterar um diretorio do root", s.getCurrentDirectory().getName().equals("Dark"));
+    }
+    
+    @Test
     public void dotPathFail() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, ".");
     	String prechange = s.getCurrentDirectory().getName();
