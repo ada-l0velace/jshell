@@ -4,6 +4,7 @@ import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.MyDriveException;
 import pt.tecnico.myDrive.service.dto.FileDto;
+import pt.tecnico.myDrive.service.dto.DirectoryDto;
 import pt.tecnico.myDrive.service.dto.PlainFileDto;
 import pt.tecnico.myDrive.domain.PlainFile;
 import pt.tecnico.myDrive.domain.Directory;
@@ -25,26 +26,49 @@ public class ListDirectory extends LoginRequiredService {
     	_token = token;
     	_session = Manager.getInstance().getSessionByToken(token);
     }
-
+    
     @Override
     public final void dispatch() throws MyDriveException {
     	super.dispatch();
     	Directory currentDir = _session.getCurrentDirectory();
+    	Directory parent = currentDir.getParent();
         _files = new ArrayList<FileDto>();
-
-        for (File f : currentDir.getFileSet()) {
-	    if (f instanceof PlainFile)
+        
+        for (File f : currentDir.listContent(_token)) {
+	    if (!(f instanceof Directory))
 	    	_files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
-	                   f.getParent().getName(), f.getOwner().getName(), f.getContent(Manager
-                                                                                     .getInstance().getUserByToken(_token))));
+	    								f.getParent().getName(), f.getOwner().getName(),
+	    								f.getContent(Manager.getInstance().getUserByToken(_token)), f.toString()));
 	    else
-	    	_files.add(new FileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
-	                   f.getParent().getName(), f.getOwner().getName()));
+	    	_files.add(new DirectoryDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
+	                   f.getParent().getName(), f.getOwner().getName(), f.toString()));
         }
+        
+        String op1 = "D" + " " + currentDir.getPermissions().toString() + " " + 
+        			(currentDir.listContent(_token).size()+2) + " " + currentDir.getOwner().getUsername() + " " + 
+        			currentDir.getId() + " " + currentDir.getModified().toString("MMM dd hh:mm") + " .";
+        
+        String op2 = "D" + " " + parent.getPermissions().toString() + " " + 
+    			(parent.listContent(_token).size()+2) + " " + parent.getOwner().getUsername() + " " + 
+    			parent.getId() + " " + parent.getModified().toString("MMM dd hh:mm") + " ..";
+        
+        _files.add(new DirectoryDto(currentDir.getId(), ".", currentDir.getModified(), 
+        		currentDir.getPermissions().getUmask(), parent.getName(), currentDir.getOwner().getUsername(), op1));
+        
+        _files.add(new DirectoryDto(parent.getId(), "..", parent.getModified(), parent.getPermissions().getUmask(), 
+        		parent.getParent().getName(), parent.getOwner().getUsername(), op2));
 
         Collections.sort(_files);
     }
 
+    public String output(){
+    	String output = "";
+    	for (FileDto f : result()) {
+    		output = output + f.toString() + "\n";
+    	}
+    	return output;
+    }
+    
     public final List<FileDto> result() {
         return _files;
     }

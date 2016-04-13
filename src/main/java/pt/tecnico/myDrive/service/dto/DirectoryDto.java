@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 
 public class DirectoryDto extends FileDto {
    
+	
     /**
      * Construtor to DirectoryDto
      * @param id (int) receives the id of the file.
@@ -18,8 +19,9 @@ public class DirectoryDto extends FileDto {
                    DateTime modified,
                    short umask,
                    String parent,
-                   String owner) {
-        super(id, name, modified, umask, parent, owner);  
+                   String owner, 
+                   String representation) {
+        super(id, name, modified, umask, parent, owner, representation);   
     }
 
        /**
@@ -30,4 +32,5 @@ public class DirectoryDto extends FileDto {
     public int compareTo(DirectoryDto o) {
         return getName().compareTo(o.getName());
     }
+    
 }

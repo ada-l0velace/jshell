@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 
 public class LinkDto extends PlainFileDto{
 
+	
     /**
      * Construtor to PlainFileDto
      * @param id (int) receives the id of the file.
@@ -14,8 +15,8 @@ public class LinkDto extends PlainFileDto{
      * @param owner (String) receives the owner name of the file.
      * @param content (String) receives the owner name of the file.
      */
-    public LinkDto(int id, String name, DateTime modified, short umask, String parent, String owner, String content){
-        super(id, name, modified, umask, parent, owner, content);
+    public LinkDto(int id, String name, DateTime modified, short umask, String parent, String owner, String content, String representation){
+        super(id, name, modified, umask, parent, owner, content, representation);
     }
    
     /**

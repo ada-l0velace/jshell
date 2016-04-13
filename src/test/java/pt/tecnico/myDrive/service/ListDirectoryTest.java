@@ -83,16 +83,18 @@ public class ListDirectoryTest extends TokenVerificationTest {
     @Test
     public void contentEmptyDirectory() {
         Manager m = Manager.getInstance();
-        ListDirectory service = new ListDirectory(_rootToken);
         m.getDirHome().setModified(new DateTime(2016, 4, 12, 4, 28, 0, 0));
-        m.getHome().setModified(new DateTime(2016, 4, 12, 4, 28, 0, 0));
+        m.getSuperuser().getHome().setModified(new DateTime(2016, 4, 12, 4, 28, 0, 0));
+        ListDirectory service = new ListDirectory(_rootToken);
+        
         service.execute();
-        String fOut0 = "D rwxdr-x- 1 root 3 Apr 12 04:28 .\n";
-        String fOut1 = "D rwxdr-x- 12 root 2 Apr 12 04:28 ..\n";
+        String fOut0 = "D rwxdr-x- 2 root 3 "+new DateTime(2016, 4, 12, 4, 28, 0, 0).toString("MMM dd hh:mm")+" .\n";
+        String fOut1 = "D rwxdr-x- 12 root 2 "+new DateTime(2016, 4, 12, 4, 28, 0, 0).toString("MMM dd hh:mm")+" ..\n";
         List<FileDto> ds = service.result();
+        log.trace(service.output() + "---------jythrg");
         if (ds != null) {
             assertEquals("List with 2 files", 2, ds.size());
-            assertEquals("Directory output", fOut0 + fOut1, ds);
+            assertEquals("Directory output", fOut0 + fOut1, service.output());
         }
 
     }

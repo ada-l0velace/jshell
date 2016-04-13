@@ -11,6 +11,7 @@ public class FileDto implements Comparable<FileDto> {
     private Short _umask;
     private String _parent;
     private String _owner;
+    private String _representation;
 
     /**
      * Construtor to FileDto
@@ -26,13 +27,15 @@ public class FileDto implements Comparable<FileDto> {
                    DateTime modified,
                    short umask,
                    String parent,
-                   String owner) {
+                   String owner, 
+                   String representation) {
         _id = id;
         _name = name;
         _modified = modified;
         _umask = umask;
         _parent = parent;
         _owner = owner;
+        _representation = representation;
     }
 
     /**
@@ -93,5 +96,8 @@ public class FileDto implements Comparable<FileDto> {
         return getName().compareTo(o.getName());
     }
 
-
+    @Override
+    public String toString(){
+    	return _representation;
+    }
 }

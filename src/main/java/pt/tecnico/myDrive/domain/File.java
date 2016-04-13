@@ -224,7 +224,7 @@ public abstract class File extends File_Base implements IElementXml {
      * Interface method.
      * @throws UnsupportedEncodingException occurs always if called directly with File.
      */
-    public File getFileByPath (String link){
+    public File getFileByPath (String link, String token){
         throw new UnsupportedOperationException("Not Implemented!");
     }
 

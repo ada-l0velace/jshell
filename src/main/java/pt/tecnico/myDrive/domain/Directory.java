@@ -149,59 +149,25 @@ public class Directory extends Directory_Base {
     public boolean equals(Directory d) { return getName().equals(d.getName()) && 
         getParent().equals(d.getParent());}
 
-    /**
-     * Returns a list of files.
-     * @return String represents the list of files.
-     */
-    @Override
-    public String getContent(User user) {
-        
-        if (!user.getUsername().equals("root")){
-            if (!user.equals(getOwner())){
-                if (!getPermissions().worldCanRead())
-                    throw new ReadPermissionException(getName(), user.getUsername());
-            }
-            else
-                if (!getPermissions().userCanRead())
-                    throw new ReadPermissionException(getName(), user.getUsername());
-        }
-        return listContent();
-    }
 
     /**
      * @// FIXME: 18/03/16 needs refactoring.
      * @return list (String) returns a list of files inside a directory.
      */
-    public String listContent(){
-    	String[] names = new String[getFileSet().size()+2];
-    	String[] entries = new String[getFileSet().size()+2];
-        String list = "";
-        String tempStr = "";
-        int k = 2;
-        for(File path : this.getFileSet()){
-        	entries[k]= path.toString();
-        	names[k] = path.getName();
-        	k++;
-        }
-        for (int t = 2; t < names.length - 1; t++) {
-            for (int i= 2; i < names.length - t -1; i++) {
-                if(names[i+1].compareTo(names[i])<0) {
-                    tempStr = names[i];
-                    names[i] = names[i + 1];
-                    names[i + 1] = tempStr;
-                    tempStr = entries[i];
-                    entries[i] = entries[i + 1];
-                    entries[i + 1] = tempStr;
-                }
-            }
-        }
-        Directory p = getParent();
+    public Set<File> listContent(String token) throws ReadPermissionException {
+    	User user = Manager.getInstance().getUserByToken(token);
+    	if (user.getPermissions().CanRead(this)) {
+    		return getFileSet();
+    	} 
+    	else {
+    		throw new ReadPermissionException(this.getName(), user.getName());
+    	}
+        /*
         entries[0] = toString().replace(getName(), ".");
         entries[1] = p.toString().replace(p.getName(), "..");
         for (int j = 0; j < names.length; j++){
         	list += entries[j] + "\n";        	
-        }
-        return list;
+        }*/
     }
 
     
@@ -234,6 +200,13 @@ public class Directory extends Directory_Base {
                 return f;
         throw new FileNotFoundException(name);
     }
+    
+    public File searchFile(String name, String token) throws FileIdNotFoundException {
+        for(File f: listContent(token))
+            if (f.getName().equals(name))
+                return f;
+        throw new FileNotFoundException(name);
+    }
 
     /**
      * Search a File by id in a Directory
@@ -241,8 +214,8 @@ public class Directory extends Directory_Base {
      * @see File
      * @throws FileIdNotFoundException
      */
-    public File searchFile(int id) throws FileIdNotFoundException {
-        for(File f: getFileSet())
+    public File searchFile(int id, String token) throws FileIdNotFoundException {
+        for(File f: listContent(token))
             if (f.getId() == id)
                 return f;
         throw new FileIdNotFoundException(id);

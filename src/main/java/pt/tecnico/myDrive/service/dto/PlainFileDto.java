@@ -24,9 +24,10 @@ public class PlainFileDto extends FileDto {
                    short umask,
                    String parent,
                    String owner,
-                   String content) {
-        super(id, name, modified, umask, parent, owner);
-        _content = content;  
+                   String content,
+                   String representation) {
+        super(id, name, modified, umask, parent, owner, representation);
+        _content = content; 
     }
 
     /**
@@ -36,9 +37,7 @@ public class PlainFileDto extends FileDto {
     public final String getContent() {
         return _content;
     }
-
-
-   
+  
     /**
      * Override of operator equal to a specific one.
      * @param o represents the other object.
@@ -48,6 +47,5 @@ public class PlainFileDto extends FileDto {
     public int compareTo(PlainFileDto o) {
         return getName().compareTo(o.getName());
     }
-
 
 }
