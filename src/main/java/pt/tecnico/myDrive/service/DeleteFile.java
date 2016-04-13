@@ -2,6 +2,7 @@ package pt.tecnico.myDrive.service;
 
 import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.MyDriveException;
+import pt.tecnico.myDrive.exception.DeletePermissionException;
 
 public class DeleteFile extends LoginRequiredService {
 
@@ -22,6 +23,8 @@ public class DeleteFile extends LoginRequiredService {
     protected void dispatch() throws MyDriveException {
         super.dispatch();
         Directory dir = _session.getCurrentDirectory();
+        if(_filename.equals("..") || _filename.equals("."))
+            throw new DeletePermissionException(_filename, _user.getUsername());
         File file = dir.searchFile(_filename, _token);
         if(file != null)
             file.remove(_user);
