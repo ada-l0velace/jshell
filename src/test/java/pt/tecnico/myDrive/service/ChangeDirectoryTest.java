@@ -28,6 +28,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     private Session s;
     private Session rootSession;
     private String _rootToken;
+    private Manager m;
     private static final String giantName = new String(new char[1024]).replace("\0", "1024 caracteres");
     private static final String dirName [] = {
             "games",
@@ -53,7 +54,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         _user2 = createUser(_username2, _password2, "Uncharted",(short) 0xF0);
         _token = createSession(_username);
         _token2 = createSession(_username2);
-        Manager m = Manager.getInstance();
+        m = Manager.getInstance();
         s = m.getSessionByToken(_token);
         _rootToken = createSession("root");
         rootSession = m.getSessionByToken(_rootToken);
@@ -78,20 +79,23 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     public void failedChange() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_token, "/home/Dovah/games");
     	FullIvt.execute();
+    	s = m.getSessionByToken(FullIvt.result());
     	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("games"));
     }
     
     @Test
     public void failedPartialPath() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_token, "Dovah/oneAboveAll");
+    	ChangeDirectory FullIvt = new ChangeDirectory(_token, "games/lol");
     	FullIvt.execute();
-    	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("oneAboveAll"));
+    	s = m.getSessionByToken(FullIvt.result());
+    	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("lol"));
     }
 
     @Test
     public void rootNoChange() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/Fallout");
     	FullIvt.execute();
+    	rootSession = m.getSessionByToken(FullIvt.result());
     	assertTrue("root sem permissoes?", rootSession.getCurrentDirectory().getName().equals("Fallout"));
     }
     
@@ -99,6 +103,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     public void couldNotChangeRootDir() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_token, "/Dark");
     	FullIvt.execute();
+    	s = m.getSessionByToken(FullIvt.result());
     	assertTrue("user nao conseguiu alterar um diretorio do root", s.getCurrentDirectory().getName().equals("Dark"));
     }
     
@@ -107,6 +112,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, ".");
     	String prechange = rootSession.getCurrentDirectory().getName();
     	FullIvt.execute();
+    	rootSession = m.getSessionByToken(FullIvt.result());
     	assertTrue("nao mudou corretamente para ele proprio", prechange.equals(rootSession.getCurrentDirectory().getName()));
     }
     
@@ -116,6 +122,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "..");
     	String prechange = rootSession.getCurrentDirectory().getParent().getName();
     	FullIvt.execute();
+    	rootSession = m.getSessionByToken(FullIvt.result());
     	assertTrue("nao mudou corretamente para o pai", rootSession.getCurrentDirectory().getName().equals(prechange));
     }
 
@@ -133,7 +140,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     
     @Test(expected = FileNotFoundException.class)
     public void invalidPartialPath(){
-        ChangeDirectory Boom = new ChangeDirectory(_rootToken ,rootSession.getCurrentDirectory().getName() + "/balelas");
+        ChangeDirectory Boom = new ChangeDirectory(_rootToken , "balelas/outrasbalelas");
         Boom.execute();
     }
     
