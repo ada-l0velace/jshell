@@ -122,23 +122,40 @@ public class Directory extends Directory_Base {
     @Override
     public void remove(User user)
     { 
+        int contador = 0;
+
         if(user.getPermissions().canDelete(this))
         {
             for(File f : getFileSet()) 
             {
-                f.remove();
-            }
-            for(User i : user.getManagerU().getUsersSet())
-            {
-                for(Session k : i.getSessionSet())
-                {
-                    if(k.getCurrentDirectory().equals(this))
+                if(!(user.getPermissions().canDelete(f)))
                     {
-                        k.setCurrentDirectory(this.getParent());
+                    contador++;
+                    }
+            }
+
+            if(contador == 0)
+            {
+                for(User i : user.getManagerU().getUsersSet())
+                {
+                    for(Session k : i.getSessionSet())
+                    {
+                        if(k.getCurrentDirectory().equals(this))
+                        {
+                            k.setCurrentDirectory(this.getParent());
+                        }
                     }
                 }
+                for(File n : getFileSet())
+                {
+                    n.remove();
+                }
+                super.remove();
             }
-            super.remove();
+            else
+            {
+                throw new DeletePermissionException(this.getName(), user.getUsername());
+            }
         }
         else
         {
