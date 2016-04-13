@@ -91,7 +91,6 @@ public class ListDirectoryTest extends TokenVerificationTest {
         String fOut0 = "D rwxdr-x- 2 root 3 "+new DateTime(2016, 4, 12, 4, 28, 0, 0).toString("MMM dd hh:mm")+" .\n";
         String fOut1 = "D rwxdr-x- 12 root 2 "+new DateTime(2016, 4, 12, 4, 28, 0, 0).toString("MMM dd hh:mm")+" ..\n";
         List<FileDto> ds = service.result();
-        log.trace(service.output() + "---------jythrg");
         if (ds != null) {
             assertEquals("List with 2 files", 2, ds.size());
             assertEquals("Directory output", fOut0 + fOut1, service.output());

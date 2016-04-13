@@ -8,6 +8,7 @@ import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
+import pt.tecnico.myDrive.exception.DeletePermissionException;
 
 
 public class DeleteFileTest extends TokenVerificationTest {
@@ -42,6 +43,12 @@ public class DeleteFileTest extends TokenVerificationTest {
     @Test(expected = FileNotFoundException.class)
     public void deleteNonExistingFile() {
         DeleteFile service = new DeleteFile(_token, "Images");
+        service.execute();
+    }
+    
+    @Test(expected = DeletePermissionException.class)
+    public void deletePermissionDenied() {
+    	DeleteFile service = new DeleteFile(_token, "..");
         service.execute();
     }
     
