@@ -46,16 +46,17 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         Manager m = Manager.getInstance();
         s = m.getSessionByToken(_token);
         _rootToken = createSession("root");
+        int n = 0;
         
         for (int i=0; i<(dirName.length/2) ; i++) {
         	String direcName = dirName[i];
         	_dirTest = new Directory(_user , direcName, (Directory)m.getUserByToken(_token).getHome(), m);
         }
         for (int j=5; j < (dirName.length -1) ; j++) {
-        	int n = 0;
         	String direcName = dirName[j];
         	String path = paths[n];
         	_dirTest = new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path), m);
+        	log.trace(_dirTest.getPath());
         	n++;
         }
     }
