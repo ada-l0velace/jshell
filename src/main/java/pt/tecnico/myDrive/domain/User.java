@@ -265,7 +265,12 @@ public class User extends User_Base {
             String rest0 = split0[1];
         	return Manager.getInstance().getHome().getFileByPath(rest0);
         }
-        return getValidSession().getCurrentDirectory().getFileByPath(link);
+        else if(link.startsWith(getValidSession().getCurrentDirectory().getName())){
+        	String[] split0 = link.split("/",2);
+            String rest0 = split0[1];
+        	return getValidSession().getCurrentDirectory().getFileByPath(rest0);
+        }
+        throw new FileNotFoundException(link);
     }
 
     /**

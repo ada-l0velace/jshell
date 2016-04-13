@@ -69,6 +69,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         	_dirTest = new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path), m);
         	n++;
         }
+        new Directory(m.getUserByToken(_token) , "oneAboveAll", s.getCurrentDirectory(), m);
     }
     
     @Test
@@ -77,8 +78,14 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     	FullIvt.execute();
     	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("games"));
     }
-
     
+    @Test
+    public void failedPartialPath() {
+    	ChangeDirectory FullIvt = new ChangeDirectory(_token, "Dovah/oneAboveAll");
+    	FullIvt.execute();
+    	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("oneAboveAll"));
+    }
+
     @Test
     public void rootNoChange() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/Fallout");
@@ -119,6 +126,12 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     @Test(expected = FileNotFoundException.class)
     public void noPath(){
         ChangeDirectory Boom = new ChangeDirectory(_rootToken , "");
+        Boom.execute();
+    }
+    
+    @Test(expected = FileNotFoundException.class)
+    public void invalidPartialPath(){
+        ChangeDirectory Boom = new ChangeDirectory(_rootToken ,s.getCurrentDirectory().getName() + "/balelas");
         Boom.execute();
     }
     
