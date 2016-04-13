@@ -24,7 +24,7 @@ public class ChangeDirectory extends LoginRequiredService {
         super.dispatch();
         Session s = Manager.getInstance().getSessionByToken(_sessionToken);
         Directory d = s.getCurrentDirectory();
-        if (!this._path.startsWith("/"))
+        if (!(this._path.startsWith("/") || this._path.isEmpty()))
             this._path = d.getPath() + d.getName() + this._path;
         
         s.setCurrentDirectory((Directory) s.getUser().getFileByPath(this._path));
