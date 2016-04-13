@@ -91,11 +91,13 @@ public abstract class File extends File_Base implements IElementXml {
         File f = getParent();
         String l = "";
         while (f != null) {
-            if (f.getParent() != null)
+            if (f.getParent().getName() != "/")
                 l = f.getName()+ "/" + l;
-            else
+            else {
                 l = f.getName() + l;
-            f = f.getParent();
+                return l;
+            }
+                f = f.getParent();
         }
         return l;
     }

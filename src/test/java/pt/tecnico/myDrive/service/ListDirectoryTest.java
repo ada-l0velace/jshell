@@ -66,16 +66,18 @@ public class ListDirectoryTest extends TokenVerificationTest {
         List<FileDto> ds = service.result();
         if (ds != null) {
             assertEquals("List with 10 files", 12, ds.size());
-            assertEquals("1st file is", "1scarlett", ds.get(0).getName());
-            assertEquals("2nd file is", "caroline", ds.get(1).getName());
-            assertEquals("3rd file is", "chang", ds.get(2).getName());
-            assertEquals("4th file is", "dessie", ds.get(3).getName());
-            assertEquals("5th file is", "genesis", ds.get(4).getName());
-            assertEquals("6th file is", "root", ds.get(5).getName());
-            assertEquals("7th file is", "rosari", ds.get(6).getName());
-            assertEquals("8th file is", "shakita", ds.get(7).getName());
-            assertEquals("9th file is", "shawnda", ds.get(8).getName());
-            assertEquals("10th file is", "suzette", ds.get(9).getName());
+            assertEquals("1st file is", ".", ds.get(0).getName());
+            assertEquals("2nd file is", "..", ds.get(1).getName());
+            assertEquals("3rd file is", "1scarlett", ds.get(2).getName());
+            assertEquals("4th file is", "caroline", ds.get(3).getName());
+            assertEquals("5th file is", "chang", ds.get(4).getName());
+            assertEquals("6th file is", "dessie", ds.get(5).getName());
+            assertEquals("7th file is", "genesis", ds.get(6).getName());
+            assertEquals("8th file is", "root", ds.get(7).getName());
+            assertEquals("9th file is", "rosari", ds.get(8).getName());
+            assertEquals("10th file is", "shakita", ds.get(9).getName());
+            assertEquals("11th file is", "shawnda", ds.get(10).getName());
+            assertEquals("12th file is", "suzette", ds.get(11).getName());
         }
 
     }
@@ -95,7 +97,6 @@ public class ListDirectoryTest extends TokenVerificationTest {
             assertEquals("List with 2 files", 2, ds.size());
             assertEquals("Directory output", fOut0 + fOut1, service.output());
         }
-
     }
 
     @Test(expected = ReadPermissionException.class)

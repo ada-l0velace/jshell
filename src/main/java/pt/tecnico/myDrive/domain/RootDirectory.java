@@ -19,7 +19,7 @@ public class RootDirectory extends RootDirectory_Base {
     public RootDirectory(User owner, String name, Manager m) {
         super();
         super.nameRegex = "[^\0]*";
-        init(owner,name, null, m);
+        init(owner,name, this, m);
         //owner.createLink(this, "..", this, m);
         //owner.createLink(this, ".", this, m);
     }
