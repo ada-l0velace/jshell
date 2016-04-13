@@ -10,6 +10,8 @@ import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.domain.PlainFile;
+import pt.tecnico.myDrive.domain.App;
+import pt.tecnico.myDrive.domain.Link;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
@@ -74,7 +76,9 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         	_dirTest = new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path), m);
         	n++;
         }
-        new PlainFile(m.getUserByToken(_token) , "oneAboveAll", "estoirar o cao", (Directory)m.getUserByToken(_token).getHome(), m);
+        PlainFile linkCrasher = new PlainFile(m.getUserByToken(_token) , "oneAboveAll", "estoirar o cao", (Directory)m.getUserByToken(_token).getHome(), m);
+        new App(m.getUserByToken(_token) , "appBroker", "estoirar o cao 2.0", (Directory)m.getUserByToken(_token).getHome(), m);
+        new Link( "aLinkToTheCrash",linkCrasher, "/home/Dovah/linkCrasher", (Directory)m.getUserByToken(_token).getHome(), m);
     }
 
     @Test
@@ -155,6 +159,18 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     @Test(expected = InvalidFileTypeException.class)
     public void wrongFileType() {
     	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/oneAboveAll");
+    	FullIvt.execute();
+    }
+    
+    @Test(expected = InvalidFileTypeException.class)
+    public void wrongAppType() {
+    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/appBroker");
+    	FullIvt.execute();
+    }
+    
+    @Test(expected = InvalidFileTypeException.class)
+    public void wrongLinkType() {
+    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/aLinkToTheCrash");
     	FullIvt.execute();
     }
 
