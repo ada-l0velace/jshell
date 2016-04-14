@@ -9,23 +9,29 @@ public class WritePlainFile extends LoginRequiredService {
 	
 	private User _user;
     private Session _session;
-    private String _plainfilename;
+    private String _plainFileName;
     private String _content;
+    private String _token;
 
     public WritePlainFile(String token, String plainfilename, String content) {
     	super(token);
+        _token = token;
         _user = Manager.getInstance().getUserByToken(token);
         _session = Manager.getInstance().getSessionByToken(token);
-        _plainfilename = plainfilename;
+        _plainFileName = plainfilename;
         _content = content;
     }
 
     @Override
     protected void dispatch() throws MyDriveException {
     	super.dispatch();
-    	/*
-    	File f = _session.getCurrentDirectory().searchFile(_plainfilename);
-        f.setContent(_content);
-        */
+    	
+    	if(Manager.getInstance().getSessionByToken(_token).getCurrentDirectory().getFileByPath(_plainFileName) instanceof PlainFile){
+            PlainFile pf = (PlainFile)Manager.getInstance().getSessionByToken(_token).getCurrentDirectory().getFileByPath(_plainFileName);
+            pf.setContent(_content);
+            return;
+        }
+        throw new InvalidFileTypeException("not a plainFile");
+        
     }
 }
