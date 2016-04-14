@@ -9,6 +9,7 @@ import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
+import pt.tecnico.myDrive.exception.ReadPermissionException;
 
 /**
  * Identifies the current person that is working, creating or managing files.
@@ -259,16 +260,20 @@ public class User extends User_Base {
         		link = link.substring(0, link.length() -1);
     	}
         if(link.equals(".")){
+        	checkReadPermissions(getValidSession().getCurrentDirectory());
         	return getValidSession().getCurrentDirectory();
         }
         else if(link.equals("..")){
+        	checkReadPermissions(getValidSession().getCurrentDirectory().getParent());
         	return getValidSession().getCurrentDirectory().getParent();
         }
         else if(link.startsWith("/")){
         	String[] split0 = link.split("/",2);
             String rest0 = split0[1];
+            checkReadPermissions(Manager.getInstance().getHome().getFileByPath(rest0));
         	return Manager.getInstance().getHome().getFileByPath(rest0);
         }
+        	checkReadPermissions(getValidSession().getCurrentDirectory().getFileByPath(link));
         	return getValidSession().getCurrentDirectory().getFileByPath(link);
     }
 
@@ -361,5 +366,16 @@ public class User extends User_Base {
         }
     }
     
-    //public boolean 
+    public boolean checkReadPermissions(File file){
+    	if (!getUsername().equals("root")){
+            if (!this.equals(file.getOwner())){
+                if (!file.getPermissions().worldCanRead())
+                    throw new ReadPermissionException(file.getName(), getUsername());
+            }
+            else
+                if (!getPermissions().userCanRead())
+                    throw new ReadPermissionException(file.getName(), getUsername());
+        }
+    	return true;
+    }
 }
