@@ -9,9 +9,7 @@ import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.TreeSet;
 
 
 public class Directory extends Directory_Base {
@@ -173,7 +171,7 @@ public class Directory extends Directory_Base {
      */
     public Set<File> listContent(String token) throws ReadPermissionException {
     	User user = Manager.getInstance().getUserByToken(token);
-    	if (user.getPermissions().CanRead(this)) {
+    	if (user.getPermissions().canRead(this)) {
     		return getFileSet();
     	} 
     	else {
@@ -212,11 +210,8 @@ public class Directory extends Directory_Base {
      * @return File returns the file with the name received.
      */
     public File searchFile(String name) throws FileIdNotFoundException {
-        Manager.log.trace("123457");
         for(File f: getFileSet()) {
-            Manager.log.trace("123457");
             if (f.getName().equals(name)) {
-                Manager.log.trace("qweqweq");
                 return f;
             }
         }

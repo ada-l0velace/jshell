@@ -136,7 +136,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     
     @Test(expected = DeletePermissionException.class)
     public void deleteRootDirectoryByUser() {
-    	Directory d = (Directory) _user.getFileByPath("/");    	
+    	Directory d = (Directory) _user.getFileByPath("/", _token);
     	_session.setCurrentDirectory(d);
     	DeleteFile service = new DeleteFile(_token, "/");
         service.execute();
@@ -144,7 +144,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     
     @Test(expected = DeleteRootDirectoryException.class)
     public void deleteRootDirectoryByRoot() {
-    	Directory d = (Directory) _user.getFileByPath("/");    	
+    	Directory d = (Directory) _user.getFileByPath("/", _tokenroot);
     	_sessionroot.setCurrentDirectory(d);
     	DeleteFile service = new DeleteFile(_tokenroot, "/");
         service.execute();

@@ -123,12 +123,9 @@ public class CreateFileTest extends TokenVerificationTest {
     @Test
     public void superUserCanCreateFile(){        
         Session s = m.getSessionByToken(_rootToken);
-        log.trace(m.getSessionByToken(_worldWToken).getCurrentDirectory() + "  P-----");
-        //s.setCurrentDirectory(m.getSessionByToken(_worldWToken).getCurrentDirectory());
-        log.trace(m.getSessionByToken(_worldWToken).getCurrentDirectory() + "  !-----");
+        s.setCurrentDirectory(m.getSessionByToken(_worldWToken).getCurrentDirectory());
         CreateFile service = new CreateFile(_rootToken, _filename, "D");
         service.execute();
-        log.trace(m.getSessionByToken(_worldWToken).getCurrentDirectory() + "  <-----");
         assertNotNull(m.getSessionByToken(_worldWToken).getCurrentDirectory());
     }
 

@@ -74,7 +74,7 @@ public class Main {
     public static void setup() { // phonebook with debug data
         logger.trace("Setup: " + FenixFramework.getDomainRoot());
         Manager m = Manager.getInstance();
-        User su = m.getSuperuser();
+        /*User su = m.getSuperuser();
         String n = "";
         File rootDir = su.getFileByPath("/");
 
@@ -105,7 +105,10 @@ public class Main {
         readme.remove(su);
         
         // #7
+        */
+        User user = new User("Biana","yommere","pass", (short) 0xF0, m);
         Session s = new Session(user);
+        File home = user.getFileByPath("/home",s.getToken());
         for (File f:
                 ((Directory) home).listContent(s.getToken())) {
             System.out.println(f);

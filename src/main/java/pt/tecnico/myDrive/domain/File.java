@@ -1,6 +1,5 @@
 package pt.tecnico.myDrive.domain;
 
-import pt.tecnico.myDrive.Main;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
 import pt.tecnico.myDrive.interfaces.IElementXml;
@@ -76,7 +75,7 @@ public abstract class File extends File_Base implements IElementXml {
         if (d == null)
             super.setParent(null);
         else {
-            if (getOwner().getPermissions().CanWrite(d))
+            if (getOwner().getPermissions().canWrite(d))
                 d.addFile(this);
             else
                 throw new WritePermissionException(d.getName(), getOwner().getUsername());
@@ -98,7 +97,6 @@ public abstract class File extends File_Base implements IElementXml {
                 return l;
             }
                 f = f.getParent();
-            Manager.getInstance().log.trace(f.getName());
         }
         return l;
     }
@@ -143,8 +141,8 @@ public abstract class File extends File_Base implements IElementXml {
 
         String parentPath = path.substring(0,path.lastIndexOf("/"));
         parentPath = parentPath.equals("") ? "/" : parentPath;
-
-        Directory d = (Directory) owner.getFileByPath(parentPath);
+        Session s = new Session(owner);
+        Directory d = (Directory) owner.getFileByPath(parentPath, s.getToken());
 
         setLastId(Manager.getInstance());
         setName(name);

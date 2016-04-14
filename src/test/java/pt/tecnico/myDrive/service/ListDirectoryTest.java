@@ -57,7 +57,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
 
     @Test
     public void sortedDirectory() {
-        Directory d = (Directory) _user.getFileByPath("/home");
+        Directory d = (Directory) _user.getFileByPath("/home", _token);
         Manager.getInstance().getSessionByToken(_rootToken).setCurrentDirectory(d);
         ListDirectory service = new ListDirectory(_rootToken);
         service.execute();
@@ -124,7 +124,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
     @Test(expected = ReadPermissionException.class)
     public void readPermissionDeniedDirectory() {
         Manager m = Manager.getInstance();
-        Directory d = (Directory) _user.getFileByPath("/home/shakita");
+        Directory d = (Directory) _user.getFileByPath("/home/shakita", _token);
         m.getSessionByToken(_token).setCurrentDirectory(d);
         ListDirectory service = new ListDirectory(_token);
         service.execute();

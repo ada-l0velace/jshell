@@ -91,7 +91,8 @@ public class User extends User_Base {
      */
     protected void initHome(String pHomePath) {
         User su = getManagerU().getSuperuser();
-        Directory parent = (Directory) su.getFileByPath(pHomePath);
+        Session s = new Session(su);
+        Directory parent = (Directory) su.getFileByPath(pHomePath, s.getToken());
         Directory home;
         if(su == null)
             home = new Directory(this, getUsername(), parent, getManagerU());
@@ -169,42 +170,6 @@ public class User extends User_Base {
     }
 
     /**
-     * Creates a file in a directory.
-     * @param parent represents the path to the file.
-     * @param file represents the file to add to the directory.
-     * @throws WritePermissionException occurs when the user doesn't have permissions to write on this directory.
-     */
-    public void createFile(Directory parent, File file) throws WritePermissionException {
-        if (getUsername() == parent.getOwner().getUsername())
-            parent.addFile(file);
-        else {
-            if (parent.getPermissions().worldCanWrite())
-                parent.addFile(file);
-            //else
-                //throw new WritePermissionException(parent.getName());
-        }
-    }
-
-    /**
-     * Modifies a file with a link
-     * @param link represents the path to the file.
-     * @param content represents
-     */
-    /*
-    public void modifyFile(Link link, String content) throws WritePermissionException, FileNotFoundException {
-        File file = getFileByPath(link.getContent());
-        if (getUsername() == link.getOwner().getUsername())
-            file.setContent(content);
-        else {
-            if (link.getPermissions().worldCanWrite())
-                file.setContent(content);
-            else
-                throw new WritePermissionException(file.getName());
-        }
-    }
-    */
-
-    /**
      * @deprecated and replaced with new exportXml
      */
     @Deprecated
@@ -249,7 +214,7 @@ public class User extends User_Base {
      * @param  link (String) receives a String with the link content.
      * @return  File returns the last File that appears in the path.
      */
-    public File getFileByPath (String link) throws FileNotFoundException, InvalidNameFileException {
+    public File getFileByPath (String link, String token) throws FileNotFoundException, InvalidNameFileException {
     	if (link.length() > 1024){
     		throw new InvalidNameFileException(link);
     	}
@@ -260,11 +225,11 @@ public class User extends User_Base {
         		link = link.substring(0, link.length() -1);
     	}
         if(link.equals(".")){
-        	checkReadPermissions(getValidSession().getCurrentDirectory());
+        	checkReadPermissions(getSessionDirectory(token));
         	return getValidSession().getCurrentDirectory();
         }
         else if(link.equals("..")){
-        	checkReadPermissions(getValidSession().getCurrentDirectory().getParent());
+        	checkReadPermissions(getSessionDirectory(token).getParent());
         	return getValidSession().getCurrentDirectory().getParent();
         }
         else if(link.startsWith("/")){
@@ -273,8 +238,8 @@ public class User extends User_Base {
             checkReadPermissions(Manager.getInstance().getHome().getFileByPath(rest0));
         	return Manager.getInstance().getHome().getFileByPath(rest0);
         }
-        	checkReadPermissions(getValidSession().getCurrentDirectory().getFileByPath(link));
-        	return getValidSession().getCurrentDirectory().getFileByPath(link);
+        	checkReadPermissions(getSessionDirectory(token).getFileByPath(link));
+        	return getSessionDirectory(token).getFileByPath(link);
     }
 
     /**
@@ -292,16 +257,6 @@ public class User extends User_Base {
     }
 
     /**
-     * Gets a File by a path.
-     * @param  link (Link) receives a link to a plain file.
-     * @return  String returns the string with the File content.
-     */
-    public String getFileContentByLink(Link link){     
-        File pf = getFileByPath(link.getContent());
-        return pf.getContent(this);
-    }
-
-    /**
      * Gets the first to be found valid session.
      * @return Session returns the valid session.
      */
@@ -314,20 +269,31 @@ public class User extends User_Base {
     }
 
     /**
+     * Gets a session by a token.
+     * @return Session returns the session.
+     */
+    public Session getSessionByToken(String token) {
+        for (Session s: getSessionSet()) {
+            if (s.getToken().equals(token))
+                return s;
+        }
+        return null;
+    }
+
+    /**
+     * Gets the session current directory.
+     * @return Session returns session current directory.
+     */
+    public Directory getSessionDirectory(String token) {
+        return getSessionByToken(token).getCurrentDirectory();
+    }
+
+    /**
      * Check if the password is correct.
      * @param password (String) represents the user password
      */
     public boolean isValidPassword(String password) {
         return getPassword() == password;
-    }
-
-    /**
-     * Delete a file.
-     * @param link (Link) represents the link to the file or empty directory.
-     */
-    public void deleteFile(Link link) {
-        File to_delete  = getFileByPath(link.getContent());
-        to_delete.remove(this);
     }
 
     /**
@@ -366,16 +332,8 @@ public class User extends User_Base {
         }
     }
     
-    public boolean checkReadPermissions(File file){
-    	if (!getUsername().equals("root")){
-            if (!this.equals(file.getOwner())){
-                if (!file.getPermissions().worldCanRead())
-                    throw new ReadPermissionException(file.getName(), getUsername());
-            }
-            else
-                if (!getPermissions().userCanRead())
-                    throw new ReadPermissionException(file.getName(), getUsername());
-        }
-    	return true;
+    public void checkReadPermissions(File file) throws ReadPermissionException{
+    	if (!getPermissions().canRead(file))
+            throw new ReadPermissionException(file.getName(), this.getName());
     }
 }

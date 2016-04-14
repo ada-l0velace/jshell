@@ -73,7 +73,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         for (int j=5; j < (dirName.length -1) ; j++) {
         	String direcName = dirName[j];
         	String path = paths[n];
-        	_dirTest = new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path), m);
+        	_dirTest = new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path, _token), m);
         	n++;
         }
         PlainFile linkCrasher = new PlainFile(m.getUserByToken(_token) , "oneAboveAll", "estoirar o cao", (Directory)m.getUserByToken(_token).getHome(), m);

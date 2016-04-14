@@ -71,7 +71,7 @@ public class Permissions extends Permissions_Base {
      * @param f represents the file to write.
      * @return File returns the file that can be modified.
      */
-    public boolean CanWrite(File f) {
+    public boolean canWrite(File f) {
         String o = f.getOwner().getUsername();
         String o2 = getUser().getUsername();
          if(getUser().isSuperUser())
@@ -83,16 +83,12 @@ public class Permissions extends Permissions_Base {
         return false;
     }
     
-    public boolean CanRead(File f) {
+    public boolean canRead(File f) {
         String userOwner = f.getOwner().getUsername();
         String testedUser = getUser().getUsername();
 
         if(getUser().isSuperUser())
             return true;
-
-        Manager.getInstance().log.warn(userCanRead() + " " + userOwner.equals(testedUser) + " "+ f.getPermissions().worldCanRead());
-
-
 
         if ((userCanRead() && userOwner.equals(testedUser)) ||
                 f.getPermissions().worldCanRead()){
