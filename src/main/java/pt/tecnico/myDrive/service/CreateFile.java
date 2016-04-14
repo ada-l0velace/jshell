@@ -25,6 +25,9 @@ public class CreateFile extends LoginRequiredService {
 
     public CreateFile(String token, String fileName, String fileType, String content) {
         this(token, fileName, fileType);
+        if(fileType == "D") {
+            throw new
+        }
         _content = content;
     }
 
