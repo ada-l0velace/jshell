@@ -9,6 +9,7 @@ import pt.tecnico.myDrive.domain.PlainFile;
 
 import pt.tecnico.myDrive.exception.MyDriveException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
+import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 
 public class ReadPlainFile extends LoginRequiredService {
 	
@@ -25,8 +26,11 @@ public class ReadPlainFile extends LoginRequiredService {
     @Override
     protected void dispatch() throws MyDriveException {
     	super.dispatch();
-        PlainFile pf = (PlainFile)Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName);
-        _content = pf.getContent(Manager.getInstance().getUserByToken(_plainFileToken));
+    	if(Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName) instanceof PlainFile){
+    		PlainFile pf = (PlainFile)Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName);
+            _content = pf.getContent(Manager.getInstance().getUserByToken(_plainFileToken));
+    	}
+        throw new InvalidFileTypeException("not a plainFile");
 
     }
     
