@@ -23,6 +23,7 @@ public class CreateFile extends LoginRequiredService {
         _session = Manager.getInstance().getSessionByToken(token);
         _filename = fileName;
         _fileType = fileType;
+        _content = "";
     }
 
     public CreateFile(String token, String fileName, String fileType, String content) {
@@ -35,12 +36,13 @@ public class CreateFile extends LoginRequiredService {
         super.dispatch();
         Directory p = _session.getCurrentDirectory();
         Manager m = Manager.getInstance();
-        if(_fileType == "D" && _content != "")
+        if(_fileType.equals("D") && !_content.equals("")) {
             throw new DirectoryContentException();
+        }
 
         switch (_fileType) {
             case "L":
-                if(_content == "")
+                if(_content.equals(""))
                     throw new LinkEmptyContentException();
 
                 File f = _user.getFileByPath(_content);
