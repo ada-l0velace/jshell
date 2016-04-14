@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.service;
 import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.DirectoryContentException;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
+import pt.tecnico.myDrive.exception.LinkEmptyContentException;
 import pt.tecnico.myDrive.exception.MyDriveException;
 
 /**
@@ -39,8 +40,8 @@ public class CreateFile extends LoginRequiredService {
 
         switch (_fileType) {
             case "L":
-                if(_fileType == "D")
-                    throw new DirectoryContentException();
+                if(_content == "")
+                    throw new LinkEmptyContentException();
 
                 File f = _user.getFileByPath(_content);
                 new Link(_filename, f, _content, p, m);
