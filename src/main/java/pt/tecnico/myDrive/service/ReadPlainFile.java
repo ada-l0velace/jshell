@@ -37,5 +37,5 @@ public class ReadPlainFile extends LoginRequiredService {
     public String result() {
         return _content;
     }
-
+//so para commit
 }
