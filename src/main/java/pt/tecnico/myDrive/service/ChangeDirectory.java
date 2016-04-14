@@ -6,6 +6,7 @@ import pt.tecnico.myDrive.domain.Session;
 
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.UserSessionExpiredException;
+import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 
 
 public class ChangeDirectory extends LoginRequiredService {
@@ -20,14 +21,16 @@ public class ChangeDirectory extends LoginRequiredService {
     }
 
     @Override
-    protected void dispatch() throws FileNotFoundException, UserSessionExpiredException{
+    protected void dispatch() throws FileNotFoundException, UserSessionExpiredException, InvalidFileTypeException{
         super.dispatch();
         Session s = Manager.getInstance().getSessionByToken(_sessionToken);
         Directory d = s.getCurrentDirectory();
         if (!(this._path.startsWith("/") || this._path.isEmpty() || this._path.equals(".") || this._path.equals("..")))
             this._path = d.getPath() + d.getName() + "/" + this._path;
-        
-        s.setCurrentDirectory((Directory) s.getUser().getFileByPath(this._path));
+        if (s.getUser().getFileByPath(this._path) instanceof Directory)
+            s.setCurrentDirectory( (Directory) s.getUser().getFileByPath(this._path));
+        else
+            throw new InvalidFileTypeException(s.getUser().getFileByPath(this._path).getName());
     }
 
     public String result(){
