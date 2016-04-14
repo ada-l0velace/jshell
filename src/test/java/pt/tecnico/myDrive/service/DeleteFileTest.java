@@ -35,7 +35,10 @@ public class DeleteFileTest extends TokenVerificationTest {
 	private User _user2;
 	private String _token;
 	private String _token2;
-	private String _tokenroot;	
+	private String _tokenroot;
+	private Session _sessionroot;
+	private Session _session;
+	private Session _session2;
 	
     protected void populate() {
 		_user = createUser(_username, _password, _name, _umask);
@@ -43,39 +46,66 @@ public class DeleteFileTest extends TokenVerificationTest {
 		_token = createSession(_username);
 		_token2 = createSession(_username2);
 		_tokenroot = createSession("root");
-		_dir = new Directory(_user, _dirName, Manager.getInstance().getSessionByToken(_token).getCurrentDirectory(),
-							Manager.getInstance());
-		_app = new App(_user, _appName, " ", Manager.getInstance().getSessionByToken(_token).getCurrentDirectory(),
-				Manager.getInstance());
-		_link = _user.createLink(_dir, _linkName,
-				Manager.getInstance().getSessionByToken(_token).getCurrentDirectory(), Manager.getInstance());
+		_sessionroot = Manager.getInstance().getSessionByToken(_tokenroot);
+		_session = Manager.getInstance().getSessionByToken(_token);
+		_session2 = Manager.getInstance().getSessionByToken(_token2);
+		_dir = new Directory(_user, _dirName, _session.getCurrentDirectory(), Manager.getInstance());
+		_app = new App(_user, _appName, " ", _session.getCurrentDirectory(), Manager.getInstance());
+		_link = _user.createLink(_dir, _linkName, _session.getCurrentDirectory(), Manager.getInstance());
     }
 
     @Test
-    public void successDir() {
+    public void successDirByUser() {
         DeleteFile service = new DeleteFile(_token, _dirName);
         service.execute();
-        Session session = Manager.getInstance().getSessionByToken(_token);
-        // check file was deleted
-        assertNull("Directory was not deleted", session.getCurrentDirectory().search(_dirName, _token));
+        // check dir was deleted
+        assertNull("Directory was not deleted", _session.getCurrentDirectory().search(_dirName, _token));
     }
     
     @Test
-    public void successApp() {
+    public void successAppByUser() {
         DeleteFile service = new DeleteFile(_token, _appName);
         service.execute();
-        Session session = Manager.getInstance().getSessionByToken(_token);
-        // check file was deleted
-        assertNull("App was not deleted", session.getCurrentDirectory().search(_appName, _token));
+        // check app was deleted
+        assertNull("App was not deleted", _session.getCurrentDirectory().search(_appName, _token));
     }
 	
     @Test
-    public void successLink() {
+    public void successLinkByUser() {
         DeleteFile service = new DeleteFile(_token, _linkName);
         service.execute();
-        Session session = Manager.getInstance().getSessionByToken(_token);
-        // check file was deleted
-        assertNull("Link was not deleted", session.getCurrentDirectory().search(_linkName, _token));
+        // check link was deleted
+        assertNull("Link was not deleted", _session.getCurrentDirectory().search(_linkName, _token));
+    }
+    
+    @Test
+    public void successDirByRoot() {
+    	Directory d = _session.getCurrentDirectory();    	
+    	_sessionroot.setCurrentDirectory(d);
+        DeleteFile service = new DeleteFile(_tokenroot, _dirName);
+        service.execute();        
+        // check dir was deleted
+        assertNull("Directory was not deleted by root", d.search(_dirName, _tokenroot));
+    }
+    
+    @Test
+    public void successAppByRoot() {
+    	Directory d = _session.getCurrentDirectory();    	
+    	_sessionroot.setCurrentDirectory(d);
+        DeleteFile service = new DeleteFile(_tokenroot, _appName);
+        service.execute();
+        // check app was deleted
+        assertNull("App was not deleted by root", d.search(_appName, _tokenroot));
+    }
+	
+    @Test
+    public void successLinkByRoot() {
+    	Directory d = _session.getCurrentDirectory();    	
+    	_sessionroot.setCurrentDirectory(d);
+        DeleteFile service = new DeleteFile(_tokenroot, _linkName);
+        service.execute();
+        // check link was deleted
+        assertNull("Link was not deleted by root", d.search(_linkName, _tokenroot));
     }
     
     @Test(expected = FileNotFoundException.class)
@@ -98,8 +128,8 @@ public class DeleteFileTest extends TokenVerificationTest {
     
     @Test(expected = DeletePermissionException.class)
     public void deleteOtherUsersFile() {
-    	Directory d = Manager.getInstance().getSessionByToken(_token).getCurrentDirectory();    	
-    	Manager.getInstance().getSessionByToken(_token2).setCurrentDirectory(d);
+    	Directory d = _session.getCurrentDirectory();    	
+    	_session2.setCurrentDirectory(d);
     	DeleteFile service2 = new DeleteFile(_token2, _dirName);
         service2.execute();
     }
@@ -107,7 +137,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     @Test(expected = DeletePermissionException.class)
     public void deleteRootDirectoryByUser() {
     	Directory d = (Directory) _user.getFileByPath("/");    	
-    	Manager.getInstance().getSessionByToken(_token).setCurrentDirectory(d);
+    	_session.setCurrentDirectory(d);
     	DeleteFile service = new DeleteFile(_token, "/");
         service.execute();
     }
@@ -115,7 +145,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     @Test(expected = DeleteRootDirectoryException.class)
     public void deleteRootDirectoryByRoot() {
     	Directory d = (Directory) _user.getFileByPath("/");    	
-    	Manager.getInstance().getSessionByToken(_tokenroot).setCurrentDirectory(d);
+    	_sessionroot.setCurrentDirectory(d);
     	DeleteFile service = new DeleteFile(_tokenroot, "/");
         service.execute();
     }
