@@ -29,6 +29,7 @@ public class ReadPlainFile extends LoginRequiredService {
     	if(Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName) instanceof PlainFile){
     		PlainFile pf = (PlainFile)Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName);
             _content = pf.getContent(Manager.getInstance().getUserByToken(_plainFileToken));
+            return;
     	}
         throw new InvalidFileTypeException("not a plainFile");
 

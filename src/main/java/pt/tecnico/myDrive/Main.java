@@ -25,7 +25,8 @@ public class Main {
         try {
             init();
             for (String s: args) xmlScan(new java.io.File(s));
-            setup();
+            //setup();
+            //xmlPrint();
             //debug();
         } finally {
             // ensure an orderly shutdown

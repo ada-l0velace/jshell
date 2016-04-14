@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.service;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.*;
+import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.service.dto.FileDto;
@@ -17,30 +18,14 @@ public class ReadPlainFileTest extends TokenVerificationTest {
 
 	private PlainFile _file;
 	private static final String _fileName = "Testdoc";
-	private static final String _fileType = "PlainFile";
-	private static final String _username = "Jack";
 	private static final String _testContent = "vanilla";
-	private static final String CONTENT [] = {
-	        "jack",
-	        "3rdPlace",
-	        "b0nj0vi",
-	        "3lv1s",
-	        "roger",
-	        "AceOfSpades",
-	        "caneloni",
-	        "Garfield",
-	        "",
-	        "one\ntwo",
-	        "test\ntest,test\ntest,test,test",
-	        "Roses are Red \nMy name is dave \nThis makes no sence\n Microwave",
-	        "\n\n\n\nX Marks the spot!!!",
-	    };
 	private static final String _password = "pwjack";
     private static final String _name = "Stevie";
     private static final Short _umask = 0xF0;
-    private static final Short _umask0 = 0xF0;
-	private User _user;
+
+    private User _user;
 	private String _token;
+    private Link _pathLink;
 
     private User _user1;
     private String _token1;
@@ -54,14 +39,6 @@ public class ReadPlainFileTest extends TokenVerificationTest {
 	protected void populate() {
 		int i = 0;
         Manager m = Manager.getInstance();
-		/*for (String content : CONTENT ){
-			_user = createUser(_username+ i++, _password, _name, _umask);
-			_token = createSession(_username + (i-1));
-			_file = new PlainFile(_user, _fileName + i++, content ,Manager.getInstance().getSessionByToken(_token).getCurrentDirectory(),
-								Manager.getInstance());
-		}*/
-
-		//Creates user without permissions
 		_user = createUser("derp", _password, _name, _umask);
 		_token = createSession("derp");
         //Second user the read.
@@ -73,7 +50,9 @@ public class ReadPlainFileTest extends TokenVerificationTest {
         Session s = m.getSessionByToken(_token);
         new PlainFile(m.getSuperuser(), _fileName, _testContent , s.getCurrentDirectory(), m);
         new PlainFile(_user, _fileName + "1", _testContent , s.getCurrentDirectory(), m);
-
+        new Directory(_user, "DirToTheFuture", s.getCurrentDirectory(), m);
+        _file = new App(m.getSuperuser(), "AppToThePast", _testContent , s.getCurrentDirectory(), m);
+        _pathLink = _user.createLink(_file, "LinkToThePast", s.getCurrentDirectory(),m);
 
     }
 
@@ -92,9 +71,30 @@ public class ReadPlainFileTest extends TokenVerificationTest {
     }
 
     @Test
+    public void readApp() {
+        ReadPlainFile service = new ReadPlainFile(_token, "AppToThePast");
+        service.execute();
+        assertEquals("Content is not returned", service.result(), _testContent);
+    }
+
+    @Test
+    public void readLink() {
+        ReadPlainFile service = new ReadPlainFile(_token, "LinkToThePast");
+        service.execute();
+        assertEquals("Content is not returned", service.result(), _pathLink.getContent());
+    }
+
+    @Test(expected = InvalidFileTypeException.class)
+    public void readDirectory() {
+        ReadPlainFile service = new ReadPlainFile(_token, "DirToTheFuture");
+        service.execute();
+    }
+
+    @Test
     public void readPublicPlainFile() {
         ReadPlainFile service = new ReadPlainFile(_token, _fileName);
         service.execute();
+        assertEquals("Content is not returned", service.result(), _testContent);
     }
 
     @Test(expected = ReadPermissionException.class)
