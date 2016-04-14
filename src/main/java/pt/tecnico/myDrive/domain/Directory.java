@@ -250,7 +250,7 @@ public class Directory extends Directory_Base {
      */
     public String toString(){
         String a = super.toString();
-        String dim = getFileSet().size() + "";
+        String dim = (getFileSet().size()+2) + "";
         String username = this.getOwner().getUsername();
         String modified = getModified().toString("MMM dd hh:mm");
         String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();

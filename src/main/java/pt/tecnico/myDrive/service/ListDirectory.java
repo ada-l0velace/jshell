@@ -30,28 +30,31 @@ public class ListDirectory extends LoginRequiredService {
     @Override
     public final void dispatch() throws MyDriveException {
     	super.dispatch();
+    	int a = 2;
     	Directory currentDir = _session.getCurrentDirectory();
     	Directory parent = currentDir.getParent();
         _files = new ArrayList<FileDto>();
         
-        for (java.io.File f : currentDir.listContent(_token)) {
-        if (!(f.getName().equals("/")){
-		    if (!(f instanceof Directory))
-		    	_files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
-		    								f.getParent().getName(), f.getOwner().getName(),
-		    								f.getContent(Manager.getInstance().getUserByToken(_token)), f.toString()));
-		    else
-		    	_files.add(new DirectoryDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
-		                   f.getParent().getName(), f.getOwner().getName(), f.toString()));
-	        }
+        for (File f : currentDir.listContent(_token)) {
+	        if (!(f.getName().equals("/"))){
+			    if (!(f instanceof Directory))
+			    	_files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
+			    								f.getParent().getName(), f.getOwner().getName(),
+			    								f.getContent(Manager.getInstance().getUserByToken(_token)), f.toString()));
+			    else
+			    	_files.add(new DirectoryDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
+			                   f.getParent().getName(), f.getOwner().getName(), f.toString()));
+		        }
+	        else 
+	        	a = 1;
         }
         
         String op1 = "D" + " " + currentDir.getPermissions().toString() + " " + 
-        			(currentDir.listContent(_token).size()+2) + " " + currentDir.getOwner().getUsername() + " " + 
+        			(currentDir.listContent(_token).size()+a) + " " + currentDir.getOwner().getUsername() + " " + 
         			currentDir.getId() + " " + currentDir.getModified().toString("MMM dd hh:mm") + " .";
         
         String op2 = "D" + " " + parent.getPermissions().toString() + " " + 
-    			(parent.listContent(_token).size()+2) + " " + parent.getOwner().getUsername() + " " + 
+    			(parent.listContent(_token).size()+a) + " " + parent.getOwner().getUsername() + " " + 
     			parent.getId() + " " + parent.getModified().toString("MMM dd hh:mm") + " ..";
         
         _files.add(new DirectoryDto(currentDir.getId(), ".", currentDir.getModified(), 
