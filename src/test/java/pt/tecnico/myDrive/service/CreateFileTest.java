@@ -89,7 +89,7 @@ public class CreateFileTest extends TokenVerificationTest {
     public void fileWithDifferentPermissionsThanUser() {
         CreateFile service = new CreateFile(_token, _filename, "A", "myContent");
         service.execute();
-        assertEquals(m.getUserByToken(_token).getPermissions(), m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename).getPermissions());
+        assertEquals(m.getUserByToken(_token).getPermissions().getUmask(), m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename).getPermissions().getUmask());
     }
                         
     @Override
