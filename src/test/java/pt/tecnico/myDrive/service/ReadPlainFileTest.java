@@ -105,7 +105,7 @@ public class ReadPlainFileTest extends TokenVerificationTest {
         // change user current directory.
         s2.setCurrentDirectory(s.getCurrentDirectory());
 
-        ReadPlainFile service = new ReadPlainFile(_token1, _fileName);
+        ReadPlainFile service = new ReadPlainFile(_token1, _fileName + "1");
         service.execute();
     }
 

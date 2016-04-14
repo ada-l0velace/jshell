@@ -5,7 +5,7 @@ import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.domain.SuperUser;
 import pt.tecnico.myDrive.domain.User;
-import pt.tecnico.myDrive.domain.File;
+import pt.tecnico.myDrive.domain.PlainFile;
 
 import pt.tecnico.myDrive.exception.MyDriveException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
@@ -25,7 +25,7 @@ public class ReadPlainFile extends LoginRequiredService {
     @Override
     protected void dispatch() throws MyDriveException {
     	super.dispatch();
-        File pf = Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName, _plainFileToken);
+        PlainFile pf = (PlainFile)Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName);
         _content = pf.getContent(Manager.getInstance().getUserByToken(_plainFileToken));
 
     }
