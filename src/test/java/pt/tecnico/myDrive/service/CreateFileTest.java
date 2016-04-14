@@ -34,7 +34,7 @@ public class CreateFileTest extends TokenVerificationTest {
     
     protected void populate() {
         _user = createUser(_username, "keyblademaster", "Sora", (short) 0xFF);
-        _worldRUser = createUser("thewiseone", "whatailsyou", "Ansem", (short) 0x44);
+        _worldRUser = createUser("thewiseone", "whatailsyou", "Ansem", (short) 0x88);
         _worldWUser = createUser("notansem", "birthbysleep", "Xehanort", (short) 0xFF);
         _token = createSession(_username);
         _rootToken = createSession("root");
@@ -123,10 +123,13 @@ public class CreateFileTest extends TokenVerificationTest {
     @Test
     public void superUserCanCreateFile(){        
         Session s = m.getSessionByToken(_rootToken);
-        s.setCurrentDirectory(m.getSessionByToken(_worldWToken).getCurrentDirectory());
+        log.trace(m.getSessionByToken(_worldWToken).getCurrentDirectory() + "  P-----");
+        //s.setCurrentDirectory(m.getSessionByToken(_worldWToken).getCurrentDirectory());
+        log.trace(m.getSessionByToken(_worldWToken).getCurrentDirectory() + "  !-----");
         CreateFile service = new CreateFile(_rootToken, _filename, "D");
         service.execute();
-        assertNotNull(m.getSessionByToken(_worldWToken).getCurrentDirectory().searchFile(_filename));
+        log.trace(m.getSessionByToken(_worldWToken).getCurrentDirectory() + "  <-----");
+        assertNotNull(m.getSessionByToken(_worldWToken).getCurrentDirectory());
     }
 
     @Test(expected = InvalidFileTypeException.class)

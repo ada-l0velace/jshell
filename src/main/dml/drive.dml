@@ -75,7 +75,7 @@ class Session {
 }
 
 relation SessionHasCurrentDirectory {
-    Session playsRole session { multiplicity 1; }
+    Session playsRole session { multiplicity *; }
     Directory playsRole currentDirectory { multiplicity 1; }
 }
 

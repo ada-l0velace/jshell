@@ -212,9 +212,14 @@ public class Directory extends Directory_Base {
      * @return File returns the file with the name received.
      */
     public File searchFile(String name) throws FileIdNotFoundException {
-        for(File f: getFileSet())
-            if (f.getName().equals(name))
+        Manager.log.trace("123457");
+        for(File f: getFileSet()) {
+            Manager.log.trace("123457");
+            if (f.getName().equals(name)) {
+                Manager.log.trace("qweqweq");
                 return f;
+            }
+        }
         throw new FileNotFoundException(name);
     }
     
