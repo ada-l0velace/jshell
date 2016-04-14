@@ -34,14 +34,16 @@ public class ListDirectory extends LoginRequiredService {
     	Directory parent = currentDir.getParent();
         _files = new ArrayList<FileDto>();
         
-        for (File f : currentDir.listContent(_token)) {
-	    if (!(f instanceof Directory))
-	    	_files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
-	    								f.getParent().getName(), f.getOwner().getName(),
-	    								f.getContent(Manager.getInstance().getUserByToken(_token)), f.toString()));
-	    else
-	    	_files.add(new DirectoryDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
-	                   f.getParent().getName(), f.getOwner().getName(), f.toString()));
+        for (java.io.File f : currentDir.listContent(_token)) {
+        if (!(f.getName().equals("/")){
+		    if (!(f instanceof Directory))
+		    	_files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
+		    								f.getParent().getName(), f.getOwner().getName(),
+		    								f.getContent(Manager.getInstance().getUserByToken(_token)), f.toString()));
+		    else
+		    	_files.add(new DirectoryDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
+		                   f.getParent().getName(), f.getOwner().getName(), f.toString()));
+	        }
         }
         
         String op1 = "D" + " " + currentDir.getPermissions().toString() + " " + 
