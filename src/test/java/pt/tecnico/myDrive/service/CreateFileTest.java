@@ -9,6 +9,8 @@ import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
+import pt.tecnico.myDrive.exception.DirectoryContentException;
+import pt.tecnico.myDrive.exception.LinkEmptyContentException;
 import static org.junit.Assert.assertEquals;
 
 public class CreateFileTest extends TokenVerificationTest {
@@ -58,7 +60,7 @@ public class CreateFileTest extends TokenVerificationTest {
         service.execute();
     }
 
-    @Test
+    @Test(expected = DirectoryContentException.class)
     public void createDirectoryWithContent(){
         CreateFile service = new CreateFile(_token, _filename, "D", _content);
         service.execute();
@@ -76,7 +78,7 @@ public class CreateFileTest extends TokenVerificationTest {
         service.execute();
     }
 
-    @Test
+    @Test(expected = LinkEmptyContentException.class)
     public void createLinkWithoutContent() {
         CreateFile service = new CreateFile(_token, _filename, "L");
         service.execute();
