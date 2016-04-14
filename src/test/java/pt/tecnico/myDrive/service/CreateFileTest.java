@@ -36,10 +36,10 @@ public class CreateFileTest extends TokenVerificationTest {
         _user = createUser(_username, "keyblademaster", "Sora", (short) 0xFF);
         _worldRUser = createUser("thewiseone", "whatailsyou", "Ansem", (short) 0x88);
         _worldWUser = createUser("notansem", "birthbysleep", "Xehanort", (short) 0xFF);
-        _token = createSession(_username);
-        _rootToken = createSession("root");
-        _worldRToken = createSession("thewiseone");
-        _worldWToken = createSession("notansem");
+        _token = createSession(_username, "keyblademaster");
+        _rootToken = createSession("root", "***");
+        _worldRToken = createSession("thewiseone", "whatailsyou");
+        _worldWToken = createSession("notansem", "birthbysleep");
         m = Manager.getInstance();
         
     }

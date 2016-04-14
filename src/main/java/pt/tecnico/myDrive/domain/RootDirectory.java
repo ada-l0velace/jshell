@@ -55,7 +55,7 @@ public class RootDirectory extends RootDirectory_Base {
         return super.exportXml();
     }
 
-    public void remove(User user) throws DeleteRootDirectoryException {
+    public void remove(String token) throws DeleteRootDirectoryException {
         throw new DeleteRootDirectoryException(this.getName());
     }
 }

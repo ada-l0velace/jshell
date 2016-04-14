@@ -17,6 +17,7 @@ import pt.tecnico.myDrive.Main;
 import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.domain.User;
+import pt.tecnico.myDrive.exception.InvalidUserCredentialsException;
 
 public abstract class BaseServiceTest {
     protected static final Logger log = LogManager.getRootLogger();
@@ -79,11 +80,13 @@ public abstract class BaseServiceTest {
      * @param username (String) represents the username of the user.
      * @return token returns the token of the session created.
      */
-    String createSession(String username) {
+    String createSession(String username, String password) throws InvalidUserCredentialsException {
         User u = Manager.getInstance().getUserByUsername(username);
-        Session s = new Session(u);
-        return s.getToken();
+        if (u.isValidPassword(password)) {
+            Session s = new Session(u);
+            return s.getToken();
+        }
+        throw new InvalidUserCredentialsException();
     }
-
 
 }

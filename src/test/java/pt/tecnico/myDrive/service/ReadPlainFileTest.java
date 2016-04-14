@@ -40,12 +40,12 @@ public class ReadPlainFileTest extends TokenVerificationTest {
 		int i = 0;
         Manager m = Manager.getInstance();
 		_user = createUser("derp", _password, _name, _umask);
-		_token = createSession("derp");
+		_token = createSession("derp", _password);
         //Second user the read.
         _user1 = createUser("derp1", _password, _name, _umask);
-        _token1 = createSession("derp1");
+        _token1 = createSession("derp1", _password);
         //Root token.
-        _rootToken = createSession("root");
+        _rootToken = createSession("root", "***");
         //Change directory to check read permissions
         Session s = m.getSessionByToken(_token);
         new PlainFile(m.getSuperuser(), _fileName, _testContent , s.getCurrentDirectory(), m);

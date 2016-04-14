@@ -43,9 +43,9 @@ public class DeleteFileTest extends TokenVerificationTest {
     protected void populate() {
 		_user = createUser(_username, _password, _name, _umask);
 		_user2 = createUser(_username2, _password2, _name2, _umask);
-		_token = createSession(_username);
-		_token2 = createSession(_username2);
-		_tokenroot = createSession("root");
+		_token = createSession(_username, _password);
+		_token2 = createSession(_username2, _password2);
+		_tokenroot = createSession("root", "***");
 		_sessionroot = Manager.getInstance().getSessionByToken(_tokenroot);
 		_session = Manager.getInstance().getSessionByToken(_token);
 		_session2 = Manager.getInstance().getSessionByToken(_token2);
@@ -134,7 +134,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         service2.execute();
     }
     
-    @Test(expected = DeletePermissionException.class)
+    @Test(expected = DeleteRootDirectoryException.class)
     public void deleteRootDirectoryByUser() {
     	Directory d = (Directory) _user.getFileByPath("/", _token);
     	_session.setCurrentDirectory(d);

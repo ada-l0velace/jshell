@@ -179,11 +179,11 @@ public class Manager extends Manager_Base{
      * @return boolean returns the session if the token exists.
      */
     public Session getSessionByToken(String token) {
+        Session s = null;
         for(User u : getUsersSet()) {
-            for (Session s: u.getSessionSet()) {
-                if (s.getToken().equals(token))
-                    return s;
-            }
+            s = u.getSessionByToken(token);
+            if (s != null)
+                return s;
         }
         return null;
     }
@@ -194,12 +194,9 @@ public class Manager extends Manager_Base{
      * @return boolean returns the user if the token exists.
      */
     public User getUserByToken(String token) {
-        for(User u : getUsersSet()) {
-            for (Session s: u.getSessionSet()) {
-                if (s.getToken().equals(token))
-                    return u;
-            }
-        }
+        for(User u : getUsersSet())
+            if(u.getSessionByToken(token) != null)
+                return u;
         return null;
     }
 

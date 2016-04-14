@@ -39,9 +39,9 @@ public class ListDirectoryTest extends TokenVerificationTest {
     protected void populate() {
         for (String username : USERNAME) {
             _user = createUser(username, PASSWORD, NAME, UMASK);
-            _token = createSession(username);
+            _token = createSession(username, PASSWORD);
         }
-        _rootToken = createSession("root");
+        _rootToken = createSession("root", "***");
 
     }
 

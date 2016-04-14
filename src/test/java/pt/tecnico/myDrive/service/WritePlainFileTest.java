@@ -33,8 +33,8 @@ public class WritePlainFileTest extends TokenVerificationTest {
     protected void populate() {
         _user = createUser(_username, _password, _name, _umask);
         _userNoWrite = createUser(_usernameNoWrite, _password, _name, _umaskNoWrite);
-        _token = createSession(_username);
-        _tokenNoWrite = createSession(_usernameNoWrite); 
+        _token = createSession(_username, _password);
+        _tokenNoWrite = createSession(_usernameNoWrite, _password);
     }
 
     

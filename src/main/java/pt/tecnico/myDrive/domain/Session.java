@@ -2,6 +2,7 @@ package pt.tecnico.myDrive.domain;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import pt.tecnico.myDrive.exception.PublicAcessDeniedException;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -54,12 +55,8 @@ public class Session extends Session_Base {
         setCurrentDirectory(null);
         super.setUser(null);
         for(EnvironmentVariable i : getEnvVarSet())
-        {
             i.remove();
-        }
         deleteDomainObject();
     }
-
-
 
 }

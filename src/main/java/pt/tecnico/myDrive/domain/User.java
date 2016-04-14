@@ -1,15 +1,12 @@
 package pt.tecnico.myDrive.domain;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jdom2.Element;
 
-import pt.tecnico.myDrive.exception.InvalidUsernameException;
-import pt.tecnico.myDrive.exception.FileNotFoundException;
-import pt.tecnico.myDrive.exception.WritePermissionException;
-import pt.tecnico.myDrive.exception.InvalidNameFileException;
-import pt.tecnico.myDrive.exception.ReadPermissionException;
+import pt.tecnico.myDrive.exception.*;
 
 /**
  * Identifies the current person that is working, creating or managing files.
@@ -177,7 +174,7 @@ public class User extends User_Base {
         Element node = new Element("User");
         node.setAttribute("username", getUsername());
         node.setAttribute("name", getName());
-        node.setAttribute("password", getPassword());
+        node.setAttribute("password", super.getPassword());
         node.setAttribute("umask", Short.toString(getPermissions().getUmask()));
         return node;
     }
@@ -194,7 +191,7 @@ public class User extends User_Base {
         Element name = new Element("name");
         name.addContent(getName());
         Element password = new Element("password");
-        password.addContent(getPassword());
+        password.addContent(super.getPassword());
         Element umask = new Element("mask");
         umask.addContent(Short.toString(getPermissions().getUmask()));
         Element home = new Element("home");
@@ -226,11 +223,11 @@ public class User extends User_Base {
     	}
         if(link.equals(".")){
         	checkReadPermissions(getSessionDirectory(token));
-        	return getValidSession().getCurrentDirectory();
+        	return getSessionByToken(token).getCurrentDirectory();
         }
         else if(link.equals("..")){
         	checkReadPermissions(getSessionDirectory(token).getParent());
-        	return getValidSession().getCurrentDirectory().getParent();
+        	return getSessionByToken(token).getCurrentDirectory().getParent();
         }
         else if(link.startsWith("/")){
         	String[] split0 = link.split("/",2);
@@ -261,7 +258,7 @@ public class User extends User_Base {
      * @return Session returns the valid session.
      */
     public Session getValidSession() {
-        for (Session s: getSessionSet()) {
+        for (Session s: super.getSessionSet()) {
             if (!s.hasExpired())
                 return s;
         }
@@ -273,7 +270,7 @@ public class User extends User_Base {
      * @return Session returns the session.
      */
     public Session getSessionByToken(String token) {
-        for (Session s: getSessionSet()) {
+        for (Session s: super.getSessionSet()) {
             if (s.getToken().equals(token))
                 return s;
         }
@@ -293,7 +290,7 @@ public class User extends User_Base {
      * @param password (String) represents the user password
      */
     public boolean isValidPassword(String password) {
-        return getPassword() == password;
+        return super.getPassword() == password;
     }
 
     /**
@@ -303,37 +300,31 @@ public class User extends User_Base {
     public void remove() {
         super.setManagerU(null);
         setHome(null);
-        for(File i : getFileSet()) {
-            i.remove(this);
+        for(File i : super.getFileSet()) {
+            i.remove();
         }
         setPermissions(null);
         deleteDomainObject();
     }
-    
-    /**
-     * Check if User has a file.
-     */
-    public boolean hasFile(String nameFile) {
-    	
-    	if(this.getName().equals(nameFile))
-    		return true;
-    	for(File f : getFileSet()) {
-            f.hasFile(nameFile);
-        }
-    	return false;
+
+    public Set<Session> getSessionSet() {
+        throw new PublicAcessDeniedException("getSessionSet()", "getSessionDirectory(String token)");
     }
 
-    public void disconnectExpiredSessions()
-    {
-        for(Session i : getSessionSet())
-        {
+    public void removeExpiredSessions() {
+        for(Session i : super.getSessionSet())
             if(i.hasExpired())
                 i.remove();
-        }
     }
     
     public void checkReadPermissions(File file) throws ReadPermissionException{
     	if (!getPermissions().canRead(file))
             throw new ReadPermissionException(file.getName(), this.getName());
+    }
+
+    // Protected classes
+    @Override
+    public String getPassword() {
+        throw new PublicAcessDeniedException("GetPassword", "IsValidPassword");
     }
 }

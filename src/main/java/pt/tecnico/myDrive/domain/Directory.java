@@ -118,47 +118,28 @@ public class Directory extends Directory_Base {
      * @throws DeletePermissionException The user doesn't have the privilege to remove the directory.
      */
     @Override
-    public void remove(User user)
+    public void remove(String token)
     { 
-        int contador = 0;
-
-        if(user.getPermissions().canDelete(this))
-        {
-            for(File f : getFileSet()) 
-            {
-                if(!(user.getPermissions().canDelete(f)))
-                    {
-                    contador++;
-                    }
-            }
-
-            if(contador == 0)
-            {
-                for(User i : user.getManagerU().getUsersSet())
-                {
-                    for(Session k : i.getSessionSet())
-                    {
-                        if(k.getCurrentDirectory().equals(this))
-                        {
-                            k.setCurrentDirectory(this.getParent());
-                        }
-                    }
+        User user = Manager.getInstance().getSessionByToken(token).getUser();
+                if(user.getPermissions().canDelete(this) && this.getParent().getPermissions().canWrite(this.getParent())) {
+                    boolean exception = true;
+                    try {
+                for (File f : getFileSet()) {
+                    f.remove(token);
                 }
-                for(File n : getFileSet())
-                {
-                    n.remove();
-                }
-                super.remove();
             }
-            else
-            {
-                throw new DeletePermissionException(this.getName(), user.getUsername());
+            catch (DeletePermissionException e) {
+                exception = true;
             }
+            finally {
+                if (exception)
+                    throw new DeletePermissionException(this.getName(), user.getUsername());
+
+            }
+
         }
         else
-        {
             throw new DeletePermissionException(this.getName(), user.getUsername());
-        }       
     }
 
     public boolean equals(Directory d) { return getName().equals(d.getName()) && 

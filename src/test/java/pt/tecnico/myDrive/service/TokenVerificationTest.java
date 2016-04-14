@@ -25,7 +25,7 @@ public abstract class TokenVerificationTest extends BaseServiceTest{
     @Test(expected = UserSessionExpiredException.class)
     public void sessionExpired(){
         createUser("auron", "overdrive", "Auron", (short) 0xFF);
-        String token = createSession("auron");
+        String token = createSession("auron", "overdrive");
         Session s = Manager.getInstance().getSessionByToken(token);
         s.setLastActive(s.getLastActive().minusHours(5));
         CreateService(token).execute();
