@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.service;
 
 import pt.tecnico.myDrive.domain.*;
+import pt.tecnico.myDrive.exception.DirectoryContentException;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 import pt.tecnico.myDrive.exception.MyDriveException;
 
@@ -25,9 +26,6 @@ public class CreateFile extends LoginRequiredService {
 
     public CreateFile(String token, String fileName, String fileType, String content) {
         this(token, fileName, fileType);
-        if(fileType == "D") {
-            throw new
-        }
         _content = content;
     }
 
@@ -36,8 +34,14 @@ public class CreateFile extends LoginRequiredService {
         super.dispatch();
         Directory p = _session.getCurrentDirectory();
         Manager m = Manager.getInstance();
+        if(_fileType == "D" && _content != "")
+            throw new DirectoryContentException();
+
         switch (_fileType) {
             case "L":
+                if(_fileType == "D")
+                    throw new DirectoryContentException();
+
                 File f = _user.getFileByPath(_content);
                 new Link(_filename, f, _content, p, m);
                 break;
