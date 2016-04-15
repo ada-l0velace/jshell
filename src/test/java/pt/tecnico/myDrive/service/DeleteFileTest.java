@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.service;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
@@ -19,6 +20,7 @@ import pt.tecnico.myDrive.exception.SpecialDirectoriesException;
 public class DeleteFileTest extends TokenVerificationTest {
 	
     private Directory _dir;
+    private Directory _dir2;
     private App _app;
     private App _appRoot;
     private Link _link;
@@ -156,10 +158,10 @@ public class DeleteFileTest extends TokenVerificationTest {
     
     @Test(expected = DeletePermissionException.class)
     public void deleteDirWithRootFile() {
-    	 DeleteFile service = new DeleteFile(_token, _dir2);
+    	 DeleteFile service = new DeleteFile(_token, _dirName2);
          service.execute();
          // check link was deleted
-         assertNotNull("File cannot be deleted", _session.getCurrentDirectory().search(_linkName, _token));
+         assertNotNull("File cannot be deleted", _session.getCurrentDirectory().search(_dirName2, _token));
     }
     
     @Override
