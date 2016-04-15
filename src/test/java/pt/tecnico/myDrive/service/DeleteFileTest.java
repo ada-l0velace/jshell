@@ -20,8 +20,10 @@ public class DeleteFileTest extends TokenVerificationTest {
 	
     private Directory _dir;
     private App _app;
+    private App _appRoot;
     private Link _link;
 	private static final String _dirName = "Documents";
+	private static final String _dirName2 = "dirWithRootFile";
 	private static final String _appName = "App";
 	private static final String _linkName = "Link";
     private static final String _name = "John";
@@ -51,7 +53,9 @@ public class DeleteFileTest extends TokenVerificationTest {
 		_session2 = Manager.getInstance().getSessionByToken(_token2);
 		_dir = new Directory(_user, _dirName, _session.getCurrentDirectory(), Manager.getInstance());
 		_app = new App(_user, _appName, " ", _session.getCurrentDirectory(), Manager.getInstance());
+		_dir2 = new Directory(_user, _dirName2, _session.getCurrentDirectory(), Manager.getInstance());
 		_link = _user.createLink(_dir, _linkName, _session.getCurrentDirectory(), Manager.getInstance());
+		_appRoot = new App(Manager.getInstance().getUserByToken(_tokenroot), "AppRoot", " ", _dir2, Manager.getInstance());
     }
 
     @Test
@@ -85,7 +89,6 @@ public class DeleteFileTest extends TokenVerificationTest {
         DeleteFile service = new DeleteFile(_tokenroot, _dirName);
         service.execute();        
         // check dir was deleted
-        log.warn("<------------"+d.search(_dirName, _tokenroot) + "<------------");
         assertNull("Directory was not deleted by root", d.search(_dirName, _tokenroot));
     }
     
@@ -149,6 +152,14 @@ public class DeleteFileTest extends TokenVerificationTest {
     	_sessionroot.setCurrentDirectory(d);
     	DeleteFile service = new DeleteFile(_tokenroot, "/");
         service.execute();
+    }
+    
+    @Test(expected = DeletePermissionException.class)
+    public void deleteDirWithRootFile() {
+    	 DeleteFile service = new DeleteFile(_token, _dir2);
+         service.execute();
+         // check link was deleted
+         assertNotNull("File cannot be deleted", _session.getCurrentDirectory().search(_linkName, _token));
     }
     
     @Override
