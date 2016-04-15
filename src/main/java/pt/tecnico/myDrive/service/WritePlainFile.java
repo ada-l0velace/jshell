@@ -34,4 +34,8 @@ public class WritePlainFile extends LoginRequiredService {
         throw new InvalidFileTypeException("not a plainFile");
         
     }
+
+    public String result() {
+        return _content;
+    }
 }
