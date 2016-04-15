@@ -119,28 +119,19 @@ public class Directory extends Directory_Base {
      */
     @Override
     public void remove(String token) {
-
         User user = Manager.getInstance().getSessionByToken(token).getUser();
-        if(user.getPermissions().canDelete(this)) {
-            boolean exception = false;
-            try {
-                for (File f : getFileSet()) {
-                    f.remove(token);
-                }
-            }
-            catch (DeletePermissionException e) {
-                Manager.getInstance().log.trace(e.getMessage());
-                exception = true;
-            }
-            finally {
-                if (!exception) {
-                    super.remove(token);
-                    deleteDomainObject();
-                }
-            }
-        }
-        else
+        if (!getParent().getPermissions().canWrite(this))
             throw new DeletePermissionException(this.getName(), user.getUsername());
+        if (!user.getPermissions().canDelete(this))
+            throw new DeletePermissionException(this.getName(), user.getUsername());
+        for (File f : getFileSet()) {
+            if (!user.getPermissions().canDelete(f))
+                throw new DeletePermissionException(this.getName(), user.getUsername());
+        }
+        for (File f : getFileSet())
+            f.remove(token);
+        super.remove(token);
+        deleteDomainObject();
     }
 
     public boolean equals(Directory d) { return getName().equals(d.getName()) && 
