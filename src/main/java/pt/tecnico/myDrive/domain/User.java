@@ -295,7 +295,6 @@ public class User extends User_Base {
 
     /**
      * Removes User and related objects.
-     * @// FIXME: 18/03/16 doesn't work because needs to setHome(null); before the loop.
      */
     public void remove() {
         super.setManagerU(null);
