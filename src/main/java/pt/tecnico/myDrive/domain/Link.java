@@ -87,12 +87,6 @@ public class Link extends Link_Base {
         throw new UnsupportedOperationException("Not Implemented!");
     }
 
-    @Override
-    public void remove(String token) {
-        super.remove(token);
-        deleteDomainObject();
-    }
-
     /**
      * Overrides original toString() to the current object implementation.
      * @return String represents the output string of File.

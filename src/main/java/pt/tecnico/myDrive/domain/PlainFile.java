@@ -102,6 +102,12 @@ public class PlainFile extends PlainFile_Base {
         return dim;
     }
 
+    @Override
+    public void remove(String token) {
+        super.remove(token);
+        deleteDomainObject();
+    }
+
     /**
      * Overrides original toString() to the current object implementation.
      * @return String represents the output string of PlainFile.
