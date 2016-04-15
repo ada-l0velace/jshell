@@ -33,7 +33,7 @@ public abstract class File extends File_Base implements IElementXml {
     }
     
     /**
-     * Alternate constructor to create a File with xml.
+     * Alternate constructor to create a File with the xml.
      * @param xml Element (JDOM library type) which represents a File.
      */
     protected File(Element xml){
