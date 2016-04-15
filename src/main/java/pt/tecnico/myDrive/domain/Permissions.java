@@ -97,7 +97,7 @@ public class Permissions extends Permissions_Base {
         return false;
     }
 
-    public boolean canDelete(File file) {   
+    public boolean canDelete(File file) {
         String owner = file.getOwner().getUsername();
         String user = getUser().getUsername();
         if(getUser().isSuperUser())

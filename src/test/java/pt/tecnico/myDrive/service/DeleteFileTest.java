@@ -85,6 +85,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         DeleteFile service = new DeleteFile(_tokenroot, _dirName);
         service.execute();        
         // check dir was deleted
+        log.warn("<------------"+d.search(_dirName, _tokenroot) + "<------------");
         assertNull("Directory was not deleted by root", d.search(_dirName, _tokenroot));
     }
     
