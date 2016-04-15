@@ -127,7 +127,7 @@ public class PlainFile extends PlainFile_Base {
      */
     @Override
     public String getContent(User user) {
-        if (!user.getUsername().equals("root")){
+        if (!user.isSuperUser()){
             if (!user.equals(getOwner())){
                 if (!getPermissions().worldCanRead())
                     throw new ReadPermissionException(getName(), user.getUsername());

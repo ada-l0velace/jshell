@@ -25,9 +25,7 @@ public class WritePlainFileTest extends TokenVerificationTest {
     private static final String _content = "ice";
     private static final String _password = "pwjack";
     private static final String _name = "Stevie";
-    private static final Short _umask = 0xF0;
-    private static final Short _umask1 = 0x00;
-
+    private static final Short _umask = 0xF8;
     private User _user;
     private String _token;
 
@@ -44,58 +42,59 @@ public class WritePlainFileTest extends TokenVerificationTest {
         Manager m = Manager.getInstance();
         _user = createUser("derp", _password, _name, _umask);
         _token = createSession("derp", _password);
-        _user1 = createUser("derp1", _password, _name, _umask1);
-        _token1 = createSession("derp1", _password);
         _rootToken = createSession("root", "***");
-        Session s = m.getSessionByToken(_token);
-        new PlainFile(m.getSuperuser(), _fileName, _testContent , s.getCurrentDirectory(), m);
-        new PlainFile(_user, _fileName + "1", _testContent , s.getCurrentDirectory(), m);
-        new Directory(_user, "DirToTheFuture", s.getCurrentDirectory(), m);
-        _file = new App(m.getSuperuser(), "AppToThePast", _testContent , s.getCurrentDirectory(), m);
-        _pathLink = _user.createLink(_file, "LinkToThePast", s.getCurrentDirectory(),m);;
+        Session s = m.getSessionByToken(_rootToken);
+        Session s2 = m.getSessionByToken(_token);
+        new PlainFile(m.getSuperuser(), _fileName, _content , s.getCurrentDirectory(), m);
+        new PlainFile(_user, _fileName + "1", _content , s2.getCurrentDirectory(), m);
+        new Directory(_user, "DirToTheFuture", s2.getCurrentDirectory(), m);
+        _file = new App(_user, "AppToThePast", _content , s2.getCurrentDirectory(), m);
+        _pathLink = _user.createLink(_file, "LinkToThePast", s2.getCurrentDirectory(),m);
     }
 
     
     @Test
     public void success() {
-        WritePlainFile service = new WritePlainFile(_token, _fileName, _content);
+        WritePlainFile service = new WritePlainFile(_token, _fileName+"1", _testContent);
         service.execute();
-        assertNotEquals("Content is not correct", service.result(), _content);
+        PlainFile f = (PlainFile) _user.getFileByPath(_fileName+"1", _token);
+        assertEquals("Content is not correct", f.getContent(), _testContent);
     }
 
     @Test(expected = FileNotFoundException.class)
     public void PlainFileNotFound() {
-        WritePlainFile service = new WritePlainFile(_token, "boy", _content);
+        WritePlainFile service = new WritePlainFile(_token, "boy", _testContent);
         service.execute();
     }
 
     @Test
     public void writeApp() {
-        WritePlainFile service = new WritePlainFile(_token, "AppToThePast",_content);
+        WritePlainFile service = new WritePlainFile(_token, "AppToThePast", _testContent);
         service.execute();
-        assertNotEquals("Content is not correct", service.result(), _content);
+        PlainFile f = (PlainFile) _user.getFileByPath("AppToThePast", _token);
+        assertEquals("Content is not correct", f.getContent(), _testContent);
     }
 
     @Test(expected = InvalidFileTypeException.class)
     public void writeDirectory() {
-        WritePlainFile service = new WritePlainFile(_token, "DirToTheFuture",_content);
+        WritePlainFile service = new WritePlainFile(_token, "DirToTheFuture",_testContent);
         service.execute();
     }
 
     @Test(expected = WritePermissionException.class)
     public void fileWriteAccessDenied() {
         Manager m = Manager.getInstance();
-        Session s = m.getSessionByToken(_token);
-        Session s2 = m.getSessionByToken(_token1);
+        Session s = m.getSessionByToken(_rootToken);
+        Session s2 = m.getSessionByToken(_token);
         s2.setCurrentDirectory(s.getCurrentDirectory());
 
-        WritePlainFile service = new WritePlainFile(_token1, _fileName, _content);
+        WritePlainFile service = new WritePlainFile(_token, _fileName, _testContent);
         service.execute();
     }
 
     @Override
     public MyDriveService CreateService(String token) {
-        return new WritePlainFile(token, _fileName, _content);
+        return new WritePlainFile(token, _fileName, _testContent);
     }
     
 }

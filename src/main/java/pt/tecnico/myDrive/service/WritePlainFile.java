@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.service;
 import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 import pt.tecnico.myDrive.exception.MyDriveException;
+import pt.tecnico.myDrive.exception.WritePermissionException;
 
 
 public class WritePlainFile extends LoginRequiredService {
@@ -25,17 +26,19 @@ public class WritePlainFile extends LoginRequiredService {
     @Override
     protected void dispatch() throws MyDriveException {
     	super.dispatch();
-    	
-    	if(Manager.getInstance().getSessionByToken(_token).getCurrentDirectory().getFileByPath(_plainFileName) instanceof PlainFile){
-            PlainFile pf = (PlainFile)Manager.getInstance().getSessionByToken(_token).getCurrentDirectory().getFileByPath(_plainFileName);
-            pf.setContent(_content);
+        User u = Manager.getInstance().getUserByToken(_token);
+    	if(u.getFileByPath(_plainFileName, _token) instanceof PlainFile) {
+            Directory d = u.getSessionDirectory(_token);
+            PlainFile f = (PlainFile) d.searchFile(_plainFileName, _token);
+            log.error(_user.getPermissions().canWrite(f));
+            if(_user.getPermissions().canWrite(f))
+                f.setContent(_content);
+            else
+                throw new WritePermissionException(f.getName(), _user.getUsername());
             return;
         }
         throw new InvalidFileTypeException("not a plainFile");
         
     }
 
-    public String result() {
-        return _content;
-    }
 }
