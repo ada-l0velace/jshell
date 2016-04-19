@@ -1,11 +1,7 @@
 package pt.tecnico.myDrive.service;
 
 
-import pt.tecnico.myDrive.domain.Manager;
-import pt.tecnico.myDrive.domain.Session;
-import pt.tecnico.myDrive.domain.SuperUser;
-import pt.tecnico.myDrive.domain.User;
-import pt.tecnico.myDrive.domain.PlainFile;
+import pt.tecnico.myDrive.domain.*;
 
 import pt.tecnico.myDrive.exception.MyDriveException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
@@ -25,13 +21,16 @@ public class ReadPlainFile extends LoginRequiredService {
 
     @Override
     protected void dispatch() throws MyDriveException {
-    	super.dispatch();
-    	if(Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName) instanceof PlainFile){
-    		PlainFile pf = (PlainFile)Manager.getInstance().getSessionByToken(_plainFileToken).getCurrentDirectory().getFileByPath(_plainFileName);
-            _content = pf.getContent(Manager.getInstance().getUserByToken(_plainFileToken));
+        super.dispatch();
+        Manager m = Manager.getInstance();
+        Session s = m.getSessionByToken(_plainFileToken);
+        Directory cd = s.getCurrentDirectory();
+        PlainFile pf;
+    	if((pf = (PlainFile) cd.searchFile(_plainFileName, _plainFileToken)) instanceof PlainFile){
+    		_content = pf.getContent(s.getUser());
             return;
     	}
-        throw new InvalidFileTypeException("not a plainFile");
+        throw new InvalidFileTypeException("Not a plainFile");
 
     }
     

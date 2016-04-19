@@ -34,7 +34,6 @@ public class LoginUser extends MyDriveService {
         Session s = new Session(u);
         _userToken = s.getToken();
         u.removeExpiredSessions();
-       //s.remove();
     }
 
     public String result() {
