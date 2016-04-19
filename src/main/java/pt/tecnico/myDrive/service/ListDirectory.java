@@ -40,7 +40,7 @@ public class ListDirectory extends LoginRequiredService {
 			    if (!(f instanceof Directory))
 			    	_files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
 			    								f.getParent().getName(), f.getOwner().getName(),
-			    								f.getContent(Manager.getInstance().getUserByToken(_token)), f.toString()));
+			    								f.getContent(_token), f.toString()));
 			    else
 			    	_files.add(new DirectoryDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
 			                   f.getParent().getName(), f.getOwner().getName(), f.toString()));

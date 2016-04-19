@@ -51,15 +51,6 @@ public class Manager extends Manager_Base{
     }
 
     /**
-     * Gets the /home instance Directory
-     * @see Directory
-     * @return Directory represents the Directory Instance.
-     */
-    public Directory getDirHome() {
-        return (Directory) getHome().searchFile("home");
-    }
-
-    /**
      * Get a user by username.
      * @param username (User) receives the username of the user we want to search for.
      * @see User

@@ -3,11 +3,7 @@ package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
 
-import pt.tecnico.myDrive.exception.FileNotFoundException;
-import pt.tecnico.myDrive.exception.FileIdNotFoundException;
-import pt.tecnico.myDrive.exception.NameFileAlreadyExistsException;
-import pt.tecnico.myDrive.exception.DeletePermissionException;
-import pt.tecnico.myDrive.exception.ReadPermissionException;
+import pt.tecnico.myDrive.exception.*;
 
 import java.util.Set;
 
@@ -63,7 +59,7 @@ public class Directory extends Directory_Base {
         Element filesElement = new Element("Files");
         node.addContent(filesElement);
 
-        for (File f: getFileSet())
+        for (File f: super.getFileSet())
             filesElement.addContent(f.xmlExport());
         
         return node;
@@ -87,7 +83,7 @@ public class Directory extends Directory_Base {
      * @throws FileNotFoundException occurs when the given path is invalid.
      */
     @Override
-    public File getFileByPath (String link) throws FileNotFoundException {
+    protected File getFileByPath (String link) throws FileNotFoundException {
     	if(link.equals("")) {
     		return this;
     	}
@@ -95,7 +91,7 @@ public class Directory extends Directory_Base {
         String[] split = spliTest;
         String rest = "";
         String nomeInit = link;
-        for(File path : getFileSet()) {
+        for(File path : super.getFileSet()) {
             if (spliTest.length != 1) {
                 split = link.split("/",2);
                 rest = split[1];
@@ -124,38 +120,36 @@ public class Directory extends Directory_Base {
             throw new DeletePermissionException(this.getName(), user.getUsername());
         if (!user.getPermissions().canDelete(this))
             throw new DeletePermissionException(this.getName(), user.getUsername());
-        for (File f : getFileSet()) {
+        for (File f : super.getFileSet()) {
             if (!user.getPermissions().canDelete(f))
                 throw new DeletePermissionException(this.getName(), user.getUsername());
         }
-        for (File f : getFileSet())
+        for (File f : super.getFileSet())
             f.remove(token);
         super.remove(token);
         deleteDomainObject();
     }
 
-    public boolean equals(Directory d) { return getName().equals(d.getName()) && 
-        getParent().equals(d.getParent());}
-
+    /**
+     * Protects class from other programmers.
+     * @throws PublicAcessDeniedException occurs when someone tries to access it publicly.
+     */
+    @Override
+    public Set<File> getFileSet() {
+        throw new PublicAcessDeniedException("getFileSet()", "listContent(token)");
+    }
 
     /**
-     * @// FIXME: 18/03/16 needs refactoring.
      * @return list (String) returns a list of files inside a directory.
      */
     public Set<File> listContent(String token) throws ReadPermissionException {
     	User user = Manager.getInstance().getUserByToken(token);
     	if (user.getPermissions().canRead(this)) {
-    		return getFileSet();
+    		return super.getFileSet();
     	} 
     	else {
     		throw new ReadPermissionException(this.getName(), user.getName());
     	}
-        /*
-        entries[0] = toString().replace(getName(), ".");
-        entries[1] = p.toString().replace(p.getName(), "..");
-        for (int j = 0; j < names.length; j++){
-        	list += entries[j] + "\n";        	
-        }*/
     }
 
     
@@ -167,7 +161,7 @@ public class Directory extends Directory_Base {
      */
     @Override
     public void addFile(File file) throws NameFileAlreadyExistsException {
-        for (File fName : this.getFileSet()){
+        for (File fName : super.getFileSet()){
             if (fName.getName().equals(file.getName())){
                 throw new NameFileAlreadyExistsException(file.getName());
             }
@@ -175,46 +169,32 @@ public class Directory extends Directory_Base {
         super.addFile(file);
     }
 
-
     /**
      * Searches for a File by name in a Directory.
-     * @param  name (String) receives a String which is the name of the File.
-     * @throws FileNotFoundException when there is no File with that name.
-     * @return File returns the file with the name received.
+     * @param name (String) receives a name of the file.
+     * @param token (String) receives the token of the user.
+     * @return String returns the name of the file.
      */
-    public File searchFile(String name) throws FileIdNotFoundException {
-        for(File f: getFileSet()) {
-            if (f.getName().equals(name)) {
-                return f;
-            }
-        }
-        throw new FileNotFoundException(name);
-    }
-    
-    public File searchFile(String name, String token) throws FileIdNotFoundException {
+    public File searchFile(String name, String token) {
         for(File f: listContent(token))
             if (f.getName().equals(name))
                 return f;
-        throw new FileNotFoundException(name);
-    }
-    
-    public String search(String name, String token) {
-        for(File f: listContent(token))
-            if (f.getName().equals(name))
-                return f.getName();
         return null;
     }
+
     /**
      * Search a File by id in a Directory
-     * @param id (int) receives a String which is the id of the File
+     * @param name (String) receives a String which is the name of the File
      * @see File
      * @throws FileIdNotFoundException
      */
-    public File searchFile(int id, String token) throws FileIdNotFoundException {
-        for(File f: listContent(token))
-            if (f.getId() == id)
+    public File search(String name, String token) throws FileIdNotFoundException {
+        for(File f: listContent(token)) {
+
+            if (f.getName().equals(name))
                 return f;
-        throw new FileIdNotFoundException(id);
+        }
+        throw new FileNotFoundException(name);
     }
 
     /**
@@ -223,7 +203,7 @@ public class Directory extends Directory_Base {
      */
     public String toString(){
         String a = super.toString();
-        String dim = (getFileSet().size()+2) + "";
+        String dim = (super.getFileSet().size()+2) + "";
         String username = this.getOwner().getUsername();
         String modified = getModified().toString("MMM dd hh:mm");
         String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();

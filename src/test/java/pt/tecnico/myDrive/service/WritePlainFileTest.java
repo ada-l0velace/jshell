@@ -58,7 +58,7 @@ public class WritePlainFileTest extends TokenVerificationTest {
         WritePlainFile service = new WritePlainFile(_token, _fileName+"1", _testContent);
         service.execute();
         PlainFile f = (PlainFile) _user.getFileByPath(_fileName+"1", _token);
-        assertEquals("Content is not correct", f.getContent(), _testContent);
+        assertEquals("Content is not correct", f.getContent(_token), _testContent);
     }
 
     @Test(expected = FileNotFoundException.class)
@@ -72,7 +72,7 @@ public class WritePlainFileTest extends TokenVerificationTest {
         WritePlainFile service = new WritePlainFile(_token, "AppToThePast", _testContent);
         service.execute();
         PlainFile f = (PlainFile) _user.getFileByPath("AppToThePast", _token);
-        assertEquals("Content is not correct", f.getContent(), _testContent);
+        assertEquals("Content is not correct", f.getContent(_token), _testContent);
     }
 
     @Test(expected = InvalidFileTypeException.class)

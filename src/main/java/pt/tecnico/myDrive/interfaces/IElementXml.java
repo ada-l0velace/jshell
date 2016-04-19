@@ -10,5 +10,4 @@ import pt.tecnico.myDrive.domain.*;
 public interface IElementXml {
     public void importXml (Element xml) /*ImportDocumentException*/;
     public Element exportXml ();
-    public File getFileByPath (String link);
 }

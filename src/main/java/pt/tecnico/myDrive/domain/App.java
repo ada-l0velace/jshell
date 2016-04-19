@@ -32,7 +32,7 @@ public class App extends App_Base {
     public App(User owner, String name, String content, Directory parent, Manager m) {
         super();
         super.init(owner, name, parent, m);
-        setContent(content);
+        initContent(content);
     }
 
     /**

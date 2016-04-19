@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.Manager;
+import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.service.dto.FileDto;
@@ -85,8 +86,12 @@ public class ListDirectoryTest extends TokenVerificationTest {
     @Test
     public void contentEmptyDirectory() {
         Manager m = Manager.getInstance();
-        m.getDirHome().setModified(new DateTime(2016, 4, 12, 4, 28, 0, 0));
-        m.getSuperuser().getHome().setModified(new DateTime(2016, 4, 12, 4, 28, 0, 0));
+        Session s = m.getSessionByToken(_rootToken);
+        User su = s.getUser();
+        Directory slash = m.getHome();
+        Directory slashHome = (Directory) slash.searchFile("home", _rootToken);
+        slashHome.setModified(new DateTime(2016, 4, 12, 4, 28, 0, 0));
+        su.getHome().setModified(new DateTime(2016, 4, 12, 4, 28, 0, 0));
         ListDirectory service = new ListDirectory(_rootToken);
         
         service.execute();
@@ -103,7 +108,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
     public void listRootDirectory() {
         Manager m = Manager.getInstance();
         Directory slash = m.getHome();
-        Directory home = (Directory) slash.searchFile("home");
+        Directory home = (Directory) slash.searchFile("home", _rootToken);
         m.getSessionByToken(_rootToken).setCurrentDirectory(slash);
         ListDirectory service = new ListDirectory(_rootToken);
 

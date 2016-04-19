@@ -30,10 +30,7 @@ public class WritePlainFile extends LoginRequiredService {
     	if(u.getFileByPath(_plainFileName, _token) instanceof PlainFile) {
             Directory d = u.getSessionDirectory(_token);
             PlainFile f = (PlainFile) d.searchFile(_plainFileName, _token);
-            if(_user.getPermissions().canWrite(f))
-                f.setContent(_content);
-            else
-                throw new WritePermissionException(f.getName(), _user.getUsername());
+            f.setContent(_content, _token);
             return;
         }
         throw new InvalidFileTypeException("not a plainFile");

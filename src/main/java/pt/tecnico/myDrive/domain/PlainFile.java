@@ -4,7 +4,9 @@ import org.jdom2.Element;
 
 import java.io.UnsupportedEncodingException;
 import pt.tecnico.myDrive.exception.ImportDocumentException;
+import pt.tecnico.myDrive.exception.PublicAcessDeniedException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
+import pt.tecnico.myDrive.exception.WritePermissionException;
 
 
 public class PlainFile extends PlainFile_Base {
@@ -34,8 +36,11 @@ public class PlainFile extends PlainFile_Base {
     public PlainFile(User owner, String name, String content, Directory parent, Manager m) {
         super();
         super.init(owner, name, parent, m);
-        setContent(content);
+        super.setContent(content);
+    }
 
+    protected void initContent(String content) {
+        super.setContent(content);
     }
 
     /**
@@ -108,17 +113,27 @@ public class PlainFile extends PlainFile_Base {
         deleteDomainObject();
     }
 
+
+
+    @Override
+    public void setContent(String content) {
+        throw new PublicAcessDeniedException("setContent(content)", "setContent(content, token)");
+    }
+
+    @Override
+    public String getContent() {
+        throw new PublicAcessDeniedException("getContent()", "getContent(token)");
+    }
+
     /**
-     * Overrides original toString() to the current object implementation.
-     * @return String represents the output string of PlainFile.
+     * Modifies plainfile content
+     * @throws ReadPermissionException occurs when user does not have permissions to read file.
      */
-    public String toString() {
-    	String a = super.toString();
-    	String dim = getDim(); 	
-    	String username = getOwner().getUsername();
-        String modified = getModified().toString("MMM dd hh:mm");
-        String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();
-        return a + rest;
+    public void setContent(String content, String token) {
+        User user = Manager.getInstance().getUserByToken(token);
+        if(!user.getPermissions().canWrite(this))
+            throw new WritePermissionException(getName(), user.getUsername());
+        super.setContent(content);
     }
 
     /**
@@ -126,17 +141,25 @@ public class PlainFile extends PlainFile_Base {
      * @throws ReadPermissionException occurs when user does not have permissions to read file.
      */
     @Override
-    public String getContent(User user) {
-        if (!user.isSuperUser()){
-            if (!user.equals(getOwner())){
-                if (!getPermissions().worldCanRead())
-                    throw new ReadPermissionException(getName(), user.getUsername());
-            }
-            else
-                if (!getPermissions().userCanRead())
-                    throw new ReadPermissionException(getName(), user.getUsername());
-        }
-        return getContent();
+    public String getContent(String token) {
+        User user = Manager.getInstance().getUserByToken(token);
+        if(!user.getPermissions().canRead(this))
+            throw new ReadPermissionException(getName(), user.getUsername());
+        return super.getContent();
+    }
+
+
+    /**
+     * Overrides original toString() to the current object implementation.
+     * @return String represents the output string of PlainFile.
+     */
+    public String toString() {
+        String a = super.toString();
+        String dim = getDim();
+        String username = getOwner().getUsername();
+        String modified = getModified().toString("MMM dd hh:mm");
+        String rest = dim + " " + username + " " + getId() + " " + modified + " " + this.getName();
+        return a + rest;
     }
 
 }

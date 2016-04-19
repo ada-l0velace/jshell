@@ -73,11 +73,13 @@ public class User extends User_Base {
      */
     protected void initHome() {
         User su = getManagerU().getSuperuser();
+        Session s = new Session(su);
         Directory home;
+
         if(su == null)
-            home = new Directory(this, getUsername(), getManagerU().getDirHome(), getManagerU());
+            home = new Directory(this, getUsername(), (Directory) su.getFileByPath("/home", s.getToken()), getManagerU());
         else
-            home = new Directory(su, getUsername(), getManagerU().getDirHome(), getManagerU());
+            home = new Directory(su, getUsername(), (Directory) su.getFileByPath("/home", s.getToken()), getManagerU());
         home.setOwner(this);
         home.setPermissions(this.getPermissions());
         setHome(home);
@@ -254,18 +256,6 @@ public class User extends User_Base {
     }
 
     /**
-     * Gets the first to be found valid session.
-     * @return Session returns the valid session.
-     */
-    public Session getValidSession() {
-        for (Session s: super.getSessionSet()) {
-            if (!s.hasExpired())
-                return s;
-        }
-        return null;
-    }
-
-    /**
      * Gets a session by a token.
      * @return Session returns the session.
      */
@@ -299,9 +289,7 @@ public class User extends User_Base {
     public void remove() {
         super.setManagerU(null);
         setHome(null);
-        for(File i : super.getFileSet()) {
-            i.remove();
-        }
+        super.getFileSet().forEach((f) -> f.remove());
         setPermissions(null);
         deleteDomainObject();
     }
@@ -311,9 +299,10 @@ public class User extends User_Base {
     }
 
     public void removeExpiredSessions() {
-        for(Session i : super.getSessionSet())
-            if(i.hasExpired())
-                i.remove();
+        super.getSessionSet().forEach((s) -> {
+            if(s.hasExpired())
+                s.remove();
+        });
     }
     
     public void checkReadPermissions(File file) throws ReadPermissionException{

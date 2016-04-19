@@ -48,32 +48,32 @@ public class CreateFileTest extends TokenVerificationTest {
     public void createAppWithoutContent(){
         CreateFile service = new CreateFile(_token, _filename, "A");
         service.execute();
-        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename));    
+        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));
     }
 
     @Test
     public void createAppWithContent(){
         CreateFile service = new CreateFile(_token, _filename, "A", _content);
         service.execute();
-        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename));}
+        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test
     public void createPlainfileWithoutContent(){
         CreateFile service = new CreateFile(_token, _filename, "P");
         service.execute();
-        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename));}
+        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test
     public void createPlainfileWithContent(){
         CreateFile service = new CreateFile(_token, _filename, "P", _content);
         service.execute();
-        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename));}
+        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test
     public void createDirectoryWithoutContent(){
         CreateFile service = new CreateFile(_token, _filename, "D");
         service.execute();
-        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename));}
+        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test(expected = DirectoryContentException.class)
     public void createDirectoryWithContent(){
@@ -85,7 +85,7 @@ public class CreateFileTest extends TokenVerificationTest {
     public void createLinkWithPath() {
         CreateFile service = new CreateFile(_token, _filename, "L", "/home");
         service.execute();
-        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename));}
+        assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test(expected = FileNotFoundException.class)
     public void createLinkWithPathWithoutFile() {
@@ -104,7 +104,7 @@ public class CreateFileTest extends TokenVerificationTest {
     public void fileWithDifferentPermissionsThanUser() {
         CreateFile service = new CreateFile(_token, _filename, "A", _content);
         service.execute();
-        assertEquals(m.getUserByToken(_token).getPermissions().getUmask(), m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename).getPermissions().getUmask());
+        assertEquals(m.getUserByToken(_token).getPermissions().getUmask(), m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token).getPermissions().getUmask());
     }
 
     @Test(expected = WritePermissionException.class)
@@ -117,7 +117,7 @@ public class CreateFileTest extends TokenVerificationTest {
     public void worldCanCreateFile(){
         CreateFile service = new CreateFile(_worldWToken, _filename, "D");
         service.execute();
-        assertNotNull(m.getSessionByToken(_worldWToken).getCurrentDirectory().searchFile(_filename));
+        assertNotNull(m.getSessionByToken(_worldWToken).getCurrentDirectory().searchFile(_filename, _worldWToken));
     }
 
     @Test

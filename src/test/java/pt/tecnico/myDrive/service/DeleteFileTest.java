@@ -65,7 +65,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         DeleteFile service = new DeleteFile(_token, _dirName);
         service.execute();
         // check dir was deleted
-        assertNull("Directory was not deleted", _session.getCurrentDirectory().search(_dirName, _token));
+        assertNull("Directory was not deleted", _session.getCurrentDirectory().searchFile(_dirName, _token));
     }
     
     @Test
@@ -73,7 +73,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         DeleteFile service = new DeleteFile(_token, _appName);
         service.execute();
         // check app was deleted
-        assertNull("App was not deleted", _session.getCurrentDirectory().search(_appName, _token));
+        assertNull("App was not deleted", _session.getCurrentDirectory().searchFile(_appName, _token));
     }
 	
     @Test
@@ -81,7 +81,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         DeleteFile service = new DeleteFile(_token, _linkName);
         service.execute();
         // check link was deleted
-        assertNull("Link was not deleted", _session.getCurrentDirectory().search(_linkName, _token));
+        assertNull("Link was not deleted", _session.getCurrentDirectory().searchFile(_linkName, _token));
     }
     
     @Test
@@ -91,7 +91,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         DeleteFile service = new DeleteFile(_tokenroot, _dirName);
         service.execute();        
         // check dir was deleted
-        assertNull("Directory was not deleted by root", d.search(_dirName, _tokenroot));
+        assertNull("Directory was not deleted by root", d.searchFile(_dirName, _tokenroot));
     }
     
     @Test
@@ -101,7 +101,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         DeleteFile service = new DeleteFile(_tokenroot, _appName);
         service.execute();
         // check app was deleted
-        assertNull("App was not deleted by root", d.search(_appName, _tokenroot));
+        assertNull("App was not deleted by root", d.searchFile(_appName, _tokenroot));
     }
 	
     @Test
@@ -111,7 +111,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         DeleteFile service = new DeleteFile(_tokenroot, _linkName);
         service.execute();
         // check link was deleted
-        assertNull("Link was not deleted by root", d.search(_linkName, _tokenroot));
+        assertNull("Link was not deleted by root", d.searchFile(_linkName, _tokenroot));
     }
     
     @Test(expected = FileNotFoundException.class)
@@ -161,7 +161,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     	 DeleteFile service = new DeleteFile(_token, _dirName2);
          service.execute();
          // check link was deleted
-         assertNotNull("File cannot be deleted", _session.getCurrentDirectory().search(_dirName2, _token));
+         assertNotNull("File cannot be deleted", _session.getCurrentDirectory().searchFile(_dirName2, _token));
     }
     
     @Override

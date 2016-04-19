@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
 import pt.tecnico.myDrive.interfaces.IElementXml;
@@ -209,7 +210,7 @@ public abstract class File extends File_Base implements IElementXml {
      * Interface method.
      * @throws UnsupportedEncodingException occurs always if called directly with File.
      */
-    public String getContent(User user) {
+    public String getContent(String token) {
         throw new UnsupportedOperationException("Not Implemented!");
     }
 
@@ -225,7 +226,7 @@ public abstract class File extends File_Base implements IElementXml {
      * Interface method.
      * @throws UnsupportedEncodingException occurs always if called directly with File.
      */
-    public File getFileByPath (String link, String token){
+    protected File getFileByPath (String link) throws FileNotFoundException {
         throw new UnsupportedOperationException("Not Implemented!");
     }
 
@@ -254,17 +255,11 @@ public abstract class File extends File_Base implements IElementXml {
         }
     }
 
-    protected void remove()
-    {
+    protected void remove() {
         setOwner(null);
         setPermissions(null);
         setParent(null);
         deleteDomainObject();
-    }
-    
-    public boolean hasFile(String fileName)
-    {
-    	return this.getName().equals(fileName);
     }
 
     /**

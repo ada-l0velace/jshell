@@ -81,7 +81,7 @@ public class ReadPlainFileTest extends TokenVerificationTest {
     public void readLink() {
         ReadPlainFile service = new ReadPlainFile(_token, "LinkToThePast");
         service.execute();
-        assertEquals("Content is not returned", service.result(), _pathLink.getContent());
+        assertEquals("Content is not returned", service.result(), _pathLink.getContent(_token));
     }
 
     @Test(expected = InvalidFileTypeException.class)

@@ -30,7 +30,7 @@ public class Link extends Link_Base {
         setModified(new DateTime(DateTimeZone.UTC));
         setPermissions(new Permissions(file.getPermissions().getUmask()));
         setOwner(file.getOwner());
-        setContent(path);
+        initContent(path);
         setParent(parent);
     }
 
@@ -44,12 +44,12 @@ public class Link extends Link_Base {
     }
     
     @Override
-    public void setContent(String cont) throws InvalidNameFileException{
+    public void initContent(String cont) throws InvalidNameFileException{
     	if (cont.length() > 1024){
     		throw new InvalidNameFileException(cont);
     	}
     	else 
-    		super.setContent(cont);
+    		super.initContent(cont);
     }
 
     /**
@@ -77,14 +77,6 @@ public class Link extends Link_Base {
     @Override
     public Element exportXml () {
         return super.exportXml();
-    }
-
-    /**
-     * Interface method.
-     * @throws UnsupportedEncodingException occurs always if called directly with a Link.
-     */
-    public File getFileByPath (String link){
-        throw new UnsupportedOperationException("Not Implemented!");
     }
 
     /**

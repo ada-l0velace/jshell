@@ -60,10 +60,6 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
         _token2 = createSession(_username2, _password2);
         m = Manager.getInstance();
         s = m.getSessionByToken(_token);
-        for (User u: Manager.getInstance().getUsersSet()) {
-            System.out.println("-----");
-            System.out.println(u.getUsername());
-        }
         _rootToken = createSession("root", "***");
         rootSession = m.getSessionByToken(_rootToken);
         int n = 0;
