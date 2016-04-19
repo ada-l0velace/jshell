@@ -25,8 +25,8 @@ public class ReadPlainFile extends LoginRequiredService {
         Manager m = Manager.getInstance();
         Session s = m.getSessionByToken(_plainFileToken);
         Directory cd = s.getCurrentDirectory();
-        PlainFile pf;
-    	if((pf = (PlainFile) cd.searchFile(_plainFileName, _plainFileToken)) instanceof PlainFile){
+        File pf;
+    	if((pf = cd.searchFile(_plainFileName, _plainFileToken)) instanceof PlainFile){
     		_content = pf.getContent(s.getUser());
             return;
     	}

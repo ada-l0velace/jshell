@@ -290,7 +290,7 @@ public class User extends User_Base {
      * @param password (String) represents the user password
      */
     public boolean isValidPassword(String password) {
-        return super.getPassword() == password;
+        return super.getPassword().equals(password);
     }
 
     /**

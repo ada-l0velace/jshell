@@ -14,12 +14,12 @@ public class WritePlainFile extends LoginRequiredService {
     private String _content;
     private String _token;
 
-    public WritePlainFile(String token, String plainfilename, String content) {
+    public WritePlainFile(String token, String plainFileName, String content) {
     	super(token);
         _token = token;
         _user = Manager.getInstance().getUserByToken(token);
         _session = Manager.getInstance().getSessionByToken(token);
-        _plainFileName = plainfilename;
+        _plainFileName = plainFileName;
         _content = content;
     }
 
@@ -30,7 +30,6 @@ public class WritePlainFile extends LoginRequiredService {
     	if(u.getFileByPath(_plainFileName, _token) instanceof PlainFile) {
             Directory d = u.getSessionDirectory(_token);
             PlainFile f = (PlainFile) d.searchFile(_plainFileName, _token);
-            log.error(_user.getPermissions().canWrite(f));
             if(_user.getPermissions().canWrite(f))
                 f.setContent(_content);
             else

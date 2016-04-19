@@ -44,7 +44,6 @@ public class CreateFile extends LoginRequiredService {
             case "L":
                 if(_content.equals(""))
                     throw new LinkEmptyContentException();
-
                 File f = _user.getFileByPath(_content, _session.getToken());
                 new Link(_filename, f, _content, p, m);
                 break;
