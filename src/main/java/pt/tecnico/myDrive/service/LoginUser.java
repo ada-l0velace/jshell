@@ -33,6 +33,7 @@ public class LoginUser extends MyDriveService {
             throw new InvalidUserCredentialsException();
         Session s = new Session(u);
         _userToken = s.getToken();
+        u.removeExpiredSessions();
        //s.remove();
     }
 

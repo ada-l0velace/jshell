@@ -2,6 +2,7 @@ package pt.tecnico.myDrive.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -64,17 +65,24 @@ public class LoginUserTest extends BaseServiceTest{
     @Test
     public void invalidSessionsDeleted(){
         int i = 0;
+        String [] tok = new String[7];
         while (i < 7){
-            String tok = createSession(_username, _password);
-            Session invalid = Manager.getInstance().getSessionByToken(tok);
-            //            invalid.setLastActive(invalid.getLastActive().minusHours(5));
+            tok[i] = createSession(_username, _password);
+            Session invalid = Manager.getInstance().getSessionByToken(tok[i]);
+            invalid.setLastActive(invalid.getLastActive().minusHours(5));
             i++;    
         }
-        
+
         LoginUser service = new LoginUser(_username, _password);
         service.execute();
-        Session s = Manager.getInstance().getUserByUsername(_username).getSessionByToken(_token);
-        assertEquals("User still has invalid sessions",s.hasExpired(), false);
+        Manager m = Manager.getInstance();
+        i = 0;
+        User u = m.getUserByUsername(_username);
+        while (i < 7){
+            assertNull("User still has invalid sessions", u.getSessionByToken(tok[i]));
+            i++;
+        }
+
     }
 
 }
