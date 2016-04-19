@@ -10,6 +10,7 @@ import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
+import pt.tecnico.myDrive.filefactory.AbstractFactory.FileType;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.exception.DirectoryContentException;
 import pt.tecnico.myDrive.exception.LinkEmptyContentException;
@@ -46,76 +47,76 @@ public class CreateFileTest extends TokenVerificationTest {
 
     @Test
     public void createAppWithoutContent(){
-        CreateFile service = new CreateFile(_token, _filename, "A");
+        CreateFile service = new CreateFile(_token, _filename, FileType.APP);
         service.execute();
         assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));
     }
 
     @Test
     public void createAppWithContent(){
-        CreateFile service = new CreateFile(_token, _filename, "A", _content);
+        CreateFile service = new CreateFile(_token, _filename, FileType.APP, _content);
         service.execute();
         assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test
     public void createPlainfileWithoutContent(){
-        CreateFile service = new CreateFile(_token, _filename, "P");
+        CreateFile service = new CreateFile(_token, _filename, FileType.PLAINFILE);
         service.execute();
         assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test
     public void createPlainfileWithContent(){
-        CreateFile service = new CreateFile(_token, _filename, "P", _content);
+        CreateFile service = new CreateFile(_token, _filename, FileType.PLAINFILE, _content);
         service.execute();
         assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test
     public void createDirectoryWithoutContent(){
-        CreateFile service = new CreateFile(_token, _filename, "D");
+        CreateFile service = new CreateFile(_token, _filename, FileType.DIRECTORY);
         service.execute();
         assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test(expected = DirectoryContentException.class)
     public void createDirectoryWithContent(){
-        CreateFile service = new CreateFile(_token, _filename, "D", _content);
+        CreateFile service = new CreateFile(_token, _filename, FileType.DIRECTORY, _content);
         service.execute();
     }
 
     @Test
     public void createLinkWithPath() {
-        CreateFile service = new CreateFile(_token, _filename, "L", "/home");
+        CreateFile service = new CreateFile(_token, _filename, FileType.LINK, "/home");
         service.execute();
         assertNotNull(m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token));}
 
     @Test(expected = FileNotFoundException.class)
     public void createLinkWithPathWithoutFile() {
-        CreateFile service = new CreateFile(_token, _filename, "L", _content);
+        CreateFile service = new CreateFile(_token, _filename, FileType.LINK, _content);
         service.execute();
     }
 
     @Test(expected = LinkEmptyContentException.class)
     public void createLinkWithoutContent() {
-        CreateFile service = new CreateFile(_token, _filename, "L");
+        CreateFile service = new CreateFile(_token, _filename, FileType.LINK);
         service.execute();
     }
 
 
     @Test
     public void fileWithDifferentPermissionsThanUser() {
-        CreateFile service = new CreateFile(_token, _filename, "A", _content);
+        CreateFile service = new CreateFile(_token, _filename, FileType.APP, _content);
         service.execute();
         assertEquals(m.getUserByToken(_token).getPermissions().getUmask(), m.getSessionByToken(_token).getCurrentDirectory().searchFile(_filename, _token).getPermissions().getUmask());
     }
 
     @Test(expected = WritePermissionException.class)
     public void createFileWithoutPermissions(){
-        CreateFile service = new CreateFile(_worldRToken, _filename, "A", _content);
+        CreateFile service = new CreateFile(_worldRToken, _filename, FileType.APP, _content);
         service.execute();
     }
 
     @Test
     public void worldCanCreateFile(){
-        CreateFile service = new CreateFile(_worldWToken, _filename, "D");
+        CreateFile service = new CreateFile(_worldWToken, _filename, FileType.DIRECTORY);
         service.execute();
         assertNotNull(m.getSessionByToken(_worldWToken).getCurrentDirectory().searchFile(_filename, _worldWToken));
     }
@@ -124,21 +125,21 @@ public class CreateFileTest extends TokenVerificationTest {
     public void superUserCanCreateFile(){        
         Session s = m.getSessionByToken(_rootToken);
         s.setCurrentDirectory(m.getSessionByToken(_worldWToken).getCurrentDirectory());
-        CreateFile service = new CreateFile(_rootToken, _filename, "D");
+        CreateFile service = new CreateFile(_rootToken, _filename, FileType.DIRECTORY);
         service.execute();
         assertNotNull(m.getSessionByToken(_worldWToken).getCurrentDirectory());
     }
 
     @Test(expected = InvalidFileTypeException.class)
     public void wrongFileType(){
-        CreateFile service = new CreateFile(_worldWToken, _filename, "J");
+        CreateFile service = new CreateFile(_worldWToken, _filename, FileType.UNKNOWN);
         service.execute();
     }
 
                         
     @Override
     public MyDriveService CreateService(String token) {
-        return new CreateFile(token, "somethingfile", "L");
+        return new CreateFile(token, "somethingfile", FileType.LINK);
     }
 
 
