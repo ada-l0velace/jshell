@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.domain;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
+import pt.tecnico.myDrive.exception.ExecutePermissionException;
 import pt.tecnico.myDrive.interfaces.IElementXml;
 
 import org.jdom2.Element;
@@ -61,8 +62,12 @@ public abstract class File extends File_Base implements IElementXml {
     /**
      * Executes file (only App can execute correctly)
      */
-    public void execute(){
-	throw new CannotBeExecutedException(getName());
+    public void execute(String token){
+	User u = Manager.getInstance().getUserByToken(token);
+	if (getOwner().getPermissions().canExecute(this))
+	    throw new CannotBeExecutedException(getName());
+	else
+	    throw new ExecutePermissionException(getName(), u.getUsername());
     }
     
     /**

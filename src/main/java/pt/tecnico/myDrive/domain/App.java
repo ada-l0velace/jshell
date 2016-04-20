@@ -1,6 +1,8 @@
 package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
+import pt.tecnico.myDrive.exception.ExecutePermissionException;
+
 import java.io.UnsupportedEncodingException;
 
  
@@ -41,5 +43,16 @@ public class App extends App_Base {
      */
     public File getFileByPath (String link) {
         throw new UnsupportedOperationException("Not Implemented!");
+    }
+
+    /**
+     * Executes App    
+     */
+    @Override
+    public void execute(String token){
+	User u = Manager.getInstance().getUserByToken(token);
+	if (!getOwner().getPermissions().canExecute(this))
+	    throw new ExecutePermissionException(getName(), u.getUsername());
+
     }
 }

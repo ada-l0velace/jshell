@@ -44,23 +44,40 @@ public class Permissions extends Permissions_Base {
         return (getBit(2) == 1) ? true : false;
     }
 
+    /**
+     * @return true if can world can execute the file, false otherwise.
+     */    
+    public boolean worldCanExecute() {
+	return (getBit(1) == 1) ? true : false;
+    }
+
+    
     public boolean worldCanDelete() {
         return (getBit(0) == 1) ? true : false;
     }
 
+    
     /**
      * @return true if owner can read the file, false otherwise.
      */
     public boolean userCanRead(){
         return (getBit(7) == 1) ? true : false;
     }
+
     
     /**
-     * @return true if can write the file, false otherwise.
+     * @return true if owner can write the file, false otherwise.
      */
     public boolean userCanWrite() {
         return (getBit(6) == 1) ? true : false;
     }
+
+    /**
+     * @return true if can execute the file, false otherwise.
+     */    
+    public boolean userCanExecute() {
+	return (getBit(5) == 1) ? true : false;
+    }    
     
     public boolean userCanDelete() {
         return (getBit(4) == 1) ? true : false;
@@ -97,6 +114,19 @@ public class Permissions extends Permissions_Base {
         return false;
     }
 
+    public boolean canExecute(File f) {
+	String owner = f.getOwner().getUsername();
+	String user = getUser().getUsername();
+
+	if (getUser().isSuperUser())
+	    return true;
+	else if (owner.equals(user) && userCanExecute())
+	    return true;
+	else if (f.getPermissions().worldCanExecute())
+	    return true;
+	return false;
+    }
+    
     public boolean canDelete(File file) {
         String owner = file.getOwner().getUsername();
         String user = getUser().getUsername();
