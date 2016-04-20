@@ -77,9 +77,9 @@ public class User extends User_Base {
         Directory home;
 
         if(su == null)
-            home = new Directory(this, getUsername(), (Directory) su.getFileByPath("/home", s.getToken()), getManagerU());
+            home = new Directory(this, getUsername(), (Directory) getManagerU().getHome().searchFile("home"), getManagerU());
         else
-            home = new Directory(su, getUsername(), (Directory) su.getFileByPath("/home", s.getToken()), getManagerU());
+            home = new Directory(su, getUsername(), (Directory) getManagerU().getHome().searchFile("home"), getManagerU());
         home.setOwner(this);
         home.setPermissions(this.getPermissions());
         setHome(home);
@@ -91,7 +91,7 @@ public class User extends User_Base {
     protected void initHome(String pHomePath) {
         User su = getManagerU().getSuperuser();
         Session s = new Session(su);
-        Directory parent = (Directory) su.getFileByPath(pHomePath, s.getToken());
+        Directory parent = (Directory) getManagerU().getHome().searchFile("home");
         Directory home;
         if(su == null)
             home = new Directory(this, getUsername(), parent, getManagerU());
@@ -235,7 +235,8 @@ public class User extends User_Base {
         	String[] split0 = link.split("/",2);
             String rest0 = split0[1];
             checkReadPermissions(Manager.getInstance().getHome().getFileByPath(rest0));
-        	return Manager.getInstance().getHome().getFileByPath(rest0);
+        	//Manager.getInstance().log.trace(rest0);
+            return Manager.getInstance().getHome().getFileByPath(rest0);
         }
         	checkReadPermissions(getSessionDirectory(token).getFileByPath(link));
         	return getSessionDirectory(token).getFileByPath(link);

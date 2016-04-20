@@ -183,6 +183,18 @@ public class Directory extends Directory_Base {
     }
 
     /**
+     * Unprotected search for file creation.
+     * @param name (String) receives a name of the file.
+     * @return String returns the name of the file.
+     */
+    public File searchFile(String name) {
+        for(File f: super.getFileSet())
+            if (f.getName().equals(name))
+                return f;
+        return null;
+    }
+
+    /**
      * Search a File by id in a Directory
      * @param name (String) receives a String which is the name of the File
      * @see File
