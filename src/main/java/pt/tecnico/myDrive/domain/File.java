@@ -16,6 +16,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
+import pt.tecnico.myDrive.exception.CannotBeExecutedException;
 
 import java.io.UnsupportedEncodingException;
 
@@ -57,6 +58,13 @@ public abstract class File extends File_Base implements IElementXml {
         setParent(parent);
     }
 
+    /**
+     * Executes file (only App can execute correctly)
+     */
+    public void execute(){
+	throw new CannotBeExecutedException(getName());
+    }
+    
     /**
      * Set the last id with the manager
      * @param  m (Manager) represents an instance of Manager.
