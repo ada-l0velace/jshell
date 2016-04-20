@@ -104,7 +104,7 @@ public abstract class File extends File_Base implements IElementXml {
 
     /**
      * Overrides setName for checking filename validation.
-     * @param String (JavaPrimitive) which represents a name for the file.
+     * @param name (String) which represents a name for the file.
      * @throws InvalidNameFileException occurs when a file name contains '/' or '\0'.
      * */
     @Override

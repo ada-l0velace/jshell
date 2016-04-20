@@ -294,23 +294,38 @@ public class User extends User_Base {
         deleteDomainObject();
     }
 
+    /**
+     * Protection to protect listing the sessions to public.
+     * @return Set<Session>
+     */
     public Set<Session> getSessionSet() {
         throw new PublicAcessDeniedException("getSessionSet()", "getSessionDirectory(String token)");
     }
 
+    /**
+     * Removes the expired sessions from the user.
+     */
     public void removeExpiredSessions() {
         super.getSessionSet().forEach((s) -> {
             if(s.hasExpired())
                 s.remove();
         });
     }
-    
+
+    /**
+     * Checks if the file has permissions to be read.
+     * @param file receives the file to check
+     * @throws ReadPermissionException occurs when the user doesn't have permissions to read.
+     */
     public void checkReadPermissions(File file) throws ReadPermissionException{
     	if (!getPermissions().canRead(file))
             throw new ReadPermissionException(file.getName(), this.getName());
     }
 
-    // Protected classes
+    /**
+     * Protection for the password not be viewed by others
+     * @return Nothing
+     */
     @Override
     public String getPassword() {
         throw new PublicAcessDeniedException("GetPassword", "IsValidPassword");

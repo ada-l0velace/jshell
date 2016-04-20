@@ -42,7 +42,12 @@ public class Link extends Link_Base {
         super();
         importXml(xml);
     }
-    
+
+    /**
+     * Sets the content of a PlainFile.
+     * @param cont (String) receives a content for the file.
+     * @throws InvalidNameFileException occurs when the content length is over 1024 characters.
+     */
     @Override
     public void initContent(String cont) throws InvalidNameFileException{
     	if (cont.length() > 1024){
@@ -50,33 +55,6 @@ public class Link extends Link_Base {
     	}
     	else 
     		super.initContent(cont);
-    }
-
-    /**
-     * Imports a Link from persistent state (XML format).
-     * @throws ImportDocumentException
-     */
-    @Override
-    public void importXml (Element xml) {
-        super.importXml(xml);
-    }
-
-    /**
-     * @deprecated and replaced with new exportXml
-     */
-    @Deprecated
-    public Element xmlExport(){
-        return super.xmlExport();
-    }
-
-    /**
-     * Exports a Link to a persistent state (XML format),
-     * @see PlainFile
-     * @return Element (JDOM library type) which represents a Link
-     */
-    @Override
-    public Element exportXml () {
-        return super.exportXml();
     }
 
     /**

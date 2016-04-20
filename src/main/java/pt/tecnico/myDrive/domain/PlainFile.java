@@ -52,7 +52,7 @@ public class PlainFile extends PlainFile_Base {
         Element node = xml;
         super.importXml(node);
         String content = node.getChild("content").getValue();
-        setContent(content);
+        super.setContent(content);
     }
 
     /**
@@ -107,26 +107,35 @@ public class PlainFile extends PlainFile_Base {
         return dim;
     }
 
+    /**
+     * Removes a PlainFile from the domain
+     * @param token (String) receives a token to identify the user.
+     */
     @Override
     public void remove(String token) {
         super.remove(token);
         deleteDomainObject();
     }
 
-
-
+    /**
+     * Function that protects public content file modification.
+     * @param content
+     */
     @Override
     public void setContent(String content) {
         throw new PublicAcessDeniedException("setContent(content)", "setContent(content, token)");
     }
 
+    /**
+     * Function that protects public content file modification.
+     */
     @Override
     public String getContent() {
         throw new PublicAcessDeniedException("getContent()", "getContent(token)");
     }
 
     /**
-     * Modifies plainfile content
+     * Modifies PlainFile content
      * @throws ReadPermissionException occurs when user does not have permissions to read file.
      */
     public void setContent(String content, String token) {

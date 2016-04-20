@@ -25,7 +25,7 @@ public class Directory extends Directory_Base {
      */
     public Directory(User owner, String name, Directory parent, Manager m) {
         this();
-        super.init(owner, name,parent, m);
+        super.init(owner, name, parent, m);
         //getOwner().createLink(parent,"..", this, m);
         //getOwner().createLink(this,".", this, m);
     }

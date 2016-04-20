@@ -6,6 +6,9 @@ public class EnvironmentVariable extends EnvironmentVariable_Base {
         super();
     }
 
+    /**
+     * Removes Environment Variable from the domain.
+     */
     protected void remove()
     {
         setSession(null);

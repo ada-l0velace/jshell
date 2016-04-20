@@ -36,34 +36,6 @@ public class App extends App_Base {
     }
 
     /**
-     * Imports a App from persistent state (XML format).
-     * @see PlainFile
-     * @throws ImportDocumentException
-     */
-    @Override
-    public void importXml (Element xml) {
-        super.importXml(xml);
-    }
-
-    /**
-     * @deprecated and replaced with new exportXml
-     */
-    @Deprecated
-    public Element xmlExport(){
-        return super.xmlExport();
-    }
-
-    /**
-     * Exports an App to a persistent state (XML format),
-     * @see PlainFile
-     * @return (Element JDOM) which represents an App.
-     */
-    @Override
-    public Element exportXml () {
-        return super.exportXml();
-    }
-
-    /**
      * Interface method.
      * @throws UnsupportedEncodingException occurs always if called directly with an App.
      */

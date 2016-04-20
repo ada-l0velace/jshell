@@ -51,6 +51,9 @@ public class Session extends Session_Base {
         }
     }
 
+    /**
+     * Removes the Session from the domain.
+     */
     public void remove () {
         setCurrentDirectory(null);
         super.setUser(null);

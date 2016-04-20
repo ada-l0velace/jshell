@@ -10,6 +10,18 @@ import pt.tecnico.myDrive.exception.LinkEmptyContentException;
  */
 public class FileFactory extends AbstractFactory {
 
+    /**
+     * File creation method.
+     * @param fileName (String) receives the name of the file.
+     * @param type (FileType) receives the name of the file.
+     * @param content (String) receives the content of the file.
+     * @param parent (Directory) receives the parent of the file.
+     * @param creator (User) receives the creator of the file.
+     * @param token (String) receives the token to identify the session of the user.
+     * @return Instance of the file specified.
+     * @throws InvalidFileTypeException occurs when the file type is incorrect.
+     * @throws DirectoryContentException occurs when trying to create a directory with content.
+     */
     public File CreateFile(
             String fileName,
             FileType type,
