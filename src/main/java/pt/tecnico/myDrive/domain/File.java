@@ -232,9 +232,9 @@ public abstract class File extends File_Base implements IElementXml {
 
     /**
      * Removes the file.
-     * @throws PermissionDeniedException The user doesn't have the privilege to remove the file.
+     * @throws DeletePermissionException The user doesn't have the privilege to remove the file.
      */
-    public void remove(String token)
+    public void remove(String token) throws DeletePermissionException
     {
         User u = Manager.getInstance().getSessionByToken(token).getUser();
         if(u.getPermissions().canDelete(this))
@@ -255,6 +255,9 @@ public abstract class File extends File_Base implements IElementXml {
         }
     }
 
+    /**
+     * Removes a File from the domain.
+     */
     protected void remove() {
         setOwner(null);
         setPermissions(null);

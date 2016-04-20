@@ -114,7 +114,7 @@ public class Directory extends Directory_Base {
      * @throws DeletePermissionException The user doesn't have the privilege to remove the directory.
      */
     @Override
-    public void remove(String token) {
+    public void remove(String token) throws DeletePermissionException {
         User user = Manager.getInstance().getSessionByToken(token).getUser();
         if (!getParent().getPermissions().canWrite(this))
             throw new DeletePermissionException(this.getName(), user.getUsername());
