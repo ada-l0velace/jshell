@@ -5,7 +5,7 @@ Software Engineering project
 (Linux)
 Run on terminal (with Dbclean)
 ``` 
-> mvn clean dbclean:dbclean package exec:java -Dexec.args="drive.xml"
+> mvn clean dbclean:dbclean package exec:java
 ``` 
 Run on terminal(without Dbclean)
 ``` 
