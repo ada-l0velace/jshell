@@ -18,8 +18,8 @@ Run on terminal (without Dbclean)
 
 Compile with Converage/Site generation and open site on chromium
 ```
-mvn clean package cobertura:cobertura site:site
-chromium target/site/cobertura/index.html --incognito
+> mvn clean package cobertura:cobertura site:site
+> chromium target/site/cobertura/index.html --incognito
 ```
 
 # Development
