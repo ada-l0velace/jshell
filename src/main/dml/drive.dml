@@ -8,6 +8,8 @@ class User {
 
 class SuperUser extends User;
 
+class Guest extends User;
+
 class Manager {
   int lastFileId;
 }

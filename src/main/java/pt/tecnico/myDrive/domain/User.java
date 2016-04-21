@@ -73,7 +73,7 @@ public class User extends User_Base {
      */
     protected void initHome() {
         User su = getManagerU().getSuperuser();
-        Session s = new Session(su);
+        //Session s = new Session(su);
         Directory home;
 
         if(su == null)
@@ -90,8 +90,8 @@ public class User extends User_Base {
      */
     protected void initHome(String pHomePath) {
         User su = getManagerU().getSuperuser();
-        Session s = new Session(su);
-        Directory parent = (Directory) getManagerU().getHome().searchFile("home");
+        //Session s = new Session(su);
+        Directory parent = (Directory) getManagerU().getHome().searchFile(pHomePath);
         Directory home;
         if(su == null)
             home = new Directory(this, getUsername(), parent, getManagerU());
