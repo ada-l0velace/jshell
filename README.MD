@@ -3,14 +3,24 @@ Software Engineering project
 
 # Compile & run
 (Linux)
+Run without tests
+``` 
+> mvn clean compile exec:java
+``` 
 Run on terminal (with Dbclean)
 ``` 
 > mvn clean dbclean:dbclean package exec:java
 ``` 
-Run on terminal(without Dbclean)
+Run on terminal (without Dbclean)
 ``` 
-> mvn clean package exec:java -Dexec.args="drive.xml"
+> mvn clean package exec:java -Dexec.args="info/drive.xml"
 ``` 
+
+Compile with Converage/Site generation and open site on chromium
+```
+mvn clean package cobertura:cobertura site:site
+chromium target/site/cobertura/index.html --incognito
+```
 
 # Development
 <a href="#">To Do tasks - Trello</a>
