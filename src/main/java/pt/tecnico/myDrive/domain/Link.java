@@ -63,6 +63,6 @@ public class Link extends Link_Base {
      */
     public String toString(){
     	String a = super.toString();
-	    return a + " -> " + this.getContent();
+	    return a + " -> " + getContentAux();
     }
 }

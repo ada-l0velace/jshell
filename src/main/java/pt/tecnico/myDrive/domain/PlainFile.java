@@ -100,7 +100,7 @@ public class PlainFile extends PlainFile_Base {
     public String getDim() throws RuntimeException {
         String dim;
         try {
-            dim = getContent().getBytes("UTF-8").length + "";
+            dim = super.getContent().getBytes("UTF-8").length + "";
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -157,6 +157,9 @@ public class PlainFile extends PlainFile_Base {
         return super.getContent();
     }
 
+    protected String getContentAux() {
+        return super.getContent();
+    }
 
     /**
      * Overrides original toString() to the current object implementation.
