@@ -63,7 +63,6 @@ public class ListDirectory extends LoginRequiredService {
         _files.add(new DirectoryDto(parent.getId(), "..", parent.getModified(), parent.getPermissions().getUmask(), 
         		parent.getParent().getName(), parent.getOwner().getUsername(), op2));
 
-        Collections.sort(_files);
     }
 
     public String output(){
@@ -75,6 +74,7 @@ public class ListDirectory extends LoginRequiredService {
     }
     
     public final List<FileDto> result() {
-        return _files;
+		Collections.sort(_files);
+		return _files;
     }
 }
