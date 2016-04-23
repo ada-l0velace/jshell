@@ -2,9 +2,10 @@ package pt.tecnico.myDrive.service;
 
 import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.MyDriveException;
-import pt.tecnico.myDrive.filefactory.AbstractFactory;
-import pt.tecnico.myDrive.filefactory.AbstractFactory.FileType;
-import pt.tecnico.myDrive.filefactory.FileFactory;
+import pt.tecnico.myDrive.service.factory.Factory;
+import pt.tecnico.myDrive.service.factory.Factory.FileType;
+import pt.tecnico.myDrive.service.factory.FileFactory;
+import pt.tecnico.myDrive.service.factory.FileFactoryProducer;
 
 /**
  * Created by lolstorm on 09/04/16.
@@ -34,9 +35,7 @@ public class CreateFile extends LoginRequiredService {
     @Override
     protected void dispatch() throws MyDriveException {
         super.dispatch();
-        Directory p = _session.getCurrentDirectory();
-        Manager m = Manager.getInstance();
-        AbstractFactory fileFactory = new FileFactory();
-        fileFactory.CreateFile(_filename, _fileType, _content, p, _user, _session.getToken());
+        Factory fileFactory = FileFactoryProducer.getFactory(_fileType, _session.getToken());
+        fileFactory.CreateFile(_filename, _content);
     }
 }

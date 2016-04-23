@@ -3,6 +3,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pt.ist.fenixframework.Atomic;
 import pt.tecnico.myDrive.exception.MyDriveException;
+import pt.tecnico.myDrive.service.factory.Factory;
+import pt.tecnico.myDrive.service.factory.FileFactory;
+import pt.tecnico.myDrive.service.factory.FileFactoryProducer;
 
 /**
  * Created by lolstorm on 08/04/16.
