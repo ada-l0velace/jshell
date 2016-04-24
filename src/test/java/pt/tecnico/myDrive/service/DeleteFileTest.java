@@ -188,9 +188,18 @@ public class DeleteFileTest extends TokenVerificationTest {
          assertNotNull("File cannot be deleted", _session.getCurrentDirectory().searchFile(_dirName2, _token));
     }
     
-    @Test(expected = NullPointerException.class)
+    @Test(expected = FileNotFoundException.class)
     public void deleteCurrentDirByUser() {
         DeleteFile service = new DeleteFile(_token, _session.getCurrentDirectory().getName());
+        service.execute();
+    }
+    
+    @Test(expected = DeletePermissionException.class)
+    public void deleteFileofPrivateDir() {
+    	_dir1.getPermissions().setUmask((short)0xF9);
+    	_app1.getPermissions().setUmask((short)0xF9);
+    	_session2.setCurrentDirectory(_dir1);
+        DeleteFile service = new DeleteFile(_token2, _appName1);
         service.execute();
     }
     
