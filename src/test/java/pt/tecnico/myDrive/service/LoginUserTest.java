@@ -3,12 +3,17 @@ package pt.tecnico.myDrive.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import java.util.Set;
+import java.util.HashSet;
 
 import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.domain.EnvironmentVariable;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.InvalidUserCredentialsException;
 
@@ -21,10 +26,12 @@ public class LoginUserTest extends BaseServiceTest{
     private static final String _password = "commander";
     private String _token;
     private User _user;
+    Set<EnvironmentVariable> eSet;
     
     protected void populate(){
         _user = createUser(_username, _password, "John",(short) 255);
         _token = createSession(_username, _password);
+
     }
 
     @Test
@@ -64,25 +71,28 @@ public class LoginUserTest extends BaseServiceTest{
 
     @Test
     public void invalidSessionsDeleted(){
+        Manager m = Manager.getInstance();
         int i = 0;
         String [] tok = new String[7];
+        Set<EnvironmentVariable> eSet = new HashSet<EnvironmentVariable>();
         while (i < 7){
             tok[i] = createSession(_username, _password);
             Session invalid = Manager.getInstance().getSessionByToken(tok[i]);
+            for (EnvironmentVariable e : m.getSessionByToken(tok[i]).getEnvVarSet())
+                eSet.add(e);
             invalid.setLastActive(invalid.getLastActive().minusHours(5));
             i++;    
         }
 
         LoginUser service = new LoginUser(_username, _password);
         service.execute();
-        Manager m = Manager.getInstance();
         i = 0;
         User u = m.getUserByUsername(_username);
         while (i < 7){
+            assertTrue("Environment variables not deleted", eSet.isEmpty() );
             assertNull("User still has invalid sessions", u.getSessionByToken(tok[i]));
             i++;
         }
-
+        eSet = null;
     }
-
 }

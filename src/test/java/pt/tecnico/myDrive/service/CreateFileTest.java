@@ -138,8 +138,6 @@ public class CreateFileTest extends TokenVerificationTest {
                         
     @Override
     public MyDriveService CreateService(String token) {
-        return new CreateFile(token, "somethingfile", FileType.LINK);
+        return new CreateFile(token, "somefile", FileType.APP);
     }
-
-
 }
