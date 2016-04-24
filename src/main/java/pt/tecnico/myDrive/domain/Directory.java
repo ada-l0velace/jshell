@@ -125,7 +125,9 @@ public class Directory extends Directory_Base {
                 throw new DeletePermissionException(this.getName(), user.getUsername());
         }
         for (File f : super.getFileSet())
-            f.remove(token);
+            {
+                f.remove(token);
+            }
         super.remove(token);
         deleteDomainObject();
     }

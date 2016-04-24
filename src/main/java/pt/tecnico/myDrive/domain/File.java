@@ -252,11 +252,11 @@ public abstract class File extends File_Base implements IElementXml {
         User u = Manager.getInstance().getSessionByToken(token).getUser();
         if(u.getPermissions().canDelete(this))
         {
-            if (!u.isSuperUser()) {
+            /*if (!u.isSuperUser()) {
                 if (!this.getParent().getPermissions().canWrite(this.getParent())) {
                     throw new DeletePermissionException(this.getName(), u.getUsername());
                 }
-            }
+            }*/
             setOwner(null);
             setPermissions(null);
             setParent(null);

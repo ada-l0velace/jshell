@@ -90,9 +90,9 @@ public class Permissions extends Permissions_Base {
      */
     public boolean canWrite(File f) {
         String o = f.getOwner().getUsername();
-        String o2 = getUser().getUsername();
-         if(getUser().isSuperUser())
+        if(getUser().isSuperUser())
             return true;
+        String o2 = getUser().getUsername();
         if ((userCanWrite() && o.equals(o2)) ||
                 f.getPermissions().worldCanWrite()){
             return true;
