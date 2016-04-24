@@ -12,11 +12,11 @@ import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.UserNotInSessionException;
 import pt.tecnico.myDrive.exception.UserSessionExpiredException;
 
-public abstract class TokenVerificationTest extends BaseServiceTest{
+public abstract class TokenVerificationTest extends BaseServiceTest {
 
     public abstract MyDriveService CreateService(String token);
-    
-    
+
+
     @Test(expected = UserNotInSessionException.class)
     public void invalidTokenTest(){
         CreateService("wrong_token").execute();
