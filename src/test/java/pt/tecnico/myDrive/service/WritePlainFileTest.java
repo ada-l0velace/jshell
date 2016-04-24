@@ -6,7 +6,10 @@ import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
+import pt.tecnico.myDrive.exception.PublicAcessDeniedException;
 import pt.tecnico.myDrive.service.dto.FileDto;
+    
+import org.jdom2.Element;
 
 import java.util.List;
 
@@ -91,6 +94,24 @@ public class WritePlainFileTest extends TokenVerificationTest {
         WritePlainFile service = new WritePlainFile(_token, _fileName, _testContent);
         service.execute();
     }
+
+    @Test(expected = PublicAcessDeniedException.class)
+    public void setContentAcessDenied() {
+        PlainFile plain = (PlainFile) _user.getFileByPath(_fileName + "1", _token);
+        plain.setContent(_testContent);
+    }
+
+    /*
+    @Test
+    public void exportImportPlainFile() {
+        PlainFile plain = (PlainFile) _user.getFileByPath(_fileName + "1", _token);
+        Element el = plain.exportXml();
+        WritePlainFile service = new WritePlainFile(_token, _fileName + "1", _testContent);
+        service.execute();
+        plain.importXml(el);
+        assertEquals("Content is not correct", plain.getContent(_token), _content);
+    }
+    */
 
     @Override
     public MyDriveService CreateService(String token) {
