@@ -97,7 +97,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         // check link was deleted
         assertNull("Link was not deleted", _session.getCurrentDirectory().searchFile(_linkName, _token));
     }
-    
+        
     @Test
     public void successDirEmptyByRoot() {
     	Directory d = _session.getCurrentDirectory();    	
@@ -186,6 +186,12 @@ public class DeleteFileTest extends TokenVerificationTest {
          service.execute();
          // check link was deleted
          assertNotNull("File cannot be deleted", _session.getCurrentDirectory().searchFile(_dirName2, _token));
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void deleteCurrentDirByUser() {
+        DeleteFile service = new DeleteFile(_token, _session.getCurrentDirectory().getName());
+        service.execute();
     }
     
     @Override
