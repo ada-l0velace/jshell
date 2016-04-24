@@ -20,13 +20,17 @@ import pt.tecnico.myDrive.exception.SpecialDirectoriesException;
 public class DeleteFileTest extends TokenVerificationTest {
 	
     private Directory _dir;
+    private Directory _dir1;
     private Directory _dir2;
     private App _app;
+    private App _app1;
     private App _appRoot;
     private Link _link;
-	private static final String _dirName = "Documents";
+	private static final String _dirName = "Empty";
+	private static final String _dirName1 = "Documents";
 	private static final String _dirName2 = "dirWithRootFile";
 	private static final String _appName = "App";
+	private static final String _appName1 = "App1";
 	private static final String _linkName = "Link";
     private static final String _name = "John";
     private static final String _name2 = "Mike";
@@ -54,14 +58,24 @@ public class DeleteFileTest extends TokenVerificationTest {
 		_session = Manager.getInstance().getSessionByToken(_token);
 		_session2 = Manager.getInstance().getSessionByToken(_token2);
 		_dir = new Directory(_user, _dirName, _session.getCurrentDirectory(), Manager.getInstance());
+		_dir1 = new Directory(_user, _dirName1, _session.getCurrentDirectory(), Manager.getInstance());
 		_app = new App(_user, _appName, " ", _session.getCurrentDirectory(), Manager.getInstance());
 		_dir2 = new Directory(_user, _dirName2, _session.getCurrentDirectory(), Manager.getInstance());
+		_app1 = new App(_user, _appName1, " ", _dir1, Manager.getInstance());
 		_link = _user.createLink(_dir, _linkName, _session.getCurrentDirectory(), Manager.getInstance());
 		_appRoot = new App(Manager.getInstance().getUserByToken(_tokenroot), "AppRoot", " ", _dir2, Manager.getInstance());
     }
 
     @Test
-    public void successDirByUser() {
+    public void successDirWithContentByUser() {
+        DeleteFile service = new DeleteFile(_token, _dirName1);
+        service.execute();
+        // check dir was deleted
+        assertNull("Directory was not deleted", _session.getCurrentDirectory().searchFile(_dirName1, _token));
+    }
+    
+    @Test
+    public void successDirEmptyByUser() {
         DeleteFile service = new DeleteFile(_token, _dirName);
         service.execute();
         // check dir was deleted
@@ -85,13 +99,23 @@ public class DeleteFileTest extends TokenVerificationTest {
     }
     
     @Test
-    public void successDirByRoot() {
+    public void successDirEmptyByRoot() {
     	Directory d = _session.getCurrentDirectory();    	
     	_sessionroot.setCurrentDirectory(d);
         DeleteFile service = new DeleteFile(_tokenroot, _dirName);
         service.execute();        
         // check dir was deleted
         assertNull("Directory was not deleted by root", d.searchFile(_dirName, _tokenroot));
+    }
+    
+    @Test
+    public void successDirWithContentByRoot() {
+    	Directory d = _session.getCurrentDirectory();    	
+    	_sessionroot.setCurrentDirectory(d);
+        DeleteFile service = new DeleteFile(_tokenroot, _dirName1);
+        service.execute();        
+        // check dir was deleted
+        assertNull("Directory was not deleted by root", d.searchFile(_dirName1, _tokenroot));
     }
     
     @Test
