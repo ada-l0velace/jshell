@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 
@@ -15,6 +16,8 @@ import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
 import pt.tecnico.myDrive.exception.DeleteRootDirectoryException;
 import pt.tecnico.myDrive.exception.SpecialDirectoriesException;
+import pt.tecnico.myDrive.service.factory.Factory;
+import pt.tecnico.myDrive.service.factory.FileFactoryProducer;
 
 
 public class DeleteFileTest extends TokenVerificationTest {
@@ -193,16 +196,38 @@ public class DeleteFileTest extends TokenVerificationTest {
         DeleteFile service = new DeleteFile(_token, _session.getCurrentDirectory().getName());
         service.execute();
     }
+
+    @Test
+    public void deleteCurrentDir() {
+        Factory fileFactory = FileFactoryProducer.getFactory(Factory.FileType.DIRECTORY, _token);
+        Directory d = (Directory) fileFactory.CreateFile("NewDir", "");
+        _sessionroot.setCurrentDirectory(_session.getCurrentDirectory());
+        _session.setCurrentDirectory(d);
+        DeleteFile service = new DeleteFile(_tokenroot, "NewDir");
+        service.execute();
+        String currentDirName = _session.getCurrentDirectory().getName();
+        String homeDirName = _session.getUser().getHome().getName();
+        assertEquals("Current directory wasn't set to home", currentDirName, homeDirName);
+    }
     
     @Test(expected = DeletePermissionException.class)
-    public void deleteFileofPrivateDir() {
+    public void deleteFileWithoutParentWriteFlagOn() {
     	_dir1.getPermissions().setUmask((short)0xF9);
     	_app1.getPermissions().setUmask((short)0xF9);
     	_session2.setCurrentDirectory(_dir1);
         DeleteFile service = new DeleteFile(_token2, _appName1);
         service.execute();
     }
-    
+
+    @Test(expected = DeletePermissionException.class)
+    public void deleteFileWithoutDeleteFlagOn() {
+        _dir1.getPermissions().setUmask((short)0xFC);
+        _app1.getPermissions().setUmask((short)0xF8);
+        _session2.setCurrentDirectory(_dir1);
+        DeleteFile service = new DeleteFile(_token2, _appName1);
+        service.execute();
+    }
+
     @Override
     public MyDriveService CreateService(String token) {
         return new DeleteFile(token, "Testdoc");

@@ -125,6 +125,11 @@ public class Directory extends Directory_Base {
         for (File f : super.getFileSet()) {
                 f.remove(token);
         }
+
+        for (Session s: getSessionSet()) {
+            s.setCurrentDirectory(s.getUser().getHome());
+        }
+
         super.remove(token);
         deleteDomainObject();
     }

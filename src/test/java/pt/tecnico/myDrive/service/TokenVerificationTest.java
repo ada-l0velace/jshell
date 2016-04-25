@@ -42,7 +42,7 @@ public abstract class TokenVerificationTest extends BaseServiceTest {
 
         String token = createSession("auron", "overdrive");
         Session s = Manager.getInstance().getSessionByToken(token);
-        PlainFile plain = new PlainFile(s.getUser(), "Testdoc", "somecontent", s.getCurrentDirectory(), Manager.getInstance());
+        new PlainFile(s.getUser(), "Testdoc", "somecontent", s.getCurrentDirectory(), Manager.getInstance());
         
         s.setLastActive(s.getLastActive().minusHours(1));
 
@@ -51,7 +51,6 @@ public abstract class TokenVerificationTest extends BaseServiceTest {
 
         CreateService(token).execute();
         assertTrue(!Manager.getInstance().getSessionByToken(token).hasExpired());
-        plain = null;
         }
 
 }

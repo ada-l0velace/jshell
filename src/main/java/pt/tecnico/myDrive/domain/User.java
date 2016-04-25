@@ -331,4 +331,5 @@ public class User extends User_Base {
     public String getPassword() {
         throw new PublicAcessDeniedException("GetPassword", "IsValidPassword");
     }
+
 }
