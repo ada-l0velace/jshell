@@ -250,23 +250,13 @@ public abstract class File extends File_Base implements IElementXml {
     public void remove(String token) throws DeletePermissionException
     {
         User u = Manager.getInstance().getSessionByToken(token).getUser();
-        if(u.getPermissions().canDelete(this)) {
-            if (!u.isSuperUser()) {
-                if (u.getUsername() == getParent().getOwner().getUsername()) {
-                    if (!getParent().getPermissions().userCanWrite())
-                        throw new DeletePermissionException(this.getName(), u.getUsername());
-                } else {
-                    if (!getParent().getPermissions().worldCanWrite())
-                        throw new DeletePermissionException(this.getName(), u.getUsername());
-                }
-            }
+        if(u.getPermissions().canDelete(this) && u.getPermissions().canWrite(getParent())) {
             setOwner(null);
             setPermissions(null);
             setParent(null);
             //deleteDomainObject();
         }
-        else
-        {
+        else {
             throw new DeletePermissionException(this.getName(), u.getUsername());
         }
     }
