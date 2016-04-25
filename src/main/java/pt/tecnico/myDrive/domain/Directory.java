@@ -116,18 +116,15 @@ public class Directory extends Directory_Base {
     @Override
     public void remove(String token) throws DeletePermissionException {
         User user = Manager.getInstance().getSessionByToken(token).getUser();
-        if (!getParent().getPermissions().canWrite(this))
-            throw new DeletePermissionException(this.getName(), user.getUsername());
-        if (!user.getPermissions().canDelete(this))
+        if (!user.getPermissions().canWrite(getParent()) || !user.getPermissions().canDelete(this))
             throw new DeletePermissionException(this.getName(), user.getUsername());
         for (File f : super.getFileSet()) {
             if (!user.getPermissions().canDelete(f))
                 throw new DeletePermissionException(this.getName(), user.getUsername());
         }
-        for (File f : super.getFileSet())
-            {
+        for (File f : super.getFileSet()) {
                 f.remove(token);
-            }
+        }
         super.remove(token);
         deleteDomainObject();
     }
