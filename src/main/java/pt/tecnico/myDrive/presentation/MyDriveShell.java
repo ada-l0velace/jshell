@@ -21,5 +21,6 @@ public class MyDriveShell extends Shell {
         new ListDirectory(this);
         new LoginUser(this);
         new WriteFile(this);
+        new Token(this);
     }
 }
