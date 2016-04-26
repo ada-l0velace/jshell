@@ -15,5 +15,11 @@ public class MyDriveShell extends Shell {
      */
     public MyDriveShell() {
         super("MyDrive");
+        new ChangeDirectory(this);
+        new EnvVariable(this);
+        new ExecuteFile(this);
+        new ListDirectory(this);
+        new LoginUser(this);
+        new WriteFile(this);
     }
 }
