@@ -9,12 +9,12 @@ import pt.tecnico.myDrive.exception.UserSessionExpiredException;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 
 
-public class ChangeDirectory extends LoginRequiredService {
+public class ChangeDirectoryService extends LoginRequiredService {
 
     private String _sessionToken;
     private String _path;
     
-    public ChangeDirectory(String token, String path){
+    public ChangeDirectoryService(String token, String path){
         super(token);
         this._sessionToken = token;
         this._path = path; 

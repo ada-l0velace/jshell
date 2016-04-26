@@ -1,24 +1,18 @@
 package pt.tecnico.myDrive.service;
 
-import org.joda.time.DateTime;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.PublicAcessDeniedException;
-import pt.tecnico.myDrive.service.dto.FileDto;
-    
-import org.jdom2.Element;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertFalse;
 
 
-public class WritePlainFileTest extends TokenVerificationTest {
+public class WritePlainFileServiceTest extends TokenVerificationTest {
     
 
     private PlainFile _file;
@@ -58,7 +52,7 @@ public class WritePlainFileTest extends TokenVerificationTest {
     
     @Test
     public void success() {
-        WritePlainFile service = new WritePlainFile(_token, _fileName+"1", _testContent);
+        WritePlainFileService service = new WritePlainFileService(_token, _fileName+"1", _testContent);
         service.execute();
         PlainFile f = (PlainFile) _user.getFileByPath(_fileName+"1", _token);
         assertEquals("Content is not correct", f.getContent(_token), _testContent);
@@ -66,13 +60,13 @@ public class WritePlainFileTest extends TokenVerificationTest {
 
     @Test(expected = FileNotFoundException.class)
     public void PlainFileNotFound() {
-        WritePlainFile service = new WritePlainFile(_token, "boy", _testContent);
+        WritePlainFileService service = new WritePlainFileService(_token, "boy", _testContent);
         service.execute();
     }
 
     @Test
     public void writeApp() {
-        WritePlainFile service = new WritePlainFile(_token, "AppToThePast", _testContent);
+        WritePlainFileService service = new WritePlainFileService(_token, "AppToThePast", _testContent);
         service.execute();
         PlainFile f = (PlainFile) _user.getFileByPath("AppToThePast", _token);
         assertEquals("Content is not correct", f.getContent(_token), _testContent);
@@ -80,7 +74,7 @@ public class WritePlainFileTest extends TokenVerificationTest {
 
     @Test(expected = InvalidFileTypeException.class)
     public void writeDirectory() {
-        WritePlainFile service = new WritePlainFile(_token, "DirToTheFuture",_testContent);
+        WritePlainFileService service = new WritePlainFileService(_token, "DirToTheFuture",_testContent);
         service.execute();
     }
 
@@ -91,7 +85,7 @@ public class WritePlainFileTest extends TokenVerificationTest {
         Session s2 = m.getSessionByToken(_token);
         s2.setCurrentDirectory(s.getCurrentDirectory());
 
-        WritePlainFile service = new WritePlainFile(_token, _fileName, _testContent);
+        WritePlainFileService service = new WritePlainFileService(_token, _fileName, _testContent);
         service.execute();
     }
 
@@ -106,7 +100,7 @@ public class WritePlainFileTest extends TokenVerificationTest {
     public void exportImportPlainFile() {
         PlainFile plain = (PlainFile) _user.getFileByPath(_fileName + "1", _token);
         Element el = plain.exportXml();
-        WritePlainFile service = new WritePlainFile(_token, _fileName + "1", _testContent);
+        WritePlainFileService service = new WritePlainFileService(_token, _fileName + "1", _testContent);
         service.execute();
         plain.importXml(el);
         assertEquals("Content is not correct", plain.getContent(_token), _content);
@@ -115,7 +109,7 @@ public class WritePlainFileTest extends TokenVerificationTest {
 
     @Override
     public MyDriveService CreateService(String token) {
-        return new WritePlainFile(token, _fileName, _testContent);
+        return new WritePlainFileService(token, _fileName, _testContent);
     }
     
 }

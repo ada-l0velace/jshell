@@ -16,9 +16,8 @@ import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
-import pt.tecnico.myDrive.service.ChangeDirectory;
 
-public class ChangeDirectoryTest extends TokenVerificationTest{
+public class ChangeDirectoryServiceTest extends TokenVerificationTest{
 
     private  Directory _dirTest;
     private static final String _username = "Dovah";
@@ -83,7 +82,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
 
     @Test
     public void failedChange() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_token, "/home/Dovah/games");
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_token, "/home/Dovah/games");
     	FullIvt.execute();
     	s = m.getSessionByToken(FullIvt.result());
     	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("games"));
@@ -91,7 +90,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
 
     @Test
     public void failedPartialPath() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_token, "games/lol");
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_token, "games/lol");
     	FullIvt.execute();
     	s = m.getSessionByToken(FullIvt.result());
     	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("lol"));
@@ -99,7 +98,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
 
     @Test
     public void rootNoChange() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/Fallout");
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "/home/Dovah/Fallout");
     	FullIvt.execute();
     	rootSession = m.getSessionByToken(FullIvt.result());
     	assertTrue("root sem permissoes?", rootSession.getCurrentDirectory().getName().equals("Fallout"));
@@ -107,7 +106,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
 
     @Test
     public void couldNotChangeRootDir() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_token, "/Dark");
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_token, "/Dark");
     	FullIvt.execute();
     	s = m.getSessionByToken(FullIvt.result());
     	assertTrue("user nao conseguiu alterar um diretorio do root", s.getCurrentDirectory().getName().equals("Dark"));
@@ -115,7 +114,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
 
     @Test
     public void dotPathFail() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, ".");
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, ".");
     	String prechange = rootSession.getCurrentDirectory().getName();
     	FullIvt.execute();
     	rootSession = m.getSessionByToken(FullIvt.result());
@@ -125,7 +124,7 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
     
     @Test
     public void dotDotPathFail() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "..");
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "..");
     	String prechange = rootSession.getCurrentDirectory().getParent().getName();
     	FullIvt.execute();
     	rootSession = m.getSessionByToken(FullIvt.result());
@@ -134,54 +133,54 @@ public class ChangeDirectoryTest extends TokenVerificationTest{
 
     @Test(expected = FileNotFoundException.class)
     public void invalidFile(){
-        ChangeDirectory Boom = new ChangeDirectory(_rootToken , "/voidBorn");
+        ChangeDirectoryService Boom = new ChangeDirectoryService(_rootToken , "/voidBorn");
         Boom.execute();
     }
 
     @Test(expected = FileNotFoundException.class)
     public void noPath(){
-        ChangeDirectory Boom = new ChangeDirectory(_rootToken , "");
+        ChangeDirectoryService Boom = new ChangeDirectoryService(_rootToken , "");
         Boom.execute();
     }
     
     @Test(expected = FileNotFoundException.class)
     public void invalidPartialPath(){
-        ChangeDirectory Boom = new ChangeDirectory(_rootToken , "balelas/outrasbalelas");
+        ChangeDirectoryService Boom = new ChangeDirectoryService(_rootToken , "balelas/outrasbalelas");
         Boom.execute();
     }
     
     @Test(expected = InvalidNameFileException.class)
     public void tooMuchChars() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/" + giantName);
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "/home/" + giantName);
     	FullIvt.execute();
     }
     
     @Test(expected = InvalidFileTypeException.class)
     public void wrongFileType() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/oneAboveAll");
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "/home/Dovah/oneAboveAll");
     	FullIvt.execute();
     }
     
     @Test(expected = InvalidFileTypeException.class)
     public void wrongAppType() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/appBroker");
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "/home/Dovah/appBroker");
     	FullIvt.execute();
     }
     
     @Test(expected = InvalidFileTypeException.class)
     public void wrongLinkType() {
-    	ChangeDirectory FullIvt = new ChangeDirectory(_rootToken, "/home/Dovah/aLinkToTheCrash");
+    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "/home/Dovah/aLinkToTheCrash");
     	FullIvt.execute();
     }
 
     @Test(expected = ReadPermissionException.class)
     public void surpassedPermission(){
-        ChangeDirectory Boom = new ChangeDirectory(_token , "/home/Nathan/Binding");
+        ChangeDirectoryService Boom = new ChangeDirectoryService(_token , "/home/Nathan/Binding");
         Boom.execute();
     }
 
     @Override
     public MyDriveService CreateService(String token) {
-        return new ChangeDirectory(token, "/");
+        return new ChangeDirectoryService(token, "/");
     }
 }

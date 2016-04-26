@@ -6,7 +6,7 @@ import pt.tecnico.myDrive.exception.MyDriveException;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 
 
-public class WritePlainFile extends LoginRequiredService {
+public class WritePlainFileService extends LoginRequiredService {
 	
 	private User _user;
     private Session _session;
@@ -14,7 +14,7 @@ public class WritePlainFile extends LoginRequiredService {
     private String _content;
     private String _token;
 
-    public WritePlainFile(String token, String plainFileName, String content) {
+    public WritePlainFileService(String token, String plainFileName, String content) {
     	super(token);
         _token = token;
         _user = Manager.getInstance().getUserByToken(token);

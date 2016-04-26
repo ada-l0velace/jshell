@@ -7,13 +7,13 @@ import pt.tecnico.myDrive.exception.MyDriveException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 
-public class ReadPlainFile extends LoginRequiredService {
+public class ReadPlainFileService extends LoginRequiredService {
 	
 	private String _plainFileToken;
     private String _plainFileName;
     private String _content;
     
-    public ReadPlainFile(String token, String plainFileName) {
+    public ReadPlainFileService(String token, String plainFileName) {
     	super(token);
         _plainFileToken = token;
     	_plainFileName = plainFileName;

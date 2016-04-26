@@ -5,14 +5,14 @@ import pt.tecnico.myDrive.exception.MyDriveException;
 import pt.tecnico.myDrive.exception.DeletePermissionException;
 import pt.tecnico.myDrive.exception.SpecialDirectoriesException;
 
-public class DeleteFile extends LoginRequiredService {
+public class DeleteFileService extends LoginRequiredService {
 
     private User _user;
     private Session _session;
     private String _filename;
     private String _token;
 
-    public DeleteFile(String token, String fileName) {
+    public DeleteFileService(String token, String fileName) {
         super(token);
         _token = token;
         _user = Manager.getInstance().getUserByToken(token);
