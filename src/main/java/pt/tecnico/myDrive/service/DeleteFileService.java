@@ -27,8 +27,6 @@ public class DeleteFileService extends LoginRequiredService {
         if(_filename.equals("..") || _filename.equals(".")) 
             throw new SpecialDirectoriesException(_user.getUsername());
         File file = dir.search(_filename, _token);
-        if(file != null) {
-            file.remove(_token);
-        }
+        file.remove(_token);
     }
 }

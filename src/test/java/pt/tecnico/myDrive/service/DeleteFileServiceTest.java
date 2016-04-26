@@ -227,7 +227,7 @@ public class DeleteFileServiceTest extends TokenVerificationTest {
         DeleteFileService service = new DeleteFileService(_token2, _appName1);
         service.execute();
     }
-
+    
     @Override
     public MyDriveService CreateService(String token) {
         return new DeleteFileService(token, "Testdoc");
