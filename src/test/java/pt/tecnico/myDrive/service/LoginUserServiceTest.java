@@ -17,7 +17,7 @@ import pt.tecnico.myDrive.domain.EnvironmentVariable;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.InvalidUserCredentialsException;
 
-public class LoginUserTest extends BaseServiceTest{
+public class LoginUserServiceTest extends BaseServiceTest{
 
 
 
@@ -36,7 +36,7 @@ public class LoginUserTest extends BaseServiceTest{
 
     @Test
     public void success(){
-        LoginUser service = new LoginUser(_username, _password);
+        LoginUserService service = new LoginUserService(_username, _password);
         service.execute();
         //check session was created
         Session s = Manager.getInstance().getSessionByToken(service.result());
@@ -47,25 +47,25 @@ public class LoginUserTest extends BaseServiceTest{
 
     @Test(expected = InvalidUserCredentialsException.class)
     public void wrongPassword(){
-        LoginUser service = new LoginUser(_username, "general");
+        LoginUserService service = new LoginUserService(_username, "general");
         service.execute();
     }
         
     @Test(expected = InvalidUserCredentialsException.class)
     public void wrongUsername(){
-        LoginUser service = new LoginUser("miranda", _password);
+        LoginUserService service = new LoginUserService("miranda", _password);
         service.execute();
     }
 
     @Test(expected = InvalidUsernameException.class)
     public void emptyUsername(){
-        LoginUser service = new LoginUser("", _password);
+        LoginUserService service = new LoginUserService("", _password);
         service.execute();
     }
 
     @Test(expected = InvalidUsernameException.class)
     public void lessThan3CharactersUsername(){
-        LoginUser service = new LoginUser("a", _password);
+        LoginUserService service = new LoginUserService("a", _password);
         service.execute();
         }
 
@@ -84,7 +84,7 @@ public class LoginUserTest extends BaseServiceTest{
             i++;    
         }
 
-        LoginUser service = new LoginUser(_username, _password);
+        LoginUserService service = new LoginUserService(_username, _password);
         service.execute();
         i = 0;
         User u = m.getUserByUsername(_username);

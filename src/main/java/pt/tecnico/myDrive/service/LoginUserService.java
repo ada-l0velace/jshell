@@ -11,14 +11,14 @@ import pt.tecnico.myDrive.exception.MyDriveException;
 /**
  * Created by lolstorm on 08/04/16.
  */
-public class LoginUser extends MyDriveService {
+public class LoginUserService extends MyDriveService {
 
     private String _userToken;
     private String _username;
     private String _password;
     public static String ROOT_USERNAME = SuperUser.ROOT_USERNAME;
 
-    public LoginUser(String username, String password) {
+    public LoginUserService(String username, String password) {
         super();
         _username = username;
         _password = password;

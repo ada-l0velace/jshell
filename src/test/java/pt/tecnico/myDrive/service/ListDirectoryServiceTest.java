@@ -6,7 +6,6 @@ import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.service.factory.Factory;
 import pt.tecnico.myDrive.service.factory.Factory.FileType;
-import pt.tecnico.myDrive.service.factory.FileFactory;
 import pt.tecnico.myDrive.service.dto.FileDto;
 import pt.tecnico.myDrive.service.factory.FileFactoryProducer;
 
@@ -17,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by lolstorm on 09/04/16.
  */
-public class ListDirectoryTest extends TokenVerificationTest {
+public class ListDirectoryServiceTest extends TokenVerificationTest {
 
     private static final String USERNAME [] = {
         "shakita",
@@ -66,7 +65,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
 
     @Test
     public void emptyDirectory() {
-        ListDirectory service = new ListDirectory(_rootToken);
+        ListDirectoryService service = new ListDirectoryService(_rootToken);
         service.execute();
         List<FileDto> ds = service.result();
         if (ds != null) {
@@ -78,7 +77,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
     public void sortedDirectory() {
         Directory d = (Directory) _user.getFileByPath("/home", _token);
         Manager.getInstance().getSessionByToken(_rootToken).setCurrentDirectory(d);
-        ListDirectory service = new ListDirectory(_rootToken);
+        ListDirectoryService service = new ListDirectoryService(_rootToken);
         service.execute();
 
 
@@ -110,7 +109,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
         Directory slashHome = (Directory) slash.searchFile("home", _rootToken);
         slashHome.setModified(new DateTime(2016, 4, 12, 4, 28, 0, 0));
         su.getHome().setModified(new DateTime(2016, 4, 12, 4, 28, 0, 0));
-        ListDirectory service = new ListDirectory(_rootToken);
+        ListDirectoryService service = new ListDirectoryService(_rootToken);
         
         service.execute();
         String fOut0 = "D rwxdr-x- 2 root 3 "+new DateTime(2016, 4, 12, 4, 28, 0, 0).toString("MMM dd hh:mm")+" .\n";
@@ -128,7 +127,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
         Directory slash = m.getHome();
         Directory home = (Directory) slash.searchFile("home", _rootToken);
         m.getSessionByToken(_rootToken).setCurrentDirectory(slash);
-        ListDirectory service = new ListDirectory(_rootToken);
+        ListDirectoryService service = new ListDirectoryService(_rootToken);
 
         service.execute();
         String fOut0 = "D rwxdr-x- 3 root 1 "+home.getModified().toString("MMM dd hh:mm")+" .\n";
@@ -155,7 +154,7 @@ public class ListDirectoryTest extends TokenVerificationTest {
             factory[i] = FileFactoryProducer.getFactory(fileType, _rootToken);
             factory[i].CreateFile(FILENAME[i], CONTENT[i]);
         }
-        ListDirectory service = new ListDirectory(_rootToken);
+        ListDirectoryService service = new ListDirectoryService(_rootToken);
         service.execute();
 
         Directory home = Manager.getInstance().getUserByToken(_rootToken).getHome();
@@ -184,12 +183,12 @@ public class ListDirectoryTest extends TokenVerificationTest {
         Manager m = Manager.getInstance();
         Directory d = (Directory) _user.getFileByPath("/home/shakita", _token);
         m.getSessionByToken(_token).setCurrentDirectory(d);
-        ListDirectory service = new ListDirectory(_token);
+        ListDirectoryService service = new ListDirectoryService(_token);
         service.execute();
     }
 
     @Override
     public MyDriveService CreateService(String token) {
-        return new ListDirectory(token);
+        return new ListDirectoryService(token);
     }
 }

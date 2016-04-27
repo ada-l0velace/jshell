@@ -1,20 +1,16 @@
 package pt.tecnico.myDrive.service;
 
-import org.joda.time.DateTime;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
-import pt.tecnico.myDrive.service.dto.FileDto;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 
-public class ReadPlainFileTest extends TokenVerificationTest {
+public class ReadPlainFileServiceTest extends TokenVerificationTest {
 
 	private PlainFile _file;
 	private static final String _fileName = "Testdoc";
@@ -67,41 +63,41 @@ public class ReadPlainFileTest extends TokenVerificationTest {
 
     @Test
     public void success() {
-        ReadPlainFile service = new ReadPlainFile(_token, _fileName);
+        ReadPlainFileService service = new ReadPlainFileService(_token, _fileName);
         service.execute();
         assertEquals("Content is not returned", service.result(), _testContent);
     }
 
     @Test(expected = FileNotFoundException.class)
     public void PlainFileNotFound() {
-        ReadPlainFile service = new ReadPlainFile(_token, "Bin");
+        ReadPlainFileService service = new ReadPlainFileService(_token, "Bin");
         service.execute();
 
     }
 
     @Test
     public void readApp() {
-        ReadPlainFile service = new ReadPlainFile(_token, "AppToThePast");
+        ReadPlainFileService service = new ReadPlainFileService(_token, "AppToThePast");
         service.execute();
         assertEquals("Content is not returned", service.result(), _testContent);
     }
 
     @Test
     public void readLink() {
-        ReadPlainFile service = new ReadPlainFile(_token, "LinkToThePast");
+        ReadPlainFileService service = new ReadPlainFileService(_token, "LinkToThePast");
         service.execute();
         assertEquals("Content is not returned", service.result(), _pathLink.getContent(_token));
     }
 
     @Test(expected = InvalidFileTypeException.class)
     public void readDirectory() {
-        ReadPlainFile service = new ReadPlainFile(_token, "DirToTheFuture");
+        ReadPlainFileService service = new ReadPlainFileService(_token, "DirToTheFuture");
         service.execute();
     }
 
     @Test
     public void readPublicPlainFile() {
-        ReadPlainFile service = new ReadPlainFile(_token, _fileName);
+        ReadPlainFileService service = new ReadPlainFileService(_token, _fileName);
         service.execute();
         assertEquals("Content is not returned", service.result(), _testContent);
     }
@@ -109,15 +105,14 @@ public class ReadPlainFileTest extends TokenVerificationTest {
     @Test(expected = ReadPermissionException.class)
     public void fileReadUserAccessDenied() {
         Manager m = Manager.getInstance();
-        Session s = m.getSessionByToken(_token);
-        Session s2 = m.getSessionByToken(_token1);
-        // change user current directory.
-        s2.setCurrentDirectory(s.getCurrentDirectory());
+        Session s = m.getSessionByToken(_token2);
+        _testPlainFile = new PlainFile(_user2, _fileName1, _testContent,s.getCurrentDirectory(), m);
+        _testPlainFile.getPermissions().setUmask((short)0x70);
 
-        ReadPlainFile service = new ReadPlainFile(_token1, _fileName + "1");
+
+        ReadPlainFile service = new ReadPlainFile(_token2, _fileName1);
         service.execute();
     }
-
 
     @Test(expected = ReadPermissionException.class)
     public void fileReadAccessDenied() {
@@ -134,7 +129,7 @@ public class ReadPlainFileTest extends TokenVerificationTest {
 
     @Override
     public MyDriveService CreateService(String token) {
-        return new ReadPlainFile(token, _fileName);
+        return new ReadPlainFileService(token, _fileName);
     }
     
 }

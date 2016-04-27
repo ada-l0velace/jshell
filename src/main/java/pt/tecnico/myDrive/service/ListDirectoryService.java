@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
-public class ListDirectory extends LoginRequiredService {
+public class ListDirectoryService extends LoginRequiredService {
 
 	private List<FileDto> _files;
     private Session _session;
     private String _token;
 
-    public ListDirectory(String token) {
+    public ListDirectoryService(String token) {
     	super(token);
     	_token = token;
     	_session = Manager.getInstance().getSessionByToken(token);

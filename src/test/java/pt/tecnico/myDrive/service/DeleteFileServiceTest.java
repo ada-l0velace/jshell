@@ -20,7 +20,7 @@ import pt.tecnico.myDrive.service.factory.Factory;
 import pt.tecnico.myDrive.service.factory.FileFactoryProducer;
 
 
-public class DeleteFileTest extends TokenVerificationTest {
+public class DeleteFileServiceTest extends TokenVerificationTest {
 	
     private Directory _dir;
     private Directory _dir1;
@@ -71,7 +71,7 @@ public class DeleteFileTest extends TokenVerificationTest {
 
     @Test
     public void successDirWithContentByUser() {
-        DeleteFile service = new DeleteFile(_token, _dirName1);
+        DeleteFileService service = new DeleteFileService(_token, _dirName1);
         service.execute();
         // check dir was deleted
         assertNull("Directory was not deleted", _session.getCurrentDirectory().searchFile(_dirName1, _token));
@@ -79,7 +79,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     
     @Test
     public void successDirEmptyByUser() {
-        DeleteFile service = new DeleteFile(_token, _dirName);
+        DeleteFileService service = new DeleteFileService(_token, _dirName);
         service.execute();
         // check dir was deleted
         assertNull("Directory was not deleted", _session.getCurrentDirectory().searchFile(_dirName, _token));
@@ -87,7 +87,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     
     @Test
     public void successAppByUser() {
-        DeleteFile service = new DeleteFile(_token, _appName);
+        DeleteFileService service = new DeleteFileService(_token, _appName);
         service.execute();
         // check app was deleted
         assertNull("App was not deleted", _session.getCurrentDirectory().searchFile(_appName, _token));
@@ -95,7 +95,7 @@ public class DeleteFileTest extends TokenVerificationTest {
 	
     @Test
     public void successLinkByUser() {
-        DeleteFile service = new DeleteFile(_token, _linkName);
+        DeleteFileService service = new DeleteFileService(_token, _linkName);
         service.execute();
         // check link was deleted
         assertNull("Link was not deleted", _session.getCurrentDirectory().searchFile(_linkName, _token));
@@ -105,7 +105,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     public void successDirEmptyByRoot() {
     	Directory d = _session.getCurrentDirectory();    	
     	_sessionroot.setCurrentDirectory(d);
-        DeleteFile service = new DeleteFile(_tokenroot, _dirName);
+        DeleteFileService service = new DeleteFileService(_tokenroot, _dirName);
         service.execute();        
         // check dir was deleted
         assertNull("Directory was not deleted by root", d.searchFile(_dirName, _tokenroot));
@@ -115,7 +115,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     public void successDirWithContentByRoot() {
     	Directory d = _session.getCurrentDirectory();    	
     	_sessionroot.setCurrentDirectory(d);
-        DeleteFile service = new DeleteFile(_tokenroot, _dirName1);
+        DeleteFileService service = new DeleteFileService(_tokenroot, _dirName1);
         service.execute();        
         // check dir was deleted
         assertNull("Directory was not deleted by root", d.searchFile(_dirName1, _tokenroot));
@@ -125,7 +125,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     public void successAppByRoot() {
     	Directory d = _session.getCurrentDirectory();    	
     	_sessionroot.setCurrentDirectory(d);
-        DeleteFile service = new DeleteFile(_tokenroot, _appName);
+        DeleteFileService service = new DeleteFileService(_tokenroot, _appName);
         service.execute();
         // check app was deleted
         assertNull("App was not deleted by root", d.searchFile(_appName, _tokenroot));
@@ -135,7 +135,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     public void successLinkByRoot() {
     	Directory d = _session.getCurrentDirectory();    	
     	_sessionroot.setCurrentDirectory(d);
-        DeleteFile service = new DeleteFile(_tokenroot, _linkName);
+        DeleteFileService service = new DeleteFileService(_tokenroot, _linkName);
         service.execute();
         // check link was deleted
         assertNull("Link was not deleted by root", d.searchFile(_linkName, _tokenroot));
@@ -143,19 +143,19 @@ public class DeleteFileTest extends TokenVerificationTest {
     
     @Test(expected = FileNotFoundException.class)
     public void deleteNonExistingFile() {
-        DeleteFile service = new DeleteFile(_token, "Images");
+        DeleteFileService service = new DeleteFileService(_token, "Images");
         service.execute();
     }
     
     @Test(expected = SpecialDirectoriesException.class)
     public void deleteDotDotPermissionDenied() {
-    	DeleteFile service = new DeleteFile(_token, "..");
+    	DeleteFileService service = new DeleteFileService(_token, "..");
         service.execute();
     }
     
     @Test(expected = SpecialDirectoriesException.class)
     public void deleteDotPermissionDenied() {
-    	DeleteFile service = new DeleteFile(_token, ".");
+    	DeleteFileService service = new DeleteFileService(_token, ".");
         service.execute();
     }
     
@@ -163,7 +163,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     public void deleteOtherUsersFile() {
     	Directory d = _session.getCurrentDirectory();    	
     	_session2.setCurrentDirectory(d);
-    	DeleteFile service2 = new DeleteFile(_token2, _dirName);
+    	DeleteFileService service2 = new DeleteFileService(_token2, _dirName);
         service2.execute();
     }
     
@@ -171,7 +171,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     public void deleteRootDirectoryByUser() {
     	Directory d = (Directory) _user.getFileByPath("/", _token);
     	_session.setCurrentDirectory(d);
-    	DeleteFile service = new DeleteFile(_token, "/");
+    	DeleteFileService service = new DeleteFileService(_token, "/");
         service.execute();
     }
     
@@ -179,13 +179,13 @@ public class DeleteFileTest extends TokenVerificationTest {
     public void deleteRootDirectoryByRoot() {
     	Directory d = (Directory) _user.getFileByPath("/", _tokenroot);
     	_sessionroot.setCurrentDirectory(d);
-    	DeleteFile service = new DeleteFile(_tokenroot, "/");
+    	DeleteFileService service = new DeleteFileService(_tokenroot, "/");
         service.execute();
     }
     
     @Test(expected = DeletePermissionException.class)
     public void deleteDirWithRootFile() {
-    	 DeleteFile service = new DeleteFile(_token, _dirName2);
+    	 DeleteFileService service = new DeleteFileService(_token, _dirName2);
          service.execute();
          // check link was deleted
          assertNotNull("File cannot be deleted", _session.getCurrentDirectory().searchFile(_dirName2, _token));
@@ -193,7 +193,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     
     @Test(expected = FileNotFoundException.class)
     public void deleteCurrentDirByUser() {
-        DeleteFile service = new DeleteFile(_token, _session.getCurrentDirectory().getName());
+        DeleteFileService service = new DeleteFileService(_token, _session.getCurrentDirectory().getName());
         service.execute();
     }
 
@@ -203,7 +203,7 @@ public class DeleteFileTest extends TokenVerificationTest {
         Directory d = (Directory) fileFactory.CreateFile("NewDir", "");
         _sessionroot.setCurrentDirectory(_session.getCurrentDirectory());
         _session.setCurrentDirectory(d);
-        DeleteFile service = new DeleteFile(_tokenroot, "NewDir");
+        DeleteFileService service = new DeleteFileService(_tokenroot, "NewDir");
         service.execute();
         String currentDirName = _session.getCurrentDirectory().getName();
         String homeDirName = _session.getUser().getHome().getName();
@@ -215,7 +215,7 @@ public class DeleteFileTest extends TokenVerificationTest {
     	_dir1.getPermissions().setUmask((short)0xF9);
     	_app1.getPermissions().setUmask((short)0xF9);
     	_session2.setCurrentDirectory(_dir1);
-        DeleteFile service = new DeleteFile(_token2, _appName1);
+        DeleteFileService service = new DeleteFileService(_token2, _appName1);
         service.execute();
     }
 
@@ -224,12 +224,12 @@ public class DeleteFileTest extends TokenVerificationTest {
         _dir1.getPermissions().setUmask((short)0xFC);
         _app1.getPermissions().setUmask((short)0xF8);
         _session2.setCurrentDirectory(_dir1);
-        DeleteFile service = new DeleteFile(_token2, _appName1);
+        DeleteFileService service = new DeleteFileService(_token2, _appName1);
         service.execute();
     }
-
+    
     @Override
     public MyDriveService CreateService(String token) {
-        return new DeleteFile(token, "Testdoc");
+        return new DeleteFileService(token, "Testdoc");
     }
 }

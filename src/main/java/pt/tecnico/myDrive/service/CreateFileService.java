@@ -4,13 +4,12 @@ import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.MyDriveException;
 import pt.tecnico.myDrive.service.factory.Factory;
 import pt.tecnico.myDrive.service.factory.Factory.FileType;
-import pt.tecnico.myDrive.service.factory.FileFactory;
 import pt.tecnico.myDrive.service.factory.FileFactoryProducer;
 
 /**
  * Created by lolstorm on 09/04/16.
  */
-public class CreateFile extends LoginRequiredService {
+public class CreateFileService extends LoginRequiredService {
 
     private User _user;
     private Session _session;
@@ -18,7 +17,7 @@ public class CreateFile extends LoginRequiredService {
     private FileType _fileType;
     private String _content;
 
-    public CreateFile(String token, String fileName, FileType fileType) {
+    public CreateFileService(String token, String fileName, FileType fileType) {
         super(token);
         _user = Manager.getInstance().getUserByToken(token);
         _session = Manager.getInstance().getSessionByToken(token);
@@ -27,7 +26,7 @@ public class CreateFile extends LoginRequiredService {
         _content = "";
     }
 
-    public CreateFile(String token, String fileName, FileType fileType, String content) {
+    public CreateFileService(String token, String fileName, FileType fileType, String content) {
         this(token, fileName, fileType);
         _content = content;
     }
