@@ -28,6 +28,7 @@ public class ReadPlainFileTest extends TokenVerificationTest {
     private User _user;
 	private String _token;
     private Link _pathLink;
+    private PlainFile _testPlainFile;
 
     private User _user1;
     private String _token1;
@@ -50,7 +51,7 @@ public class ReadPlainFileTest extends TokenVerificationTest {
         _user1 = createUser("derp1", _password, _name, _umask);
         _token1 = createSession("derp1", _password);
         //User without premissions
-        _user2 = createUser("derp2", _password, _name, _umask0);
+        _user2 = createUser("derp2", _password, _name, _umask);
         _token2 = createSession("derp2", _password);
         //Root token.
         _rootToken = createSession("root", "***");
@@ -58,7 +59,6 @@ public class ReadPlainFileTest extends TokenVerificationTest {
         Session s = m.getSessionByToken(_token);
         new PlainFile(m.getSuperuser(), _fileName, _testContent , s.getCurrentDirectory(), m);
         new PlainFile(_user, _fileName + "1", _testContent , s.getCurrentDirectory(), m);
-        new PlainFile(_user, _fileName1, _testContent , s.getCurrentDirectory(), m);
         new Directory(_user, "DirToTheFuture", s.getCurrentDirectory(), m);
         _file = new App(m.getSuperuser(), "AppToThePast", _testContent , s.getCurrentDirectory(), m);
         _pathLink = _user.createLink(_file, "LinkToThePast", s.getCurrentDirectory(),m);
@@ -108,12 +108,6 @@ public class ReadPlainFileTest extends TokenVerificationTest {
 
     @Test(expected = ReadPermissionException.class)
     public void fileReadUserAccessDenied() {
-        ReadPlainFile service = new ReadPlainFile(_token2, _fileName1);
-        service.execute();
-    }
-
-    @Test(expected = ReadPermissionException.class)
-    public void fileReadAccessDenied() {
         Manager m = Manager.getInstance();
         Session s = m.getSessionByToken(_token);
         Session s2 = m.getSessionByToken(_token1);
@@ -121,6 +115,19 @@ public class ReadPlainFileTest extends TokenVerificationTest {
         s2.setCurrentDirectory(s.getCurrentDirectory());
 
         ReadPlainFile service = new ReadPlainFile(_token1, _fileName + "1");
+        service.execute();
+    }
+
+
+    @Test(expected = ReadPermissionException.class)
+    public void fileReadAccessDenied() {
+        Manager m = Manager.getInstance();
+        Session s = m.getSessionByToken(_token2);
+        _testPlainFile = new PlainFile(_user2, _fileName1, _testContent,s.getCurrentDirectory(), m);
+        _testPlainFile.getPermissions().setUmask((short)0x70);
+
+
+        ReadPlainFile service = new ReadPlainFile(_token2, _fileName1);
         service.execute();
     }
 
