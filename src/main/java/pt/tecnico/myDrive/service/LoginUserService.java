@@ -26,13 +26,9 @@ public class LoginUserService extends MyDriveService {
 
     @Override
     protected void dispatch() throws MyDriveException {
-        User u = Manager.getInstance().getUserByUsername(_username);
-        if (u == null)
-            throw new InvalidUserCredentialsException();
-        if (!u.isValidPassword(_password))
-            throw new InvalidUserCredentialsException();
-        Session s = new Session(u);
+        Session s = new Session(_username, _password);
         _userToken = s.getToken();
+        User u = Manager.getInstance().getUserByToken(_userToken);
         u.removeExpiredSessions();
     }
 

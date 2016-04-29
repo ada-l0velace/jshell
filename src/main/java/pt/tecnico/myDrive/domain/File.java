@@ -155,7 +155,7 @@ public abstract class File extends File_Base implements IElementXml {
 
         String parentPath = path.substring(0,path.lastIndexOf("/"));
         parentPath = parentPath.equals("") ? "/" : parentPath;
-        Session s = new Session(owner);
+        Session s = new Session(userName, "***");
         Directory d = (Directory) owner.getFileByPath(parentPath, s.getToken());
 
         setLastId(Manager.getInstance());

@@ -284,6 +284,15 @@ public class User extends User_Base {
         return super.getPassword().equals(password);
     }
 
+    @Override
+    public void addSession(Session s) {
+        if (!super.getSessionSet().contains(s)){
+            super.addSession(s);
+            return;
+        }
+        throw new TokenIsNotUniqueException();
+    }
+
     /**
      * Removes User and related objects.
      */
@@ -297,7 +306,7 @@ public class User extends User_Base {
 
     /**
      * Protection to protect listing the sessions to public.
-     * @return Set<Session>
+     * @throws PublicAcessDeniedException
      */
     public Set<Session> getSessionSet() {
         throw new PublicAcessDeniedException("getSessionSet()", "getSessionDirectory(String token)");

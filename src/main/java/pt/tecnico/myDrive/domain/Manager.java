@@ -51,6 +51,16 @@ public class Manager extends Manager_Base{
     }
 
     /**
+     * Creates a session for a specific username.
+     * @param username (String) represents the username of the user.
+     * @return token returns the token of the session created.
+     */
+    String createSession(String username, String password) {
+        Session s = new Session(username, password);
+        return s.getToken();
+    }
+
+    /**
      * Get a user by username.
      * @param username (User) receives the username of the user we want to search for.
      * @see User

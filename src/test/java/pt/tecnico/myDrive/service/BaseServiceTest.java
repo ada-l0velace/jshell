@@ -80,13 +80,9 @@ public abstract class BaseServiceTest {
      * @param username (String) represents the username of the user.
      * @return token returns the token of the session created.
      */
-    String createSession(String username, String password) throws InvalidUserCredentialsException {
-        User u = Manager.getInstance().getUserByUsername(username);
-        if (u.isValidPassword(password)) {
-            Session s = new Session(u);
-            return s.getToken();
-        }
-        throw new InvalidUserCredentialsException();
+    String createSession(String username, String password) {
+        Session s = new Session(username, password);
+        return s.getToken();
     }
 
 }

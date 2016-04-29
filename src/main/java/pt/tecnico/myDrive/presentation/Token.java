@@ -6,7 +6,11 @@ package pt.tecnico.myDrive.presentation;
 public class Token extends MyDriveCommand {
 
     public Token(Shell sh) {
-        super(sh, "token", "The interpreter can keep several user sessions active simultaneously. The token commands allows the interpreter to switch between active sessions. The command prints the token of current active user. When invoked without arguments, it prints the token and username of current active user. When a user is given, it changes the current active user to the given user, updates the current token accordingly and prints its value.");
+        super(sh, "token", "The interpreter can keep several user sessions active simultaneously. The token commands" +
+                " allows the interpreter to switch between active sessions. The command prints the token of current " +
+                "active user. When invoked without arguments, it prints the token and username of current active " +
+                "user. When a user is given, it changes the current active user to the given user, updates the " +
+                "current token accordingly and prints its value.");
     }
 
     public void execute(String[] args) {

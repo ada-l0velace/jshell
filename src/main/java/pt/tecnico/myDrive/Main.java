@@ -107,13 +107,13 @@ public class Main {
         
         // #7
         */
-        User user = new User("Biana","yommere","pass", (short) 0xF0, m);
-        Session s = new Session(user);
-        File home = user.getFileByPath("/home",s.getToken());
-        for (File f:
-                ((Directory) home).listContent(s.getToken())) {
-            System.out.println(f);
-        }
+        //User user = new User("Biana","yommere","pass", (short) 0xF0, m);
+        //Session s = new Session(user);
+        //File home = user.getFileByPath("/home",s.getToken());
+        //for (File f:
+        //        ((Directory) home).listContent(s.getToken())) {
+        //    System.out.println(f);
+        //}
 
     }   
 

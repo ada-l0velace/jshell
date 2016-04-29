@@ -24,8 +24,8 @@ public class LinkDto extends PlainFileDto{
      * @param o represents the other object.
      * @return boolean returns 1 if the name is equal to the other.
      */
-    public int compareTo(LinkDto a) {
-        return getName().compareTo(a.getName());
+    public int compareTo(LinkDto o) {
+        return getName().compareTo(o.getName());
     }
     
 }
