@@ -110,10 +110,11 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
         _testPlainFile.getPermissions().setUmask((short)0x70);
 
 
-        ReadPlainFile service = new ReadPlainFile(_token2, _fileName1);
+        ReadPlainFileService service = new ReadPlainFileService(_token2, _fileName1);
         service.execute();
     }
 
+    /*
     @Test(expected = ReadPermissionException.class)
     public void fileReadAccessDenied() {
         Manager m = Manager.getInstance();
@@ -122,10 +123,10 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
         _testPlainFile.getPermissions().setUmask((short)0x70);
 
 
-        ReadPlainFile service = new ReadPlainFile(_token2, _fileName1);
+        ReadPlainFileService service = new ReadPlainFileService(_token2, _fileName1);
         service.execute();
     }
-
+    */
 
     @Override
     public MyDriveService CreateService(String token) {
