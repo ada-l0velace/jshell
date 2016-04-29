@@ -323,6 +323,14 @@ public class User extends User_Base {
     }
 
     /**
+     * Function to set the token live time of the user
+     * @return the time in minutes of live time of the token.
+     */
+    public int tokenTimeExpiration() {
+        return 120;
+    }
+
+    /**
      * Checks if the file has permissions to be read.
      * @param file receives the file to check
      * @throws ReadPermissionException occurs when the user doesn't have permissions to read.

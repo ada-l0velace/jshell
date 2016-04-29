@@ -51,4 +51,14 @@ public class SuperUser extends SuperUser_Base {
         throw new SuperUserRemoveException(getUsername());
     }
 
+    /**
+     * Function to set the token live time of the user
+     * @return the time in minutes of live time of the token.
+     */
+    @Override
+    public int tokenTimeExpiration() {
+        return 10;
+    }
+
+
 }
