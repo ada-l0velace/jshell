@@ -36,6 +36,15 @@ public abstract class TokenVerificationTest extends BaseServiceTest {
         CreateService(token).execute();
     }
 
+	@Test(expected = UserSessionExpiredException.class)
+	public void rootSessionExpired(){
+		User sudo = Manager.getInstance().getSuperuser();
+		String sudoToken = createSession(sudo.getUsername(), "***");
+		Session s = Manager.getInstance().getSessionByToken(sudoToken);
+		s.setLastActive(s.getLastActive().minusMinutes(11));
+		CreateService(sudoToken).execute();
+	}
+	
     @Test
     public void sessionRenewed(){
         createUser("auron", "overdrive", "Auron", (short) 0xFF);
