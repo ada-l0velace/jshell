@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import pt.tecnico.myDrive.exception.InvalidUserCredentialsException;
 import pt.tecnico.myDrive.exception.PublicAcessDeniedException;
+import pt.tecnico.myDrive.exception.TokenIsNotUniqueException;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -30,9 +31,17 @@ public class Session extends Session_Base {
             throw new InvalidUserCredentialsException();
         if(!user.isValidPassword(password))
             throw new InvalidUserCredentialsException();
-        setUser(user);
+        while (true) {
+            try {
+                super.setToken(user.getUsername() + new BigInteger(64, new Random()).longValue());
+                setUser(user);
+                break;
+            } catch(TokenIsNotUniqueException e) {
+                continue;
+            }
+        }
         setCurrentDirectory(user.getHome());
-        super.setToken(user.getUsername()+ new BigInteger(64, new Random()).longValue());
+
     }
 
     /**
