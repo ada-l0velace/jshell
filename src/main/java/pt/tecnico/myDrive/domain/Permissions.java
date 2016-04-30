@@ -93,7 +93,7 @@ public class Permissions extends Permissions_Base {
         if(getUser().isSuperUser())
             return true;
         String o2 = getUser().getUsername();
-        if ((userCanWrite() && o.equals(o2)) ||
+        if ((f.getPermissions().userCanWrite() && o.equals(o2)) ||
                 f.getPermissions().worldCanWrite()){
             return true;
         }
@@ -106,8 +106,7 @@ public class Permissions extends Permissions_Base {
 
         if(getUser().isSuperUser())
             return true;
-
-        if ((userCanRead() && userOwner.equals(testedUser)) ||
+        if ((f.getPermissions().userCanRead() && userOwner.equals(testedUser)) ||
                 f.getPermissions().worldCanRead()){
             return true;
         }
@@ -115,16 +114,16 @@ public class Permissions extends Permissions_Base {
     }
 
     public boolean canExecute(File f) {
-	String owner = f.getOwner().getUsername();
-	String user = getUser().getUsername();
+        String owner = f.getOwner().getUsername();
+        String user = getUser().getUsername();
 
-	if (getUser().isSuperUser())
-	    return true;
-	else if (owner.equals(user) && userCanExecute())
-	    return true;
-	else if (f.getPermissions().worldCanExecute())
-	    return true;
-	return false;
+        if (getUser().isSuperUser())
+            return true;
+        else if (owner.equals(user) && f.getPermissions().userCanExecute())
+            return true;
+        else if (f.getPermissions().worldCanExecute())
+            return true;
+        return false;
     }
     
     public boolean canDelete(File file) {
@@ -132,7 +131,7 @@ public class Permissions extends Permissions_Base {
         String user = getUser().getUsername();
         if(getUser().isSuperUser())
             return true;
-        if ((userCanDelete() && owner.equals(user)) ||
+        if ((file.getPermissions().userCanDelete() && owner.equals(user)) ||
                 file.getPermissions().worldCanDelete()){
             return true;
         }
