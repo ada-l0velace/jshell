@@ -14,10 +14,13 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.tecnico.myDrive.Main;
 
+import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.exception.InvalidUserCredentialsException;
+import pt.tecnico.myDrive.service.factory.Factory;
+import pt.tecnico.myDrive.service.factory.FileFactoryProducer;
 
 public abstract class BaseServiceTest {
     protected static final Logger log = LogManager.getRootLogger();
@@ -75,14 +78,22 @@ public abstract class BaseServiceTest {
         return new User(name, username, password, umask, Manager.getInstance());
     }
 
+    File createFile(Factory.FileType fileT, String token, String name) {
+        return createFile(fileT, token, name, "");
+    }
+
+    File createFile(Factory.FileType fileT, String token, String name, String content) {
+        Factory factory = FileFactoryProducer.getFactory(fileT, token);
+        return factory.CreateFile(name, content);
+    }
+
     /**
      * Creates a session for a specific username.
      * @param username (String) represents the username of the user.
      * @return token returns the token of the session created.
      */
     String createSession(String username, String password) {
-        Session s = new Session(username, password);
-        return s.getToken();
+        return Manager.getInstance().createSession(username, password);
     }
 
 }

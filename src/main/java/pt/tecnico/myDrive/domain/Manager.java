@@ -55,7 +55,7 @@ public class Manager extends Manager_Base{
      * @param username (String) represents the username of the user.
      * @return token returns the token of the session created.
      */
-    String createSession(String username, String password) {
+    public String createSession(String username, String password) {
         Session s = new Session(username, password);
         return s.getToken();
     }
@@ -77,19 +77,6 @@ public class Manager extends Manager_Base{
             }
         }
         return null;
-    }
-
-    /**
-     * Checks if a certain user exists.
-     * @param user (User) receives the user to search for.
-     * @see User
-     * @return Boolean returns true if the user was found, false otherwise.
-     */
-    public boolean existUser(User user) {
-        if(getUserByUsername(user.getUsername()) != null)
-            return true;
-        else
-            return false;
     }
 
     /**
@@ -164,14 +151,8 @@ public class Manager extends Manager_Base{
      * @return Boolean returns true if the user was deleted, false otherwise.
      */
     public boolean deleteUser(User user) {
-        if(existUser(user))
-            for(User u : getUsersSet()) {
-                if(u.getUsername().equals(user.getUsername())){
-                    u.remove();
-                    return true;
-                }
-            }
-        return false;
+        user.remove();
+        return true;
     }
 
     /**

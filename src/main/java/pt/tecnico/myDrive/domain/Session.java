@@ -68,17 +68,6 @@ public class Session extends Session_Base {
     }
 
     /**
-     * Aux function to check if the token is right.
-     * @param token (int) receveis a string token.
-     * @return 1 if the token is the same of the session, 0 otherwise
-     */
-    public int checkToken(String token) {
-        if (getToken().equals(token))
-            return 1;
-        return 0;
-    }
-
-    /**
      * Protection changing tokens to public.
      * @throws PublicAcessDeniedException
      */
@@ -106,7 +95,7 @@ public class Session extends Session_Base {
      * @return boolean returns 1 if the name is equal to the other.
      */
     public int compareTo(Session o) {
-        return o.checkToken(super.getToken());
+        return o.getToken().compareTo(getToken());
     }
 
 }

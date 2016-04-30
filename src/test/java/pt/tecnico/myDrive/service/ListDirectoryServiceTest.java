@@ -54,7 +54,6 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
     private User _user;
 
     protected void populate() {
-        Manager m =  Manager.getInstance();
         for (String username : USERNAME) {
             _user = createUser(username, PASSWORD, NAME, UMASK);
             _token = createSession(username, PASSWORD);
@@ -146,13 +145,9 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
     public void listSuperUserRootDirectory() {
         Manager m = Manager.getInstance();
 
-        Session s = m.getSessionByToken(_rootToken);
-        Factory [] factory = new Factory[FILENAME.length];
-
         for (int i = 0; i < FILENAME.length; i++) {
             FileType fileType = FileType.values()[i];
-            factory[i] = FileFactoryProducer.getFactory(fileType, _rootToken);
-            factory[i].CreateFile(FILENAME[i], CONTENT[i]);
+            createFile(fileType, _rootToken, FILENAME[i], CONTENT[i]);
         }
         ListDirectoryService service = new ListDirectoryService(_rootToken);
         service.execute();

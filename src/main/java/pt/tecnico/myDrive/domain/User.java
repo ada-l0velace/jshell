@@ -349,4 +349,12 @@ public class User extends User_Base {
         throw new PublicAcessDeniedException("GetPassword", "IsValidPassword");
     }
 
+    /**
+     * Override of operator equal to a specific one.
+     * @param o represents the other object.
+     * @return boolean returns 1 if the name is equal to the other.
+     */
+    public int compareTo(User o) {
+        return o.getUsername().compareTo(getUsername());
+    }
 }
