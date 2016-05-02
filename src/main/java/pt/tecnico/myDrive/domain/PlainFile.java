@@ -1,5 +1,10 @@
 package pt.tecnico.myDrive.domain;
 
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 import org.jdom2.Element;
 
 import java.io.UnsupportedEncodingException;
@@ -12,6 +17,7 @@ import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.service.dto.FileDto;
 import pt.tecnico.myDrive.service.dto.PlainFileDto;
+import pt.tecnico.myDrive.exception.InvalidNameFileException;
 
 
 public class PlainFile extends PlainFile_Base {
@@ -38,10 +44,13 @@ public class PlainFile extends PlainFile_Base {
      * @param owner (User) which represents a User.
      * @param name (String) which represents the name a File.
      */
-    public PlainFile(User owner, String name, String content, Directory parent, Manager m) {
+    public PlainFile(User owner, String name, String content, Directory parent, Manager m) throws InvalidNameFileException {
         super();
-        super.init(owner, name, parent, m);
-        super.setContent(content);
+        if (testName(name)){
+        	super.init(owner, name, parent, m);
+        	super.setContent(content);
+        }
+        throw new InvalidNameFileException(name);
     }
 
     protected void initContent(String content) {
@@ -60,6 +69,12 @@ public class PlainFile extends PlainFile_Base {
         super.setContent(content);
     }
 
+    public boolean testName(String name){
+    	if (name.length() > 1024){
+    		return false;
+    	}
+    	return true;
+    }
     /**
      * @deprecated and replaced with new exportXml
      */
@@ -155,7 +170,12 @@ public class PlainFile extends PlainFile_Base {
     @Override
     public String getContent(String token) {
         super.getContent(token);
-        return super.getContent();
+        User user = Manager.getInstance().getUserByToken(token);
+        if(user.getPermissions().canRead(this)){
+        	return super.getContent();
+        }
+        else	
+        	throw new ReadPermissionException(getName(), user.getUsername());
     }
 
     protected String getContentAux() {
