@@ -240,4 +240,11 @@ public class Manager extends Manager_Base{
         return doc;
     }
 
+    public void deleteSessions()
+    {
+        super.getUsersSet().forEach((s) -> {
+            s.removeExpiredSessions();
+        });
+    }
+
 }
