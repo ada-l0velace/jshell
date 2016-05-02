@@ -19,6 +19,8 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
     private static final String _name = "Stevie";
     private static final Short _umask = 0xF0;
     private String _token;
+    private User _user1;
+    private String _token1;
     private File _pathLink;
     private String _token2;
 
@@ -28,8 +30,8 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
 		createUser("derp", _password, _name, _umask);
 		_token = createSession("derp", _password);
         //Second user the read.
-        createUser("derp1", _password, _name, _umask);
-        createSession("derp1", _password);
+        _user1 = createUser("derp1", _password, _name, _umask);
+        _token1 = createSession("derp1", _password);
         //User without permissions
         createUser("derp2", _password, _name, _umask);
         _token2 = createSession("derp2", _password);
@@ -92,19 +94,20 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
-    /*
+    
     @Test(expected = ReadPermissionException.class)
     public void fileReadAccessDenied() {
         Manager m = Manager.getInstance();
-        Session s = m.getSessionByToken(_token2);
-        _testPlainFile = new PlainFile(_user2, _fileName1, _testContent,s.getCurrentDirectory(), m);
-        _testPlainFile.getPermissions().setUmask((short)0x70);
+        Session s = m.getSessionByToken(_token);
+        Session s2 = m.getSessionByToken(_token1);
+        // change user current directory.
+        s2.setCurrentDirectory(s.getCurrentDirectory());
 
 
-        ReadPlainFileService service = new ReadPlainFileService(_token2, _fileName1);
+        ReadPlainFileService service = new ReadPlainFileService(_token1, _fileName + "1");
         service.execute();
     }
-    */
+    
 
     @Override
     public MyDriveService CreateService(String token) {
