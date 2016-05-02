@@ -217,11 +217,12 @@ public abstract class File extends File_Base implements IElementXml {
     }
 
     /**
-     * Interface method.
-     * @throws UnsupportedEncodingException occurs always if called directly with File.
+     * Checks for readPermissions.
+     * returns always null.
      */
     public String getContent(String token) {
-        throw new UnsupportedOperationException("Not Implemented!");
+        readPermissions(token);
+        return null;
     }
 
     /**

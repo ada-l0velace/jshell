@@ -154,7 +154,7 @@ public class PlainFile extends PlainFile_Base {
      */
     @Override
     public String getContent(String token) {
-        readPermissions(token);
+        super.getContent(token);
         return super.getContent();
     }
 

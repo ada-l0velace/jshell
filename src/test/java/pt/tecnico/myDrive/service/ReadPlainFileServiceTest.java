@@ -3,14 +3,11 @@ package pt.tecnico.myDrive.service;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
-import pt.tecnico.myDrive.exception.LoopedLinkException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
-import pt.tecnico.myDrive.service.factory.Factory;
+import pt.tecnico.myDrive.service.factory.Factory.FileType;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 
 public class ReadPlainFileServiceTest extends TokenVerificationTest {
 
@@ -21,45 +18,28 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
 	private static final String _password = "pwjack";
     private static final String _name = "Stevie";
     private static final Short _umask = 0xF0;
-    private static final Short _umask0 = 0x70;
-
-    private User _user;
-	private String _token;
-    private Link _pathLink;
-    private PlainFile _testPlainFile;
-
-    private User _user1;
-    private String _token1;
-
-    private User _user2;
+    private String _token;
+    private File _pathLink;
     private String _token2;
 
-    private PlainFile _file2;
-
-    private String _rootToken;
-	private String _nonPremitionsToken;
-
-	
 	protected void populate() {
 		int i = 0;
         Manager m = Manager.getInstance();
-		_user = createUser("derp", _password, _name, _umask);
+		createUser("derp", _password, _name, _umask);
 		_token = createSession("derp", _password);
         //Second user the read.
-        _user1 = createUser("derp1", _password, _name, _umask);
-        _token1 = createSession("derp1", _password);
-        //User without premissions
-        _user2 = createUser("derp2", _password, _name, _umask);
+        createUser("derp1", _password, _name, _umask);
+        createSession("derp1", _password);
+        //User without permissions
+        createUser("derp2", _password, _name, _umask);
         _token2 = createSession("derp2", _password);
-        //Root token.
-        _rootToken = createSession("root", "***");
-        //Change directory to check read permissions
-        Session s = m.getSessionByToken(_token);
-        new PlainFile(m.getSuperuser(), _fileName, _testContent , s.getCurrentDirectory(), m);
-        new PlainFile(_user, _fileName + "1", _testContent , s.getCurrentDirectory(), m);
-        new Directory(_user, "DirToTheFuture", s.getCurrentDirectory(), m);
-        _file = new App(m.getSuperuser(), "AppToThePast", _testContent , s.getCurrentDirectory(), m);
-        _pathLink = _user.createLink(_file, "LinkToThePast", s.getCurrentDirectory(),m);
+
+        createFile(FileType.PLAINFILE, _token , _fileName, _testContent);
+        createFile(FileType.PLAINFILE, _token , _fileName + "1", _testContent);
+        createFile(FileType.DIRECTORY, _token , "DirToTheFuture");
+        File app = createFile(FileType.PLAINFILE, _token , "AppToThePast", _testContent);
+
+        _pathLink = createFile(FileType.LINK, _token , "LinkToThePast", app.getPath() + app.getName());
 
     }
 
@@ -106,12 +86,8 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
 
     @Test(expected = ReadPermissionException.class)
     public void fileReadUserAccessDenied() {
-        Manager m = Manager.getInstance();
-        Session s = m.getSessionByToken(_token2);
-        _testPlainFile = new PlainFile(_user2, _fileName1, _testContent,s.getCurrentDirectory(), m);
-        _testPlainFile.getPermissions().setUmask((short)0x70);
-
-
+        File testPlainFile = createFile(FileType.PLAINFILE, _token2, _fileName1, _testContent);
+        testPlainFile.getPermissions().setUmask((short)0x70);
         ReadPlainFileService service = new ReadPlainFileService(_token2, _fileName1);
         service.execute();
     }

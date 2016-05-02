@@ -182,7 +182,7 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
         ListDirectoryService service = new ListDirectoryService(_token);
         service.execute();
     }
-    
+
     @Override
     public MyDriveService CreateService(String token) {
         return new ListDirectoryService(token);

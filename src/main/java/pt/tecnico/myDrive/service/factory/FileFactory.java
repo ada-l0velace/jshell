@@ -41,19 +41,4 @@ public abstract class FileFactory implements Factory {
     public abstract File CreateFile(
             String fileName,
             String content) throws DirectoryContentException ;
-        /*
-        switch (type) {
-            case DIRECTORY:
-                return new Directory(_creator, fileName, _parent, m);
-            case PLAINFILE:
-                return new PlainFile(_creator, fileName, content, _parent, m);
-            case LINK:
-                File fileToLink = _creator.getFileByPath(content, _token);
-                return new Link(fileName, fileToLink, content, _parent, m);
-            case APP:
-                return new App(_creator, fileName, content, _parent, m);
-            default:
-                throw new InvalidFileTypeException(type.name());
-        }*/
-
 }

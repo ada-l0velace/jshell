@@ -217,7 +217,7 @@ public class Directory extends Directory_Base {
 
     @Override
     public String getContent(String token) {
-        readPermissions (token);
+        super.getContent(token);
         return (super.getFileSet().size()+2) + "";
     }
 
