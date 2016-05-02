@@ -183,6 +183,15 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
+    @Test(expected = ReadPermissionException.class)
+    public void readPermissionOwnerDirectory() {
+        Directory songDir = (Directory) createFile(FileType.DIRECTORY, _token, "Song");
+        songDir.getPermissions().setUmask((short)0x70);
+        Manager.getInstance().getSessionByToken(_token).setCurrentDirectory(songDir);
+        ListDirectoryService service = new ListDirectoryService(_token);
+        service.execute();
+    }
+
     @Override
     public MyDriveService CreateService(String token) {
         return new ListDirectoryService(token);
