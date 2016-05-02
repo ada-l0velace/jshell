@@ -13,11 +13,12 @@ import pt.tecnico.myDrive.domain.PlainFile;
 import pt.tecnico.myDrive.domain.App;
 import pt.tecnico.myDrive.domain.Link;
 import pt.tecnico.myDrive.domain.EnvironmentVariable;
+import pt.tecnico.myDrive.service.dto.EnvironmentVariableDto;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
-import pt.tecnico.myDrive.exception.InvalidNameFileException;
+import pt.tecnico.myDrive.exception.InvalidVariableNameException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
-import pt.tecnico.myDrive.exception.InvalidFileTypeException;
-import java.util.ArrayList;
+import pt.tecnico.myDrive.exception.EmptyVariableValueException;
+import java.util.List;
 
 public class AddEnvironmentVariableTest extends TokenVerificationTest{
 
@@ -42,16 +43,40 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
 
     @Test
     public void success() {
-    	AddEnvironmentVariableService EVS = new AddEnvironmentVariableService(_token, "banana");
+    	boolean varCheck = false;
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "$urso", "banana");
     	EVS.execute();
-    	ArrayList<EnvironmentVariable> aev = EVS.result();
-    	assertFalse("nao adicionou corretamente a variavel", aev.size() == 0);
+    	List<EnvironmentVariableDto> aev = EVS.result();
+    	/*for(int i = 0; i<aev.size();i ++){
+    		if(aev.get(i).getName().equals("$urso")){
+    			varCheck = true;
+    		}
+    	}*/
+    	assertTrue("nao adicionou corretamente a variavel", varCheck);
     }
     
+    @Test
+    public void rootSuccess() {
+    	boolean varCheck = false;
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_rootToken, "$urso", "banana");
+    	EVS.execute();
+    	List<EnvironmentVariableDto> aev = EVS.result();
+    	/*for(int i = 0; i < aev.size();i ++){
+    		if(aev.get(i).getName().equals("$urso")){
+    			varCheck = true;
+    		}
+    	}*/
+    	assertTrue("nao adicionou corretamente a variavel com o root", varCheck);
+    }
 
-    @Test(expected = InvalidNameFileException.class)
-    public void tooMuchChars() {
-    	AddEnvironmentVariableService EVS = new AddEnvironmentVariableService(_token, "");
+    @Test(expected = InvalidVariableNameException.class)
+    public void invalidName() {
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "", "banana");
+    	EVS.execute();
+    }
+    @Test(expected = EmptyVariableValueException.class)
+    public void noContent() {
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "$urso", "");
     	EVS.execute();
     }
     
