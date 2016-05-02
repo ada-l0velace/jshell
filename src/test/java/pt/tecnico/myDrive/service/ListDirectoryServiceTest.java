@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.service;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.*;
+import pt.tecnico.myDrive.exception.LoopedLinkException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.service.factory.Factory;
 import pt.tecnico.myDrive.service.factory.Factory.FileType;
@@ -181,7 +182,7 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
         ListDirectoryService service = new ListDirectoryService(_token);
         service.execute();
     }
-
+    
     @Override
     public MyDriveService CreateService(String token) {
         return new ListDirectoryService(token);

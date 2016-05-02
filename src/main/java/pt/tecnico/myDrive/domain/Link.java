@@ -1,4 +1,5 @@
 package pt.tecnico.myDrive.domain;
+import com.mysql.jdbc.NotImplemented;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -7,7 +8,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
+import pt.tecnico.myDrive.exception.LoopedLinkException;
+import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.service.dto.FileDto;
 
 public class Link extends Link_Base {

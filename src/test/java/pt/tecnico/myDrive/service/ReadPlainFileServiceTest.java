@@ -3,8 +3,10 @@ package pt.tecnico.myDrive.service;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
+import pt.tecnico.myDrive.exception.LoopedLinkException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
+import pt.tecnico.myDrive.service.factory.Factory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
