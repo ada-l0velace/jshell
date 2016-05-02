@@ -8,12 +8,14 @@ import pt.tecnico.myDrive.domain.Manager;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.domain.PlainFile;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.service.factory.Factory.FileType;
 import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.exception.DirectoryContentException;
 import pt.tecnico.myDrive.exception.LinkEmptyContentException;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
+import pt.tecnico.myDrive.exception.InvalidNameFileException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -92,6 +94,29 @@ public class CreateFileServiceTest extends TokenVerificationTest {
         CreateFileService service = new CreateFileService(_token, _filename, FileType.LINK, _content);
         service.execute();
     }
+/*
+    @Test(expected = LoopedLinkException.class)
+    public void createLoopLink() {
+        Manager m = Manager.getInstance();
+        Session s = m.getSessionByToken(_token);
+
+        new Directory(_User, "testD",s.getCurrentDirectory(), m);
+        new Link(String "link", "testL", s.getCurrentDirectory()+ "/testD", s.getCurrentDirectory(), m);
+
+        s.setCurrentDirectory(s.getCurrentDirectory()+"/testD");
+
+        CreateFileService service = new CreateFileService(_token, _filename, FileType.LINK);
+        service.execute();
+    }
+*/
+    @Test(expected = InvalidNameFileException.class)
+    public void createAlreadyExistingFile() {
+        Manager m = Manager.getInstance();
+        Session s = m.getSessionByToken(_token);
+        new PlainFile(_user, _filename, "" , s.getCurrentDirectory(), m);
+        CreateFileService service = new CreateFileService(_token, _filename, FileType.PLAINFILE);
+        service.execute();
+    }
 
     @Test(expected = LinkEmptyContentException.class)
     public void createLinkWithoutContent() {
@@ -99,6 +124,11 @@ public class CreateFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
+    @Test(expected = InvalidNameFileException.class)
+    public void createFileWithInvalidName() {
+        CreateFileService service = new CreateFileService(_token, "º+´~", FileType.PLAINFILE);
+        service.execute();
+    }
 
     @Test
     public void fileWithDifferentPermissionsThanUser() {
@@ -112,6 +142,16 @@ public class CreateFileServiceTest extends TokenVerificationTest {
         CreateFileService service = new CreateFileService(_worldRToken, _filename, FileType.APP, _content);
         service.execute();
     }
+
+    @Test(expected = InvalidNameFileException.class)
+    public void createFileNameToLong(){
+        String bigName = new String(new char[1024]).replace("\0", "1024 caracteres");
+        CreateFileService service = new CreateFileService(_token, bigName, FileType.PLAINFILE);
+        service.execute();
+    }
+
+
+
 
     @Test
     public void worldCanCreateFile(){
