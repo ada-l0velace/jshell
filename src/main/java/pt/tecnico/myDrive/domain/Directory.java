@@ -4,6 +4,8 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
 import pt.tecnico.myDrive.exception.*;
+import pt.tecnico.myDrive.service.dto.DirectoryDto;
+import pt.tecnico.myDrive.service.dto.FileDto;
 
 import java.util.Set;
 
@@ -211,6 +213,39 @@ public class Directory extends Directory_Base {
                 return f;
         }
         throw new FileNotFoundException(name);
+    }
+
+    @Override
+    public String getContent(String token) {
+        readPermissions (token);
+        return (super.getFileSet().size()+2) + "";
+    }
+
+    public FileDto getDtoData(String token) {
+        return new DirectoryDto(getId(), getName(), getModified(), getPermissions().getUmask(),
+                getParent().getName(), getOwner().getName(), toString());
+    }
+
+    public FileDto getDotDotData(String token) {
+        int isRootDir = 2;
+        if (getName().equals("/"))
+            isRootDir = 1;
+        String op1 = "D" + " " + getParent().getPermissions().toString() + " " +
+                (getParent().listContent(token).size()+isRootDir) + " " + getParent().getOwner().getUsername() + " " +
+                getParent().getId() + " " + getParent().getModified().toString("MMM dd hh:mm") + " ..";
+        return new DirectoryDto(getParent().getId(), "..", getParent().getModified(), getParent().getPermissions().getUmask(),
+                getParent().getName(), getParent().getOwner().getName(), op1);
+    }
+
+    public FileDto getDotData(String token) {
+        int isRootDir = 2;
+        if (getName().equals("/"))
+            isRootDir = 1;
+        String op1 = "D" + " " + getPermissions().toString() + " " +
+                (listContent(token).size()+isRootDir) + " " + getOwner().getUsername() + " " +
+                getId() + " " + getModified().toString("MMM dd hh:mm") + " .";
+        return new DirectoryDto(getId(), ".", getModified(), getPermissions().getUmask(),
+                getParent().getName(), getOwner().getName(), op1);
     }
 
     /**

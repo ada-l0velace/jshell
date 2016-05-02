@@ -30,39 +30,13 @@ public class ListDirectoryService extends LoginRequiredService {
     @Override
     public final void dispatch() throws MyDriveException {
     	super.dispatch();
-    	int a = 2;
     	Directory currentDir = _session.getCurrentDirectory();
-    	Directory parent = currentDir.getParent();
-        _files = new ArrayList<FileDto>();
-        
-        for (File f : currentDir.listContent(_token)) {
-	        if (!(f.getName().equals("/"))){
-			    if (!(f instanceof Directory))
-			    	_files.add(new PlainFileDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
-			    								f.getParent().getName(), f.getOwner().getName(),
-			    								f.getContent(_token), f.toString()));
-			    else
-			    	_files.add(new DirectoryDto(f.getId(), f.getName(), f.getModified(), f.getPermissions().getUmask(),
-			                   f.getParent().getName(), f.getOwner().getName(), f.toString()));
-		        }
-	        else 
-	        	a = 1;
-        }
-        
-        String op1 = "D" + " " + currentDir.getPermissions().toString() + " " + 
-        			(currentDir.listContent(_token).size()+a) + " " + currentDir.getOwner().getUsername() + " " + 
-        			currentDir.getId() + " " + currentDir.getModified().toString("MMM dd hh:mm") + " .";
-        
-        String op2 = "D" + " " + parent.getPermissions().toString() + " " + 
-    			(parent.listContent(_token).size()+a) + " " + parent.getOwner().getUsername() + " " + 
-    			parent.getId() + " " + parent.getModified().toString("MMM dd hh:mm") + " ..";
-        
-        _files.add(new DirectoryDto(currentDir.getId(), ".", currentDir.getModified(), 
-        		currentDir.getPermissions().getUmask(), parent.getName(), currentDir.getOwner().getUsername(), op1));
-        
-        _files.add(new DirectoryDto(parent.getId(), "..", parent.getModified(), parent.getPermissions().getUmask(), 
-        		parent.getParent().getName(), parent.getOwner().getUsername(), op2));
-
+    	_files = new ArrayList<>();
+        currentDir.listContent(_token).forEach(f -> {
+            if (!f.getName().equals("/"))
+                _files.add(f.getDtoData(_token)); });
+        _files.add(currentDir.getDotData(_token));
+        _files.add(currentDir.getDotDotData(_token));
     }
 
     public String output(){

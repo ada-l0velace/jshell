@@ -65,6 +65,10 @@ relation UserHasHome {
     Directory playsRole home { multiplicity 1; }
 }
 
+class Extension {
+    String name;
+}
+
 
 class EnvironmentVariable {
     String name;
@@ -89,6 +93,16 @@ relation UserOwnsSession {
 relation SessionHasEnvironmentVariables {
     Session playsRole session { multiplicity 1; }
     EnvironmentVariable playsRole envVar { multiplicity *; }
+}
+
+relation UserHasExtensions {
+    User playsRole user { multiplicity 1; }
+    Extension playsRole extension { multiplicity *; }
+}
+
+relation PlainFileHasExtensions {
+    PlainFile playsRole plainFile { multiplicity 1; }
+    Extension playsRole extension { multiplicity *; }
 }
 
 

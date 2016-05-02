@@ -4,7 +4,11 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
+import pt.tecnico.myDrive.service.dto.FileDto;
 
 public class Link extends Link_Base {
     
@@ -49,12 +53,24 @@ public class Link extends Link_Base {
      * @throws InvalidNameFileException occurs when the content length is over 1024 characters.
      */
     @Override
-    public void initContent(String cont) throws InvalidNameFileException{
+    public void initContent(String cont) throws InvalidNameFileException {
     	if (cont.length() > 1024){
     		throw new InvalidNameFileException(cont);
     	}
     	else 
     		super.initContent(cont);
+    }
+
+    /**
+     * Gets content from the linked file.
+     * @return (String) returns the content of the linked file.
+     */
+    @Override
+    public String getContent(String token) {
+        readPermissions (token);
+        User u = Manager.getInstance().getUserByToken(token);
+        File f = u.getFileByPath(getContentAux(), token);
+        return f.getContent(token);
     }
 
     /**

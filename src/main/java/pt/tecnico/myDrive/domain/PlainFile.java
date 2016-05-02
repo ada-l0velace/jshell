@@ -3,10 +3,15 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
 import pt.tecnico.myDrive.exception.ImportDocumentException;
 import pt.tecnico.myDrive.exception.PublicAcessDeniedException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.WritePermissionException;
+import pt.tecnico.myDrive.service.dto.FileDto;
+import pt.tecnico.myDrive.service.dto.PlainFileDto;
 
 
 public class PlainFile extends PlainFile_Base {
@@ -85,8 +90,8 @@ public class PlainFile extends PlainFile_Base {
 
 
     /**
-     * @param  String link receives a String with the link content. 
-     * @return  File  returns himself.
+     * @param   link (String) receives a String with the link content.
+     * @return  (File) returns himself.
      */
     public File getFileByPath (String link){
         return this;
@@ -139,9 +144,7 @@ public class PlainFile extends PlainFile_Base {
      * @throws ReadPermissionException occurs when user does not have permissions to read file.
      */
     public void setContent(String content, String token) {
-        User user = Manager.getInstance().getUserByToken(token);
-        if(!user.getPermissions().canWrite(this))
-            throw new WritePermissionException(getName(), user.getUsername());
+        writePermissions(token);
         super.setContent(content);
     }
 
@@ -151,15 +154,21 @@ public class PlainFile extends PlainFile_Base {
      */
     @Override
     public String getContent(String token) {
-        User user = Manager.getInstance().getUserByToken(token);
-        if(!user.getPermissions().canRead(this))
-            throw new ReadPermissionException(getName(), user.getUsername());
+        readPermissions(token);
         return super.getContent();
     }
 
     protected String getContentAux() {
         return super.getContent();
     }
+
+    @Override
+    public FileDto getDtoData(String token) {
+        return new PlainFileDto(getId(), getName(), getModified(), getPermissions().getUmask(),
+                getParent().getName(), getOwner().getName(),
+                getContent(token), toString());
+    }
+
 
     /**
      * Overrides original toString() to the current object implementation.

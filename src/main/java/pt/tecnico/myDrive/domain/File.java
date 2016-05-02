@@ -1,13 +1,12 @@
 package pt.tecnico.myDrive.domain;
 
-import pt.tecnico.myDrive.exception.FileNotFoundException;
-import pt.tecnico.myDrive.exception.WritePermissionException;
-import pt.tecnico.myDrive.exception.DeletePermissionException;
-import pt.tecnico.myDrive.exception.ExecutePermissionException;
+import pt.tecnico.myDrive.exception.*;
 import pt.tecnico.myDrive.interfaces.IElementXml;
 
 import org.jdom2.Element;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,9 +14,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-
-import pt.tecnico.myDrive.exception.InvalidNameFileException;
-import pt.tecnico.myDrive.exception.CannotBeExecutedException;
+import pt.tecnico.myDrive.service.dto.FileDto;
 
 import java.io.UnsupportedEncodingException;
 
@@ -243,6 +240,10 @@ public abstract class File extends File_Base implements IElementXml {
         throw new UnsupportedOperationException("Not Implemented!");
     }
 
+    public FileDto getDtoData(String token) {
+        throw new UnsupportedOperationException("Not Implemented!");
+    }
+
     /**
      * Removes the file.
      * @throws DeletePermissionException The user doesn't have the privilege to remove the file.
@@ -282,4 +283,16 @@ public abstract class File extends File_Base implements IElementXml {
 	    String list = type.charAt(0) + " " + permissions + " ";
 	    return list;
 	}
+
+    public void readPermissions (String token) throws ReadPermissionException {
+        User user = Manager.getInstance().getUserByToken(token);
+        if(!user.getPermissions().canRead(this))
+            throw new ReadPermissionException(getName(), user.getUsername());
+    }
+
+    public void writePermissions(String token) throws WritePermissionException {
+        User user = Manager.getInstance().getUserByToken(token);
+        if(!user.getPermissions().canWrite(this))
+            throw new WritePermissionException(getName(), user.getUsername());
+    }
 }
