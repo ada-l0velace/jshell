@@ -47,7 +47,14 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     	ArrayList<EnvironmentVariable> aev = EVS.result();
     	assertFalse("nao adicionou corretamente a variavel", aev.size() == 0);
     }
+    
 
+    @Test(expected = InvalidNameFileException.class)
+    public void tooMuchChars() {
+    	AddEnvironmentVariableService EVS = new AddEnvironmentVariableService(_token, "");
+    	EVS.execute();
+    }
+    
     /*@Test
     public void failedPartialPath() {
     	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_token, "games/lol");
