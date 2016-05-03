@@ -29,8 +29,8 @@ public class ExecuteFileServiceTest extends TokenVerificationTest
     private static final String _linkName1 = "Link2";
     private static final String _appName1 = "Application1";
     private static final String _appName2 = "Application2";
-    private static final String _appContent1 = "package.class.method";
-    private static final String _appContent2 = "package.class";
+    private static final String _appContent1 = "pt.tecnico.myDrive.Main";
+    private static final String _appContent2 = "pt.tecnico.myDrive.Main";
     private static final String _name1 = "Name1";
     private static final String _name2 = "Name2";
     private static final String _username1 = "User1";    
@@ -65,6 +65,20 @@ public class ExecuteFileServiceTest extends TokenVerificationTest
     @Test
     public void success()
     {
-    
+        
     }
+
+    // Test - User1 run App1 - Expectation 1
+    // Test - User1 run App2 - ExecutePermissionException 
+    // Test - User2 run App1 - Expectation 1
+    // Test - User2 run App2 - ExecutePermissionException
+    // Test - User1 run Link1 - Expectation 1
+    // Test - User1 run Link2- ExecutePermissionException
+    // Test - User2 run Link1 - Expectation 1
+    // Test - User2 run Link2 - ExecutePermissionException
+    // Test - User1 run Directory1 - Exception
+    // Test - User1 run PlainFile -  Exception
+    // Test - User1 run Non existing file - Exception
+    // Test - User1 run Chain of Links - Expectation 
+    
 }
