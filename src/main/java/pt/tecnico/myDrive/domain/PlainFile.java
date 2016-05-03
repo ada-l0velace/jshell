@@ -44,13 +44,10 @@ public class PlainFile extends PlainFile_Base {
      * @param owner (User) which represents a User.
      * @param name (String) which represents the name a File.
      */
-    public PlainFile(User owner, String name, String content, Directory parent, Manager m) throws InvalidNameFileException {
+    public PlainFile(User owner, String name, String content, Directory parent, Manager m) {
         super();
-        if (testName(name)){
-        	super.init(owner, name, parent, m);
-        	super.setContent(content);
-        }
-        throw new InvalidNameFileException(name);
+        super.init(owner, name, parent, m);
+        super.setContent(content);
     }
 
     protected void initContent(String content) {
@@ -69,12 +66,6 @@ public class PlainFile extends PlainFile_Base {
         super.setContent(content);
     }
 
-    public boolean testName(String name){
-    	if (name.length() > 1024){
-    		return false;
-    	}
-    	return true;
-    }
     /**
      * @deprecated and replaced with new exportXml
      */

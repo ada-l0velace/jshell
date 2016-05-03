@@ -54,6 +54,7 @@ public abstract class File extends File_Base implements IElementXml {
         setPermissions(new Permissions(owner.getPermissions().getUmask()));
         setOwner(owner);
         setParent(parent);
+        fileNameExceed(name);
     }
 
     /**
@@ -121,12 +122,24 @@ public abstract class File extends File_Base implements IElementXml {
     public void setName(String name) throws InvalidNameFileException {
         Pattern pattern = Pattern.compile(nameRegex);
         Matcher matcher = pattern.matcher(name);
+
         if (!matcher.matches()) {
             throw new InvalidNameFileException(name);
         }
         else {
             super.setName(name);
         }
+    }
+
+    /**
+     * Tests if the file name exceded the 1024 characters
+     * @param name (String) which represents the name of the file.
+     * @throws InvalidNameFileException occurs when a file name exceed the path limit size(1024)
+     */
+    public void fileNameExceed(String name) throws InvalidNameFileException {
+        int a = name.length() + getPath().length();
+        if (a > 1024)
+            throw new InvalidNameFileException("(Too Long was omited)");
     }
     
     /**

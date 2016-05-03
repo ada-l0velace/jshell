@@ -40,6 +40,7 @@ public class Link extends Link_Base {
         setOwner(file.getOwner());
         initContent(path);
         setParent(parent);
+        fileNameExceed(name);
     }
 
     /**

@@ -9,13 +9,9 @@ import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.domain.PlainFile;
-import pt.tecnico.myDrive.exception.FileNotFoundException;
+import pt.tecnico.myDrive.exception.*;
 import pt.tecnico.myDrive.service.factory.Factory.FileType;
-import pt.tecnico.myDrive.exception.WritePermissionException;
-import pt.tecnico.myDrive.exception.DirectoryContentException;
-import pt.tecnico.myDrive.exception.LinkEmptyContentException;
-import pt.tecnico.myDrive.exception.InvalidFileTypeException;
-import pt.tecnico.myDrive.exception.InvalidNameFileException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -109,11 +105,9 @@ public class CreateFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 */
-    @Test(expected = InvalidNameFileException.class)
+    @Test(expected = NameFileAlreadyExistsException.class)
     public void createAlreadyExistingFile() {
-        Manager m = Manager.getInstance();
-        Session s = m.getSessionByToken(_token);
-        new PlainFile(_user, _filename, "" , s.getCurrentDirectory(), m);
+        createFile(FileType.PLAINFILE,_token, _filename);
         CreateFileService service = new CreateFileService(_token, _filename, FileType.PLAINFILE);
         service.execute();
     }
@@ -150,9 +144,6 @@ public class CreateFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
-
-
-
     @Test
     public void worldCanCreateFile(){
         CreateFileService service = new CreateFileService(_worldWToken, _filename, FileType.DIRECTORY);
@@ -175,7 +166,6 @@ public class CreateFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
-                        
     @Override
     public MyDriveService CreateService(String token) {
         return new CreateFileService(token, "somefile", FileType.APP);

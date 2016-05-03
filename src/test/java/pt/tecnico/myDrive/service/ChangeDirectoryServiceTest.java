@@ -16,6 +16,7 @@ import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
+import pt.tecnico.myDrive.service.factory.Factory;
 
 public class ChangeDirectoryServiceTest extends TokenVerificationTest{
 
@@ -32,7 +33,6 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
     private Session rootSession;
     private String _rootToken;
     private Manager m;
-    private static final String giantName = new String(new char[1024]).replace("\0", "1024 caracteres");
     private static final String dirName [] = {
             "games",
             "steam",
@@ -40,14 +40,13 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
             "Isaac",
             "Binding",
             "Dark",
-            giantName,
             "lol",
             "Malamar",
             "Tormenta"
         };
     private static final String paths [] = {
             "/",
-            "/home",
+            "/home/Dovah/games",
             "/home/Dovah/games",
             "/home/Dovah",
             "//"
@@ -73,7 +72,7 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
         	String direcName = dirName[j];
         	String path = paths[n];
         	_dirTest = new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path, _token), m);
-        	n++;
+            n++;
         }
         PlainFile linkCrasher = new PlainFile(m.getUserByToken(_token) , "oneAboveAll", "estoirar o cao", (Directory)m.getUserByToken(_token).getHome(), m);
         new App(m.getUserByToken(_token) , "appBroker", "estoirar o cao 2.0", (Directory)m.getUserByToken(_token).getHome(), m);
@@ -148,13 +147,7 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
         ChangeDirectoryService Boom = new ChangeDirectoryService(_rootToken , "balelas/outrasbalelas");
         Boom.execute();
     }
-    
-    @Test(expected = InvalidNameFileException.class)
-    public void tooMuchChars() {
-    	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "/home/" + giantName);
-    	FullIvt.execute();
-    }
-    
+
     @Test(expected = InvalidFileTypeException.class)
     public void wrongFileType() {
     	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "/home/Dovah/oneAboveAll");
