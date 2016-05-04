@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
+import pt.tecnico.myDrive.Main;
 import pt.tecnico.myDrive.exception.ExecutePermissionException;
 
 import java.io.UnsupportedEncodingException;
@@ -50,9 +51,8 @@ public class App extends App_Base {
      */
     @Override
     public void execute(String token){
-	User u = Manager.getInstance().getUserByToken(token);
-	if (!getOwner().getPermissions().canExecute(this))
-	    throw new ExecutePermissionException(getName(), u.getUsername());
-
+        User u = Manager.getInstance().getUserByToken(token);
+        if (!getOwner().getPermissions().canExecute(this))
+            throw new ExecutePermissionException(getName(), u.getUsername());
     }
 }

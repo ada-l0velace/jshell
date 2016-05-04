@@ -100,9 +100,9 @@ relation UserHasExtensions {
     Extension playsRole extension { multiplicity *; }
 }
 
-relation PlainFileHasExtensions {
-    PlainFile playsRole plainFile { multiplicity 1; }
-    Extension playsRole extension { multiplicity *; }
+relation FileHasExtensions {
+    File playsRole file { multiplicity 0..1; }
+    Extension playsRole extension { multiplicity 1; }
 }
 
 

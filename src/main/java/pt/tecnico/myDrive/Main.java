@@ -115,7 +115,9 @@ public class Main {
         //    System.out.println(f);
         //}
 
-    }   
+    }
+
+    public static void appTest(String [] args) {}
 
     /**
      * Scans the xml file and imports to database.
