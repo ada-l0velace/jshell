@@ -47,11 +47,11 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "$urso", "banana");
     	EVS.execute();
     	List<EnvironmentVariableDto> aev = EVS.result();
-    	/*for(int i = 0; i<aev.size();i ++){
+    	for(int i = 0; i<aev.size();i ++){
     		if(aev.get(i).getName().equals("$urso")){
     			varCheck = true;
     		}
-    	}*/
+    	}
     	assertTrue("nao adicionou corretamente a variavel", varCheck);
     }
     
@@ -61,11 +61,11 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     	EnvironmentVariableService EVS = new EnvironmentVariableService(_rootToken, "$urso", "banana");
     	EVS.execute();
     	List<EnvironmentVariableDto> aev = EVS.result();
-    	/*for(int i = 0; i < aev.size();i ++){
+    	for(int i = 0; i < aev.size();i ++){
     		if(aev.get(i).getName().equals("$urso")){
     			varCheck = true;
     		}
-    	}*/
+    	}
     	assertTrue("nao adicionou corretamente a variavel com o root", varCheck);
     }
 
