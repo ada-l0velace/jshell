@@ -22,6 +22,10 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     private File _plainfile1;
     private File _link1;
     private File _link2;
+    private File _linktoplainfile1;
+    private File _linktodirectory1;
+    private File _linktolinktoapp1;
+    private File _linktolinktoapp2;
     private File _app1;
     private File _app2;
 
@@ -30,6 +34,10 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     private static final String _plainfileName1 = "PlainFile1";
     private static final String _linkName1 = "Link1";
     private static final String _linkName2 = "Link2";
+    private static final String _linktoplainfile1Name = "LinkToPlainFile";
+    private static final String _linktodirectory1Name = "LinkToDirectory";
+    private static final String _linktolinktoapp1Name = "LinkToApp1";
+    private static final String _linktolinktoapp2Name = "LinkToApp2";
     private static final String _appName1 = "Application1";
     private static final String _appName2 = "Application2";
     private static final String _appContent1 = "pt.tecnico.myDrive.Main";
@@ -92,6 +100,10 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         _app2 = createFile(FileType.APP, _token2, _appName2, _appContent2);
         _link1 = createFile(FileType.LINK, _token1, _linkName1, _app1.getPath()+_app1.getName());
         _link2 = createFile(FileType.LINK, _token2, _linkName2, _app2.getPath()+_app2.getName());
+        _linktoplainfile1 = createFile(FileType.LINK, _token1, _linktoplainfile1Name, _plainfile1.getPath() + _plainfile1.getName()); 
+        _linktodirectory1 = createFile(FileType.LINK, _token1, _linktodirectory1Name, _directory1.getPath() + _directory1.getName()); 
+        _linktolinktoapp1 = createFile(FileType.LINK, _token1, _linktolinktoapp1Name, _link1.getPath() + _link1.getName()); 
+        _linktolinktoapp2 = createFile(FileType.LINK, _token2, _linktolinktoapp2Name, _link2.getPath() + _link2.getName()); 
 
         //File ASSOCIATION
         _user = createUser(USERNAME, PASSWORD, NAME, UMASK);
@@ -117,6 +129,42 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     @Test(expected = FileNotFoundException.class)
     public void executeNonExistingApp() {
         ExecuteFileService service = new ExecuteFileService(_token1, _app1.getPath() + "null", null);
+        service.execute();
+    }
+
+    @Test(expected = CannotBeExecutedException.class)
+    public void executeLinkToPlainFile() {
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktoplainfile1.getPath() + _linktoplainfile1.getName(), null);
+        service.execute();
+    }
+
+    @Test(expected = CannotBeExecutedException.class)
+    public void executeLinkToDirectory() {
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktodirectory1.getPath() + _linktodirectory1.getName(), null);
+        service.execute();
+    }
+
+    @Test(expected = FileNotFoundException.class)
+    public void executeNonExistingLinkToLinkToApp() {
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp1.getPath() + "null", null);
+        service.execute();
+    }
+
+    @Test(expected = ExecutePermissionException.class)
+    public void executeUserNoGlobalLinkToLinkToAppPermission() {
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName(), null);
+        service.execute();
+    }
+
+    @Test(expected = ExecutePermissionException.class)
+    public void executeUserNoLocalLinkToLinkToAppPermission() {
+        ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName(), null);
+        service.execute();
+    }
+
+    @Test(expected = ExecutePermissionException.class)
+    public void executeLinkToLinkToAppNoGlobalPermission() {
+        ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoapp1.getPath() + _linktolinktoapp1.getName(), null);
         service.execute();
     }
 
