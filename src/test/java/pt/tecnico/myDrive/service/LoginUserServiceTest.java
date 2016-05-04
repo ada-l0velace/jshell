@@ -95,4 +95,21 @@ public class LoginUserServiceTest extends BaseServiceTest{
         }
         eSet = null;
     }
+
+	
+	
+	@Test
+	public void repeatedTokenLogin(){}
+	
+	@Test
+	public void guestSuccess(){}
+
+	@Test
+	public void guestLoginExpires(){}
+
+	@Test
+	public void guestSessionAtStart(){}
+
+	@Test
+	public void guestInvalidAfterLogin(){}
 }
