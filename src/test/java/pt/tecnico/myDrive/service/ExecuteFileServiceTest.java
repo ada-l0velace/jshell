@@ -40,23 +40,30 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     private static final String _linktolinktoapp2Name = "LinkToApp2";
     private static final String _appName1 = "Application1";
     private static final String _appName2 = "Application2";
-    private static final String _appContent1 = "pt.tecnico.myDrive.Main";
+    private static final String _appContent1 = "pt.tecnico.myDrive.domain.Main.appExec";
     private static final String _appContent2 = "pt.tecnico.myDrive.Main";
     private static final String _plainfileContent1 = "Nothing really matters!";
     private static final String _name1 = "Name1";
     private static final String _name2 = "Name2";
+    private static final String _name3 = "Name3";
     private static final String _username1 = "User1";
     private static final String _username2 = "User2";
+    private static final String _username3 = "User3";
     private static final String _password1 = "password1";
     private static final String _password2 = "password2";
+    private static final String _password3 = "password3";
     private static final Short _umask1 = 0xFB;
     private static final Short _umask2 = 0xBF;
+    private static final Short _umask3 = 0xFF;
     private User _user1;
     private User _user2;
+    private User _user3;
     private String _token1;
     private String _token2;
+    private String _token3;
     private Session _session1;
     private Session _session2;
+    private Session _session3;
 
 
     // FILE ASSOCIATION DATA
@@ -88,10 +95,13 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     protected void populate() {
         _user1 = createUser(_username1, _password1, _name1, _umask1);
         _user2 = createUser(_username2, _password2, _name2, _umask2);
+        _user3 = createUser(_username3, _password3, _name3, _umask3);
         _token1 = createSession(_username1, _password1);
         _token2 = createSession(_username2, _password2);
+        _token3 = createSession(_username3, _password3);
         _session1 = Manager.getInstance().getSessionByToken(_token1);
         _session2 = Manager.getInstance().getSessionByToken(_token2);
+        _session3 = Manager.getInstance().getSessionByToken(_token3);
 
         _plainfile1 = createFile(FileType.PLAINFILE, _token1, _plainfileName1, _plainfileContent1);
         _directory1 = createFile(FileType.DIRECTORY, _token1, _directoryName1);
@@ -228,6 +238,96 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         String [] args = { path + f.getName() };
         ExecuteFileService service = new ExecuteFileService(_token, path, args);
         service.execute();
+    }
+
+    public void successLinkToApp1Exec() {
+
+        String [] args = { _link1.getPath() + _link1.getName() };
+        ExecuteFileService service = new ExecuteFileService(_token1, _link1.getPath(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {_app1.getPath() + _app1.getName()};
+                Main.appTest(args);
+                times = 1;
+            }
+        };
+    }
+
+    public void successApp1Exec() {
+
+        String [] args = { _app1.getPath() + _app1.getName() };
+        ExecuteFileService service = new ExecuteFileService(_token1, _app1.getPath(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {_app1.getPath() + _app1.getName()};
+                Main.appTest(args);
+                times = 1;
+            }
+        };
+    }
+
+    public void successLinkToLinkToApp1Exec() {
+
+        String [] args = { _linktolinktoapp1.getPath() + _linktolinktoapp1.getName() };
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp1.getPath(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {_app1.getPath() + _app1.getName()};
+                Main.appTest(args);
+                times = 1;
+            }
+        };
+    }
+
+    public void successLinkToApp2Exec() {
+
+        String [] args = { _link2.getPath() + _link2.getName() };
+        ExecuteFileService service = new ExecuteFileService(_token3, _link2.getPath(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {_app2.getPath() + _app2.getName()};
+                Main.main(args);
+                times = 1;
+            }
+        };
+    }
+
+    public void successApp2Exec() {
+
+        String [] args = { _app2.getPath() + _app2.getName() };
+        ExecuteFileService service = new ExecuteFileService(_token3, _app2.getPath(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {_app2.getPath() + _app2.getName()};
+                Main.main(args);
+                times = 1;
+            }
+        };
+    }
+
+    public void successLinkToLinkToApp2Exec() {
+
+        String [] args = { _linktolinktoapp2.getPath() + _linktolinktoapp2.getName() };
+        ExecuteFileService service = new ExecuteFileService(_token3, _linktolinktoapp2.getPath(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {_app2.getPath() + _app2.getName()};
+                Main.main(args);
+                times = 1;
+            }
+        };
     }
 
     @Test
