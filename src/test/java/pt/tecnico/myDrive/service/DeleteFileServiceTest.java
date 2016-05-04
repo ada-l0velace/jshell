@@ -228,6 +228,31 @@ public class DeleteFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
     
+    @Test(expected = DeletePermissionException.class)
+    public void deleteFileWithoutWriteParent() {
+    	Directory d = _session.getCurrentDirectory();    	
+    	d.getPermissions().setUmask((short)0xB0);
+    	DeleteFileService service = new DeleteFileService(_token, _appName);
+        service.execute();
+    }
+    
+    @Test(expected = DeletePermissionException.class)
+    public void deleteFileWithoutDeletePermission() {
+    	Directory d = _session.getCurrentDirectory();    	
+    	_app.getPermissions().setUmask((short)0xE0);
+    	DeleteFileService service = new DeleteFileService(_token, _appName);
+        service.execute();
+    }
+    
+    @Test(expected = DeletePermissionException.class)
+    public void deleteWithoutDeletePermissionWriteParent() {
+    	Directory d = _session.getCurrentDirectory();    	
+    	d.getPermissions().setUmask((short)0xB0);
+    	_app.getPermissions().setUmask((short)0xE0);
+    	DeleteFileService service = new DeleteFileService(_token, _appName);
+        service.execute();
+    }
+    
     @Override
     public MyDriveService CreateService(String token) {
         return new DeleteFileService(token, "Testdoc");
