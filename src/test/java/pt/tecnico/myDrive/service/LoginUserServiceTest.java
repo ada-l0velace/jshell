@@ -25,13 +25,17 @@ public class LoginUserServiceTest extends BaseServiceTest{
     private static final String _username = "shepard";
     private static final String _password = "commander";
     private String _token;
+    private String _guestToken;
     private User _user;
+    private User _guestUser;
     Set<EnvironmentVariable> eSet;
     
     protected void populate(){
         _user = createUser(_username, _password, "John",(short) 255);
         _token = createSession(_username, _password);
-
+		_guestUser = createUser("nobody", "", "Guest", (short) 0xFA);
+		_guestToken = createSession("nobody", "");
+			
     }
 
     @Test
@@ -102,14 +106,34 @@ public class LoginUserServiceTest extends BaseServiceTest{
 	public void repeatedTokenLogin(){}
 	
 	@Test
-	public void guestSuccess(){}
+	public void guestUser(){
+		LoginUserService service = new LoginUserService("nobody", "");
+		service.execute();
+		String token = service.result();
+		Session s = Manager.getInstance().getSessionByToken(token);
+		assertTrue(s.getUser().getName().equals("Guest"));
+	}
+ 
+	@Test
+	public void guestLoginExpires(){
+		LoginUserService service = new LoginUserService("nobody", "");
+		service.execute();
+		String token = service.result();
+		Session s = Manager.getInstance().getSessionByToken(token);
+		s.setLastActive(s.getLastActive().minusHours(5));
+		assertTrue("Session has expired", s.hasExpired());
+	}
 
 	@Test
-	public void guestLoginExpires(){}
+	public void guestSessionAtStart(){
+		assertTrue(Manager.getInstance().getUserByUsername("nobody").hasLoggedIn());
+	}
 
 	@Test
-	public void guestSessionAtStart(){}
-
-	@Test
-	public void guestInvalidAfterLogin(){}
+	public void guestInvalidAfterLogin(){
+		LoginUserService service = new LoginUserService(_username, _password);
+        service.execute();
+		User guest = Manager.getInstance().getUserByUsername("nobody");
+		assertTrue(!guest.hasValidSessions()); 
+	}
 }

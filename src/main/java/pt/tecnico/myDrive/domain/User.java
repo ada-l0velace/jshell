@@ -256,6 +256,26 @@ public class User extends User_Base {
         }
     }
 
+	/**
+	 * returns true if user has valid sessions
+	 * @return boolean indicating if there are active sessions
+	 */
+	public boolean hasValidSessions(){		
+		for (Session s : super.getSessionSet()){
+			if (!s.hasExpired())
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * returns true if user has logged in
+	 * @return boolean indicating if the user has logged in
+	 */
+	public boolean hasLoggedIn(){
+		return super.getSessionSet().isEmpty();
+	}
+	
     /**
      * Gets a session by a token.
      * @return Session returns the session.
