@@ -1,5 +1,8 @@
 package pt.tecnico.myDrive.presentation;
 
+import pt.ist.fenixframework.Atomic;
+import pt.tecnico.myDrive.domain.Manager;
+
 /**
  * Created by lolstorm on 26/04/16.
  */

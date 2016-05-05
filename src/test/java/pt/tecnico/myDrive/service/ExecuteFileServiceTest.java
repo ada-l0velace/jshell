@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import mockit.integration.junit4.JMockit;
 import pt.tecnico.myDrive.Main;
 import pt.tecnico.myDrive.exception.ExecFormatErrorException;
+import pt.tecnico.myDrive.presentation.Hello;
 import pt.tecnico.myDrive.service.factory.Factory.FileType;
 
 import pt.tecnico.myDrive.domain.*;
@@ -14,6 +15,8 @@ import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.ExecutePermissionException;
 import pt.tecnico.myDrive.exception.CannotBeExecutedException;
+
+import static org.junit.Assert.fail;
 
 @RunWith(JMockit.class)
 public class ExecuteFileServiceTest extends TokenVerificationTest {
@@ -89,7 +92,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     private File _linkLinkApp; private static final String LINK_LINK_APP = "AppLinkLink.exe";
 
     //Other Stuff for Files.
-    private static final String APP_CONTENT = "pt.tecnico.myDrive.domain.Main.appExec";
+    private static final String APP_CONTENT = "pt.tecnico.myDrive.presentation.Hello.execute";
     private static final String [] SUCESS_ARGS = {"tecnico-softeng", "es16tg_21-project"};
 
     protected void populate() {
@@ -108,12 +111,13 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         _directory2 = createFile(FileType.DIRECTORY, _token2, _directoryName2);
         _app1 = createFile(FileType.APP, _token1, _appName1, _appContent1);
         _app2 = createFile(FileType.APP, _token2, _appName2, _appContent2);
+
         _link1 = createFile(FileType.LINK, _token1, _linkName1, _app1.getPath()+_app1.getName());
         _link2 = createFile(FileType.LINK, _token2, _linkName2, _app2.getPath()+_app2.getName());
         _linktoplainfile1 = createFile(FileType.LINK, _token1, _linktoplainfile1Name, _plainfile1.getPath() + _plainfile1.getName()); 
         _linktodirectory1 = createFile(FileType.LINK, _token1, _linktodirectory1Name, _directory1.getPath() + _directory1.getName()); 
         _linktolinktoapp1 = createFile(FileType.LINK, _token1, _linktolinktoapp1Name, _link1.getPath() + _link1.getName()); 
-        _linktolinktoapp2 = createFile(FileType.LINK, _token2, _linktolinktoapp2Name, _link2.getPath() + _link2.getName()); 
+        _linktolinktoapp2 = createFile(FileType.LINK, _token2, _linktolinktoapp2Name, _link2.getPath() + _link2.getName());
 
         //File ASSOCIATION
         _user = createUser(USERNAME, PASSWORD, NAME, UMASK);
@@ -331,124 +335,121 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     }
 
     @Test
-    public void successPlainFileAssociationExec() {
+    public void successPlainFileAssociationExec(@Mocked Hello h) {
 
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _plain.execute(_token);
+                _app.execute(_token);
             }
         };
 
         executeFile(_plain);
 
-        new FullVerifications() {
+        new Verifications() {
             {
                 String [] args = {_linkPlain.getPath() + _linkPlain.getName()};
-                Main.appTest(args);
+                h.execute(args);
                 times = 1;
             }
         };
     }
 
-    public void successLinkDirectoryAssociationExec() {
+    public void successLinkDirectoryAssociationExec(@Mocked Hello h) {
 
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _linkDirectory.execute(_token);
+                _app.execute(_token);
             }
         };
 
         executeFile(_linkDirectory);
 
-        new FullVerifications() {
+        new Verifications() {
             {
                 String [] args = {_linkPlain.getPath() + _linkPlain.getName()};
-                Main.appTest(args);
+                h.execute(args);
                 times = 1;
             }
         };
     }
 
     @Test
-    public void successLinkPlainFileAssociationExec() {
+    public void successLinkPlainFileAssociationExec(@Mocked Hello h) {
 
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _linkPlain.execute(_token);
+                _app.execute(_token);
             }
         };
 
         executeFile(_linkPlain);
 
-        new FullVerifications() {
+        new Verifications() {
             {
                 String [] args = {_linkPlain.getPath() + _linkPlain.getName()};
-                Main.appTest(args);
+                h.execute(args);
                 times = 1;
             }
         };
     }
 
     @Test
-    public void successLinkAppAssociationExec() {
+    public void successLinkAppAssociationExec(@Mocked Hello h) {
 
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _linkApp.execute(_token);
+                _app.execute(_token);
             }
         };
 
         executeFile(_linkApp);
 
-        new FullVerifications() {
+        new Verifications() {
             {
                 String [] args = {_linkApp.getPath() + _linkApp.getName()};
-                Main.appTest(args);
+                h.execute(args);
                 times = 1;
             }
         };
     }
 
     @Test
-    public void successLinkLinkAppAssociationExec() {
+    public void successLinkLinkAppAssociationExec(@Mocked Hello h) {
 
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _linkLinkApp.execute(_token);
+                _app.execute(_token);
             }
         };
 
         executeFile(_linkLinkApp);
 
-        new FullVerifications() {
+        new Verifications() {
             {
                 String [] args = {_linkLinkApp.getPath() + _linkLinkApp.getName()};
-                Main.appTest(args);
+                h.execute(args);
                 times = 1;
             }
         };
     }
 
     @Test(expected = ExecFormatErrorException.class)
-    public void PlainFileDoesNotHaveExtension() {
+    public void DirectoryAssociationCanNotBeExecuted() {
 
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() throws ExecFormatErrorException {
-                throw new ExecFormatErrorException(_plainWithoutExtension.getName());
+                throw new ExecFormatErrorException(_linkDirectory.getName());
             }
         };
 
-        executeFile(_plainWithoutExtension);
-
+        executeFile(_linkDirectory);
     }
-
-
 
     @Override
     public MyDriveService CreateService(String token) {
