@@ -26,7 +26,8 @@ public class IntegrationTest extends BaseServiceTest {
 
 	private static final String _username = "toni", _pass = "tonitoni16";
 	private static final String _nameDir1 = "Documents",  _nameDir2= "Games", _nameApp = "App";
-
+	private static final String _path = "/home/toni/Documents";
+	private static final String _content = "newContent";
 	
 	protected void populate() { // populate mockup
 		
@@ -46,17 +47,28 @@ public class IntegrationTest extends BaseServiceTest {
 
         ListDirectoryService ld = new ListDirectoryService(token);
     	ld.execute();
-    	assertEquals(ld.result().size(), 3); // Documents, Images, App
+    	assertEquals(ld.result().size(), 3); // Documents, Games, App
     	
     	new DeleteFileService(token, _nameDir2).execute();
+    	
     	ld = new ListDirectoryService(token);
     	ld.execute();
     	assertEquals(ld.result().size(), 2); //Documents, App
     	
-    	new WritePlainFileService(token, _nameApp, "newContent").execute();
+    	new WritePlainFileService(token, _nameApp, _content).execute();
     	
     	ReadPlainFileService rpf = new ReadPlainFileService(token, _nameApp);
     	rpf.execute();    	
-        assertEquals(rpf.result(), "newContent");
+        assertEquals(rpf.result(), _content); //"newContent"
+        
+        ChangeDirectoryService cd = new ChangeDirectoryService(token, _path);
+        cd.execute();
+        
+        new CreateFileService(cd.result(), _nameDir2, FileType.DIRECTORY).execute();
+        
+        ld = new ListDirectoryService(cd.result());
+    	ld.execute();
+    	assertEquals(ld.result().size(), 1); // Games
+    	
     }
 }
