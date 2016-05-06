@@ -142,97 +142,85 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
 
     @Test(expected = FileNotFoundException.class)
     public void executeNonExistingApp() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _app1.getPath() + "null", null);
-        service.execute();
-    }
-
-    @Test(expected = CannotBeExecutedException.class)
-    public void executeLinkToPlainFile() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktoplainfile1.getPath() + _linktoplainfile1.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token1, _app1.getPath() + "null");
         service.execute();
     }
 
     @Test(expected = CannotBeExecutedException.class)
     public void executeLinkToDirectory() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktodirectory1.getPath() + _linktodirectory1.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktodirectory1.getPath() + _linktodirectory1.getName());
         service.execute();
     }
 
     @Test(expected = FileNotFoundException.class)
     public void executeNonExistingLinkToLinkToApp() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp1.getPath() + "null", null);
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp1.getPath() + "null");
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeUserNoGlobalLinkToLinkToAppPermission() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName());
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeUserNoLocalLinkToLinkToAppPermission() {
-        ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName());
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeLinkToLinkToAppNoGlobalPermission() {
-        ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoapp1.getPath() + _linktolinktoapp1.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoapp1.getPath() + _linktolinktoapp1.getName());
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeUserNoGlobalAppPermission() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _app2.getPath() + _app2.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token1, _app2.getPath() + _app2.getName());
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeUserNoLocalAppPermission() {
-        ExecuteFileService service = new ExecuteFileService(_token2, _app2.getPath() + _app2.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token2, _app2.getPath() + _app2.getName());
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeAppNoGlobalPermission() {
-        ExecuteFileService service = new ExecuteFileService(_token2, _app1.getPath() + _app1.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token2, _app1.getPath() + _app1.getName());
         service.execute();
     }
 
     @Test(expected = FileNotFoundException.class)
     public void executeNonExistingLink() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _link1.getPath() + "null", null);
+        ExecuteFileService service = new ExecuteFileService(_token1, _link1.getPath() + "null");
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeUserNoGlobalLinkPermission() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _link2.getPath() + _link2.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token1, _link2.getPath() + _link2.getName());
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeUserNoLocalLinkPermission() {
-        ExecuteFileService service = new ExecuteFileService(_token2, _link2.getPath() + _link2.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token2, _link2.getPath() + _link2.getName());
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeLinkNoGlobalPermission() {
-        ExecuteFileService service = new ExecuteFileService(_token2, _link1.getPath() + _link1.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token2, _link1.getPath() + _link1.getName());
         service.execute();
     }
 
     @Test(expected = CannotBeExecutedException.class)
     public void executeDirectory() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _directory1.getPath() + _directory1.getName(), null);
-        service.execute();
-    }
-
-    @Test(expected = CannotBeExecutedException.class)
-    public void executePlainFile() {
-        ExecuteFileService service = new ExecuteFileService(_token1, _plainfile1.getPath() + _plainfile1.getName(), null);
+        ExecuteFileService service = new ExecuteFileService(_token1, _directory1.getPath() + _directory1.getName());
         service.execute();
     }
 
@@ -244,10 +232,39 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
+    @Test
+    public void executeLinkToPlainFile() {
+        String [] args = { _linktoplainfile1.getPath() + _linktoplainfile1.getName() };
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktoplainfile1.getPath() + _linktoplainfile1.getName(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {_app1.getPath() + _app1.getName()};
+                Main.appTest(args);
+                times = 1;
+            }
+        };
+    }
+
+    public void successPlainFileExec() {
+        String [] args = { _plainfile1.getPath() + _plainfile1.getName() };
+        ExecuteFileService service = new ExecuteFileService(_token1, _plainfile1.getPath() + _plainfile1.getName(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {_app1.getPath() + _app1.getName()};
+                Main.appTest(args);
+                times = 1;
+            }
+        };
+    }
+
     public void successLinkToApp1Exec() {
 
         String [] args = { _link1.getPath() + _link1.getName() };
-        ExecuteFileService service = new ExecuteFileService(_token1, _link1.getPath(), args);
+        ExecuteFileService service = new ExecuteFileService(_token1, _link1.getPath() + _link1.getName(), args);
         service.execute();
 
         new FullVerifications() {
@@ -262,7 +279,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     public void successApp1Exec() {
 
         String [] args = { _app1.getPath() + _app1.getName() };
-        ExecuteFileService service = new ExecuteFileService(_token1, _app1.getPath(), args);
+        ExecuteFileService service = new ExecuteFileService(_token1, _app1.getPath() + _app1.getName(), args);
         service.execute();
 
         new FullVerifications() {
@@ -277,7 +294,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     public void successLinkToLinkToApp1Exec() {
 
         String [] args = { _linktolinktoapp1.getPath() + _linktolinktoapp1.getName() };
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp1.getPath(), args);
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp1.getPath() + _linktolinktoapp1.getName(), args);
         service.execute();
 
         new FullVerifications() {
@@ -292,7 +309,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     public void successLinkToApp2Exec() {
 
         String [] args = { _link2.getPath() + _link2.getName() };
-        ExecuteFileService service = new ExecuteFileService(_token3, _link2.getPath(), args);
+        ExecuteFileService service = new ExecuteFileService(_token3, _link2.getPath() + _link2.getName(), args);
         service.execute();
 
         new FullVerifications() {
@@ -307,7 +324,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     public void successApp2Exec() {
 
         String [] args = { _app2.getPath() + _app2.getName() };
-        ExecuteFileService service = new ExecuteFileService(_token3, _app2.getPath(), args);
+        ExecuteFileService service = new ExecuteFileService(_token3, _app2.getPath() + _app2.getName(), args);
         service.execute();
 
         new FullVerifications() {
@@ -322,7 +339,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     public void successLinkToLinkToApp2Exec() {
 
         String [] args = { _linktolinktoapp2.getPath() + _linktolinktoapp2.getName() };
-        ExecuteFileService service = new ExecuteFileService(_token3, _linktolinktoapp2.getPath(), args);
+        ExecuteFileService service = new ExecuteFileService(_token3, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName(), args);
         service.execute();
 
         new FullVerifications() {

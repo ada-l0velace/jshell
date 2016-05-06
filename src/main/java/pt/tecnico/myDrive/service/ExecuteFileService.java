@@ -11,6 +11,10 @@ public class ExecuteFileService extends LoginRequiredService {
         super(token);
     }
 
+    public ExecuteFileService(String token, String path) {
+        super(token);
+    }
+
     @Override
     protected void dispatch() throws MyDriveException {
         super.dispatch();
