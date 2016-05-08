@@ -16,6 +16,8 @@ import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.ExecutePermissionException;
 import pt.tecnico.myDrive.exception.CannotBeExecutedException;
 
+import java.util.Formatter;
+
 import static org.junit.Assert.fail;
 
 @RunWith(JMockit.class)
@@ -84,6 +86,9 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     private File _plain; private static final String PLAIN_NAME = "Plain.exe";
     private File _plainWithoutExtension; private static final String PLAIN_WITHOUT_EXTENSION = "ScrubMaster";
     private File _app; private static final String APPNAME = "exe";
+    private File _appWithExtension; private static final String APP_WITH_NAME = "App.exe";
+    private File _plainTxt; private static final String PLAIN_TXT_NAME = "txt";
+
 
     //Links and Link names.
     private File _linkDirectory; private static final String LINK_DIRECTORY = "DirLink.exe";
@@ -93,6 +98,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
 
     //Other Stuff for Files.
     private static final String APP_CONTENT = "pt.tecnico.myDrive.presentation.Hello.execute";
+    private static final String APP_WITH_EXTENSION_CONTENT = "pt.tecnico.myDrive.presentation.Hello.greet";
     private static final String [] SUCESS_ARGS = {"tecnico-softeng", "es16tg_21-project"};
 
     protected void populate() {
@@ -124,9 +130,14 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         _token = createSession(USERNAME, PASSWORD);
 
         _plainWithoutExtension = createFile(FileType.PLAINFILE, _token, PLAIN_WITHOUT_EXTENSION);
+
+        _appWithExtension = createFile(FileType.APP, _token, APP_WITH_NAME, APP_WITH_EXTENSION_CONTENT);
+
         _plain = createFile(FileType.PLAINFILE, _token, PLAIN_NAME);
         _dir = createFile(FileType.DIRECTORY, _token, DIR_NAME);
         _app = createFile(FileType.APP, _token, APPNAME, APP_CONTENT);
+        String plainTxtContent = _app.getPath() + _app.getName() + " " + SUCESS_ARGS[0] + " " + SUCESS_ARGS[1];
+        _plainTxt = createFile(FileType.PLAINFILE, _token, PLAIN_TXT_NAME, plainTxtContent);
 
         _linkDirectory = createFile(FileType.LINK, _token, LINK_DIRECTORY, _dir.getPath() + _dir.getName());
         _linkPlain = createFile(FileType.LINK, _token, LINK_PLAIN, _plain.getPath() + _plain.getName());
@@ -450,6 +461,49 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
             {
                 String [] args = {_linkLinkApp.getPath() + _linkLinkApp.getName()};
                 h.execute(args);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void successPlainTxtAssociationExec(@Mocked Hello h) {
+
+        new MockUp<ExecuteFileService>() {
+            @Mock
+            void dispatch() {
+                _app.execute(_token);
+            }
+        };
+
+        executeFile(_plainTxt);
+
+        new FullVerifications() {
+            {
+                String [] args = {SUCESS_ARGS[0], SUCESS_ARGS[1]};
+                h.execute(args);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void successAppWithExtensionAssociationExec(@Mocked Hello h) {
+
+        new MockUp<ExecuteFileService>() {
+            @Mock
+            void dispatch() {
+                _appWithExtension.execute(_token);
+            }
+        };
+
+        executeFile(_appWithExtension);
+
+        new FullVerifications() {
+            {
+                h.execute(null);
+                times = 0;
+                h.greet(null);
                 times = 1;
             }
         };

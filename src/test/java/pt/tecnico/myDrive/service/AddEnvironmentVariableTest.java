@@ -24,7 +24,7 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
 
     private  Directory _dirTest;
     private static final String _username = "Dovah";
-    private static final String _password = "Khin";
+    private static final String _password = "KhinKhin";
     private User _user;
     private String _token;
     private Session s;

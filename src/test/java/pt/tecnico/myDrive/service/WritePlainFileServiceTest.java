@@ -20,7 +20,7 @@ public class WritePlainFileServiceTest extends TokenVerificationTest {
     private static final String _fileName = "Testdoc";
     private static final String _testContent = "vanilla";
     private static final String _content = "ice";
-    private static final String _password = "pwjack";
+    private static final String _password = "pwjackpwjack";
     private static final String _name = "Stevie";
     private static final Short _umask = 0xF8;
     private User _user;

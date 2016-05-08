@@ -15,7 +15,7 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
 	private static final String _fileName = "Testdoc";
     private static final String _fileName1 = "Filesemperm";
 	private static final String _testContent = "vanilla";
-	private static final String _password = "pwjack";
+	private static final String _password = "pwjackjack";
     private static final String _name = "Stevie";
     private static final Short _umask = 0xF0;
     private String _token;

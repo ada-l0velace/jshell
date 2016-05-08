@@ -32,6 +32,7 @@ public class Manager extends Manager_Base{
     private Manager() {
         setLastFileId(0);
         new SuperUser(this);
+        new Guest(this);
         FenixFramework.getDomainRoot().setManager(this);
         setRoot(FenixFramework.getDomainRoot());
 

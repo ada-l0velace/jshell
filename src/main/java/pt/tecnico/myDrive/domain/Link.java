@@ -8,10 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import pt.tecnico.myDrive.exception.FileNotFoundException;
-import pt.tecnico.myDrive.exception.InvalidNameFileException;
-import pt.tecnico.myDrive.exception.LoopedLinkException;
-import pt.tecnico.myDrive.exception.ReadPermissionException;
+import pt.tecnico.myDrive.exception.*;
 import pt.tecnico.myDrive.service.dto.FileDto;
 
 public class Link extends Link_Base {
@@ -58,7 +55,7 @@ public class Link extends Link_Base {
      * @throws InvalidNameFileException occurs when the content length is over 1024 characters.
      */
     @Override
-    public void initContent(String cont) throws InvalidNameFileException {
+    protected void initContent(String cont) throws InvalidNameFileException {
     	if (cont.length() > 1024){
     		throw new InvalidNameFileException(cont);
     	}

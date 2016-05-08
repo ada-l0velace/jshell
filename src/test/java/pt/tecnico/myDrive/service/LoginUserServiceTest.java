@@ -10,10 +10,7 @@ import org.junit.Test;
 import java.util.Set;
 import java.util.HashSet;
 
-import pt.tecnico.myDrive.domain.Manager;
-import pt.tecnico.myDrive.domain.User;
-import pt.tecnico.myDrive.domain.Session;
-import pt.tecnico.myDrive.domain.EnvironmentVariable;
+import pt.tecnico.myDrive.domain.*;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.InvalidUserCredentialsException;
 
@@ -33,9 +30,7 @@ public class LoginUserServiceTest extends BaseServiceTest{
     protected void populate(){
         _user = createUser(_username, _password, "John",(short) 255);
         _token = createSession(_username, _password);
-		_guestUser = createUser("nobody", "", "Guest", (short) 0xFA);
 		_guestToken = createSession("nobody", "");
-			
     }
 
     @Test
@@ -71,7 +66,7 @@ public class LoginUserServiceTest extends BaseServiceTest{
     public void lessThan3CharactersUsername(){
         LoginUserService service = new LoginUserService("a", _password);
         service.execute();
-        }
+    }
 
     @Test
     public void invalidSessionsDeleted(){
@@ -134,6 +129,6 @@ public class LoginUserServiceTest extends BaseServiceTest{
 		LoginUserService service = new LoginUserService(_username, _password);
         service.execute();
 		User guest = Manager.getInstance().getUserByUsername("nobody");
-		assertTrue(!guest.hasValidSessions()); 
+		assertTrue(guest.hasValidSessions());
 	}
 }

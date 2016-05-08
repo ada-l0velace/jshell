@@ -16,6 +16,9 @@ public abstract class TokenVerificationTest extends BaseServiceTest {
 
     public abstract MyDriveService CreateService(String token);
 
+    private static final String NAME = "Auron";
+    private static final String USERNAME = "auron";
+    private static final String PASSWORD = "overdrive";
 
     @Test(expected = UserNotInSessionException.class)
     public void invalidTokenTest(){
@@ -29,8 +32,8 @@ public abstract class TokenVerificationTest extends BaseServiceTest {
 
     @Test(expected = UserSessionExpiredException.class)
     public void sessionExpired(){
-        createUser("auron", "overdrive", "Auron", (short) 0xFF);
-        String token = createSession("auron", "overdrive");
+        createUser(USERNAME, PASSWORD, NAME, (short) 0xFF);
+        String token = createSession(USERNAME, PASSWORD);
         Session s = Manager.getInstance().getSessionByToken(token);
         s.setLastActive(s.getLastActive().minusHours(5));
         CreateService(token).execute();
@@ -47,15 +50,15 @@ public abstract class TokenVerificationTest extends BaseServiceTest {
 	
     @Test
     public void sessionRenewed(){
-        createUser("auron", "overdrive", "Auron", (short) 0xFF);
+        createUser(USERNAME, PASSWORD, NAME, (short) 0xFF);
 
-        String token = createSession("auron", "overdrive");
+        String token = createSession(USERNAME, PASSWORD);
         Session s = Manager.getInstance().getSessionByToken(token);
         new PlainFile(s.getUser(), "Testdoc", "somecontent", s.getCurrentDirectory(), Manager.getInstance());
         
         s.setLastActive(s.getLastActive().minusHours(1));
 
-        token = createSession("auron", "overdrive");
+        token = createSession(USERNAME, PASSWORD);
         s.setLastActive(s.getLastActive().minusHours(1));
 
         CreateService(token).execute();

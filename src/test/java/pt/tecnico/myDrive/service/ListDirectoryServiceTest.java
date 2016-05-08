@@ -46,7 +46,7 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
     };
 
 
-    private static final String PASSWORD = "lovely";
+    private static final String PASSWORD = "lovelycake";
     private static final String NAME = "Herman Horton";
     private static final Short UMASK = 0xF0;
 
@@ -83,7 +83,7 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
 
         List<FileDto> ds = service.result();
         if (ds != null) {
-            assertEquals("List with 10 files", 12, ds.size());
+            assertEquals("List with 10 files", 13, ds.size());
             assertEquals("1st file is", ".", ds.get(0).getName());
             assertEquals("2nd file is", "..", ds.get(1).getName());
             assertEquals("3rd file is", "1scarlett", ds.get(2).getName());
@@ -91,11 +91,12 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
             assertEquals("5th file is", "chang", ds.get(4).getName());
             assertEquals("6th file is", "dessie", ds.get(5).getName());
             assertEquals("7th file is", "genesis", ds.get(6).getName());
-            assertEquals("8th file is", "root", ds.get(7).getName());
-            assertEquals("9th file is", "rosari", ds.get(8).getName());
-            assertEquals("10th file is", "shakita", ds.get(9).getName());
-            assertEquals("11th file is", "shawnda", ds.get(10).getName());
-            assertEquals("12th file is", "suzette", ds.get(11).getName());
+            assertEquals("8th file is", "nobody", ds.get(7).getName());
+            assertEquals("9th file is", "root", ds.get(8).getName());
+            assertEquals("10th file is", "rosari", ds.get(9).getName());
+            assertEquals("11th file is", "shakita", ds.get(10).getName());
+            assertEquals("12th file is", "shawnda", ds.get(11).getName());
+            assertEquals("13th file is", "suzette", ds.get(12).getName());
         }
 
     }
@@ -113,7 +114,7 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
         
         service.execute();
         String fOut0 = "D rwxdr-x- 2 root 3 "+new DateTime(2016, 4, 12, 4, 28, 0, 0).toString("MMM dd hh:mm")+" .\n";
-        String fOut1 = "D rwxdr-x- 12 root 2 "+new DateTime(2016, 4, 12, 4, 28, 0, 0).toString("MMM dd hh:mm")+" ..\n";
+        String fOut1 = "D rwxdr-x- 13 root 2 "+new DateTime(2016, 4, 12, 4, 28, 0, 0).toString("MMM dd hh:mm")+" ..\n";
         List<FileDto> ds = service.result();
         if (ds != null) {
             assertEquals("List with 2 files", 2, ds.size());
@@ -132,7 +133,7 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
         service.execute();
         String fOut0 = "D rwxdr-x- 3 root 1 "+home.getModified().toString("MMM dd hh:mm")+" .\n";
         String fOut1 = "D rwxdr-x- 3 root 1 "+home.getModified().toString("MMM dd hh:mm")+" ..\n";
-        String fOut2 = "D rwxdr-x- 12 root 2 "+home.getModified().toString("MMM dd hh:mm")+" home\n";
+        String fOut2 = "D rwxdr-x- 13 root 2 "+home.getModified().toString("MMM dd hh:mm")+" home\n";
 
         List<FileDto> ds = service.result();
         if (ds != null) {
@@ -160,11 +161,12 @@ public class ListDirectoryServiceTest extends TokenVerificationTest {
         File l = home.search(FILENAME[2], _rootToken);
         File a= home.search(FILENAME[3], _rootToken);
         String fOut0 = "D rwxdr-x- 6 root 3 "+home.getModified().toString("MMM dd hh:mm") + " .\n";
-        String fOut1 = "D rwxdr-x- 12 root 2 " + d.getModified().toString("MMM dd hh:mm") + " ..\n";
-        String fOut2 = "D rwxdr-x- 2 root 13 " + ev.getModified().toString("MMM dd hh:mm") + " " + FILENAME[0] + "\n";
-        String fOut3 = "P rwxdr-x- 5 root 14 " + p.getModified().toString("MMM dd hh:mm") + " " + FILENAME[1] + "\n";
-        String fOut4 = "L rwxdr-x- 24 root 15 " + l.getModified().toString("MMM dd hh:mm") + " " + FILENAME[2] + " -> " + LINKPATH + "\n";
-        String fOut5 = "A rwxdr-x- 4 root 16 "+a.getModified().toString("MMM dd hh:mm") + " " + FILENAME[3] + "\n";
+        String fOut1 = "D rwxdr-x- 13 root 2 " + d.getModified().toString("MMM dd hh:mm") + " ..\n";
+        String fOut2 = "D rwxdr-x- 2 root 14 " + ev.getModified().toString("MMM dd hh:mm") + " " + FILENAME[0] + "\n";
+        String fOut3 = "P rwxdr-x- 5 root 15 " + p.getModified().toString("MMM dd hh:mm") + " " + FILENAME[1] + "\n";
+        String fOut4 = "L rwxdr-x- 24 root 16 " + l.getModified().toString("MMM dd hh:mm") + " " + FILENAME[2] + " ->" +
+                " " + LINKPATH + "\n";
+        String fOut5 = "A rwxdr-x- 4 root 17 "+a.getModified().toString("MMM dd hh:mm") + " " + FILENAME[3] + "\n";
         List<FileDto> ds = service.result();
         if (ds != null) {
             //log.trace(service.output());

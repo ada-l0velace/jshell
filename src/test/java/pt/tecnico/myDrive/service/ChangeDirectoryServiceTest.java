@@ -22,9 +22,9 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
 
     private  Directory _dirTest;
     private static final String _username = "Dovah";
-    private static final String _password = "Khin";
+    private static final String _password = "KhinKhin";
     private static final String _username2 = "Nathan";
-    private static final String _password2 = "Drake";
+    private static final String _password2 = "DrakeDrake";
     private User _user;
     private User _user2;
     private String _token;

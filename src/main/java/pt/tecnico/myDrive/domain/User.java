@@ -273,7 +273,7 @@ public class User extends User_Base {
 	 * @return boolean indicating if the user has logged in
 	 */
 	public boolean hasLoggedIn(){
-		return super.getSessionSet().isEmpty();
+		return !super.getSessionSet().isEmpty();
 	}
 	
     /**
@@ -355,7 +355,7 @@ public class User extends User_Base {
      * @param file receives the file to check
      * @throws ReadPermissionException occurs when the user doesn't have permissions to read.
      */
-    public void checkReadPermissions(File file) throws ReadPermissionException{
+    public void checkReadPermissions(File file) throws ReadPermissionException {
     	if (!getPermissions().canRead(file))
             throw new ReadPermissionException(file.getName(), this.getName());
     }
@@ -367,6 +367,21 @@ public class User extends User_Base {
     @Override
     public String getPassword() {
         throw new PublicAcessDeniedException("GetPassword", "IsValidPassword");
+    }
+
+    protected void setPasswordAux(String password) {
+        super.setPassword(password);
+    }
+
+    /**
+     * Sets a password of the User.
+     * @param password
+     * @throws InvalidPasswordException
+     */
+    public void setPassword(String password) throws InvalidPasswordException {
+        if (password.length() < 8)
+           throw new InvalidPasswordException();
+        super.setPassword(password);
     }
 
     /**

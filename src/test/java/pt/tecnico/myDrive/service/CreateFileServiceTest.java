@@ -25,21 +25,35 @@ public class CreateFileServiceTest extends TokenVerificationTest {
     private String _rootToken;
     private String _worldRToken;
     private String _worldWToken;
-    private User _worldRUser;
-    private User _worldWUser;
-    private User _user;
     private Manager m;
-    
+
+    private static final String USERNAME [] = {
+            "roxas",
+            "thewiseone",
+            "notansem"
+    };
+
+    private static final String PASSWORD [] = {
+            "keyblademaster",
+            "whatailsyou",
+            "birthbysleep"
+    };
+
+    private static final String NAME [] = {
+            "Sora",
+            "Ansem",
+            "Xehanort"
+    };
+
     protected void populate() {
-        _user = createUser(_username, "keyblademaster", "Sora", (short) 0xFF);
-        _worldRUser = createUser("thewiseone", "whatailsyou", "Ansem", (short) 0x88);
-        _worldWUser = createUser("notansem", "birthbysleep", "Xehanort", (short) 0xFF);
-        _token = createSession(_username, "keyblademaster");
+        createUser(USERNAME[0], PASSWORD[0], NAME[0], (short) 0xFF);
+        createUser(USERNAME[1], PASSWORD[1], NAME[1], (short) 0x88);
+        createUser(USERNAME[2], PASSWORD[2], NAME[2], (short) 0xFF);
+        _token = createSession(USERNAME[0], PASSWORD[0]);
         _rootToken = createSession("root", "***");
-        _worldRToken = createSession("thewiseone", "whatailsyou");
-        _worldWToken = createSession("notansem", "birthbysleep");
+        _worldRToken = createSession(USERNAME[1], PASSWORD[1]);
+        _worldWToken = createSession(USERNAME[2], PASSWORD[2]);
         m = Manager.getInstance();
-        
     }
 
     @Test
@@ -90,21 +104,7 @@ public class CreateFileServiceTest extends TokenVerificationTest {
         CreateFileService service = new CreateFileService(_token, _filename, FileType.LINK, _content);
         service.execute();
     }
-/*
-    @Test(expected = LoopedLinkException.class)
-    public void createLoopLink() {
-        Manager m = Manager.getInstance();
-        Session s = m.getSessionByToken(_token);
 
-        new Directory(_User, "testD",s.getCurrentDirectory(), m);
-        new Link(String "link", "testL", s.getCurrentDirectory()+ "/testD", s.getCurrentDirectory(), m);
-
-        s.setCurrentDirectory(s.getCurrentDirectory()+"/testD");
-
-        CreateFileService service = new CreateFileService(_token, _filename, FileType.LINK);
-        service.execute();
-    }
-*/
     @Test(expected = NameFileAlreadyExistsException.class)
     public void createAlreadyExistingFile() {
         createFile(FileType.PLAINFILE,_token, _filename);
@@ -119,8 +119,14 @@ public class CreateFileServiceTest extends TokenVerificationTest {
     }
 
     @Test(expected = InvalidNameFileException.class)
-    public void createFileWithInvalidName() {
-        CreateFileService service = new CreateFileService(_token, "º+´~", FileType.PLAINFILE);
+    public void createFileWithSlashInName() {
+        CreateFileService service = new CreateFileService(_token, "/", FileType.PLAINFILE);
+        service.execute();
+    }
+
+    @Test(expected = InvalidNameFileException.class)
+    public void createFileWithNullInName() {
+        CreateFileService service = new CreateFileService(_token, "\0", FileType.PLAINFILE);
         service.execute();
     }
 

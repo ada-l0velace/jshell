@@ -52,6 +52,15 @@ public class SuperUser extends SuperUser_Base {
     }
 
     /**
+     * Overrides setPassword to byPass 8 characters password.
+     * @param password receives the password to set.
+     */
+    @Override
+    public void setPassword(String password) {
+        setPasswordAux(password);
+    }
+
+    /**
      * Function to set the token live time of the user
      * @return the time in minutes of live time of the token.
      */
