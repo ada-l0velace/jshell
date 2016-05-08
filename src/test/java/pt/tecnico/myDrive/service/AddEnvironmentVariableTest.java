@@ -39,17 +39,17 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
         s = m.getSessionByToken(_token);
         _rootToken = createSession("root", "***");
         rootSession = m.getSessionByToken(_rootToken);
-        EnvironmentVariableDto newVariavel = new EnvironmentVariableDto("$cenas", "coisas");
+        EnvironmentVariableDto newVariavel = new EnvironmentVariableDto("cenas", "coisas");
     }
 
     @Test
     public void success() {
     	boolean varCheck = false;
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "$urso", "banana");
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "urso", "banana");
     	EVS.execute();
     	List<EnvironmentVariableDto> aev = EVS.result();
     	for(int i = 0; i<aev.size();i ++){
-    		if(aev.get(i).getName().equals("$urso")){
+    		if(aev.get(i).getName().equals("urso")){
     			varCheck = true;
     		}
     	}
@@ -59,11 +59,11 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     @Test
     public void rootSuccess() {
     	boolean varCheck = false;
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_rootToken, "$urso", "banana");
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_rootToken, "urso", "banana");
     	EVS.execute();
     	List<EnvironmentVariableDto> aev = EVS.result();
     	for(int i = 0; i < aev.size();i ++){
-    		if(aev.get(i).getName().equals("$urso")){
+    		if(aev.get(i).getName().equals("urso")){
     			varCheck = true;
     		}
     	}
@@ -73,11 +73,11 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     @Test
     public void reDefineSuccess() {
     	boolean varCheck = false;
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_rootToken, "$cenas", "banana");
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_rootToken, "cenas", "banana");
     	EVS.execute();
     	List<EnvironmentVariableDto> aev = EVS.result();
     	for(int i = 0; i < aev.size();i ++){
-    		if(aev.get(i).getName().equals("$cenas") && aev.get(i).getValue().equals("banana")){
+    		if(aev.get(i).getName().equals("cenas") && aev.get(i).getValue().equals("banana")){
     			varCheck = true;
     		}
     	}
@@ -92,13 +92,13 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     
     @Test(expected = EmptyVariableValueException.class)
     public void noContent() {
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "$urso", "");
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "urso", "");
     	EVS.execute();
     }
     
     @Test(expected = EmptyVariableValueException.class)
     public void noContentRedefine() {
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "$cenas", "");
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "cenas", "");
     	EVS.execute();
     }
     
