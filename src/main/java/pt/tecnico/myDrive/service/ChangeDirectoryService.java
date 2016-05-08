@@ -36,6 +36,6 @@ public class ChangeDirectoryService extends LoginRequiredService {
     }
 
     public String result(){
-        return this._sessionToken;
+        return _path;
     }
 }
