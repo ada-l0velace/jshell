@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.presentation;
 
 import pt.ist.fenixframework.Atomic;
+import pt.tecnico.myDrive.Main;
 import pt.tecnico.myDrive.domain.Manager;
 
 /**
@@ -9,6 +10,7 @@ import pt.tecnico.myDrive.domain.Manager;
 public class MyDriveShell extends Shell {
 
     public static void main(String[] args) throws Exception {
+        Main.init();
         MyDriveShell sh = new MyDriveShell();
         sh.execute();
     }

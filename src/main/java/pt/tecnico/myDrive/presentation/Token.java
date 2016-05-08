@@ -27,9 +27,9 @@ public class Token extends MyDriveCommand {
     	if(args.length == 0){
     		String key= null;
             String value= token;
-            for (Object o : LoginUser.cookies.keySet()) {
-                if (LoginUser.cookies.get((String) o).equals(value)) {
-                  key = (String) o;
+            for (String o : LoginUser.cookies.keySet()) {
+                if (LoginUser.cookies.get(o).equals(value)) {
+                  key = o;
                   break;
                 }
               }
@@ -37,8 +37,9 @@ public class Token extends MyDriveCommand {
             }
         if (args.length > 1)
             throw new RuntimeException("USAGE: " + name() + " [<username>]");
-        if (args.length == 1)
-            token = (String) LoginUser.cookies.get(args[0]);
-        	System.out.println(args[0] + ": " + token);
+        if (args.length == 1) {
+            token = LoginUser.cookies.get(args[0]);
+            System.out.println(args[0] + ": " + token);
+        }
     }
 }
