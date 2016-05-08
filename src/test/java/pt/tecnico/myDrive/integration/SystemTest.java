@@ -31,15 +31,15 @@ public class SystemTest extends BaseServiceTest {
 
     @Test
     public void success() {
-        new LoginUser(sh).execute(new String[] { "login", SuperUser.ROOT_USERNAME, SuperUser.ROOT_PASSWORD } );
-        new Token(sh).execute(new String[] {"token", SuperUser.ROOT_USERNAME } );
-        new ChangeDirectory(sh).execute(new String[] { "cwd", "." } );
-        new ListDirectory(sh).execute(new String[] { "ls"} );
-        new ExecuteFile(sh).execute(new String[] { "do", APP_NAME, "Hey"} );
-        new WriteFile(sh).execute(new String[] { "update", PLAIN_NAME, PLAIN_CONTENT } );
-        new ExecuteFile(sh).execute(new String[] { "do", PLAIN_NAME} );
-        new EnvVariable(sh).execute(new String[] { "env", ENV_VAR_NAME, ENV_VAR_VALUE} );
-        new EnvVariable(sh).execute(new String[] { "env", ENV_VAR_NAME, ENV_VAR_NAME_MODIFIED} );
-        new EnvVariable(sh).execute(new String[] { "env", ENV_VAR_VALUE_MODIFIED, ENV_VAR_NAME_MODIFIED} );
+        new LoginUser(sh).execute(new String[] { SuperUser.ROOT_USERNAME, SuperUser.ROOT_PASSWORD } );
+        new Token(sh).execute(new String[] { SuperUser.ROOT_USERNAME } );
+        new ChangeDirectory(sh).execute(new String[] { "." } );
+        new ListDirectory(sh).execute(new String[] {} );
+        new ExecuteFile(sh).execute(new String[] { APP_NAME, "Hey"} );
+        new WriteFile(sh).execute(new String[] { PLAIN_NAME, PLAIN_CONTENT } );
+        new ExecuteFile(sh).execute(new String[] { PLAIN_NAME} );
+        new EnvVariable(sh).execute(new String[] { ENV_VAR_NAME, ENV_VAR_VALUE} );
+        new EnvVariable(sh).execute(new String[] { ENV_VAR_NAME, ENV_VAR_NAME_MODIFIED} );
+        new EnvVariable(sh).execute(new String[] { ENV_VAR_VALUE_MODIFIED, ENV_VAR_NAME_MODIFIED} );
     }
 }

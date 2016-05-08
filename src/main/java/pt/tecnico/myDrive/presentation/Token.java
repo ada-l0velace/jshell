@@ -5,6 +5,8 @@ package pt.tecnico.myDrive.presentation;
  */
 public class Token extends MyDriveCommand {
 
+    public static String token;
+
     public Token(Shell sh) {
         super(sh, "token", "The interpreter can keep several user sessions active simultaneously. The token commands" +
                 " allows the interpreter to switch between active sessions. The command prints the token of current " +
@@ -14,11 +16,9 @@ public class Token extends MyDriveCommand {
     }
 
     public void execute(String[] args) {
-        if (args.length < 2)
+        if (args.length < 1 || args.length > 1)
             throw new RuntimeException("USAGE: " + name() + " [<username>]");
-        if (args.length > 2)
-            System.out.println("FIXME");
-        else
-            System.out.println("FIXME");
+        if (args.length == 1)
+            token = (String) LoginUser.cookies.get(args[0]);
     }
 }

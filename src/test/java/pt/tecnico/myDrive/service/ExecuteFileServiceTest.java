@@ -501,9 +501,9 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
 
         new FullVerifications() {
             {
-                h.execute(null);
+                h.execute(new String[]{});
                 times = 0;
-                h.greet(null);
+                h.greet(new String[]{});
                 times = 1;
             }
         };
