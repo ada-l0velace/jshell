@@ -7,9 +7,9 @@ public class ChangeDirectory extends MyDriveCommand {
 
     public ChangeDirectory(Shell sh) { super(sh, "cwd", "This command changes the current directory."); }
     public void execute(String[] args) {
-        if (args.length < 3)
+        if (args.length < 2)
             throw new RuntimeException("USAGE: "+name()+" [<path>]");
-        if (args.length > 3)
+        if (args.length > 2)
             System.out.println("FIXME");
         else
             System.out.println("FIXME");

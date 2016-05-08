@@ -15,7 +15,7 @@ public class Hello {
     }
     public static void execute(String[] args) {
         for (String s: args)
-            System.out.println("Execute " + args[0] + "?");
+            System.out.println("Execute " + s + "?");
     }
     public static void sum(String[] args) {
         int sum = 0;

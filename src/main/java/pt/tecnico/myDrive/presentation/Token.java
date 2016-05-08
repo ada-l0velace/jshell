@@ -14,9 +14,9 @@ public class Token extends MyDriveCommand {
     }
 
     public void execute(String[] args) {
-        if (args.length < 3)
+        if (args.length < 2)
             throw new RuntimeException("USAGE: " + name() + " [<username>]");
-        if (args.length > 3)
+        if (args.length > 2)
             System.out.println("FIXME");
         else
             System.out.println("FIXME");

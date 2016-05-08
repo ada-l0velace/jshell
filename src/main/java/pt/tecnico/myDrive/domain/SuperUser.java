@@ -9,8 +9,9 @@ public class SuperUser extends SuperUser_Base {
 
     public static String ROOT_USERNAME = "root";
     public static String ROOT_NAME = "Super User";
+    public static String ROOT_PASSWORD = "***";
     public static Short ROOT_UMASK = (short) Integer.parseInt("FA",16);
-    
+
     /**
      * Default Constructor
      */
@@ -18,7 +19,7 @@ public class SuperUser extends SuperUser_Base {
         super();
         setName(ROOT_NAME);
         setUsername(ROOT_USERNAME);
-        setPassword("***");
+        setPassword(ROOT_PASSWORD);
         setPermissions(new Permissions(ROOT_UMASK));
     }
 

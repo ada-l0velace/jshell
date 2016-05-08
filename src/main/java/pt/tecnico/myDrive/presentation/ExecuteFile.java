@@ -7,9 +7,9 @@ public class ExecuteFile extends MyDriveCommand {
 
     public ExecuteFile(Shell sh) { super(sh, "do", "This command executes a file with the args."); }
     public void execute(String[] args) {
-        if (args.length < 3)
+        if (args.length < 2)
             throw new RuntimeException("USAGE: "+name()+" <path> [<args>]");
-        if (args.length > 3)
+        if (args.length > 2)
             System.out.println("FIXME");
         else
             System.out.println("FIXME");

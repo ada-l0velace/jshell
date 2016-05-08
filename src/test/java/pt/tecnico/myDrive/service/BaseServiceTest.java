@@ -74,15 +74,15 @@ public abstract class BaseServiceTest {
      * @param umask (Short) represents the umask of the user.
      * @return User returns the user created.
      */
-    User createUser(String username, String password, String name, Short umask) {
+    protected User createUser(String username, String password, String name, Short umask) {
         return new User(name, username, password, umask, Manager.getInstance());
     }
 
-    File createFile(Factory.FileType fileT, String token, String name) {
+    protected File createFile(Factory.FileType fileT, String token, String name) {
         return createFile(fileT, token, name, "");
     }
 
-    File createFile(Factory.FileType fileT, String token, String name, String content) {
+    protected File createFile(Factory.FileType fileT, String token, String name, String content) {
         Factory factory = FileFactoryProducer.getFactory(fileT, token);
         return factory.CreateFile(name, content);
     }
@@ -92,7 +92,7 @@ public abstract class BaseServiceTest {
      * @param username (String) represents the username of the user.
      * @return token returns the token of the session created.
      */
-    String createSession(String username, String password) {
+    protected String createSession(String username, String password) {
         return Manager.getInstance().createSession(username, password);
     }
 

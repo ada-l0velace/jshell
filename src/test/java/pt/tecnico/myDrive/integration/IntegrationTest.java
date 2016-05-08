@@ -30,7 +30,7 @@ public class IntegrationTest extends BaseServiceTest {
 	private static final String _content = "newContent";
 	
 	protected void populate() { // populate mockup
-		
+		createUser(_username, _pass, "Toni", (short) 0xF0);
     }
 
 	
@@ -47,13 +47,13 @@ public class IntegrationTest extends BaseServiceTest {
 
         ListDirectoryService ld = new ListDirectoryService(token);
     	ld.execute();
-    	assertEquals(ld.result().size(), 3); // Documents, Games, App
+    	assertEquals(ld.result().size(), 5); // Documents, Games, App
     	
     	new DeleteFileService(token, _nameDir2).execute();
     	
     	ld = new ListDirectoryService(token);
     	ld.execute();
-    	assertEquals(ld.result().size(), 2); //Documents, App
+    	assertEquals(ld.result().size(), 4); //Documents, App
     	
     	new WritePlainFileService(token, _nameApp, _content).execute();
     	
@@ -68,7 +68,7 @@ public class IntegrationTest extends BaseServiceTest {
         
         ld = new ListDirectoryService(cd.result());
     	ld.execute();
-    	assertEquals(ld.result().size(), 1); // Games
+    	assertEquals(ld.result().size(), 3); // Games
     	
     }
 }

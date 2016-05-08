@@ -1,61 +1,45 @@
 package pt.tecnico.myDrive.integration;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-
-import pt.tecnico.myDrive.service.BaseServiceTest ;
+import pt.tecnico.myDrive.domain.SuperUser;
+import pt.tecnico.myDrive.service.*;
 import pt.tecnico.myDrive.presentation.*;
+import pt.tecnico.myDrive.service.factory.Factory.FileType;
 
 public class SystemTest extends BaseServiceTest {
 
     private MyDriveShell  sh;
-    /*
-    private User _user;
-    private String _token;
-    private Link _pathLink;
-    private App _file;
-    private Manager _m;
-    private PlainFile _plainfile;
-    private Directory _directoria;
-    private String _content = "abc";
-    private String _fileName = "plainfile";
-*/
+    private static final String APP_NAME = "exe";
+    private static final String APP_CONTENT = "pt.tecnico.myDrive.presentation.Hello.greet";
+
+    private static final String PLAIN_NAME = "Plain";
+    private static final String PLAIN_ARGS = "hello darkness my old friend I've come to talk with you again.\n";
+    private static final String PLAIN_CONTENT = "pt.tecnico.myDrive.presentation.Hello.execute "+ PLAIN_ARGS;
+
+    private static final String ENV_VAR_NAME = "JAVA_HOME";
+    private static final String ENV_VAR_VALUE = "/usr/bin/java/jdk1.8.0.0_25";
+    private static final String ENV_VAR_NAME_MODIFIED = "JDK_HOME";
+    private static final String ENV_VAR_VALUE_MODIFIED = "%JAVA_HOME%";
+
     protected void populate() {
         sh = new MyDriveShell();
-        /*
-        _m = Manager.getInstance();
-        _user = createUser("derp", _password, _name, _umask);
-        _token = createSession("derp", _password);
-        _plainfile = new PlainFile(_user, _fileName + "1", _testContent , s.getCurrentDirectory(), m);
-        _directoria = new Directory(_user, "DirToTheFuture", s.getCurrentDirectory(), m);
-        _file = new App(m.getSuperuser(), "AppToThePast", _testContent , s.getCurrentDirectory(), m);    
-        _pathLink = _user.createLink(_file, "LinkToThePast", s.getCurrentDirectory(),m);
-        new PlainFile(_user, _fileName+"1", _content , s.getCurrentDirectory(), m);
-        */
+
+        createFile(FileType.APP, createSession(SuperUser.ROOT_USERNAME, SuperUser.ROOT_PASSWORD), APP_NAME, APP_CONTENT);
+        createFile(FileType.PLAINFILE, createSession(SuperUser.ROOT_USERNAME, SuperUser.ROOT_PASSWORD), PLAIN_NAME,
+                APP_CONTENT);
     }
 
     @Test
     public void success() {
-        /*
-        new LoginUserService(sh).execute(_token);
-        new ChangeDirectoryService(sh).execute(_token, _pathLink );
-        new ListDirectoryService(sh).execute(_token );
-        new ExecuteFileService(sh).execute(_token, _pathLink );
-        new WritePlainFileService(sh).execute( _token, _plainfile, _content);
-        new EnvironmentVariableService(sh).execute(_token, "derp", "test" );
-        //new Token(sh).execute("derp");
-
-        //ou
-        
-        new LoginUserService(sh).execute(new String[] { "login", "jack","secretpass" } );
-        new ChangeDirectoryService(sh).execute(new String[] { "cwd", "./" } );
-        new ListDirectoryService(sh).execute(new String[] { "ls"} ); //verificar a path
-        new ExecuteFileService(sh).execute(new String[] { "do", "./", "arg" } ); //verificar a path e agumentos
-        new WritePlainFileService(sh).execute(new String[] { "update", ".t", "abc" } );
-        new EnvironmentVariableService(sh).execute(new String[] { "env" } );
-        //new Token(sh).execute(new String[] {"token", "derp" } );
-        */
-
+        new LoginUser(sh).execute(new String[] { "login", SuperUser.ROOT_USERNAME, SuperUser.ROOT_PASSWORD } );
+        new Token(sh).execute(new String[] {"token", SuperUser.ROOT_USERNAME } );
+        new ChangeDirectory(sh).execute(new String[] { "cwd", "." } );
+        new ListDirectory(sh).execute(new String[] { "ls"} );
+        new ExecuteFile(sh).execute(new String[] { "do", APP_NAME, "Hey"} );
+        new WriteFile(sh).execute(new String[] { "update", PLAIN_NAME, PLAIN_CONTENT } );
+        new ExecuteFile(sh).execute(new String[] { "do", PLAIN_NAME} );
+        new EnvVariable(sh).execute(new String[] { "env", ENV_VAR_NAME, ENV_VAR_VALUE} );
+        new EnvVariable(sh).execute(new String[] { "env", ENV_VAR_NAME, ENV_VAR_NAME_MODIFIED} );
+        new EnvVariable(sh).execute(new String[] { "env", ENV_VAR_VALUE_MODIFIED, ENV_VAR_NAME_MODIFIED} );
     }
 }
