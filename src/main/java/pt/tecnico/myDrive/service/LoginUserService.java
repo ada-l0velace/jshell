@@ -16,7 +16,10 @@ public class LoginUserService extends MyDriveService {
     private String _userToken;
     private String _username;
     private String _password;
-    public static String ROOT_USERNAME = SuperUser.ROOT_USERNAME;
+
+    public LoginUserService(String username) {
+        this(username,"");
+    }
 
     public LoginUserService(String username, String password) {
         super();

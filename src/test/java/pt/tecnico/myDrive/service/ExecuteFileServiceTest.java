@@ -253,7 +253,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new FullVerifications() {
             {
                 String [] args = {_app1.getPath() + _app1.getName()};
-                Main.appTest(args);
+                h.greet(args);
                 times = 1;
             }
         };
@@ -267,7 +267,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new FullVerifications() {
             {
                 String [] args = {_app1.getPath() + _app1.getName()};
-                Main.appTest(args);
+                h.greet(args);
                 times = 1;
             }
         };
@@ -282,7 +282,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new FullVerifications() {
             {
                 String [] args = {_app1.getPath() + _app1.getName()};
-                Main.appTest(args);
+                h.greet(args);
                 times = 1;
             }
         };
@@ -297,7 +297,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new FullVerifications() {
             {
                 String [] args = {_app1.getPath() + _app1.getName()};
-                Main.appTest(args);
+                h.greet(args);
                 times = 1;
             }
         };
@@ -312,7 +312,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new FullVerifications() {
             {
                 String [] args = {_app1.getPath() + _app1.getName()};
-                Main.appTest(args);
+                h.greet(args);
                 times = 1;
             }
         };

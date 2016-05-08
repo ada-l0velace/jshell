@@ -45,6 +45,6 @@ public class Guest extends Guest_Base {
      */
     @Override
     public int tokenTimeExpiration() {
-        return Integer.MAX_VALUE;
+        return 10;
     }
 }
