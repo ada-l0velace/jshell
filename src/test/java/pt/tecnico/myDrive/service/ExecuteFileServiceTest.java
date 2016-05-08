@@ -45,9 +45,8 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     private static final String _linktolinktoapp2Name = "LinkToApp2";
     private static final String _appName1 = "Application1";
     private static final String _appName2 = "Application2";
-    private static final String _appContent1 = "pt.tecnico.myDrive.domain.Main.appExec";
-    private static final String _appContent2 = "pt.tecnico.myDrive.Main";
-    private static final String _plainfileContent1 = "Nothing really matters!";
+    private static final String _appContent1 = "pt.tecnico.myDrive.presentation.Hello.greet";
+    private static final String _appContent2 = "pt.tecnico.myDrive.presentation.Hello";
     private static final String _name1 = "Name1";
     private static final String _name2 = "Name2";
     private static final String _name3 = "Name3";
@@ -112,11 +111,13 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         _session2 = Manager.getInstance().getSessionByToken(_token2);
         _session3 = Manager.getInstance().getSessionByToken(_token3);
 
-        _plainfile1 = createFile(FileType.PLAINFILE, _token1, _plainfileName1, _plainfileContent1);
         _directory1 = createFile(FileType.DIRECTORY, _token1, _directoryName1);
         _directory2 = createFile(FileType.DIRECTORY, _token2, _directoryName2);
         _app1 = createFile(FileType.APP, _token1, _appName1, _appContent1);
         _app2 = createFile(FileType.APP, _token2, _appName2, _appContent2);
+
+        String _plainfileContent1 = _app1.getPath() + _app1.getName() + " " + "Biana";
+        _plainfile1 = createFile(FileType.PLAINFILE, _token1, _plainfileName1, _plainfileContent1);
 
         _link1 = createFile(FileType.LINK, _token1, _linkName1, _app1.getPath()+_app1.getName());
         _link2 = createFile(FileType.LINK, _token2, _linkName2, _app2.getPath()+_app2.getName());
@@ -244,7 +245,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     }
 
     @Test
-    public void executeLinkToPlainFile() {
+    public void executeLinkToPlainFile(@Mocked Hello h) {
         String [] args = { _linktoplainfile1.getPath() + _linktoplainfile1.getName() };
         ExecuteFileService service = new ExecuteFileService(_token1, _linktoplainfile1.getPath() + _linktoplainfile1.getName(), args);
         service.execute();
@@ -258,7 +259,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         };
     }
 
-    public void successPlainFileExec() {
+    public void successPlainFileExec(@Mocked Hello h) {
         String [] args = { _plainfile1.getPath() + _plainfile1.getName() };
         ExecuteFileService service = new ExecuteFileService(_token1, _plainfile1.getPath() + _plainfile1.getName(), args);
         service.execute();
@@ -272,7 +273,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         };
     }
 
-    public void successLinkToApp1Exec() {
+    public void successLinkToApp1Exec(@Mocked Hello h) {
 
         String [] args = { _link1.getPath() + _link1.getName() };
         ExecuteFileService service = new ExecuteFileService(_token1, _link1.getPath() + _link1.getName(), args);
@@ -287,7 +288,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         };
     }
 
-    public void successApp1Exec() {
+    public void successApp1Exec(@Mocked Hello h) {
 
         String [] args = { _app1.getPath() + _app1.getName() };
         ExecuteFileService service = new ExecuteFileService(_token1, _app1.getPath() + _app1.getName(), args);
@@ -302,7 +303,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         };
     }
 
-    public void successLinkToLinkToApp1Exec() {
+    public void successLinkToLinkToApp1Exec(@Mocked Hello h) {
 
         String [] args = { _linktolinktoapp1.getPath() + _linktolinktoapp1.getName() };
         ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp1.getPath() + _linktolinktoapp1.getName(), args);
@@ -317,7 +318,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         };
     }
 
-    public void successLinkToApp2Exec() {
+    public void successLinkToApp2Exec(@Mocked Hello h) {
 
         String [] args = { _link2.getPath() + _link2.getName() };
         ExecuteFileService service = new ExecuteFileService(_token3, _link2.getPath() + _link2.getName(), args);
@@ -332,7 +333,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         };
     }
 
-    public void successApp2Exec() {
+    public void successApp2Exec(@Mocked Hello h) {
 
         String [] args = { _app2.getPath() + _app2.getName() };
         ExecuteFileService service = new ExecuteFileService(_token3, _app2.getPath() + _app2.getName(), args);
@@ -347,7 +348,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         };
     }
 
-    public void successLinkToLinkToApp2Exec() {
+    public void successLinkToLinkToApp2Exec(@Mocked Hello h) {
 
         String [] args = { _linktolinktoapp2.getPath() + _linktolinktoapp2.getName() };
         ExecuteFileService service = new ExecuteFileService(_token3, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName(), args);
