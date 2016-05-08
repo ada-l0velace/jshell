@@ -27,12 +27,12 @@ public class Token extends MyDriveCommand {
     	if(args.length == 0){
     		String key= null;
             String value= token;
-            /*for (Object o : LoginUser.cookies.keySet()) {
+            for (Object o : LoginUser.cookies.keySet()) {
                 if (LoginUser.cookies.get((String) o).equals(value)) {
                   key = (String) o;
                   break;
                 }
-              }*/
+              }
             System.out.println(key + ": " + value);
             }
         if (args.length > 1)
