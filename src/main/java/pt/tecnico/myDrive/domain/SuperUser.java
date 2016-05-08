@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
+import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.SuperUserRemoveException;
 
 /**
@@ -63,11 +64,11 @@ public class SuperUser extends SuperUser_Base {
 
     /**
      * Function to set the token live time of the user
-     * @return the time in minutes of live time of the token.
+     * @param date
+     * @return boolean returns true if it expired false otherwise.
      */
-    @Override
-    public int tokenTimeExpiration() {
-        return 10;
+    public boolean hasExpired(DateTime date) {
+        return !date.plusMinutes(10).isAfterNow();
     }
 
 

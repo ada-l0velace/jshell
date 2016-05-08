@@ -49,7 +49,8 @@ public class Session extends Session_Base {
      * @return boolean returns true if is expired false if not.
      */
     public boolean hasExpired() {
-        return !this.getLastActive().plusMinutes(getUser().tokenTimeExpiration()).isAfterNow();
+        boolean a = getUser().hasExpired(getLastActive());
+        return a;
     }
 
     /**

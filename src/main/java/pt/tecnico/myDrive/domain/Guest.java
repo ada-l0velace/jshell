@@ -1,5 +1,9 @@
 package pt.tecnico.myDrive.domain;
 
+import org.joda.time.DateTime;
+
+import java.time.DateTimeException;
+
 public class Guest extends Guest_Base {
 
     public static String GUEST_USERNAME = "nobody";
@@ -41,10 +45,10 @@ public class Guest extends Guest_Base {
 
     /**
      * Function to set the token live time of the user
-     * @return the time in minutes of live time of the token.
+     * @param date
+     * @return false returns always false because it never expires.
      */
-    @Override
-    public int tokenTimeExpiration() {
-        return 10;
+    public boolean hasExpired(DateTime date) {
+        return false;
     }
 }

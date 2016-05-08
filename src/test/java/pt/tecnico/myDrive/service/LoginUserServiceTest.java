@@ -116,7 +116,7 @@ public class LoginUserServiceTest extends BaseServiceTest{
 		String token = service.result();
 		Session s = Manager.getInstance().getSessionByToken(token);
 		s.setLastActive(s.getLastActive().minusHours(5));
-		assertTrue("Session has expired", s.hasExpired());
+		assertTrue("Session has expired", !s.hasExpired());
 	}
 
 	@Test

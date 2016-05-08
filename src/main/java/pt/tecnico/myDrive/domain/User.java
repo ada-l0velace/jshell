@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import org.jdom2.Element;
 
+import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.*;
 
 /**
@@ -344,11 +345,13 @@ public class User extends User_Base {
 
     /**
      * Function to set the token live time of the user
-     * @return the time in minutes of live time of the token.
+     * @param date
+     * @return boolean returns true if it expired false otherwise.
      */
-    public int tokenTimeExpiration() {
-        return 120;
+    public boolean hasExpired(DateTime date) {
+        return !date.plusMinutes(120).isAfterNow();
     }
+
 
     /**
      * Checks if the file has permissions to be read.
