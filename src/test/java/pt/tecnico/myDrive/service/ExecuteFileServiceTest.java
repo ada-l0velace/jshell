@@ -219,6 +219,12 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     }
 
     @Test(expected = ExecutePermissionException.class)
+    public void executeNoPermissionPlainFile() {
+        ExecuteFileService service = new ExecuteFileService(_token2, _plainfile1.getPath() + _plainfile1.getName());
+        service.execute();
+    }
+
+    @Test(expected = ExecutePermissionException.class)
     public void executeLinkNoGlobalPermission() {
         ExecuteFileService service = new ExecuteFileService(_token2, _link1.getPath() + _link1.getName());
         service.execute();
