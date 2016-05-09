@@ -35,7 +35,6 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     private File _app2;
 
     private static final String _directoryName1 = "Documents1";
-    private static final String _directoryName2 = "Documents2";
     private static final String _plainfileName1 = "PlainFile1";
     private static final String _linkName1 = "Link1";
     private static final String _linkName2 = "Link2";
@@ -112,7 +111,6 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         _session3 = Manager.getInstance().getSessionByToken(_token3);
 
         _directory1 = createFile(FileType.DIRECTORY, _token1, _directoryName1);
-        _directory2 = createFile(FileType.DIRECTORY, _token2, _directoryName2);
         _app1 = createFile(FileType.APP, _token1, _appName1, _appContent1);
         _app2 = createFile(FileType.APP, _token2, _appName2, _appContent2);
 
@@ -147,10 +145,6 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
                 .getName());
     }
 
-    @Test
-    public void success() {
-
-    }
 
     @Test(expected = FileNotFoundException.class)
     public void executeNonExistingApp() {
@@ -327,7 +321,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new FullVerifications() {
             {
                 String [] args = {_app2.getPath() + _app2.getName()};
-                Main.main(args);
+                h.main(args);
                 times = 1;
             }
         };
@@ -342,7 +336,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new FullVerifications() {
             {
                 String [] args = {_app2.getPath() + _app2.getName()};
-                Main.main(args);
+                h.main(args);
                 times = 1;
             }
         };
@@ -357,7 +351,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new FullVerifications() {
             {
                 String [] args = {_app2.getPath() + _app2.getName()};
-                Main.main(args);
+                h.main(args);
                 times = 1;
             }
         };
