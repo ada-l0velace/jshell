@@ -32,7 +32,7 @@ public class Token extends MyDriveCommand {
                   key = o;
                   break;
                 }
-              }
+            }
             System.out.println(key + ": " + value);
             }
         if (args.length > 1)
