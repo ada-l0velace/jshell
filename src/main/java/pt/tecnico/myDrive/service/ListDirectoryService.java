@@ -23,39 +23,30 @@ public class ListDirectoryService extends LoginRequiredService {
     private String _path;
 
     public ListDirectoryService(String token) {
-    	super(token);
-    	_token = token;
-    	_session = Manager.getInstance().getSessionByToken(token);
-    	_path = _session.getCurrentDirectory().getPath();
+    	this(token, null);
     }
     
     public ListDirectoryService(String token, String path) {
     	super(token);
     	_token = token;
-    	_session = Manager.getInstance().getSessionByToken(token);
     	_path = path;
     }
     
     @Override
     public final void dispatch() throws MyDriveException {
     	super.dispatch();
-    	_files = new ArrayList<>();
-    	if (_path.equals(_session.getCurrentDirectory().getPath())){
-	    	Directory currentDir = _session.getCurrentDirectory();
-	        currentDir.listContent(_token).forEach(f -> {
-	            if (!f.getName().equals("/"))
-	                _files.add(f.getDtoData(_token)); });
-	        _files.add(currentDir.getDotData(_token));
-	        _files.add(currentDir.getDotDotData(_token));
+    	_session = Manager.getInstance().getSessionByToken(_token);
+    	if (_path == null) {
+    		_path = _session.getCurrentDirectory().getPath() + _session.getCurrentDirectory().getName();
     	}
-    	else {
-    		Directory dir = (Directory) _session.getUser().getFileByPath(_path, _token);
-    		dir.listContent(_token).forEach(f -> {
-	            if (!f.getName().equals("/"))
-	                _files.add(f.getDtoData(_token)); });
-	        _files.add(dir.getDotData(_token));
-	        _files.add(dir.getDotDotData(_token));
-    	}
+    	_files = new ArrayList<>();   	
+		Directory dir = (Directory) _session.getUser().getFileByPath(_path, _token);
+		dir.listContent(_token).forEach(f -> {
+        if (!f.getName().equals("/"))
+            _files.add(f.getDtoData(_token)); });
+        _files.add(dir.getDotData(_token));
+        _files.add(dir.getDotDotData(_token));
+
     }
 
     public String output(){
