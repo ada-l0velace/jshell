@@ -17,8 +17,10 @@ public class WritePlainFileService extends LoginRequiredService {
     public WritePlainFileService(String token, String plainFileName, String content) {
     	super(token);
         _token = token;
+        /*
         _user = Manager.getInstance().getUserByToken(token);
         _session = Manager.getInstance().getSessionByToken(token);
+        */
         _plainFileName = plainFileName;
         _content = content;
     }

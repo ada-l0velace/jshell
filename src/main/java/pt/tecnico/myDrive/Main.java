@@ -17,6 +17,8 @@ import java.io.PrintStream;
 import java.io.IOException;
 
 
+import pt.tecnico.myDrive.service.factory.Factory.FileType;
+
 public class Main {
 
     private static final Logger logger = LogManager.getRootLogger();
@@ -75,6 +77,8 @@ public class Main {
     public static void setup() { // phonebook with debug data
         logger.trace("Setup: " + FenixFramework.getDomainRoot());
         Manager m = Manager.getInstance();
+        m.createFile(FileType.PLAINFILE, m.createSession("root","***"), "name", "content");
+
         /*User su = m.getSuperuser();
         String n = "";
         File rootDir = su.getFileByPath("/");

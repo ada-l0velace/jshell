@@ -2,7 +2,8 @@ package pt.tecnico.myDrive.domain;
 
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.UsernameAlreadyExistsException;
-
+import pt.tecnico.myDrive.service.factory.Factory;
+import pt.tecnico.myDrive.service.factory.FileFactoryProducer;
 import pt.ist.fenixframework.FenixFramework;
 
 import org.apache.logging.log4j.LogManager;
@@ -78,6 +79,11 @@ public class Manager extends Manager_Base{
             }
         }
         return null;
+    }
+
+    public File createFile(Factory.FileType fileT, String token, String name, String content) {
+        Factory factory = FileFactoryProducer.getFactory(fileT, token);
+        return factory.CreateFile(name, content);
     }
 
     /**

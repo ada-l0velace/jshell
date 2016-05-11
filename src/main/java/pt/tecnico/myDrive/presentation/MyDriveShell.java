@@ -11,6 +11,7 @@ public class MyDriveShell extends Shell {
 
     public static void main(String[] args) throws Exception {
         Main.init();
+        Main.setup();
         MyDriveShell sh = new MyDriveShell();
         sh.execute();
     }

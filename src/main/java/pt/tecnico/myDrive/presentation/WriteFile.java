@@ -9,10 +9,15 @@ public class WriteFile extends MyDriveCommand {
 
     public void execute(String[] args) {
 
-        if (args.length == 2){
+        if (args.length >= 2){
             String path = args[0];
             String content = args[1];
-            new WritePlainFileService(Token.token, path, content);
+            for(int x=2; x<args.length; x++){
+                content= content + " " + args[x];
+            }
+            WritePlainFileService p = new WritePlainFileService(Token.token, path, content);
+            p.execute();
+            //System.out.println("Novo content: " + content);
         }
 
         else
