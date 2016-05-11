@@ -100,24 +100,6 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     }
     
     @Test(expected = EmptyVariableValueException.class)
-    public void nullContent() {
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "urso", null);
-    	EVS.execute();
-    }
-    
-    @Test(expected = EmptyVariableValueException.class)
-    public void nullContentRedefine() {
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "cenas", null);
-    	EVS.execute();
-    }
-    
-    @Test(expected = InvalidVariableNameException.class)
-    public void nullName() {
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, null, "banana");
-    	EVS.execute();
-    }
-    
-    @Test(expected = EmptyVariableValueException.class)
     public void noContentRedefine() {
     	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "cenas", "");
     	EVS.execute();
