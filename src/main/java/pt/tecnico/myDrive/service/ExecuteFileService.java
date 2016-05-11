@@ -15,7 +15,7 @@ public class ExecuteFileService extends LoginRequiredService {
 		super(token);
 		_sessionToken = token;
 		_path = path;
-		_args = null;
+		_args = new String[0];
 	}
 	
 	public ExecuteFileService(String token, String path, String [] args){
