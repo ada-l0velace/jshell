@@ -46,7 +46,6 @@ public class ListDirectoryService extends LoginRequiredService {
             _files.add(f.getDtoData(_token)); });
         _files.add(dir.getDotData(_token));
         _files.add(dir.getDotDotData(_token));
-
     }
 
     public String output(){

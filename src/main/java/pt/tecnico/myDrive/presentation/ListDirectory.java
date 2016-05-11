@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.presentation;
 
 import pt.tecnico.myDrive.service.ListDirectoryService;
+import pt.tecnico.myDrive.service.dto.FileDto;
 
 import java.util.Arrays;
 
@@ -9,7 +10,7 @@ public class ListDirectory extends MyDriveCommand {
     public ListDirectory(Shell sh) { super(sh, "ls", "This command lists the current directory."); }
     
     public void execute(String[] args) {
-        if (args.length < 0)
+        if (args.length < 0 || args.length > 1)
             throw new RuntimeException("USAGE: " + name() + " [<path>]");
      
         if (args.length == 0) {
