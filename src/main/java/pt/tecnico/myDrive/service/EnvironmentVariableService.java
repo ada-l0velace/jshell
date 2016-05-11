@@ -15,6 +15,7 @@ import pt.tecnico.myDrive.service.dto.EnvironmentVariableDto;
 
 import pt.tecnico.myDrive.exception.InvalidVariableNameException;;
 import pt.tecnico.myDrive.exception.EmptyVariableValueException;
+import pt.tecnico.myDrive.exception.EnvVarNameNotFoundException;
 
 import java.util.List; 
 
@@ -27,26 +28,27 @@ public class EnvironmentVariableService extends LoginRequiredService {
     private String _value;
     private List<EnvironmentVariableDto> _list;
 
-    public EnvironmentVariableService(String token, String name, String value) {
+    public EnvironmentVariableService(String token) {
         super(token);
         _token = token;
-        _name = name;
-        _value = value;
         _user = Manager.getInstance().getUserByToken(token);
         _session = Manager.getInstance().getSessionByToken(token);
+    }
+
+    public EnvironmentVariableService(String token, String name) {
+        this(token);
+        _name = name;
+    }
+
+    public EnvironmentVariableService(String token, String name, String value) {
+        this(token);
+        _name = name;
+        _value = value;
     }
 
     @Override
     protected void dispatch() throws MyDriveException {
         super.dispatch();
-        if(_name.equals("") )
-        {
-            throw new InvalidVariableNameException(_name);
-        }
-        if(_value.equals("") )
-        {
-            throw new EmptyVariableValueException(_name);
-        }
 
         boolean found = false;
 
@@ -56,6 +58,8 @@ public class EnvironmentVariableService extends LoginRequiredService {
             {
                 envVar.setValue(_value);
                 found = true;
+                System.out.println(envVar.getName());
+                System.out.println(envVar.getValue());
                 break;
             }
         }
@@ -69,8 +73,34 @@ public class EnvironmentVariableService extends LoginRequiredService {
 
     }
 
+    public String output(){
+        String output = "";
+
+        for(EnvironmentVariable envVar : _session.getEnvVarSet())
+        {
+            if(envVar.getName().equals(_name))
+            {
+                output = envVar.getName() + "=" + envVar.getValue();
+                return output;
+            }
+        }
+        throw new EnvVarNameNotFoundException(_name);
+    }
+
+    public String outputAll(){
+        String output = "";
+
+        for(EnvironmentVariable envVar : _session.getEnvVarSet())
+        {
+            output = output + envVar.getName() + "=" + envVar.getValue() + "\n";
+        }
+        return output;
+    }
+
     public List<EnvironmentVariableDto> result() {
+
         _list = new ArrayList<>();
+
         for(EnvironmentVariable envVar : _session.getEnvVarSet()) 
         {
             EnvironmentVariableDto newEnvVarDto = new EnvironmentVariableDto(envVar.getName(),envVar.getValue());
