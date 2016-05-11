@@ -86,26 +86,38 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     	}
     	assertTrue("nao redefiniu bem a variavel", varCheck);
     }
-    /*
-
-    @Test(expected = InvalidVariableNameException.class)
-    public void invalidName() {
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "", "banana");
-    	EVS.execute();
-    }
     
-    @Test(expected = EmptyVariableValueException.class)
-    public void noContent() {
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "urso", "");
-    	EVS.execute();
-    }
-    
-    @Test(expected = EmptyVariableValueException.class)
-    public void noContentRedefine() {
+    @Test
+    public void emptyValueSuccess() {
+    	boolean varCheck = false;
     	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "cenas", "");
     	EVS.execute();
-    } */
+    	List<EnvironmentVariableDto> aev = EVS.result();
+    	for(int i = 0; i < aev.size();i ++){
+    		if(aev.get(i).getName().equals("cenas")){
+    			varCheck = true;
+    		}
+    	}
+    	assertTrue("nao executou corretamente com valor vazio", varCheck);
+    }
     
+    @Test
+    public void emptyNameValueSuccess() {
+    	boolean varCheck = false;
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "", "");
+    	EVS.execute();
+    	List<EnvironmentVariableDto> aev = EVS.result();
+    	if (aev.size != 0)
+    		varCheck = true;
+    	assertTrue("nao executou corretamente com valor e nome vazio", varCheck);
+    }
+    
+    
+    @Test(expected = EnvVarNameNotFoundException.class)
+    public void invalidName() {
+    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "balelas", "");
+    	EVS.execute();
+    }
 
     @Override
     public MyDriveService CreateService(String token) {
