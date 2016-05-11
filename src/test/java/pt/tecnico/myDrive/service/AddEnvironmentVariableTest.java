@@ -18,6 +18,7 @@ import pt.tecnico.myDrive.exception.ReadPermissionException;
 import pt.tecnico.myDrive.exception.InvalidVariableNameException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.EmptyVariableValueException;
+import pt.tecnico.myDrive.exception.EnvVarNameNotFoundException;
 import java.util.List;
 
 public class AddEnvironmentVariableTest extends TokenVerificationTest{
@@ -107,7 +108,7 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "", "");
     	EVS.execute();
     	List<EnvironmentVariableDto> aev = EVS.result();
-    	if (aev.size != 0)
+    	if (aev.size() != 0)
     		varCheck = true;
     	assertTrue("nao executou corretamente com valor e nome vazio", varCheck);
     }
