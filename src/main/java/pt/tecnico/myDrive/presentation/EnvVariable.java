@@ -18,7 +18,7 @@ public class EnvVariable extends MyDriveCommand
                 if(args[1].equals("[]]"))
                 {
                     EnvironmentVariableService service = new EnvironmentVariableService(Token.token);
-                    System.out.println(service.outputAll());
+                    service.execute();
                 }
                 else
                 {
@@ -31,7 +31,7 @@ public class EnvVariable extends MyDriveCommand
                 {
                     String arg0 = args[0].substring(1, args[0].length());
                     EnvironmentVariableService service = new EnvironmentVariableService(Token.token, arg0);
-                    System.out.println(service.output());
+                    service.execute();
                 }
                 else
                 {
