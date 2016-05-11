@@ -187,73 +187,73 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeApp1ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _app1.getPath() + _app1.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeApp2ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _app2.getPath() + _app2.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeLink1ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _link1.getPath() + _link1.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeLink2ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _link2.getPath() + _link2.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeLinkToLink1ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoapp1.getPath() + _linktolinktoapp1.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeLinkToLink2ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executePlain1ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _plainfile1.getPath() + _plainfile1.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executePlain2ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _plainfile2.getPath() + _plainfile2.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeLinkToPlain1ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _linktoplainfile1.getPath() + _linktoplainfile1.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeLinkToPlain2ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _linktoplainfile2.getPath() + _linktoplainfile2.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeLinkToLinkToPlain1ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoplain1.getPath() + _linktolinktoplain1.getName());
         service.execute();
     }
 
-    @Test(expected = CannotBeExecutedException.class)
+    @Test(expected = ExecutePermissionException.class)
     public void executeLinkToLinkToPlain2ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoplain2.getPath() + _linktolinktoplain2.getName());
         service.execute();
