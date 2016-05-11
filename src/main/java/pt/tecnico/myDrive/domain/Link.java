@@ -8,6 +8,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.lang.ClassNotFoundException;
+import java.lang.NoSuchMethodException;
+import java.lang.SecurityException;
+import java.lang.IllegalAccessException;
+import java.lang.IllegalArgumentException;
+import java.lang.reflect.InvocationTargetException;
+
 import pt.tecnico.myDrive.exception.*;
 import pt.tecnico.myDrive.service.dto.FileDto;
 
@@ -83,4 +90,17 @@ public class Link extends Link_Base {
     	String a = super.toString();
 	    return a + " -> " + getContentAux();
     }
+
+	/**
+     * Executes Link
+     */
+    @Override
+    public void execute(String token, String [] args){
+        User u = Manager.getInstance().getUserByToken(token);
+		if (!getOwner().getPermissions().canExecute(this))
+			throw new ExecutePermissionException(getName(), u.getUsername());
+		System.out.println("this file is on location " + this.getContent(token));
+		u.getFileByPath(super.getContent(token), token).execute(token, args);
+	}
+
 }

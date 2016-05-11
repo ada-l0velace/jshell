@@ -55,8 +55,8 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     private static final String _password1 = "password1";
     private static final String _password2 = "password2";
     private static final String _password3 = "password3";
-    private static final Short _umask1 = 0xFB;
-    private static final Short _umask2 = 0xBF;
+    private static final Short _umask1 = 0xDD;
+    private static final Short _umask2 = 0xDD;
     private static final Short _umask3 = 0xFF;
     private User _user1;
     private User _user2;
@@ -120,15 +120,14 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         _link1 = createFile(FileType.LINK, _token1, _linkName1, _app1.getPath()+_app1.getName());
         _link2 = createFile(FileType.LINK, _token2, _linkName2, _app2.getPath()+_app2.getName());
         _linktoplainfile1 = createFile(FileType.LINK, _token1, _linktoplainfile1Name, _plainfile1.getPath() + _plainfile1.getName()); 
-        _linktodirectory1 = createFile(FileType.LINK, _token1, _linktodirectory1Name, _directory1.getPath() + _directory1.getName()); 
+        _linktodirectory1 = createFile(FileType.LINK, _token1, _linktodirectory1Name,  _directory1.getPath() + _directory1.getName()); 
         _linktolinktoapp1 = createFile(FileType.LINK, _token1, _linktolinktoapp1Name, _link1.getPath() + _link1.getName()); 
         _linktolinktoapp2 = createFile(FileType.LINK, _token2, _linktolinktoapp2Name, _link2.getPath() + _link2.getName());
-
         //File ASSOCIATION
         _user = createUser(USERNAME, PASSWORD, NAME, UMASK);
         _token = createSession(USERNAME, PASSWORD);
 
-        _plainWithoutExtension = createFile(FileType.PLAINFILE, _token, PLAIN_WITHOUT_EXTENSION);
+       _plainWithoutExtension = createFile(FileType.PLAINFILE, _token, PLAIN_WITHOUT_EXTENSION);
 
         _appWithExtension = createFile(FileType.APP, _token, APP_WITH_NAME, APP_WITH_EXTENSION_CONTENT);
 
@@ -155,6 +154,9 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     @Test(expected = CannotBeExecutedException.class)
     public void executeLinkToDirectory() {
         ExecuteFileService service = new ExecuteFileService(_token1, _linktodirectory1.getPath() + _linktodirectory1.getName());
+		User u = Manager.getInstance().getUserByToken(_token1);
+		File d = u.getFileByPath(_linktodirectory1.getPath() + _linktodirectory1.getName(), _token1);
+		System.out.println("Link to directory is " + d.getPath() + d.getName() + " pointed to " + d.getContent(_token1) + " instead of " + _directory1.getPath() + _directory1.getName());
         service.execute();
     }
 
@@ -369,7 +371,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token);
+                _app.execute(_token, null);
             }
         };
 
@@ -389,7 +391,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token);
+                _app.execute(_token, null);
             }
         };
 
@@ -410,7 +412,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token);
+                _app.execute(_token, null);
             }
         };
 
@@ -431,7 +433,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token);
+                _app.execute(_token, null);
             }
         };
 
@@ -452,7 +454,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token);
+                _app.execute(_token, null);
             }
         };
 
@@ -473,7 +475,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token);
+                _app.execute(_token, null);
             }
         };
 
@@ -494,7 +496,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _appWithExtension.execute(_token);
+                _appWithExtension.execute(_token, null);
             }
         };
 

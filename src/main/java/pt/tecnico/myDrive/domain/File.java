@@ -7,6 +7,14 @@ import org.jdom2.Element;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import java.lang.ClassNotFoundException;
+import java.lang.NoSuchMethodException;
+import java.lang.SecurityException;
+import java.lang.IllegalAccessException;
+import java.lang.IllegalArgumentException;
+import java.lang.reflect.InvocationTargetException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,13 +68,10 @@ public abstract class File extends File_Base implements IElementXml {
     /**
      * Executes file (only App can execute correctly)
      */
-    public void execute(String token) {
-        User u = Manager.getInstance().getUserByToken(token);
-        if (getOwner().getPermissions().canExecute(this))
-            throw new CannotBeExecutedException(getName());
-        else
-            throw new ExecutePermissionException(getName(), u.getUsername());
+    public void execute(String token, String [] args){
+		throw new CannotBeExecutedException(getName());
     }
+
     
     /**
      * Set the last id with the manager

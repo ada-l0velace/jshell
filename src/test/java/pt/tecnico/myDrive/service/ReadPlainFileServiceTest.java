@@ -1,3 +1,4 @@
+
 package pt.tecnico.myDrive.service;
 
 import org.junit.Test;
@@ -8,7 +9,14 @@ import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.service.factory.Factory.FileType;
 
 import static org.junit.Assert.assertEquals;
+import org.junit.runner.RunWith;
 
+import mockit.Expectations;
+import mockit.Verifications;
+import mockit.Mocked;
+import mockit.integration.junit4.JMockit;
+
+@RunWith(JMockit.class)
 public class ReadPlainFileServiceTest extends TokenVerificationTest {
 
 	private PlainFile _file;
@@ -23,7 +31,9 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
     private String _token1;
     private File _pathLink;
     private String _token2;
-
+	//-	private File _envLinkFile;
+	
+	
 	protected void populate() {
 		int i = 0;
         Manager m = Manager.getInstance();
@@ -108,7 +118,34 @@ public class ReadPlainFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
     
+	/*	@Test
+	public void environmentLinkSuccess(){
+		new Expectations() {
+			@Mocked("getContent")
+			File _envLinkFile;
+			{
+				User u = Manager.getInstance().getUserByUsername("derp");
+				u.getFileByPath(_envLinkFile.getContent(_token),_token).getContent(_token);
+				result = _testContent;
+			}
+		};
+		ReadPlainFileService service = new ReadPlainFileService(_token, _envLinkFile.getName());
+		service.execute();
+		assertEquals(service.result(), _testContent);
+	}
 
+	@Test(expected = ReadPermissionException.class)
+	public void envLinkReadAccessDenied(){
+		new Expectations(){
+			{
+				Manager.getInstance().getUserByToken(_token).getFileByPath(_envLinkFile.getContent(_token),_token).getContent(_token);
+				result = new ReadPermissionException(_fileName,"derp");
+			}
+		};
+		ReadPlainFileService service = new ReadPlainFileService(_token, "envLink");
+		service.execute();		
+		}*/
+	
     @Override
     public MyDriveService CreateService(String token) {
         return new ReadPlainFileService(token, _fileName);

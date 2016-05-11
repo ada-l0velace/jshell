@@ -4,6 +4,19 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.Main;
 import pt.tecnico.myDrive.exception.ExecutePermissionException;
 import pt.tecnico.myDrive.presentation.Hello;
+import pt.tecnico.myDrive.presentation.Shell;
+
+import pt.tecnico.myDrive.exception.FileNotFoundException;
+
+import java.lang.ClassNotFoundException;
+import java.lang.NoSuchMethodException;
+import java.lang.SecurityException;
+import java.lang.IllegalAccessException;
+import java.lang.IllegalArgumentException;
+import java.lang.reflect.InvocationTargetException;
+
+import pt.tecnico.myDrive.exception.ExecuteFileException;
+
 
 import java.io.UnsupportedEncodingException;
 
@@ -51,9 +64,12 @@ public class App extends App_Base {
      * Executes App    
      */
     @Override
-    public void execute(String token){
+    public void execute(String token, String [] args){
         User u = Manager.getInstance().getUserByToken(token);
+		try{
         if (!getOwner().getPermissions().canExecute(this))
             throw new ExecutePermissionException(getName(), u.getUsername());
-    }
+		Shell.run(u.getFileByPath(this.getPath() +  this.getName(), token).getContent(token), args);
+		} catch (ClassNotFoundException | SecurityException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e) { throw new ExecuteFileException(); }
+	}
 }
