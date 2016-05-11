@@ -39,7 +39,10 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
         s = m.getSessionByToken(_token);
         _rootToken = createSession("root", "***");
         rootSession = m.getSessionByToken(_rootToken);
-        EnvironmentVariableDto newVariavel = new EnvironmentVariableDto("cenas", "coisas");
+        EnvironmentVariable newVar = new EnvironmentVariable();
+        newVar.setName("cenas");
+        newVar.setValue("banana");
+        m.getSessionByToken(_token).addEnvVar(newVar);
     }
 
     @Test
