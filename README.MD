@@ -22,6 +22,28 @@ Compile with Converage/Site generation and open site on chromium
 > chromium target/site/cobertura/index.html --incognito
 ```
 
+#Unit/IT Test Runing
+
+Run all Tests
+```
+> mvn clean test
+```
+
+Compile without running any Tests.
+```
+> mvn clean test -DskipTests
+```
+
+Run tests a specific class of tests.
+```
+> mvn clean test -Dtest=ClassTest
+```
+
+Run a specific method test.
+```
+> mvn clean test -Dtest=ClassTest#Method
+```
+
 # Development
 <a href="#">To Do tasks - Trello</a>
 
