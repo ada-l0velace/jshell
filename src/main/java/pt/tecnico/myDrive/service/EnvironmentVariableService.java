@@ -39,13 +39,13 @@ public class EnvironmentVariableService extends LoginRequiredService {
     @Override
     protected void dispatch() throws MyDriveException {
         super.dispatch();
-        if(_name.equals(null) || _name.equals("") )
+        if(_name.equals("") )
         {
             throw new InvalidVariableNameException(_name);
         }
-        if(_value.equals(null) || _value.equals("") )
+        if(_value.equals("") )
         {
-            throw new InvalidVariableNameException(_name);
+            throw new EmptyVariableValueException(_name);
         }
 
         boolean found = false;
