@@ -5,6 +5,8 @@ package pt.tecnico.myDrive.presentation;
  */
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pt.tecnico.myDrive.Main;
+
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
@@ -25,6 +27,7 @@ public abstract class Shell {
             void execute(String[] args) {
                 System.out.println(name+" quit");
                 System.exit(0);
+                Main.shutDown();
             }
         };
         new Command(this, "exec", "execute an external command") {

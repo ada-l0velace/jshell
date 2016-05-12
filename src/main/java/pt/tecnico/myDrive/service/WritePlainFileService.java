@@ -7,21 +7,20 @@ import pt.tecnico.myDrive.exception.WritePermissionException;
 
 
 public class WritePlainFileService extends LoginRequiredService {
-	
-	private User _user;
-    private Session _session;
-    private String _plainFileName;
+
+    private String _path;
     private String _content;
     private String _token;
 
-    public WritePlainFileService(String token, String plainFileName, String content) {
+
+    public WritePlainFileService(String token, String path) {
+        this(token, path,"");
+    }
+
+    public WritePlainFileService(String token, String path, String content) {
     	super(token);
         _token = token;
-        /*
-        _user = Manager.getInstance().getUserByToken(token);
-        _session = Manager.getInstance().getSessionByToken(token);
-        */
-        _plainFileName = plainFileName;
+        _path = path;
         _content = content;
     }
 
@@ -29,9 +28,9 @@ public class WritePlainFileService extends LoginRequiredService {
     protected void dispatch() throws MyDriveException {
     	super.dispatch();
         User u = Manager.getInstance().getUserByToken(_token);
-    	if(u.getFileByPath(_plainFileName, _token) instanceof PlainFile) {
+    	if(u.getFileByPath(_path, _token) instanceof PlainFile) {
             Directory d = u.getSessionDirectory(_token);
-            PlainFile f = (PlainFile) d.searchFile(_plainFileName, _token);
+            PlainFile f = (PlainFile) d.searchFile(_path, _token);
             f.setContent(_content, _token);
             return;
         }

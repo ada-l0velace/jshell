@@ -53,6 +53,16 @@ public class Manager extends Manager_Base{
     }
 
     /**
+     * Creates a session for a specific username with a.
+     * @param username (String) represents the username of the user.
+     * @return token returns the token of the session created.
+     */
+    public String createGuestSession() {
+        Session s = new Session("nobody", "");
+        return s.getToken();
+    }
+
+    /**
      * Creates a session for a specific username.
      * @param username (String) represents the username of the user.
      * @return token returns the token of the session created.

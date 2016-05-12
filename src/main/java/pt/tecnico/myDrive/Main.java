@@ -32,7 +32,7 @@ public class Main {
             //debug();
         } finally {
             // ensure an orderly shutdown
-            FenixFramework.shutdown();
+            shutDown();
         }
     }
 
@@ -74,52 +74,22 @@ public class Main {
     }
 
     @Atomic
-    public static void setup() { // phonebook with debug data
+    public static void setup() {
         logger.trace("Setup: " + FenixFramework.getDomainRoot());
         Manager m = Manager.getInstance();
         m.createFile(FileType.PLAINFILE, m.createSession("root","***"), "name", "content");
-
-        /*User su = m.getSuperuser();
-        String n = "";
-        File rootDir = su.getFileByPath("/");
-
-        Directory usr = new Directory(su, "usr", (RootDirectory) rootDir, m);
-        Directory local = new Directory(su, "local", usr, m);
-
-        File home = su.getFileByPath("/home");
-
-        User user = new User("Biana","yommere","pass", (short) 0xF0, m);
-
-        //m.deleteUser(user);
-        
-        // #1
-        for (User u : m.getUsersSet())
-            n += u.getUsername() + "\n";
-        File readme = new PlainFile(su, "README", n, (Directory) home, m);
-
-        // #2
-        Directory bin = new Directory(su, "bin", local, m);
-
-        // #3
-        System.out.println(readme.getContent(Manager.getInstance().getUserByUsername("root")));
-        
-        // #5
-        xmlPrint();
-        
-        // #6
-        readme.remove(su);
-        
-        // #7
-        */
-        //User user = new User("Biana","yommere","pass", (short) 0xF0, m);
-        //Session s = new Session(user);
-        //File home = user.getFileByPath("/home",s.getToken());
-        //for (File f:
-        //        ((Directory) home).listContent(s.getToken())) {
-        //    System.out.println(f);
-        //}
-
+        m.createGuestSession();
     }
+
+    @Atomic
+    public static void shutDown() {
+        logger.trace("ShutDown: " + FenixFramework.getDomainRoot());
+        Manager m = Manager.getInstance();
+        m.deleteSessions();
+        FenixFramework.shutdown();
+    }
+
+
 
     public static void appTest(String [] args) {}
 
