@@ -29,10 +29,12 @@ public class IntegrationTest extends BaseServiceTest {
 
 	private static final String _username = "toni", _pass = "tonitoni16";
 	private static final String _nameDir1 = "Documents",  _nameDir2= "Games", _nameApp = "App";
+	private static final String _appExtName = "App.exe";
 	private static final String _path = "/home/toni/Documents";
 	private static final String _content = "pt.tecnico.myDrive.presentation.Hello.execute";
 	private User _user;
 	private String _token;
+	private File _appWithExtension;
 
 	protected void populate() { // populate mockup
 		_user = createUser(_username, _pass, "Toni", (short) 0xF0);
@@ -98,5 +100,29 @@ public class IntegrationTest extends BaseServiceTest {
     		}
     	}
     	assertTrue(varCheck);
+    	
+
+    	_appWithExtension = createFile(FileType.APP, token, _appExtName, _content);
+    	
+        
+    	new MockUp<ExecuteFileService>() {
+    	    @Mock
+            void dispatch() {
+                _appWithExtension.execute(token, null);
+            }
+        };
+
+        String [] args1 = { _appWithExtension.getPath() + _appWithExtension.getName() };
+        ExecuteFileService exe = new ExecuteFileService(token, _appWithExtension.getPath(), args1);
+        exe.execute();
+        
+        new FullVerifications() {
+            {
+            	h.execute(new String[]{});
+                times = 0;
+                h.greet(new String[]{});
+                times = 1;
+            }
+        };
     }
 }
