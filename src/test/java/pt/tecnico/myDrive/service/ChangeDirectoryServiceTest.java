@@ -1,6 +1,5 @@
 package pt.tecnico.myDrive.service;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -13,14 +12,11 @@ import pt.tecnico.myDrive.domain.PlainFile;
 import pt.tecnico.myDrive.domain.App;
 import pt.tecnico.myDrive.domain.Link;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
-import pt.tecnico.myDrive.exception.InvalidNameFileException;
 import pt.tecnico.myDrive.exception.FileNotFoundException;
 import pt.tecnico.myDrive.exception.InvalidFileTypeException;
-import pt.tecnico.myDrive.service.factory.Factory;
 
 public class ChangeDirectoryServiceTest extends TokenVerificationTest{
 
-    private  Directory _dirTest;
     private static final String _username = "Dovah";
     private static final String _password = "KhinKhin";
     private static final String _username2 = "Nathan";
@@ -64,14 +60,14 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
         
         for (int i=0; i<(dirName.length/2 - 1) ; i++) {
         	String direcName = dirName[i];
-        	_dirTest = new Directory(_user , direcName, (Directory)m.getUserByToken(_token).getHome(), m);
+        	new Directory(_user , direcName, (Directory)m.getUserByToken(_token).getHome(), m);
         }
         String direcName2 = dirName[4];
-        _dirTest = new Directory(_user2 , direcName2, (Directory)m.getUserByToken(_token2).getHome(), m);
+        new Directory(_user2 , direcName2, (Directory)m.getUserByToken(_token2).getHome(), m);
         for (int j=5; j < (dirName.length -1) ; j++) {
         	String direcName = dirName[j];
         	String path = paths[n];
-        	_dirTest = new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path, _token), m);
+        	new Directory(m.getUserByToken(_rootToken) , direcName, (Directory)m.getUserByToken(_rootToken).getFileByPath(path, _token), m);
             n++;
         }
         PlainFile linkCrasher = new PlainFile(m.getUserByToken(_token) , "oneAboveAll", "estoirar o cao", (Directory)m.getUserByToken(_token).getHome(), m);
@@ -83,7 +79,7 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
     public void failedChange() {
     	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_token, "/home/Dovah/games");
     	FullIvt.execute();
-    	s = m.getSessionByToken(FullIvt.result());
+    	s = m.getSessionByToken(_token);
     	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("games"));
     }
 
@@ -91,7 +87,7 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
     public void failedPartialPath() {
     	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_token, "games/lol");
     	FullIvt.execute();
-    	s = m.getSessionByToken(FullIvt.result());
+    	s = m.getSessionByToken(_token);
     	assertTrue("nao mudou corretamente de diretorio", s.getCurrentDirectory().getName().equals("lol"));
     }
 
@@ -99,7 +95,7 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
     public void rootNoChange() {
     	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "/home/Dovah/Fallout");
     	FullIvt.execute();
-    	rootSession = m.getSessionByToken(FullIvt.result());
+    	rootSession = m.getSessionByToken(_rootToken);
     	assertTrue("root sem permissoes?", rootSession.getCurrentDirectory().getName().equals("Fallout"));
     }
 
@@ -107,7 +103,7 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
     public void couldNotChangeRootDir() {
     	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_token, "/Dark");
     	FullIvt.execute();
-    	s = m.getSessionByToken(FullIvt.result());
+    	s = m.getSessionByToken(_token);
     	assertTrue("user nao conseguiu alterar um diretorio do root", s.getCurrentDirectory().getName().equals("Dark"));
     }
 
@@ -116,7 +112,7 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
     	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, ".");
     	String prechange = rootSession.getCurrentDirectory().getName();
     	FullIvt.execute();
-    	rootSession = m.getSessionByToken(FullIvt.result());
+    	rootSession = m.getSessionByToken(_rootToken);
     	assertTrue("nao mudou corretamente para ele proprio", prechange.equals(rootSession.getCurrentDirectory().getName()));
     }
 
@@ -126,7 +122,7 @@ public class ChangeDirectoryServiceTest extends TokenVerificationTest{
     	ChangeDirectoryService FullIvt = new ChangeDirectoryService(_rootToken, "..");
     	String prechange = rootSession.getCurrentDirectory().getParent().getName();
     	FullIvt.execute();
-    	rootSession = m.getSessionByToken(FullIvt.result());
+    	rootSession = m.getSessionByToken(_rootToken);
     	assertTrue("nao mudou corretamente para o pai", rootSession.getCurrentDirectory().getName().equals(prechange));
     }
 
