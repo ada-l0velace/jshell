@@ -39,55 +39,13 @@ public class EnvironmentVariableService extends LoginRequiredService {
     @Override
     protected void dispatch() throws MyDriveException {
         super.dispatch();
-        
         _session = Manager.getInstance().getSessionByToken(_token);
-        
-        if(_value.equals(""))
-        {	
-        	if(_name.equals(""))
-        	{
-                for(EnvironmentVariable envVar : _session.getEnvVarSet())
-                {
-                    System.out.println(envVar.getName() + "=" + envVar.getValue());
-                }
-        	}
-        	else
-        	{
-        		boolean found = false;
-        		for(EnvironmentVariable envVar : _session.getEnvVarSet())
-                {
-                    if(envVar.getName().equals(_name))
-                    {
-                        System.out.println(envVar.getValue());
-                        found = true;
-                    }
-                }
-        		if(found == false)
-        			throw new EnvVarNameNotFoundException(_name);
-        	}
+        EnvironmentVariable ev = _session.environmentVarExists(_name);
+        if(ev == null) {
+            new EnvironmentVariable(_name, _value, _session);
         }
-        else
-        {
-        	boolean found = false;
-
-            for(EnvironmentVariable envVar : _session.getEnvVarSet())
-            {
-                if(envVar.getName().equals(_name))
-                {
-                    envVar.setValue(_value);
-                    found = true;
-                    System.out.println(envVar.getName());
-                    System.out.println(envVar.getValue());
-                    break;
-                }
-            }
-            if(!found)
-            {
-                EnvironmentVariable newEnvVar = new EnvironmentVariable();
-                newEnvVar.setName(_name);
-                newEnvVar.setValue(_value);
-                _session.addEnvVar(newEnvVar);
-            }
+        else {
+            ev.modify(_name, _value);
         }
     }
 

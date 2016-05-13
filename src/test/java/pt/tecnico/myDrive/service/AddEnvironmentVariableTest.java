@@ -112,13 +112,6 @@ public class AddEnvironmentVariableTest extends TokenVerificationTest{
     		varCheck = true;
     	assertTrue("nao executou corretamente com valor e nome vazio", varCheck);
     }
-    
-    
-    @Test(expected = EnvVarNameNotFoundException.class)
-    public void invalidName() {
-    	EnvironmentVariableService EVS = new EnvironmentVariableService(_token, "balelas", "");
-    	EVS.execute();
-    }
 
     @Override
     public MyDriveService CreateService(String token) {
