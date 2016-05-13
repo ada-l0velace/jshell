@@ -261,7 +261,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     }
 
 
-// ----------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------
 
     protected void executeFile(File f) {
         String path = f.getPath();
@@ -341,6 +341,129 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
             {
                 String [] args = {  };
                 h.main(args);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void executeLinkToApp1(@Mocked Hello h) {
+        String [] args = { "Biana" };
+        ExecuteFileService service = new ExecuteFileService(_token1, _link1.getPath() + _link1.getName(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = { "Biana" };
+                h.greet(args);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void executeLinkToApp2(@Mocked Hello h) {
+        ExecuteFileService service = new ExecuteFileService(_token1, _link2.getPath() + _link2.getName());
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {  };
+                h.main(args);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void executeLinkToLinkToApp1(@Mocked Hello h) {
+        String [] args = { "Biana" };
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp1.getPath() + _linktolinktoapp1.getName(), args);
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = { "Biana" };
+                h.greet(args);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void executeLinkToLinkToApp2(@Mocked Hello h) {
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName());
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = {  };
+                h.main(args);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void executeLinkToPlainFile1(@Mocked Hello h) {
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktoplainfile1.getPath() + _linktoplainfile1.getName());
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = { "Biana" };
+                h.greet(args);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void executeLinkToPlainFile2(@Mocked Hello h) {
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktoplainfile2.getPath() + _linktoplainfile2.getName());
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = { "Biana" };
+                h.greet(args);
+                times = 1;
+
+                String [] arg = {  };
+                h.main(arg);
+                times = 1;
+            }
+        };
+    }
+
+
+    @Test
+    public void executeLinkToLinkToPlainFile1(@Mocked Hello h) {
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoplain1.getPath() + _linktolinktoplain1.getName());
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = { "Biana" };
+                h.greet(args);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void executeLinkToLinkToPlainFile2(@Mocked Hello h) {
+        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoplain2.getPath() + _linktolinktoplain2.getName());
+        service.execute();
+
+        new FullVerifications() {
+            {
+                String [] args = { "Biana" };
+                h.greet(args);
+                times = 1;
+
+                String [] arg = {  };
+                h.main(arg);
                 times = 1;
             }
         };
