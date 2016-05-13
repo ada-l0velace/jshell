@@ -194,7 +194,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
-    @Test(expected = ExecutePermissionException.class)
+    @Test
     public void executeApp2ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _app2.getPath() + _app2.getName());
         service.execute();
@@ -206,7 +206,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
-    @Test(expected = ExecutePermissionException.class)
+    @Test
     public void executeLink2ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _link2.getPath() + _link2.getName());
         service.execute();
@@ -218,7 +218,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         service.execute();
     }
 
-    @Test(expected = ExecutePermissionException.class)
+    @Test
     public void executeLinkToLink2ByUser2() {
         ExecuteFileService service = new ExecuteFileService(_token2, _linktolinktoapp2.getPath() + _linktolinktoapp2.getName());
         service.execute();

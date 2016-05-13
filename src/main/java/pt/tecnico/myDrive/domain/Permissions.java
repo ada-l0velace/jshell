@@ -120,7 +120,7 @@ public class Permissions extends Permissions_Base {
         if (getUser().isSuperUser())
             return true;
 		if ((f.getPermissions().userCanExecute() && owner.equals(user)) ||
-			(f.getPermissions().worldCanExecute() && !owner.equals(user)))       
+			(f.getPermissions().worldCanExecute()))
             return true;
         return false;
     }
