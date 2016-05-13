@@ -29,67 +29,87 @@ public class IntegrationTest extends BaseServiceTest {
 
 	private static final String _username = "toni", _pass = "tonitoni16";
 	private static final String _nameDir1 = "Documents",  _nameDir2= "Games", _nameApp = "App";
+    private File _app; private static final String APPNAME = "exe";
+    private File _appExe;
+    private static final String APP_CONTENT = "pt.tecnico.myDrive.presentation.Hello.execute";
+    private static final String APP_EXE_CONTENT = "pt.tecnico.myDrive.presentation.Hello.greet";
 	private static final String _appExtName = "App.exe";
 	private static final String _path = "/home/toni/Documents";
 	private static final String _content = "pt.tecnico.myDrive.presentation.Hello.execute";
 	private User _user;
-	private String _token;
-	private File _appWithExtension;
 
 	protected void populate() { // populate mockup
 		_user = createUser(_username, _pass, "Toni", (short) 0xF0);
+
     }
 
 	
     @Test
     public void success(@Mocked Hello h) throws Exception {
 
-    	LoginUserService login = new LoginUserService(_username, _pass);
+        // Login Service
+
+        LoginUserService login = new LoginUserService(_username, _pass);
         login.execute();
         String token = login.result();
-        
+
+        // Create File Service
+
+
         new CreateFileService(token, _nameDir1, FileType.DIRECTORY).execute();
         new CreateFileService(token, _nameDir2, FileType.DIRECTORY).execute();
-        new CreateFileService(token, _nameApp, FileType.APP, "").execute();
-        
-        File app = _user.getFileByPath("/home/toni/App", token);
-        
+        new CreateFileService(token, _nameApp, FileType.APP, APP_CONTENT).execute();
+        new CreateFileService(token, _appExtName, FileType.APP, APP_EXE_CONTENT).execute();
+
+        _appExe = _user.getFileByPath("/home/toni/" + _appExtName, token);
+        _app = _user.getFileByPath("/home/toni/App", token);
+
+        // List File Service
+
         ListDirectoryService ld = new ListDirectoryService(token);
     	ld.execute();
-    	assertEquals(ld.result().size(), 5); // ., .., Documents, Games, App
-    	
+    	assertEquals(ld.result().size(), 6); // ., .., Documents, Games, App, App.exe
+
+        // Delete File Service
+
     	new DeleteFileService(token, _nameDir2).execute();
     	
     	ld = new ListDirectoryService(token);
     	ld.execute();
-    	assertEquals(ld.result().size(), 4); //., .., Documents, App
+    	assertEquals(ld.result().size(), 5); //., .., Documents, App, App.exe
     	
     	new WritePlainFileService(token, _nameApp, _content).execute();
-    	
-    	ReadPlainFileService rpf = new ReadPlainFileService(token, _nameApp);
+
+        // Read PlainFile
+
+        ReadPlainFileService rpf = new ReadPlainFileService(token, _nameApp);
     	rpf.execute();    	
         assertEquals(rpf.result(), _content); //"pt.tecnico.myDrive.presentation.Hello.execute"
-        
+
+        // Change Directory
         ChangeDirectoryService cd = new ChangeDirectoryService(token, _path);
         cd.execute();
-        
+
+
+        // List directory
         new CreateFileService(token, _nameDir2, FileType.DIRECTORY).execute();
         
         ld = new ListDirectoryService(token);
     	ld.execute();
     	assertEquals(ld.result().size(), 3); // ., .., Games
-    	
-    	String [] args = { app.getPath() + app.getName() };
-    	ExecuteFileService service = new ExecuteFileService(token, app.getPath() + app.getName(), args);
+
+        // Execute File app
+    	ExecuteFileService service = new ExecuteFileService(token, _app.getPath() + _app.getName(), new String[]{});
         service.execute();
         new FullVerifications() { 
         	{
-                String [] args = {app.getPath() + app.getName()};
-                h.execute(args);
+                h.execute(new String[]{});
                 times = 1;
             }
         };
-        
+
+        // EnvVar Service
+
         boolean varCheck = false;
     	EnvironmentVariableService ev = new EnvironmentVariableService(token, "nome", "valor");
     	ev.execute();
@@ -100,27 +120,27 @@ public class IntegrationTest extends BaseServiceTest {
     		}
     	}
     	assertTrue(varCheck);
-    	
 
-    	_appWithExtension = createFile(FileType.APP, token, _appExtName, _content);
-    	
-        
-    	new MockUp<ExecuteFileService>() {
-    	    @Mock
+        // Execute File app with extension
+        new MockUp<ExecuteFileService>() {
+            @Mock
             void dispatch() {
-                _appWithExtension.execute(token, null);
+                String [] args1 = { _appExe.getPath() + _appExe.getName() };
+                _app.execute(token, args1);
             }
         };
 
-        String [] args1 = { _appWithExtension.getPath() + _appWithExtension.getName() };
-        ExecuteFileService exe = new ExecuteFileService(token, _appWithExtension.getPath(), args1);
-        exe.execute();
-        
+        String path = _appExe.getPath() +_appExe.getName();
+        String [] args1 = { _appExe.getPath() + _appExe.getName() };
+        ExecuteFileService execService = new ExecuteFileService(token, path, args1);
+        execService.execute();
+
         new FullVerifications() {
             {
-            	h.execute(new String[]{});
+                String [] args1 = { _appExe.getPath() + _appExe.getName() };
+                h.greet(args1);
                 times = 0;
-                h.greet(new String[]{});
+                h.execute(args1);
                 times = 1;
             }
         };
