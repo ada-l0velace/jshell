@@ -344,6 +344,15 @@ public class User extends User_Base {
     }
 
     /**
+     * Removes the all sessions from the user.
+     */
+    public void removeAllSessions() {
+        super.getSessionSet().forEach((s) -> {
+            s.remove();
+        });
+    }
+
+    /**
      * Function to set the token live time of the user
      * @param date
      * @return boolean returns true if it expired false otherwise.

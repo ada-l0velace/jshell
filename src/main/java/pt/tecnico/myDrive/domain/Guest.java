@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
 import org.joda.time.DateTime;
+import pt.tecnico.myDrive.exception.PasswordChangeException;
 
 import java.time.DateTimeException;
 
@@ -39,8 +40,11 @@ public class Guest extends Guest_Base {
      * @param password receives the password to set.
      */
     @Override
-    public void setPassword(String password) {
-        setPasswordAux(password);
+    public void setPassword(String password) throws PasswordChangeException {
+        if(password.equals(""))
+            setPasswordAux(password);
+        else
+            throw new PasswordChangeException(getName());
     }
 
     /**

@@ -29,10 +29,11 @@ public class LoginUserService extends MyDriveService {
 
     @Override
     protected void dispatch() throws MyDriveException {
+        Manager m = Manager.getInstance();
         Session s = new Session(_username, _password);
         _userToken = s.getToken();
-        User u = Manager.getInstance().getUserByToken(_userToken);
-        u.removeExpiredSessions();
+        User u = m.getUserByToken(_userToken);
+        m.removeExpiredSessions();
     }
 
     public String result() {

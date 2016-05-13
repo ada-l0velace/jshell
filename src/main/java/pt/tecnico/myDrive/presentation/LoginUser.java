@@ -18,12 +18,14 @@ public class LoginUser extends MyDriveCommand {
             s.execute();
             cookies.put(args[0], s.result());
             Token.token = cookies.get(args[0]);
+            System.out.println(cookies);
         }
         else if (args.length == 1) {
             LoginUserService s = new LoginUserService(args[0]);
             s.execute();
             cookies.put(args[0], s.result());
             Token.token = cookies.get(args[0]);
+            System.out.println(cookies);
         }
     }
 }

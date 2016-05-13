@@ -354,7 +354,8 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token, null);
+                String [] args = {SUCESS_ARGS[0], SUCESS_ARGS[1], _plainTxt.getPath() + _plainTxt.getName()};
+                _app.execute(_token, args);
             }
         };
 
@@ -362,19 +363,20 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
 
         new Verifications() {
             {
-                String [] args = {_linkPlain.getPath() + _linkPlain.getName()};
+                String [] args = {_plain.getPath() + _plain.getName()};
                 h.execute(args);
                 times = 1;
             }
         };
     }
 
-    public void successLinkDirectoryAssociationExec(@Mocked Hello h) {
+    /*public void successLinkDirectoryAssociationExec(@Mocked Hello h) {
 
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token, null);
+                String [] args = {_linkPlain.getPath() + _linkPlain.getName()};
+                _app.execute(_token, args);
             }
         };
 
@@ -388,14 +390,15 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
             }
         };
     }
-
+    */
     @Test
     public void successLinkPlainFileAssociationExec(@Mocked Hello h) {
 
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token, null);
+                String [] args = {_linkPlain.getPath() + _linkPlain.getName()};
+                _app.execute(_token, args);
             }
         };
 
@@ -416,7 +419,8 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token, null);
+                String [] args = {_linkLinkApp.getPath() + _linkLinkApp.getName()};
+                _app.execute(_token, args);
             }
         };
 
@@ -437,7 +441,8 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token, null);
+                String [] args = {_linkApp.getPath() + _linkApp.getName()};
+                _app.execute(_token, args);
             }
         };
 
@@ -458,7 +463,8 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _app.execute(_token, null);
+                String [] args = {_plain.getPath() + _plain.getName()};
+                _app.execute(_token, args);
             }
         };
 
@@ -466,7 +472,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
 
         new FullVerifications() {
             {
-                String [] args = {SUCESS_ARGS[0], SUCESS_ARGS[1]};
+                String [] args = {SUCESS_ARGS[0], SUCESS_ARGS[1], _plainTxt.getPath() + _plainTxt.getName()};
                 h.execute(args);
                 times = 1;
             }
@@ -479,7 +485,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         new MockUp<ExecuteFileService>() {
             @Mock
             void dispatch() {
-                _appWithExtension.execute(_token, null);
+                _appWithExtension.execute(_token, new String[]{});
             }
         };
 

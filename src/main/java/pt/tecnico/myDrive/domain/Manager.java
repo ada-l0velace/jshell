@@ -257,10 +257,15 @@ public class Manager extends Manager_Base{
         return doc;
     }
 
-    public void deleteSessions()
-    {
+    public void removeExpiredSessions() {
         super.getUsersSet().forEach((s) -> {
             s.removeExpiredSessions();
+        });
+    }
+
+    public void removeAllSessions() {
+        super.getUsersSet().forEach((s) -> {
+            s.removeAllSessions();
         });
     }
 

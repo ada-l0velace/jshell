@@ -32,7 +32,7 @@ public class Main {
             //debug();
         } finally {
             // ensure an orderly shutdown
-            shutDown();
+            FenixFramework.shutdown();
         }
     }
 
@@ -77,7 +77,7 @@ public class Main {
     public static void setup() {
         logger.trace("Setup: " + FenixFramework.getDomainRoot());
         Manager m = Manager.getInstance();
-        m.createFile(FileType.PLAINFILE, m.createSession("root","***"), "name", "content");
+        //m.createFile(FileType.PLAINFILE, m.createSession("root","***"), "name", "content");
         m.createGuestSession();
     }
 
@@ -85,7 +85,7 @@ public class Main {
     public static void shutDown() {
         logger.trace("ShutDown: " + FenixFramework.getDomainRoot());
         Manager m = Manager.getInstance();
-        m.deleteSessions();
+        m.removeAllSessions();
         FenixFramework.shutdown();
     }
 
