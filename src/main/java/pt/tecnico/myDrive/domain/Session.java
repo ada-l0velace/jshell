@@ -44,6 +44,15 @@ public class Session extends Session_Base {
 
     }
 
+    public EnvironmentVariable environmentVarExists(String name) {
+        for (EnvironmentVariable ev : getEnvVarSet()) {
+            if (ev.equals(name)) {
+                return ev;
+            }
+        }
+        return null;
+    }
+
     /**
      * Method to check if a Session is Expired.
      * @return boolean returns true if is expired false if not.
@@ -65,6 +74,13 @@ public class Session extends Session_Base {
         else {
             u.addSession(this);
             //super.setUser(u);
+        }
+    }
+
+    public void modifyEnvVar(String name, String value) {
+        EnvironmentVariable ev = environmentVarExists(name);
+        if (ev != null) {
+            ev.modify(name, value);
         }
     }
 
