@@ -38,6 +38,7 @@ public class EnvironmentVariable extends EnvironmentVariable_Base {
     protected void remove()
     {
         //setSession(null);
+        super.setSession(null);
         deleteDomainObject();
     }
     

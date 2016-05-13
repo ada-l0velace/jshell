@@ -100,7 +100,7 @@ public class Session extends Session_Base {
         setCurrentDirectory(null);
         super.setUser(null);
         for(EnvironmentVariable i : getEnvVarSet())
-            i.remove();
+            i.setSession(null);
         deleteDomainObject();
     }
 

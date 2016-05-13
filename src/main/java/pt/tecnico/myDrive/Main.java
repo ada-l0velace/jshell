@@ -89,8 +89,6 @@ public class Main {
         FenixFramework.shutdown();
     }
 
-
-
     public static void appTest(String [] args) {}
 
     /**
