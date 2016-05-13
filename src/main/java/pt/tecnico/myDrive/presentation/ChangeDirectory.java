@@ -9,9 +9,9 @@ public class ChangeDirectory extends MyDriveCommand {
     public void execute(String[] args) {
         if (args.length < 1)
             throw new RuntimeException("USAGE: "+name()+" [<path>]");
-        if (args.length > 1)
-            System.out.println("FIXME");
-        else
-            System.out.println("FIXME");
-    }
+        else{
+			ChangeDirectoryService s = new ChangeDirectoryService(Token.token, args[0]);
+			s.execute();
+		}
+	}
 }
