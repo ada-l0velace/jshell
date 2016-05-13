@@ -27,8 +27,6 @@ public class ChangeDirectoryService extends LoginRequiredService {
         Session s = Manager.getInstance().getSessionByToken(_sessionToken);
         Directory d = s.getCurrentDirectory();
 
-        if (!(this._path.startsWith("/") || this._path.isEmpty() || this._path.equals(".") || this._path.equals("..")))
-            this._path = d.getPath() + d.getName() + "/" + this._path;
         if (s.getUser().getFileByPath(this._path, _sessionToken) instanceof Directory)
             s.setCurrentDirectory( (Directory) s.getUser().getFileByPath(this._path, _sessionToken));
         else
