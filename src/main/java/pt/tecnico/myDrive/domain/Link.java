@@ -99,7 +99,6 @@ public class Link extends Link_Base {
         User u = Manager.getInstance().getUserByToken(token);
 		if (!getOwner().getPermissions().canExecute(this))
 			throw new ExecutePermissionException(getName(), u.getUsername());
-		System.out.println("this file is on location " + this.getContent(token));
 		u.getFileByPath(super.getContent(token), token).execute(token, args);
 	}
 

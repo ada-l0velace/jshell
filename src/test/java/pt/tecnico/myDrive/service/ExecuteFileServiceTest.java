@@ -27,8 +27,8 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
     private File _plainfile1;
     private File _plainfile2;
     private File _plainfile3;
-    private File _linktoapp1;
-    private File _linktoapp2;
+    private File _link1;
+    private File _link2;
     private File _linktoplainfile1;
     private File _linktoplainfile2;
     private File _linktodirectory1;
@@ -131,13 +131,13 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         _plainfile2 = createFile(FileType.PLAINFILE, _token2, _plainfileName2, _plainfileContent2);
         _plainfile3 = createFile(FileType.PLAINFILE, _token3, _plainfileName3, _plainfileContent3);
 
-        _linktoapp1 = createFile(FileType.LINK, _token1, _linkName1, _app1.getPath()+_app1.getName());
-        _linktoapp2 = createFile(FileType.LINK, _token2, _linkName2, _app2.getPath()+_app2.getName());
+        _link1 = createFile(FileType.LINK, _token1, _linkName1, _app1.getPath()+_app1.getName());
+        _link2 = createFile(FileType.LINK, _token2, _linkName2, _app2.getPath()+_app2.getName());
         _linktoplainfile1 = createFile(FileType.LINK, _token1, _linktoplainfile1Name, _plainfile1.getPath() + _plainfile1.getName()); 
         _linktoplainfile2 = createFile(FileType.LINK, _token2, _linktoplainfile2Name, _plainfile2.getPath() + _plainfile2.getName()); 
         _linktodirectory1 = createFile(FileType.LINK, _token1, _linktodirectory1Name,  _directory1.getPath() + _directory1.getName()); 
-        _linktolinktoapp1 = createFile(FileType.LINK, _token1, _linktolinktoapp1Name, _linktoapp1.getPath() + _linktoapp1.getName()); 
-        _linktolinktoapp2 = createFile(FileType.LINK, _token2, _linktolinktoapp2Name, _linktoapp2.getPath() + _linktoapp2.getName());
+        _linktolinktoapp1 = createFile(FileType.LINK, _token1, _linktolinktoapp1Name, _link1.getPath() + _link1.getName()); 
+        _linktolinktoapp2 = createFile(FileType.LINK, _token2, _linktolinktoapp2Name, _link2.getPath() + _link2.getName());
         _linktolinktoplain1 = createFile(FileType.LINK, _token1, _linktolinktoplain2Name, _linktoplainfile1.getPath() + _linktoplainfile1.getName());
         _linktolinktoplain2 = createFile(FileType.LINK, _token2, _linktolinktoplain2Name, _linktoplainfile2.getPath() + _linktoplainfile2.getName());
 
@@ -201,13 +201,13 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
 
     @Test(expected = ExecutePermissionException.class)
     public void executeLink1ByUser2() {
-        ExecuteFileService service = new ExecuteFileService(_token2, _linktoapp1.getPath() + _linktoapp1.getName());
+        ExecuteFileService service = new ExecuteFileService(_token2, _link1.getPath() + _link1.getName());
         service.execute();
     }
 
     @Test(expected = ExecutePermissionException.class)
     public void executeLink2ByUser2() {
-        ExecuteFileService service = new ExecuteFileService(_token2, _linktoapp2.getPath() + _linktoapp2.getName());
+        ExecuteFileService service = new ExecuteFileService(_token2, _link2.getPath() + _link2.getName());
         service.execute();
     }
 
@@ -271,7 +271,8 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
 
     @Test
     public void executePlainFile1(@Mocked Hello h) {
-        ExecuteFileService service = new ExecuteFileService(_token1, _plainfile1.getPath() + _plainfile1.getName());
+        String [] args = { "Biana" };
+        ExecuteFileService service = new ExecuteFileService(_token1, _plainfile1.getPath() + _plainfile1.getName(), args);
         service.execute();
 
         new FullVerifications() {
@@ -343,130 +344,6 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
             }
         };
     }
-
-    @Test
-    public void executeLinkToApp1(@Mocked Hello h) {
-        String [] args = { "Biana" };
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktoapp1.getPath() + _linktoapp1.getName(), args);
-        service.execute();
-
-        new FullVerifications() {
-            {
-                String [] args = { "Biana" };
-                h.greet(args);
-                times = 1;
-            }
-        };
-    }
-
-    @Test
-    public void executeLinkToApp2(@Mocked Hello h) {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktoapp2.getPath() + _linktoapp2.getName());
-        service.execute();
-
-        new FullVerifications() {
-            {
-                String [] args = {  };
-                h.main(args);
-                times = 1;
-            }
-        };
-    }
-
-    @Test
-    public void executeLinkToLinkToApp1(@Mocked Hello h) {
-        String [] args = { "Biana" };
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoplain1.getPath() + _linktolinktoplain1.getName(), args);
-        service.execute();
-
-        new FullVerifications() {
-            {
-                String [] args = { "Biana" };
-                h.greet(args);
-                times = 1;
-            }
-        };
-    }
-
-    @Test
-    public void executeLinkToLinkToApp2(@Mocked Hello h) {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoplain2.getPath() + _linktolinktoplain2.getName());
-        service.execute();
-
-        new FullVerifications() {
-            {
-                String [] args = {  };
-                h.main(args);
-                times = 1;
-            }
-        };
-    }
-
-    @Test
-    public void executeLinkToPlainFile1(@Mocked Hello h) {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktoplainfile1.getPath() + _linktoplainfile1.getName());
-        service.execute();
-
-        new FullVerifications() {
-            {
-                String [] args = { "Biana" };
-                h.greet(args);
-                times = 1;
-            }
-        };
-    }
-
-    @Test
-    public void executeLinkToPlainFile2(@Mocked Hello h) {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktoplainfile2.getPath() + _linktoplainfile2.getName());
-        service.execute();
-
-        new FullVerifications() {
-            {
-                String [] args = { "Biana" };
-                h.greet(args);
-                times = 1;
-
-                String [] arg = {  };
-                h.main(arg);
-                times = 1;
-            }
-        };
-    }
-
-
-    @Test
-    public void executeLinkToLinkToPlainFile1(@Mocked Hello h) {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoplain1.getPath() + _linktolinktoplain1.getName());
-        service.execute();
-
-        new FullVerifications() {
-            {
-                String [] args = { "Biana" };
-                h.greet(args);
-                times = 1;
-            }
-        };
-    }
-
-    @Test
-    public void executeLinkToLinkToPlainFile2(@Mocked Hello h) {
-        ExecuteFileService service = new ExecuteFileService(_token1, _linktolinktoplain2.getPath() + _linktolinktoplain2.getName());
-        service.execute();
-
-        new FullVerifications() {
-            {
-                String [] args = { "Biana" };
-                h.greet(args);
-                times = 1;
-
-                String [] arg = {  };
-                h.main(arg);
-                times = 1;
-            }
-        };
-    }
-
     
 
     @Test
@@ -631,6 +508,6 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
 
     @Override
     public MyDriveService CreateService(String token) {
-        return new ExecuteFileService(_token, _app.getPath() + _app.getName(), SUCESS_ARGS);
+        return new ExecuteFileService(token, _app2.getPath() + _app2.getName(), SUCESS_ARGS);
     }
 }

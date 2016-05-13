@@ -76,7 +76,7 @@ public class Permissions extends Permissions_Base {
      * @return true if can execute the file, false otherwise.
      */    
     public boolean userCanExecute() {
-	return (getBit(5) == 1) ? true : false;
+		return (getBit(5) == 1) ? true : false;
     }    
     
     public boolean userCanDelete() {
@@ -120,7 +120,7 @@ public class Permissions extends Permissions_Base {
         if (getUser().isSuperUser())
             return true;
 		if ((f.getPermissions().userCanExecute() && owner.equals(user)) ||
-			f.getPermissions().worldCanExecute())       
+			(f.getPermissions().worldCanExecute() && !owner.equals(user)))       
             return true;
         return false;
     }

@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import pt.tecnico.myDrive.presentation.Shell;
 import pt.tecnico.myDrive.exception.ImportDocumentException;
 import pt.tecnico.myDrive.exception.PublicAcessDeniedException;
 import pt.tecnico.myDrive.exception.ReadPermissionException;
@@ -18,6 +19,16 @@ import pt.tecnico.myDrive.exception.WritePermissionException;
 import pt.tecnico.myDrive.service.dto.FileDto;
 import pt.tecnico.myDrive.service.dto.PlainFileDto;
 import pt.tecnico.myDrive.exception.InvalidNameFileException;
+import pt.tecnico.myDrive.exception.ExecutePermissionException;
+import pt.tecnico.myDrive.exception.ExecuteFileException;
+import pt.tecnico.myDrive.exception.FileNotFoundException;
+
+import java.lang.ClassNotFoundException;
+import java.lang.NoSuchMethodException;
+import java.lang.SecurityException;
+import java.lang.IllegalAccessException;
+import java.lang.IllegalArgumentException;
+import java.lang.reflect.InvocationTargetException;
 
 
 public class PlainFile extends PlainFile_Base {
@@ -194,4 +205,27 @@ public class PlainFile extends PlainFile_Base {
         return a + rest;
     }
 
+	/**
+     * Executes App    
+     */
+    @Override
+    public void execute(String token, String [] args){
+        User u = Manager.getInstance().getUserByToken(token);
+		if (!u.getPermissions().canExecute(this))
+			throw new ExecutePermissionException(getName(), u.getUsername());
+
+		String [] files = getContent(token).split("\n");
+		for (String s : files){
+			System.out.println(s + " yaay ");
+			String [] plainArgs = s.split(" ", 2);
+			try{
+				File f = Manager.getInstance().getUserByToken(token).getFileByPath(plainArgs[0], token);
+				String [] finalArgs = (plainArgs.length == 2) ? plainArgs[1].split(" ") : null;
+				f.execute(token, finalArgs);
+			} catch (FileNotFoundException fnfe) {  }
+		}
+		
+		
+		
+	}
 }
