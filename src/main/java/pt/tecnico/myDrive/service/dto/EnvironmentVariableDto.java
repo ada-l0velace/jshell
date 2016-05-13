@@ -37,7 +37,11 @@ public class EnvironmentVariableDto {
 
 	public String getValue(){
 		return  _value;
+	}
 
+	@Override
+	public String toString(){
+		return "$"+getName() + "=" + getValue();
 	}
 	
 }

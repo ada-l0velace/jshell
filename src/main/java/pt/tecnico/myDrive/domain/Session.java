@@ -2,11 +2,15 @@ package pt.tecnico.myDrive.domain;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import pt.tecnico.myDrive.exception.EnvVarNameNotFoundException;
 import pt.tecnico.myDrive.exception.InvalidUserCredentialsException;
 import pt.tecnico.myDrive.exception.PublicAcessDeniedException;
 import pt.tecnico.myDrive.exception.TokenIsNotUniqueException;
+import pt.tecnico.myDrive.service.dto.EnvironmentVariableDto;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Session extends Session_Base {
@@ -44,13 +48,27 @@ public class Session extends Session_Base {
 
     }
 
-    public EnvironmentVariable environmentVarExists(String name) {
-        for (EnvironmentVariable ev : getEnvVarSet()) {
-            if (ev.equals(name)) {
+    public EnvironmentVariable getEnvVarByNameException(String name) throws EnvVarNameNotFoundException {
+        for (EnvironmentVariable ev : getEnvVarSet())
+            if (ev.getName().equals(name))
                 return ev;
-            }
-        }
+        throw new EnvVarNameNotFoundException(name);
+    }
+
+
+    public EnvironmentVariable getEnvVarByName(String name) {
+        for (EnvironmentVariable ev : getEnvVarSet())
+            if (ev.getName().equals(name))
+                return ev;
         return null;
+    }
+
+    public List<EnvironmentVariableDto> EnvironmentVariablesToDto() {
+        List<EnvironmentVariableDto> dto = new ArrayList<EnvironmentVariableDto>();
+        for (EnvironmentVariable ev : getEnvVarSet()) {
+            dto.add(ev.toDto());
+        }
+        return dto;
     }
 
     /**
@@ -78,7 +96,7 @@ public class Session extends Session_Base {
     }
 
     public void modifyEnvVar(String name, String value) {
-        EnvironmentVariable ev = environmentVarExists(name);
+        EnvironmentVariable ev = getEnvVarByName(name);
         if (ev != null) {
             ev.modify(name, value);
         }

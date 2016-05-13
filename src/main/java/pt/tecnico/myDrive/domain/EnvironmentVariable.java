@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
 import pt.tecnico.myDrive.exception.EnvironmentVariableAlreadyExists;
+import pt.tecnico.myDrive.service.dto.EnvironmentVariableDto;
 
 public class EnvironmentVariable extends EnvironmentVariable_Base {
     
@@ -10,7 +11,7 @@ public class EnvironmentVariable extends EnvironmentVariable_Base {
 
     public EnvironmentVariable(String name, String value, Session s) throws EnvironmentVariableAlreadyExists {
         this();
-        if (s.environmentVarExists(name) != null) {
+        if (s.getEnvVarByName(name) != null) {
             throw new EnvironmentVariableAlreadyExists(name);
         }
         setName(name);
@@ -30,6 +31,10 @@ public class EnvironmentVariable extends EnvironmentVariable_Base {
         else {
             s.addEnvVar(this);
         }
+    }
+
+    public EnvironmentVariableDto toDto() {
+        return new EnvironmentVariableDto(getName(), getValue());
     }
 
     /**
