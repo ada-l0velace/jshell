@@ -584,7 +584,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
             @Mock
             void dispatch() {
                 String [] args = {SUCESS_ARGS[0], SUCESS_ARGS[1], _plain.getPath()+_plain.getName()};
-                _plainTxt.execute(_token, args);
+                _app.execute(_token, args);
             }
         };
 
