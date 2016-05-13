@@ -20,14 +20,9 @@ public class EnvironmentVariableService extends LoginRequiredService {
     private String _value = "";
     private List<EnvironmentVariableDto> _list;
 
-    public EnvironmentVariableService(String token) {
+    private EnvironmentVariableService(String token) {
         super(token);
         _token = token;
-    }
-
-    public EnvironmentVariableService(String token, String name) {
-        this(token);
-        _name = name;
     }
 
     public EnvironmentVariableService(String token, String name, String value) {
