@@ -10,6 +10,9 @@ import org.jdom2.Element;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Arrays;
+
+import org.apache.commons.lang.ArrayUtils;
 
 import pt.tecnico.myDrive.presentation.Shell;
 import pt.tecnico.myDrive.exception.ImportDocumentException;
@@ -206,7 +209,7 @@ public class PlainFile extends PlainFile_Base {
     }
 
 	/**
-     * Executes App    
+     * Executes Plainfile
      */
     @Override
     public void execute(String token, String [] args){
@@ -216,11 +219,10 @@ public class PlainFile extends PlainFile_Base {
 
 		String [] files = getContent(token).split("\n");
 		for (String s : files){
-			System.out.println(s + " yaay ");
 			String [] plainArgs = s.split(" ", 2);
 			try{
 				File f = Manager.getInstance().getUserByToken(token).getFileByPath(plainArgs[0], token);
-				String [] finalArgs = (plainArgs.length == 2) ? plainArgs[1].split(" ") : null;
+				String [] finalArgs = (plainArgs.length == 2) ? (String[])ArrayUtils.addAll(plainArgs[1].split(" "), args) : args;
 				f.execute(token, finalArgs);
 			} catch (FileNotFoundException fnfe) {  }
 		}

@@ -61,7 +61,7 @@ public class App extends App_Base {
     }
 
     /**
-     * Executes App    
+     * Executes App
      */
     @Override
     public void execute(String token, String [] args){

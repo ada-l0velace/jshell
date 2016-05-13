@@ -185,7 +185,6 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
         ExecuteFileService service = new ExecuteFileService(_token1, _linktodirectory1.getPath() + _linktodirectory1.getName());
 		User u = Manager.getInstance().getUserByToken(_token1);
 		File d = u.getFileByPath(_linktodirectory1.getPath() + _linktodirectory1.getName(), _token1);
-		System.out.println("Link to directory is " + d.getPath() + d.getName() + " pointed to " + d.getContent(_token1) + " instead of " + _directory1.getPath() + _directory1.getName());
         service.execute();
     }
 
@@ -273,7 +272,7 @@ public class ExecuteFileServiceTest extends TokenVerificationTest {
 
     @Test
     public void executePlainFile1(@Mocked Hello h) {
-        String [] args = { "Biana" };
+        String [] args = { };
         ExecuteFileService service = new ExecuteFileService(_token1, _plainfile1.getPath() + _plainfile1.getName(), args);
         service.execute();
 
